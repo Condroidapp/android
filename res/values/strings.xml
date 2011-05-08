@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">Condroid</string>
+    <string name="go">GO!</string>
+    <string name="settings">Nastavení</string>
+    <string name="conSelection">Výběr conu</string>
+    <string name="about">O programu</string>
+</resources>
