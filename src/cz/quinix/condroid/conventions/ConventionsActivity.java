@@ -1,6 +1,5 @@
 package cz.quinix.condroid.conventions;
 
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -12,12 +11,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Xml;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.annotations.Convention;
 
 public class ConventionsActivity extends ListActivity {
 	/** Called when the activity is first created. */
