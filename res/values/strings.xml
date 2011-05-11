@@ -6,4 +6,5 @@
     <string name="settings">Nastavení</string>
     <string name="conSelection">Výběr conu</string>
     <string name="about">O programu</string>
+    <string name="welcome">Vítejte v aplikaci Condroid</string>
 </resources>
