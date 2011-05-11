@@ -1,4 +1,4 @@
-package cz.quinix.condroid.annotations;
+package cz.quinix.condroid.conventions;
 
 public class Convention {
 	public String name = "";
