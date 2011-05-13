@@ -2,12 +2,17 @@ package cz.quinix.condroid.conventions;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.graphics.drawable.Drawable;
 
-public class Convention {
+public class Convention implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2754843728933013769L;
 	public String name = "";
 	public String iconUrl = "";
 	public String date = "";

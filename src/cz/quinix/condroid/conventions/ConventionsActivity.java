@@ -8,6 +8,8 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import cz.quinix.condroid.R;
+
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import cz.quinix.condroid.R;
 
 public class ConventionsActivity extends ListActivity {
 	/** Called when the activity is first created. */
