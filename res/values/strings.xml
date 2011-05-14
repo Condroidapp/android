@@ -8,4 +8,5 @@
     <string name="about">O programu</string>
     <string name="welcome">Vítejte v aplikaci Condroid</string>
     <string name="refresh">Obnovit</string>
+    <string name="searchBox">Zadejte ID pořadu nebo část názvu</string>
 </resources>

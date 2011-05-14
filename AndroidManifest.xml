@@ -10,6 +10,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".conventions.ConventionsActivity" android:label="@string/conSelection"></activity>
+        <activity android:name=".annotations.AnnotationsActivity"></activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
