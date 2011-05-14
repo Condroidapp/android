@@ -9,10 +9,12 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.annotations.AnnotationsActivity;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Xml;
@@ -30,7 +32,7 @@ import android.widget.Toast;
 
 public class ConventionsActivity extends ListActivity {
 	/** Called when the activity is first created. */
-	private static String list_url = "http://condroid.quinix.cz/api/con-list";
+	private static final String list_url = "http://condroid.quinix.cz/api/con-list";
 	
 	private static Convention[] cons;
 	private ConventionListAdapter c;
@@ -55,7 +57,7 @@ public class ConventionsActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.cons_refresh:
-			this.cons = null;
+			ConventionsActivity.cons = null;
 			this.c.setItems(this.loadCons()).notifyDataSetChanged();
 			
 			return true;
@@ -78,13 +80,18 @@ public class ConventionsActivity extends ListActivity {
 					Toast.LENGTH_LONG).show();
 
 		}
+		ConventionsActivity.cons = c;
 		return c;
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
-		super.onListItemClick(l, v, position, id);
+		if(position < ConventionsActivity.cons.length) {
+			Convention selected = (Convention) l.getItemAtPosition(position);
+			Intent intent = new Intent(this, AnnotationsActivity.class);
+			intent.putExtra("con", selected);
+			this.startActivity(intent);
+		}
 	}
 
 	private class ConventionListAdapter extends ArrayAdapter<Convention> {
