@@ -1,21 +1,11 @@
 package cz.quinix.condroid.annotations;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +13,17 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.URLBuilder;
 import cz.quinix.condroid.conventions.Convention;
 
 public class AnnotationsActivity extends ListActivity {
-	
+	private static final String SOURCE_URL = "http://condroid.quinix.cz/api/annotations";
 	private List<Annotation> annotations = null;
 	private Convention selectedCon = null;
+	ProgressDialog pd;
+	URLBuilder urlBuilder;
+	private AnnotationsListAdapter adapter;
 	
-	private static final String SOURCE_URL = "http://condroid.quinix.cz/api/annotations?cid=";
-	private String actualSource = null; 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -43,8 +35,14 @@ public class AnnotationsActivity extends ListActivity {
 			this.finish();
 			return;
 		}
-		this.actualSource = AnnotationsActivity.SOURCE_URL + this.selectedCon.cid;
-		this.setListAdapter(new AnnotationsListAdapter(this, R.layout.annotation_list_item, this.loadAnnotations()));
+		View footerView = this.getLayoutInflater().inflate(R.layout.annotation_list_footer, null);
+		        this.getListView().addFooterView(footerView);
+		this.urlBuilder = new URLBuilder(AnnotationsActivity.SOURCE_URL);
+		this.urlBuilder.addParam("cid", String.valueOf(this.selectedCon.cid));
+		this.adapter =  new AnnotationsListAdapter(this, R.layout.annotation_list_item, this.loadAnnotations());
+		this.setListAdapter(adapter);
+		this.getListView().setOnScrollListener(new EndlessScrollListener(this));
+		
 
 	}
 	
@@ -53,19 +51,22 @@ public class AnnotationsActivity extends ListActivity {
 		if(this.annotations != null) {
 			return this.annotations;
 		}
-		
+		this.pd = ProgressDialog.show(AnnotationsActivity.this, "", "Načítám.", true);
 		try {
-			this.annotations = new AnnotationsXMLLoader().execute(this.actualSource).get();
+			this.annotations = new AnnotationXMLLoader().execute(this.getUrl()).get();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
-		
-		
-		
+		} finally {
+			this.pd.dismiss();
+		}
 		return this.annotations;
 	}
+	
+	String getUrl() {
+		return this.urlBuilder.getUrl();
+	}
+	
 
 	private class AnnotationsListAdapter extends ArrayAdapter<Annotation> {
 
@@ -111,97 +112,13 @@ public class AnnotationsActivity extends ListActivity {
 		}
 
 	}
-	
-	private class AnnotationsXMLLoader extends AsyncTask<String, Integer, List<Annotation>> {
-		ProgressDialog progress;
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			this.progress = ProgressDialog.show(AnnotationsActivity.this, "", "Načítám.", true);
-		}
-		
-		@Override
-		protected void onPostExecute(List<Annotation> result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			this.progress.cancel();
-		}
 
-		@Override
-		protected List<Annotation> doInBackground(String... source) {
-			List<Annotation> messages = null;
-			XmlPullParser pull = Xml.newPullParser();
-			Annotation annotation = null;
 
-			try {
-				URL url = new URL(source[0]);
-				URLConnection conn = url.openConnection();
-
-				pull.setInput(conn.getInputStream(), null);
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-
-			}
-			int eventType = 0;
-			try {
-				eventType = pull.getEventType();
-			} catch (XmlPullParserException e) {
-				throw new RuntimeException(e);
-			}
-			try {
-				while (eventType != XmlPullParser.END_DOCUMENT) {
-					switch (eventType) {
-					case XmlPullParser.START_DOCUMENT:
-						messages = new ArrayList<Annotation>();
-						break;
-
-					case XmlPullParser.START_TAG:
-						String name = pull.getName();
-						if (name.equalsIgnoreCase("programme")) {
-							annotation = new Annotation();
-						} else {
-							if (name.equalsIgnoreCase("pid")) {
-								annotation.pid = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("talker")) {
-								annotation.talker = pull.nextText().trim();
-							}
-							if (name.equalsIgnoreCase("title")) {
-								annotation.title = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("length")) {
-								annotation.length = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("type")) {
-								annotation.type = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("program-line")) {
-								annotation.programLine = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("annotation")) {
-								annotation.annotation = pull.nextText();
-							}
-						}
-						break;
-
-					case XmlPullParser.END_TAG:
-						name = pull.getName();
-						if (name.equalsIgnoreCase("programme") && annotation != null) {
-							messages.add(annotation);
-						}
-						break;
-					default:
-						break;
-					}
-					eventType = pull.next();
-				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-			
-			return messages;
-		}
-		
+	public void addAnnotations(List<Annotation> list) {
+		this.annotations.addAll(list);
+		this.adapter.setItems(this.annotations);
+		this.adapter.notifyDataSetChanged();
 	}
+	
+	
 }

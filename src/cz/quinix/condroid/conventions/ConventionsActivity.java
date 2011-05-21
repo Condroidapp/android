@@ -33,6 +33,7 @@ import android.widget.Toast;
 public class ConventionsActivity extends ListActivity {
 	/** Called when the activity is first created. */
 	private static final String list_url = "http://condroid.quinix.cz/api/con-list";
+	private ProgressDialog pd;
 	
 	private static Convention[] cons;
 	private ConventionListAdapter c;
@@ -70,6 +71,7 @@ public class ConventionsActivity extends ListActivity {
 		if(ConventionsActivity.cons != null) {
 			return ConventionsActivity.cons;
 		}
+		this.pd = ProgressDialog.show(ConventionsActivity.this, "", "Načítám.", true);
 		
 		
 		Convention[] c = null;
@@ -138,19 +140,14 @@ public class ConventionsActivity extends ListActivity {
 
 	}
 	private class ConventionXMLLoder extends AsyncTask<String, Integer, Convention[]> {
-		ProgressDialog progress;
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			this.progress = ProgressDialog.show(ConventionsActivity.this, "", "Načítám.", true);
-		}
 		
 		@Override
 		protected void onPostExecute(Convention[] result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			this.progress.cancel();
+			if(ConventionsActivity.this.pd != null) {
+				ConventionsActivity.this.pd.dismiss();
+			}
 		}
 
 		@Override
