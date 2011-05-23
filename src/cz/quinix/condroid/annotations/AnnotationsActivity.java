@@ -1,15 +1,21 @@
 package cz.quinix.condroid.annotations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
@@ -27,7 +33,22 @@ public class AnnotationsActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		this.selectedCon = (Convention) this.getIntent().getSerializableExtra("con");
+		
+		
+		
+		this.urlBuilder = new URLBuilder(AnnotationsActivity.SOURCE_URL);
+		
+		Intent intent = this.getIntent();
+		Convention selectedCon = (Convention) intent.getSerializableExtra("con");
+		if(selectedCon != null) {
+			this.selectedCon = selectedCon;
+		}
+		this.urlBuilder.addParam("cid", String.valueOf(this.selectedCon.cid));
+		
+		this.handleIntent(this.getIntent());
+		this.adapter =  new AnnotationsListAdapter(this, R.layout.annotation_list_item, this.annotations);
+		this.setListAdapter(this.adapter);
+		
 
 		this.setContentView(R.layout.annotation_list);
 		if(this.selectedCon == null) {
@@ -37,30 +58,59 @@ public class AnnotationsActivity extends ListActivity {
 		}
 		View footerView = this.getLayoutInflater().inflate(R.layout.annotation_list_footer, null);
 		        this.getListView().addFooterView(footerView);
-		this.urlBuilder = new URLBuilder(AnnotationsActivity.SOURCE_URL);
-		this.urlBuilder.addParam("cid", String.valueOf(this.selectedCon.cid));
-		this.adapter =  new AnnotationsListAdapter(this, R.layout.annotation_list_item, this.loadAnnotations());
-		this.setListAdapter(adapter);
+		
+		
 		this.getListView().setOnScrollListener(new EndlessScrollListener(this));
 		
 
 	}
 	
-	private List<Annotation> loadAnnotations() {
+	@Override
+	protected void onNewIntent(Intent intent) {
+		this.setIntent(intent);
+		this.handleIntent(intent);
+	}
+	
+	private void handleIntent(Intent intent) {
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+	      String query = intent.getStringExtra(SearchManager.QUERY);
+	      this.search(query);
+	    } else {
+	    	this.loadAnnotations();
+	    }
 		
-		if(this.annotations != null) {
-			return this.annotations;
+	}
+	
+	private void search(String t) {
+		this.urlBuilder.addParam("stub", t);
+		this.loadAnnotations(true);
+		this.adapter.setItems(this.annotations);
+		this.adapter.notifyDataSetChanged();
+	}
+
+	private void loadAnnotations () {
+		this.loadAnnotations(false);
+	}
+	private void loadAnnotations(boolean force) {
+		
+		if(this.annotations != null && !force) {
+			return;
 		}
 		this.pd = ProgressDialog.show(AnnotationsActivity.this, "", "Načítám.", true);
 		try {
-			this.annotations = new AnnotationXMLLoader().execute(this.getUrl()).get();
+			if(this.annotations != null) {
+				this.annotations.clear();
+			}
+			else {
+				this.annotations = new ArrayList<Annotation>();
+			}
+			this.annotations.addAll(new AnnotationXMLLoader().execute(this.getUrl()).get());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.pd.dismiss();
 		}
-		return this.annotations;
 	}
 	
 	String getUrl() {
@@ -72,8 +122,7 @@ public class AnnotationsActivity extends ListActivity {
 
 		private List<Annotation> items;
 
-		public AnnotationsListAdapter(Context context, int textViewResourceId,
-				List<Annotation> items) {
+		public AnnotationsListAdapter(Context context, int textViewResourceId, List<Annotation> items) {
 			super(context, textViewResourceId, items);
 			this.items = items;
 		}
@@ -85,8 +134,12 @@ public class AnnotationsActivity extends ListActivity {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = vi.inflate(R.layout.annotation_list_item, null);
 			}
-
-			Annotation it = items.get(position);
+			Annotation it = null;
+			try {
+				it = items.get(position);
+			} catch (IndexOutOfBoundsException e) {
+				
+			}
 			if (it != null) {
 				
 				TextView tw = (TextView) v.findViewById(R.id.annotation_list_title);
@@ -108,6 +161,7 @@ public class AnnotationsActivity extends ListActivity {
 		
 		public AnnotationsListAdapter setItems(List<Annotation> c) {
 			this.items = c;
+			
 			return this;
 		}
 
