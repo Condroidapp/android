@@ -7,7 +7,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<ImageView android:src="@drawable/icon"
 		android:layout_height="wrap_content" android:id="@+id/convention_list_item_image"
-		android:layout_width="wrap_content" android:padding="10dp"></ImageView>
+		android:layout_width="wrap_content" android:padding="10dp" android:adjustViewBounds="false" android:maxHeight="48dp" android:maxWidth="48dp"></ImageView>
 	
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="vertical" android:layout_width="fill_parent"

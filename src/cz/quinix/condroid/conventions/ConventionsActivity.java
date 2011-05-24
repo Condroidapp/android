@@ -6,7 +6,10 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,9 +31,13 @@ public class ConventionsActivity extends ListActivity {
 	
 	private List<Convention> cons;
 	private ConventionListAdapter c;
+	static int imageSize;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		imageSize = (int) (this.getWindowManager().getDefaultDisplay().getWidth()/9);
 		this.loadCons();
 		c = new ConventionListAdapter(this, R.layout.cons_list, this.cons);
 		this.setListAdapter(c);
@@ -92,7 +99,7 @@ public class ConventionsActivity extends ListActivity {
 	private class ConventionListAdapter extends ArrayAdapter<Convention> {
 
 		private List<Convention> items;
-
+		
 		public ConventionListAdapter(Context context, int textViewResourceId,
 				List<Convention> items) {
 			super(context, textViewResourceId, items);
@@ -101,6 +108,7 @@ public class ConventionsActivity extends ListActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			
 			View v = convertView;
 			if (v == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -115,7 +123,13 @@ public class ConventionsActivity extends ListActivity {
 			if (it != null) {
 				ImageView iv = (ImageView) v.findViewById(R.id.convention_list_item_image);
 				if (iv != null) {
-					iv.setImageDrawable(it.getImage());
+					Bitmap b = it.getImage();
+					if(imageSize > 0) {
+						Bitmap bi = Bitmap.createScaledBitmap(b, imageSize, imageSize, true);
+					    
+					    iv.setImageBitmap(bi);
+					}
+					
 				}
 				TextView tw = (TextView) v.findViewById(R.id.convention_list_item_text);
 				if (tw != null) {

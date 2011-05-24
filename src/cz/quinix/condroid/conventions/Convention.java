@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class Convention implements Serializable {
 	/**
@@ -17,13 +18,14 @@ public class Convention implements Serializable {
 	public String iconUrl = "";
 	public String date = "";
 	public int cid = 0;
-	public Drawable getImage() {
-		Drawable d = null;
+	public Bitmap getImage() {
+		Bitmap bitmap = null;
 		if(iconUrl != null) {
 			InputStream io;
 			try {
 				io = (InputStream) new URL(this.iconUrl).getContent();
-				d = Drawable.createFromStream(io, "x");
+				bitmap = BitmapFactory.decodeStream(io);
+				
 				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -34,6 +36,6 @@ public class Convention implements Serializable {
 			}
 			
 		}
-		return d;
+		return bitmap;
 	}	
 }
