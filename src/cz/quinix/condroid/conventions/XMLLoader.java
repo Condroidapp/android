@@ -1,4 +1,4 @@
-package cz.quinix.condroid.annotations;
+package cz.quinix.condroid.conventions;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -11,13 +11,13 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.os.AsyncTask;
 import android.util.Xml;
 
-public class AnnotationXMLLoader extends AsyncTask<String, Integer, List<Annotation>> {
-
+public class XMLLoader extends AsyncTask<String, Integer, List<Convention>> {
+	
 	@Override
-	protected List<Annotation> doInBackground(String... source) {
-		List<Annotation> messages = null;
+	protected List<Convention> doInBackground(String... source) {
+		List<Convention> messages = null;
 		XmlPullParser pull = Xml.newPullParser();
-		Annotation annotation = null;
+		Convention con = null;
 
 		try {
 			URL url = new URL(source[0]);
@@ -38,42 +38,33 @@ public class AnnotationXMLLoader extends AsyncTask<String, Integer, List<Annotat
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				switch (eventType) {
 				case XmlPullParser.START_DOCUMENT:
-					messages = new ArrayList<Annotation>();
+					messages = new ArrayList<Convention>();
 					break;
 
 				case XmlPullParser.START_TAG:
 					String name = pull.getName();
-					if (name.equalsIgnoreCase("programme")) {
-						annotation = new Annotation();
+					if (name.equalsIgnoreCase("convention")) {
+						con = new Convention();
 					} else {
-						if (name.equalsIgnoreCase("pid")) {
-							annotation.pid = pull.nextText();
+						if (name.equalsIgnoreCase("name")) {
+							con.name = pull.nextText();
 						}
-						if (name.equalsIgnoreCase("talker")) {
-							annotation.talker = pull.nextText().trim();
+						if (name.equalsIgnoreCase("icon")) {
+							con.iconUrl = pull.nextText();
 						}
-						if (name.equalsIgnoreCase("title")) {
-							annotation.title = pull.nextText();
+						if (name.equalsIgnoreCase("date")) {
+							con.date = pull.nextText();
 						}
-						if (name.equalsIgnoreCase("length")) {
-							annotation.length = pull.nextText();
-						}
-						if (name.equalsIgnoreCase("type")) {
-							annotation.type = pull.nextText();
-						}
-						if (name.equalsIgnoreCase("program-line")) {
-							annotation.programLine = pull.nextText();
-						}
-						if (name.equalsIgnoreCase("annotation")) {
-							annotation.annotation = pull.nextText();
+						if (name.equalsIgnoreCase("cid")) {
+							con.cid = Integer.parseInt(pull.nextText());
 						}
 					}
 					break;
 
 				case XmlPullParser.END_TAG:
 					name = pull.getName();
-					if (name.equalsIgnoreCase("programme") && annotation != null) {
-						messages.add(annotation);
+					if (name.equalsIgnoreCase("convention") && con != null) {
+						messages.add(con);
 					}
 					break;
 				default:
@@ -84,8 +75,8 @@ public class AnnotationXMLLoader extends AsyncTask<String, Integer, List<Annotat
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		
+
 		return messages;
 	}
-	
+
 }

@@ -1,23 +1,12 @@
 package cz.quinix.condroid.conventions;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import cz.quinix.condroid.R;
-import cz.quinix.condroid.annotations.AnnotationsActivity;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,19 +18,21 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.annotations.AnnotationsActivity;
 
 public class ConventionsActivity extends ListActivity {
 	/** Called when the activity is first created. */
 	private static final String list_url = "http://condroid.quinix.cz/api/con-list";
-	private ProgressDialog pd;
+	ProgressDialog pd;
 	
-	private static Convention[] cons;
+	private List<Convention> cons;
 	private ConventionListAdapter c;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		c = new ConventionListAdapter(this, R.layout.cons_list, this.loadCons());
+		this.loadCons();
+		c = new ConventionListAdapter(this, R.layout.cons_list, this.cons);
 		this.setListAdapter(c);
 
 	}
@@ -58,8 +49,9 @@ public class ConventionsActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.cons_refresh:
-			ConventionsActivity.cons = null;
-			this.c.setItems(this.loadCons()).notifyDataSetChanged();
+			this.cons = null;
+			this.loadCons();
+			this.c.setItems(this.cons).notifyDataSetChanged();
 			
 			return true;
 		default:
@@ -67,28 +59,29 @@ public class ConventionsActivity extends ListActivity {
 		}
 	}
 
-	private Convention[] loadCons() {
-		if(ConventionsActivity.cons != null) {
-			return ConventionsActivity.cons;
+	private void loadCons() {
+		if(this.cons != null) {
+			return;
 		}
 		this.pd = ProgressDialog.show(ConventionsActivity.this, "", "Načítám.", true);
 		
 		
 		Convention[] c = null;
 		try {
-			c = new ConventionXMLLoder().execute(ConventionsActivity.list_url).get();
+			this.cons = new XMLLoader().execute(ConventionsActivity.list_url).get();
 		} catch (Exception ex) {
 			Toast.makeText(this, "Can't load conventions list.",
 					Toast.LENGTH_LONG).show();
 
+		} finally {
+			this.pd.dismiss();
 		}
-		ConventionsActivity.cons = c;
-		return c;
+
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		if(position < ConventionsActivity.cons.length) {
+		if(position < this.cons.size()) {
 			Convention selected = (Convention) l.getItemAtPosition(position);
 			Intent intent = new Intent(this, AnnotationsActivity.class);
 			intent.putExtra("con", selected);
@@ -98,10 +91,10 @@ public class ConventionsActivity extends ListActivity {
 
 	private class ConventionListAdapter extends ArrayAdapter<Convention> {
 
-		private Convention[] items;
+		private List<Convention> items;
 
 		public ConventionListAdapter(Context context, int textViewResourceId,
-				Convention[] items) {
+				List<Convention> items) {
 			super(context, textViewResourceId, items);
 			this.items = items;
 		}
@@ -113,8 +106,12 @@ public class ConventionsActivity extends ListActivity {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = vi.inflate(R.layout.convention_list_item, null);
 			}
-
-			Convention it = items[position];
+			Convention it = null;
+			try {
+				it = items.get(position);
+			} catch (IndexOutOfBoundsException e) {
+				// TODO: handle exception
+			}
 			if (it != null) {
 				ImageView iv = (ImageView) v.findViewById(R.id.convention_list_item_image);
 				if (iv != null) {
@@ -133,91 +130,11 @@ public class ConventionsActivity extends ListActivity {
 			return v;
 		}
 		
-		public ConventionListAdapter setItems(Convention[] c) {
+		public ConventionListAdapter setItems(List<Convention> c) {
 			this.items = c;
 			return this;
 		}
 
 	}
-	private class ConventionXMLLoder extends AsyncTask<String, Integer, Convention[]> {
-		
-		@Override
-		protected void onPostExecute(Convention[] result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			if(ConventionsActivity.this.pd != null) {
-				ConventionsActivity.this.pd.dismiss();
-			}
-		}
-
-		@Override
-		protected Convention[] doInBackground(String... source) {
-			List<Convention> messages = null;
-			XmlPullParser pull = Xml.newPullParser();
-			Convention con = null;
-
-			try {
-				URL url = new URL(source[0]);
-				URLConnection conn = url.openConnection();
-
-				pull.setInput(conn.getInputStream(), null);
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-
-			}
-			int eventType = 0;
-			try {
-				eventType = pull.getEventType();
-			} catch (XmlPullParserException e) {
-				throw new RuntimeException(e);
-			}
-			try {
-				while (eventType != XmlPullParser.END_DOCUMENT) {
-					switch (eventType) {
-					case XmlPullParser.START_DOCUMENT:
-						messages = new ArrayList<Convention>();
-						break;
-
-					case XmlPullParser.START_TAG:
-						String name = pull.getName();
-						if (name.equalsIgnoreCase("convention")) {
-							con = new Convention();
-						} else {
-							if (name.equalsIgnoreCase("name")) {
-								con.name = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("icon")) {
-								con.iconUrl = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("date")) {
-								con.date = pull.nextText();
-							}
-							if (name.equalsIgnoreCase("cid")) {
-								con.cid = Integer.parseInt(pull.nextText());
-							}
-						}
-						break;
-
-					case XmlPullParser.END_TAG:
-						name = pull.getName();
-						if (name.equalsIgnoreCase("convention") && con != null) {
-							messages.add(con);
-						}
-						break;
-					default:
-						break;
-					}
-					eventType = pull.next();
-				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-			Convention[] c = new Convention[messages.size()];
-			for (int i = 0; i < messages.size(); i++) {
-				c[i] = messages.get(i);
-			}
-			return c;
-		}
-
-	}
+	
 }
