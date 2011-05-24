@@ -104,7 +104,7 @@ public class AnnotationsActivity extends ListActivity {
 			else {
 				this.annotations = new ArrayList<Annotation>();
 			}
-			this.annotations.addAll(new AnnotationXMLLoader().execute(this.getUrl()).get());
+			this.annotations.addAll(new XMLLoader().execute(this.getUrl()).get());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

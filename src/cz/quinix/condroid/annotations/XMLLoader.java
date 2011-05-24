@@ -11,7 +11,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.os.AsyncTask;
 import android.util.Xml;
 
-public class AnnotationXMLLoader extends AsyncTask<String, Integer, List<Annotation>> {
+public class XMLLoader extends AsyncTask<String, Integer, List<Annotation>> {
 
 	@Override
 	protected List<Annotation> doInBackground(String... source) {
