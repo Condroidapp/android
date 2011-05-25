@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -76,6 +77,20 @@ public class AnnotationsActivity extends CondroidActivity {
 		i.inflate(R.menu.annotations, menu);
 		super.onCreateOptionsMenu(menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.annotations_refresh:
+			this.urlBuilder.removeParam("stub").removeParam("page"); //refresh deletes search term and page
+			this.loadAnnotations(true);
+			this.adapter.setItems(this.annotations).notifyDataSetChanged();
+			
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	private void handleIntent(Intent intent) {

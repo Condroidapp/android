@@ -33,4 +33,9 @@ public class URLBuilder {
 		return uri;		
 	}
 
+	public URLBuilder removeParam(String string) {
+		this.params.remove(string);		
+		return this;
+	}
+
 }
