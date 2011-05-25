@@ -1,9 +1,5 @@
 package cz.quinix.condroid.annotations;
 
-import java.util.concurrent.ExecutionException;
-
-import android.R;
-import android.app.Activity;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.TextView;

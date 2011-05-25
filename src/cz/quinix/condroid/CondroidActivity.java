@@ -1,33 +1,22 @@
 package cz.quinix.condroid;
 
 import cz.quinix.condroid.conventions.ConventionsActivity;
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class MainActivity extends Activity {
-	
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.main);
-		 
-
-	}
-
-	
+public abstract class CondroidActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
 		MenuInflater inflanter = this.getMenuInflater();
 		inflanter.inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

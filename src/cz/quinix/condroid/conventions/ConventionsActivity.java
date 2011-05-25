@@ -2,14 +2,11 @@ package cz.quinix.condroid.conventions;
 
 import java.util.List;
 
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +18,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.annotations.AnnotationsActivity;
 
-public class ConventionsActivity extends ListActivity {
+public class ConventionsActivity extends CondroidActivity {
 	/** Called when the activity is first created. */
 	private static final String list_url = "http://condroid.quinix.cz/api/con-list";
 	ProgressDialog pd;
@@ -73,7 +71,6 @@ public class ConventionsActivity extends ListActivity {
 		this.pd = ProgressDialog.show(ConventionsActivity.this, "", "Načítám.", true);
 		
 		
-		Convention[] c = null;
 		try {
 			this.cons = new XMLLoader().execute(ConventionsActivity.list_url).get();
 		} catch (Exception ex) {
