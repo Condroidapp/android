@@ -45,8 +45,8 @@ public class ConventionsActivity extends CondroidActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflanter = this.getMenuInflater();
-		inflanter.inflate(R.menu.conventions_list, menu);
-		
+		inflanter.inflate(R.menu.conventions, menu);
+		super.onCreateOptionsMenu(menu);
 		return true;
 	}
 	

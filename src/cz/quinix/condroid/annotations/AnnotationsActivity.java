@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -66,6 +68,14 @@ public class AnnotationsActivity extends CondroidActivity {
 	protected void onNewIntent(Intent intent) {
 		this.setIntent(intent);
 		this.handleIntent(intent);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater i = this.getMenuInflater();
+		i.inflate(R.menu.annotations, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
 	}
 	
 	private void handleIntent(Intent intent) {
