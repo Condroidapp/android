@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical">
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:background="@drawable/textlines" android:orientation="vertical"   android:padding="2dp">
+        <TextView android:layout_height="wrap_content" android:layout_width="match_parent" android:text="TextView" android:textStyle="bold" android:paddingBottom="2dp" android:id="@+id/annot_title"></TextView>
+        <TextView android:layout_width="match_parent" android:text="TextView" android:id="@+id/annot_author" android:layout_height="wrap_content" android:paddingBottom="2dp"></TextView>
+        <TextView android:layout_height="wrap_content" android:layout_width="match_parent" android:text="TextView" android:textColor="@color/gray" android:id="@+id/annot_info" android:textSize="10dp"></TextView>
+        
+    </LinearLayout>
+    <LinearLayout android:layout_height="match_parent" android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_width="match_parent" android:padding="2dp">
+        <TextView android:text="TextView" android:id="@+id/annot_text" android:layout_height="fill_parent" android:layout_width="fill_parent"></TextView>
+    </LinearLayout>
+
+
+</LinearLayout>

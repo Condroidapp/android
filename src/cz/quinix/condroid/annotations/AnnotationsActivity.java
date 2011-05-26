@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cz.quinix.condroid.CondroidActivity;
@@ -93,6 +94,16 @@ public class AnnotationsActivity extends CondroidActivity {
 		}
 	}
 	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		Annotation selected = (Annotation) l.getItemAtPosition(position);
+		Intent intent = new Intent(this, ShowAnnotation.class);
+		intent.putExtra("annotation", selected);
+		this.startActivity(intent);
+	}
+	
 	private void handleIntent(Intent intent) {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      String query = intent.getStringExtra(SearchManager.QUERY);
@@ -102,6 +113,8 @@ public class AnnotationsActivity extends CondroidActivity {
 	    }
 		
 	}
+	
+	
 	
 	private void search(String t) {
 		this.urlBuilder.addParam("stub", t);
