@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:gravity="center_horizontal" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:padding="5dp">
+    <ImageView android:id="@+id/imageView1" android:src="@drawable/logo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingBottom="20dp"></ImageView>
+    <TextView android:layout_width="wrap_content" android:id="@+id/textView1" android:layout_height="wrap_content" android:text="@string/about_name"></TextView>
+    <TextView android:layout_width="wrap_content" android:id="@+id/textView2" android:text="@string/about_copy_http" android:layout_height="wrap_content" android:autoLink="web"></TextView>
+    <TextView android:layout_width="wrap_content" android:id="@+id/textView3" android:text="@string/about_copy_me" android:layout_height="wrap_content" android:paddingTop="40dp"></TextView>
+    <TextView android:layout_width="wrap_content" android:id="@+id/textView4" android:text="@string/about_copy_fanp" android:layout_height="wrap_content"></TextView>
+</LinearLayout>

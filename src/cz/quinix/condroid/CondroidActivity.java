@@ -24,6 +24,10 @@ public abstract class CondroidActivity extends ListActivity {
 			Intent intent = new Intent(this, ConventionsActivity.class);
 			this.startActivity(intent);
 			return true;
+		case R.id.about:
+			Intent intent2 = new Intent(this, AboutActivity.class);
+			this.startActivity(intent2);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
