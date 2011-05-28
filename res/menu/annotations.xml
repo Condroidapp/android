@@ -3,4 +3,5 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/conSelection" android:id="@+id/conSelection"></item>
     <item android:id="@+id/annotations_refresh" android:title="@string/refresh"></item>
+    <item android:id="@+id/search" android:title="@string/search"></item>
 </menu>

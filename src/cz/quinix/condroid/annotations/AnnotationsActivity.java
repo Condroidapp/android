@@ -89,6 +89,9 @@ public class AnnotationsActivity extends CondroidActivity {
 			this.adapter.setItems(this.annotations).notifyDataSetChanged();
 			
 			return true;
+		case R.id.search:
+			onSearchRequested();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
