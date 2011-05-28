@@ -5,5 +5,5 @@
   android:layout_height="fill_parent" android:orientation="vertical">
     <TextView android:text="TextView" android:layout_height="wrap_content" android:layout_width="fill_parent" android:padding="5dp" android:textStyle="bold" android:textSize="15dp" android:id="@+id/annotation_list_title"></TextView>
     <TextView android:text="TextView" android:layout_height="wrap_content" android:paddingLeft="5dp" android:paddingRight="5dp" android:layout_width="fill_parent" android:id="@+id/annotation_list_author" android:paddingTop="0dp"></TextView>
-    <TextView android:text="TextView" android:layout_height="wrap_content" android:padding="5dp" android:layout_width="match_parent" android:id="@+id/annotation_list_info"></TextView>
+    <TextView android:text="TextView" android:layout_height="wrap_content" android:padding="5dp" android:layout_width="fill_parent" android:id="@+id/annotation_list_info"></TextView>
 </LinearLayout>

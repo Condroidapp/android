@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="cz.quinix.condroid"
       android:versionCode="1"
-      android:versionName="1.0"><application android:icon="@drawable/icon" android:label="@string/app_name" android:permission="android.permission.INTERNET" android:theme="@android:style/Theme.Light">
+      android:versionName="1.0">
+      <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.Light">
         <activity android:name=".conventions.ConventionsActivity" android:label="@string/app_name">
         	<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,5 +22,5 @@
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-sdk android:minSdkVersion="6"></uses-sdk>
+    <uses-sdk android:minSdkVersion="4"></uses-sdk>
 </manifest>
