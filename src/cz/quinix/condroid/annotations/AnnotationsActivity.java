@@ -121,8 +121,17 @@ public class AnnotationsActivity extends CondroidActivity {
 	
 	private void search(String t) {
 		this.urlBuilder.addParam("stub", t);
+		List<Annotation> foo = new ArrayList<Annotation>();
+		foo.addAll(this.annotations);
 		this.loadAnnotations(true);
-		this.adapter.setItems(this.annotations);
+		if(this.annotations.size() > 0) {
+			this.adapter.setItems(this.annotations);
+		}
+		else {
+			this.annotations.addAll(foo);
+			Toast.makeText(this, "Nebyly nalezeny žádné anotace obsahující '"+t+"'", Toast.LENGTH_LONG).show();
+		}
+
 		this.adapter.notifyDataSetChanged();
 	}
 
