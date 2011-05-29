@@ -8,37 +8,46 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import cz.quinix.condroid.CondroidActivity;
+import cz.quinix.condroid.XMLProccessException;
+
 import android.os.AsyncTask;
 import android.util.Xml;
+import android.widget.Toast;
 
 public class XMLLoader extends AsyncTask<String, Integer, List<Convention>> {
+	String message="";
+	private CondroidActivity caller;	
+	
+	public XMLLoader(CondroidActivity caller) {
+		this.caller = caller;
+	}
 	
 	@Override
 	protected List<Convention> doInBackground(String... source) {
-		List<Convention> messages = null;
+		List<Convention> messages = new ArrayList<Convention>();
 		XmlPullParser pull = Xml.newPullParser();
 		Convention con = null;
-
+		try {
 		try {
 			URL url = new URL(source[0]);
 			URLConnection conn = url.openConnection();
 
 			pull.setInput(conn.getInputStream(), null);
 		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-
+			throw new XMLProccessException("Stažení seznamu akcí se nezdařilo.", ex);
 		}
 		int eventType = 0;
 		try {
 			eventType = pull.getEventType();
 		} catch (XmlPullParserException e) {
-			throw new RuntimeException(e);
+			throw new XMLProccessException("Zpracování seznamu akcí se nezdařilo", e);
 		}
+
 		try {
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				switch (eventType) {
 				case XmlPullParser.START_DOCUMENT:
-					messages = new ArrayList<Convention>();
 					break;
 
 				case XmlPullParser.START_TAG:
@@ -73,10 +82,21 @@ public class XMLLoader extends AsyncTask<String, Integer, List<Convention>> {
 				eventType = pull.next();
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 		}
-
+		} catch (XMLProccessException ex) {
+			this.message = ex.getMessage();
+		}
 		return messages;
+	}
+	
+	@Override
+	protected void onPostExecute(List<Convention> result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		if(this.message != "") {
+			Toast.makeText(this.caller, this.message, Toast.LENGTH_LONG).show();
+		}
 	}
 
 }

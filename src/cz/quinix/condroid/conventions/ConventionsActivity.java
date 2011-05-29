@@ -1,5 +1,6 @@
 package cz.quinix.condroid.conventions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -87,14 +88,14 @@ public class ConventionsActivity extends CondroidActivity {
 			return;
 		}
 		this.pd = ProgressDialog.show(ConventionsActivity.this, "", "Načítám.", true);
-		
+		this.cons = new ArrayList<Convention>();
 		
 		try {
-			this.cons = new XMLLoader().execute(ConventionsActivity.list_url).get();
+			this.cons = new XMLLoader(this).execute(ConventionsActivity.list_url).get();
 		} catch (Exception ex) {
-			Toast.makeText(this, "Can't load conventions list.",
+			Toast.makeText(this, ex.getMessage(),
 					Toast.LENGTH_LONG).show();
-
+			
 		} finally {
 			this.pd.dismiss();
 		}
