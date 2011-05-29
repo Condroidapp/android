@@ -9,20 +9,17 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import cz.quinix.condroid.CondroidActivity;
+import cz.quinix.condroid.CondroidXMLTask;
 import cz.quinix.condroid.XMLProccessException;
 
-import android.os.AsyncTask;
 import android.util.Xml;
-import android.widget.Toast;
 
-public class XMLLoader extends AsyncTask<String, Integer, List<Convention>> {
-	String message="";
-	private CondroidActivity caller;	
+public class XMLLoader extends CondroidXMLTask<List<Convention>> {
 	
 	public XMLLoader(CondroidActivity caller) {
-		this.caller = caller;
+		super(caller);
 	}
-	
+
 	@Override
 	protected List<Convention> doInBackground(String... source) {
 		List<Convention> messages = new ArrayList<Convention>();
@@ -90,13 +87,5 @@ public class XMLLoader extends AsyncTask<String, Integer, List<Convention>> {
 		return messages;
 	}
 	
-	@Override
-	protected void onPostExecute(List<Convention> result) {
-		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-		if(this.message != "") {
-			Toast.makeText(this.caller, this.message, Toast.LENGTH_LONG).show();
-		}
-	}
-
+	
 }

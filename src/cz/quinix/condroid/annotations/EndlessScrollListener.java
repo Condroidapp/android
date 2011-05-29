@@ -35,7 +35,7 @@ public class EndlessScrollListener implements OnScrollListener {
             // but you can call any function here.
         	this.activity.urlBuilder.addParam("page", String.valueOf(this.currentPage +1));
             try {
-				this.activity.addAnnotations(new XMLLoader().execute(this.activity.getUrl()).get());
+				this.activity.addAnnotations(new XMLLoader(this.activity).execute(this.activity.getUrl()).get());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

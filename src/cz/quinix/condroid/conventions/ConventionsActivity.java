@@ -47,7 +47,7 @@ public class ConventionsActivity extends CondroidActivity {
 			for(int i = 0; i<this.cons.size(); i++) {
 				Convention con = this.cons.get(i);
 				if(con.cid == selectedCon) {
-					Toast.makeText(this, String.valueOf(con.name), Toast.LENGTH_LONG).show();
+					Toast.makeText(this, String.valueOf(con.name), Toast.LENGTH_SHORT).show();
 					this.startAnnotationActivity(con);
 
 					this.finish();
