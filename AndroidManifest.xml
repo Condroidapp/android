@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".annotations.ShowAnnotation"></activity>
         <activity android:name="AboutActivity"></activity>
+        <activity android:name=".annotations.EndlessDemo"></activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
