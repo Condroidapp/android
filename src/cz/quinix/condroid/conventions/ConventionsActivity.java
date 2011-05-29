@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,8 +38,25 @@ public class ConventionsActivity extends CondroidActivity {
 
 		imageSize = (int) (this.getWindowManager().getDefaultDisplay().getWidth()/9);
 		this.loadCons();
+		
+		SharedPreferences settings = this.getSharedPreferences(PREF_NAME, 0);
+		int selectedCon = settings.getInt("selectedCon", 0);
+		
+		if(selectedCon > 0) {
+			for(int i = 0; i<this.cons.size(); i++) {
+				Convention con = this.cons.get(i);
+				if(con.cid == selectedCon) {
+					Toast.makeText(this, String.valueOf(con.name), Toast.LENGTH_LONG).show();
+					this.startAnnotationActivity(con);
+
+					this.finish();
+				}
+			}
+		}
+		
 		c = new ConventionListAdapter(this, R.layout.cons_list, this.cons);
 		this.setListAdapter(c);
+		
 
 	}
 	
@@ -87,10 +105,21 @@ public class ConventionsActivity extends CondroidActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if(position < this.cons.size()) {
 			Convention selected = (Convention) l.getItemAtPosition(position);
-			Intent intent = new Intent(this, AnnotationsActivity.class);
-			intent.putExtra("con", selected);
-			this.startActivity(intent);
+			
+			SharedPreferences settings = this.getSharedPreferences(PREF_NAME, 0);
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putInt("selectedCon", selected.cid);
+			editor.commit();
+			
+			
+			this.startAnnotationActivity(selected);
 		}
+	}
+	
+	private void startAnnotationActivity (Convention con) {
+		Intent intent = new Intent(this, AnnotationsActivity.class);
+		intent.putExtra("con", con);
+		this.startActivity(intent);	
 	}
 
 	private class ConventionListAdapter extends ArrayAdapter<Convention> {
