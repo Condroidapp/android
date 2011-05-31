@@ -12,6 +12,7 @@ import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.CondroidXMLTask;
 import cz.quinix.condroid.XMLProccessException;
 
+import android.util.Log;
 import android.util.Xml;
 
 public class XMLLoader extends CondroidXMLTask<List<Convention>> {
@@ -79,6 +80,7 @@ public class XMLLoader extends CondroidXMLTask<List<Convention>> {
 				eventType = pull.next();
 			}
 		} catch (Exception e) {
+			Log.w(CondroidActivity.PREF_NAME, "XML error", e);
 			throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 		}
 		} catch (XMLProccessException ex) {
