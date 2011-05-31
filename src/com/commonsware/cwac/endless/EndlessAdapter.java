@@ -152,6 +152,11 @@ abstract public class EndlessAdapter extends AdapterWrapper {
 		return(false);
 	}
 	
+	public void refreshDataset() {
+		this.keepOnAppending.set(true);
+		super.notifyDataSetChanged();
+	}
+	
 	/**
 	 * A background task that will be run when there is a need
 	 * to append more data. Mostly, this code delegates to the
