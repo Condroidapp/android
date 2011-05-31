@@ -1,6 +1,5 @@
 package cz.quinix.condroid;
 
-import cz.quinix.condroid.annotations.EndlessDemo;
 import cz.quinix.condroid.conventions.ConventionsActivity;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -30,7 +29,7 @@ public abstract class CondroidActivity extends ListActivity {
 			this.startActivity(intent);
 			return true;
 		case R.id.about:
-			Intent intent2 = new Intent(this, EndlessDemo.class);
+			Intent intent2 = new Intent(this, AboutActivity.class);
 			this.startActivity(intent2);
 			return true;
 		default:

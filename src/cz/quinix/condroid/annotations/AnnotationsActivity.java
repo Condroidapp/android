@@ -8,7 +8,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,9 +61,6 @@ public class AnnotationsActivity extends CondroidActivity {
 		View footerView = this.getLayoutInflater().inflate(
 				R.layout.annotation_list_footer, null);
 		this.getListView().addFooterView(footerView);
-
-		//this.getListView().setOnScrollListener(new EndlessScrollListener(this));
-
 	}
 
 	@Override
@@ -85,14 +81,10 @@ public class AnnotationsActivity extends CondroidActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.annotations_refresh:
-			this.urlBuilder.removeParam("stub").removeParam("page"); // refresh
-																		// deletes
-																		// search
-																		// term
-																		// and
-																		// page
+			this.urlBuilder.removeParam("stub").removeParam("page"); 
+			// refresh deletes search term and page
 			this.loadAnnotations(true);
-			//this.adapter.setItems(this.annotations).notifyDataSetChanged();
+			this.adapter.refreshDataset();
 
 			return true;
 		case R.id.search:
@@ -105,7 +97,6 @@ public class AnnotationsActivity extends CondroidActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		Annotation selected = (Annotation) l.getItemAtPosition(position);
 		Intent intent = new Intent(this, ShowAnnotation.class);
@@ -124,12 +115,11 @@ public class AnnotationsActivity extends CondroidActivity {
 	}
 
 	private void search(String t) {
-		this.urlBuilder.addParam("stub", t);
+		this.urlBuilder.addParam("stub", t).removeParam("page");
 		List<Annotation> foo = new ArrayList<Annotation>();
 		foo.addAll(this.annotations);
 		this.loadAnnotations(true);
 		if (this.annotations.size() > 0) {
-			//this.adapter.setItems(this.annotations);
 		} else {
 			this.annotations.addAll(foo);
 			Toast.makeText(this,
@@ -137,7 +127,7 @@ public class AnnotationsActivity extends CondroidActivity {
 					Toast.LENGTH_LONG).show();
 		}
 
-		this.adapter.notifyDataSetChanged();
+		this.adapter.refreshDataset();
 	}
 
 	private void loadAnnotations() {
@@ -160,8 +150,7 @@ public class AnnotationsActivity extends CondroidActivity {
 			this.annotations.addAll(new XMLLoader(this).execute(this.getUrl())
 					.get());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		} finally {
 			this.pd.dismiss();
 		}
@@ -171,63 +160,11 @@ public class AnnotationsActivity extends CondroidActivity {
 		return this.urlBuilder.getUrl();
 	}
 
-	private class AnnotationsListAdapter extends ArrayAdapter<Annotation> {
-
-		private List<Annotation> items;
-
-		public AnnotationsListAdapter(Context context, int textViewResourceId,
-				List<Annotation> items) {
-			super(context, textViewResourceId, items);
-			this.items = items;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;
-			if (v == null) {
-				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.annotation_list_item, null);
-			}
-			Annotation it = null;
-			try {
-				it = items.get(position);
-			} catch (IndexOutOfBoundsException e) {
-
-			}
-			if (it != null) {
-
-				TextView tw = (TextView) v
-						.findViewById(R.id.annotation_list_title);
-				if (tw != null) {
-					tw.setText(it.title);
-				}
-				TextView tw3 = (TextView) v
-						.findViewById(R.id.annotation_list_info);
-				if (tw != null) {
-					tw3.setText(it.pid + ", " + it.length + ", "
-							+ it.programLine);
-				}
-				TextView tw2 = (TextView) v
-						.findViewById(R.id.annotation_list_author);
-				if (tw2 != null) {
-					tw2.setText(it.talker);
-				}
-			}
-
-			return v;
-		}
-
-		public AnnotationsListAdapter setItems(List<Annotation> c) {
-			this.items = c;
-
-			return this;
-		}
-
-	}
-
 	class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter {
 		private RotateAnimation rotate;
 		private List<Annotation> itemsToAdd;
+		private int itemsPerPage = 0;
+		
 		public EndlessAdapter(List<Annotation> items) {
 			super(new ArrayAdapter<Annotation>(AnnotationsActivity.this,
 					R.layout.annotation_list_item, android.R.id.text1, items));
@@ -236,28 +173,36 @@ public class AnnotationsActivity extends CondroidActivity {
 			rotate.setDuration(600);
 			rotate.setRepeatMode(Animation.RESTART);
 			rotate.setRepeatCount(Animation.INFINITE);
+			this.itemsPerPage = items.size();
 		}
 
 		@Override
 		protected boolean cacheInBackground() throws Exception {
+			if((this.getCount()-1) % this.itemsPerPage != 0) {
+				return false;
+			}
+			AnnotationsActivity.this.urlBuilder.addParam("page", String.valueOf((int) (this.getCount() /  this.itemsPerPage)));
 			this.itemsToAdd = new XMLLoader(AnnotationsActivity.this).execute(AnnotationsActivity.this.getUrl()).get();
 			
-			return(this.itemsToAdd.size() < 0);
+			return(this.itemsToAdd.size() == this.itemsPerPage);
 		}
 
 		@Override
 		protected void appendCachedData() {
 			if(this.itemsToAdd != null && this.itemsToAdd.size() > 0) {
+				@SuppressWarnings("unchecked")
 				ArrayAdapter<Annotation> a = (ArrayAdapter<Annotation>) this.getWrappedAdapter();
 				for (int i = 0; i<this.itemsToAdd.size(); i++) {
 					a.add(this.itemsToAdd.get(i));
 				}
+				this.itemsToAdd = null;
 			}
 
 		}
 		
 		@Override
 		protected View getPendingView(ViewGroup parent) {
+			//TODO
 			View row=getLayoutInflater().inflate(R.layout.row, null);
 			
 			View child=row.findViewById(android.R.id.text1);
@@ -269,6 +214,12 @@ public class AnnotationsActivity extends CondroidActivity {
 			child.startAnimation(rotate);
 			
 			return(row);
+		}
+		
+		@Override
+		public void refreshDataset() {
+			super.refreshDataset();
+			AnnotationsActivity.this.getListView().setSelection(0);
 		}
 		
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -308,13 +259,4 @@ public class AnnotationsActivity extends CondroidActivity {
 		}
 
 	}
-
-	public void addAnnotations(List<Annotation> list) {
-		this.annotations.addAll(list);
-		//this.adapter.setItems(this.annotations);
-		this.adapter.notifyDataSetChanged();
-	}
-	
-	
-
 }
