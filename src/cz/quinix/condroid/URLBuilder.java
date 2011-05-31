@@ -3,6 +3,8 @@ package cz.quinix.condroid;
 import java.util.HashMap;
 import java.util.Set;
 
+import android.util.Log;
+
 public class URLBuilder {
 	
 	private HashMap<String, String> params;
@@ -14,8 +16,9 @@ public class URLBuilder {
 		this.params = new HashMap<String, String>();
 	}
 	
-	public void addParam(String paramName, String value) {
+	public URLBuilder addParam(String paramName, String value) {
 		this.params.put(paramName, value);
+		return this;
 	}
 	
 	public String getUrl() {
@@ -30,6 +33,7 @@ public class URLBuilder {
 			}
 			uri += param+"="+this.params.get(param);
 		}
+		Log.i("Condroid URL", "Builded URL "+ uri);
 		return uri;		
 	}
 
