@@ -46,8 +46,8 @@ public class ConventionsActivity extends CondroidActivity {
 		if(selectedCon > 0) {
 			for(int i = 0; i<this.cons.size(); i++) {
 				Convention con = this.cons.get(i);
-				if(con.cid == selectedCon) {
-					Toast.makeText(this, String.valueOf(con.name), Toast.LENGTH_SHORT).show();
+				if(con.getCid() == selectedCon) {
+					Toast.makeText(this, String.valueOf(con.getName()), Toast.LENGTH_SHORT).show();
 					this.startAnnotationActivity(con);
 
 					this.finish();
@@ -109,7 +109,7 @@ public class ConventionsActivity extends CondroidActivity {
 			
 			SharedPreferences settings = this.getSharedPreferences(PREF_NAME, 0);
 			SharedPreferences.Editor editor = settings.edit();
-			editor.putInt("selectedCon", selected.cid);
+			editor.putInt("selectedCon", selected.getCid());
 			editor.commit();
 			
 			
@@ -160,11 +160,11 @@ public class ConventionsActivity extends CondroidActivity {
 				}
 				TextView tw = (TextView) v.findViewById(R.id.convention_list_item_text);
 				if (tw != null) {
-					tw.setText(it.name);
+					tw.setText(it.getName());
 				}
 				TextView tw2 = (TextView) v.findViewById(R.id.convention_list_item_date);
 				if (tw2 != null) {
-					tw2.setText(it.date);
+					tw2.setText(it.getDate());
 				}
 			}
 

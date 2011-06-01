@@ -54,16 +54,16 @@ public class XMLLoader extends CondroidXMLTask<List<Convention>> {
 						con = new Convention();
 					} else {
 						if (name.equalsIgnoreCase("name")) {
-							con.name = pull.nextText();
+							con.setName(pull.nextText());
 						}
 						if (name.equalsIgnoreCase("icon")) {
-							con.iconUrl = pull.nextText();
+							con.setIconUrl(pull.nextText());
 						}
 						if (name.equalsIgnoreCase("date")) {
-							con.date = pull.nextText();
+							con.setDate(pull.nextText());
 						}
 						if (name.equalsIgnoreCase("cid")) {
-							con.cid = Integer.parseInt(pull.nextText());
+							con.setCid(Integer.parseInt(pull.nextText()));
 						}
 					}
 					break;

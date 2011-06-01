@@ -45,7 +45,7 @@ public class AnnotationsActivity extends CondroidActivity {
 		if (selectedCon != null) {
 			this.selectedCon = selectedCon;
 		}
-		this.urlBuilder.addParam("cid", String.valueOf(this.selectedCon.cid));
+		this.urlBuilder.addParam("cid", String.valueOf(this.selectedCon.getCid()));
 
 		this.handleIntent(this.getIntent());
 		this.adapter = new EndlessAdapter(this.annotations);

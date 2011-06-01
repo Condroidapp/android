@@ -14,10 +14,42 @@ public class Convention implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2754843728933013769L;
-	public String name = "";
-	public String iconUrl = "";
-	public String date = "";
-	public int cid = 0;
+	private String name = "";
+	private String iconUrl = "";
+	private String date = "";
+	private int cid = 0;
+	
+	public int getCid() {
+		return cid;
+	}
+	public String getDate() {
+		return date;
+	}
+	public String getIconUrl() {
+		return iconUrl;
+	}
+	public String getName() {
+		return name;
+	}
+	
+	public void setCid(int cid) {
+		this.cid = cid;
+	}
+	
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
+	}
+	
+	
+	
 	public Bitmap getImage() {
 		Bitmap bitmap = null;
 		if(iconUrl != null) {
