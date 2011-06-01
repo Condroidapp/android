@@ -52,25 +52,25 @@ public class XMLLoader extends CondroidXMLTask<List<Annotation>> {
 							annotation = new Annotation();
 						} else {
 							if (name.equalsIgnoreCase("pid")) {
-								annotation.pid = pull.nextText();
+								annotation.setPid(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("talker")) {
-								annotation.talker = pull.nextText().trim();
+								annotation.setAuthor(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("title")) {
-								annotation.title = pull.nextText();
+								annotation.setTitle(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("length")) {
-								annotation.length = pull.nextText();
+								annotation.setLength(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("type")) {
-								annotation.type = pull.nextText();
+								annotation.setType(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("program-line")) {
-								annotation.programLine = pull.nextText();
+								annotation.setProgramLine(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("annotation")) {
-								annotation.annotation = pull.nextText();
+								annotation.setAnnotation(pull.nextText());
 							}
 						}
 						break;

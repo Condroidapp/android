@@ -15,16 +15,16 @@ public class ShowAnnotation extends Activity {
 		this.setContentView(R.layout.annotation);
 		
 		TextView title = (TextView) this.findViewById(R.id.annot_title);
-		title.setText(this.annotation.title);
+		title.setText(this.annotation.getTitle());
 		
 		TextView author = (TextView) this.findViewById(R.id.annot_author);
-		author.setText(this.annotation.talker);
+		author.setText(this.annotation.getAuthor());
 		
 		TextView info = (TextView) this.findViewById(R.id.annot_info);
-		info.setText(this.annotation.programLine+", "+this.annotation.pid+", "+this.annotation.length+", "+this.annotation.type);
+		info.setText(this.annotation.getProgramLine()+", "+this.annotation.getPid()+", "+this.annotation.getLength()+", "+this.annotation.getType());
 		
 		TextView text = (TextView) this.findViewById(R.id.annot_text);
-		text.setText(this.annotation.annotation);
+		text.setText(this.annotation.getAnnotation());
 		
 	}
 }

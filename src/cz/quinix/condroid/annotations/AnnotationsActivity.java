@@ -236,17 +236,17 @@ public class AnnotationsActivity extends CondroidActivity {
 				TextView tw = (TextView) v
 						.findViewById(R.id.annotation_list_title);
 				if (tw != null) {
-					tw.setText(it.title);
+					tw.setText(it.getTitle());
 				}
 				TextView tw3 = (TextView) v
 						.findViewById(R.id.annotation_list_info);
 				if (tw != null) {
-					tw3.setText(it.programLine);
+					tw3.setText(it.getProgramLine());
 				}
 				TextView tw2 = (TextView) v
 						.findViewById(R.id.annotation_list_author);
 				if (tw2 != null) {
-					tw2.setText(it.pid + ", " +it.talker);
+					tw2.setText(it.getPid() + ", " +it.getAuthor());
 				}
 				return v;
 			}

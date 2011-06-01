@@ -37,15 +37,15 @@ public class Convention implements Serializable {
 	}
 	
 	public void setDate(String date) {
-		this.date = date;
+		this.date = date.trim();
 	}
 	
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.trim();
 	}
 	
 	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
+		this.iconUrl = iconUrl.trim();
 	}
 	
 	
