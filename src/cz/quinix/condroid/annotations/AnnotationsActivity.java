@@ -8,6 +8,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -170,7 +171,7 @@ public class AnnotationsActivity extends CondroidActivity {
 					R.layout.annotation_list_item, android.R.id.text1, items));
 			rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
 					0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-			rotate.setDuration(600);
+			rotate.setDuration(1000);
 			rotate.setRepeatMode(Animation.RESTART);
 			rotate.setRepeatCount(Animation.INFINITE);
 			this.itemsPerPage = items.size();
@@ -205,12 +206,7 @@ public class AnnotationsActivity extends CondroidActivity {
 			//TODO
 			View row=getLayoutInflater().inflate(R.layout.row, null);
 			
-			View child=row.findViewById(android.R.id.text1);
-			
-			child.setVisibility(View.GONE);
-			
-			child=row.findViewById(R.id.throbber);
-			child.setVisibility(View.VISIBLE);
+			View child=row.findViewById(R.id.throbber);
 			child.startAnimation(rotate);
 			
 			return(row);
@@ -245,13 +241,12 @@ public class AnnotationsActivity extends CondroidActivity {
 				TextView tw3 = (TextView) v
 						.findViewById(R.id.annotation_list_info);
 				if (tw != null) {
-					tw3.setText(it.pid + ", " + it.length + ", "
-							+ it.programLine);
+					tw3.setText(it.programLine);
 				}
 				TextView tw2 = (TextView) v
 						.findViewById(R.id.annotation_list_author);
 				if (tw2 != null) {
-					tw2.setText(it.talker);
+					tw2.setText(it.pid + ", " +it.talker);
 				}
 				return v;
 			}

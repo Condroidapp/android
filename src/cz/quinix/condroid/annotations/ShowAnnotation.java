@@ -21,10 +21,10 @@ public class ShowAnnotation extends Activity {
 		author.setText(this.annotation.talker);
 		
 		TextView info = (TextView) this.findViewById(R.id.annot_info);
-		info.setText(this.annotation.programLine);
+		info.setText(this.annotation.programLine+", "+this.annotation.pid+", "+this.annotation.length+", "+this.annotation.type);
 		
 		TextView text = (TextView) this.findViewById(R.id.annot_text);
-		text.setText(this.annotation.annotation.trim());
+		text.setText(this.annotation.annotation);
 		
 	}
 }
