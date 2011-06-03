@@ -8,7 +8,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,7 @@ import cz.quinix.condroid.URLBuilder;
 import cz.quinix.condroid.conventions.Convention;
 
 public class AnnotationsActivity extends CondroidActivity {
-	private static final String SOURCE_URL = "http://condroid.quinix.cz/api/annotations";
+	private static final String SOURCE_URL = "http://condroid.fan-project.com/api/annotations";
 	private List<Annotation> annotations = null;
 	private Convention selectedCon = null;
 	ProgressDialog pd;

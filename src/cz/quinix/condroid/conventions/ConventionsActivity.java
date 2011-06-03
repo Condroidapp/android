@@ -26,7 +26,7 @@ import cz.quinix.condroid.annotations.AnnotationsActivity;
 
 public class ConventionsActivity extends CondroidActivity {
 	/** Called when the activity is first created. */
-	private static final String list_url = "http://condroid.quinix.cz/api/con-list";
+	private static final String list_url = "http://condroid.fan-project.com/api/con-list";
 	ProgressDialog pd;
 	
 	private List<Convention> cons;
@@ -148,13 +148,18 @@ public class ConventionsActivity extends CondroidActivity {
 				// TODO: handle exception
 			}
 			if (it != null) {
+				
 				ImageView iv = (ImageView) v.findViewById(R.id.convention_list_item_image);
 				if (iv != null) {
+					try {
 					Bitmap b = it.getImage();
 					if(imageSize > 0) {
 						Bitmap bi = Bitmap.createScaledBitmap(b, imageSize, imageSize, true);
 					    
 					    iv.setImageBitmap(bi);
+					}
+					} catch (NullPointerException e) {
+						iv.setVisibility(View.INVISIBLE);
 					}
 					
 				}
