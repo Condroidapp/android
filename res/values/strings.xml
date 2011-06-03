@@ -11,9 +11,9 @@
     <string name="search_hint">Zadejte ID pořadu nebo část názvu</string>
     <string name="loading">Načítám</string>
     <string name="search">Hledat</string>
-    <string name="about_name">Condroid v1.0</string>
-    <string name="about_copy_me">&#169; Jan -Quinix- Langer, quinix@quinix.cz</string>
+    <string name="about_name">Condroid v1.0 beta</string>
+    <string name="about_copy_me">&#169; 2011, Jan -Quinix- Langer, Fan-project</string>
     <string name="about_copy_http">http://condroid.fan-project.com</string>
-    <string name="about_copy_fanp">&#169; Fan-Project</string>
+    <string name="about_copy_fanp">quinix@quinix.cz</string>
     
 </resources>

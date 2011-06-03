@@ -6,5 +6,5 @@
     <TextView android:layout_width="wrap_content" android:id="@+id/textView1" android:layout_height="wrap_content" android:text="@string/about_name"></TextView>
     <TextView android:layout_width="wrap_content" android:id="@+id/textView2" android:text="@string/about_copy_http" android:layout_height="wrap_content" android:autoLink="web"></TextView>
     <TextView android:layout_width="wrap_content" android:id="@+id/textView3" android:text="@string/about_copy_me" android:layout_height="wrap_content" android:paddingTop="40dp"></TextView>
-    <TextView android:layout_width="wrap_content" android:id="@+id/textView4" android:text="@string/about_copy_fanp" android:layout_height="wrap_content"></TextView>
+    <TextView android:layout_width="wrap_content" android:id="@+id/textView4" android:text="@string/about_copy_fanp" android:layout_height="wrap_content" android:autoLink="email"></TextView>
 </LinearLayout>
