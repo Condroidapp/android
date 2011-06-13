@@ -5,10 +5,6 @@
       android:versionName="1.0">
       <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.Light.NoTitleBar">
         <activity android:name=".conventions.ConventionsActivity" android:label="@string/app_name">
-        	<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".annotations.AnnotationsActivity" android:launchMode="singleTop">
         	<intent-filter>
@@ -20,6 +16,12 @@
         <activity android:name=".annotations.ShowAnnotation"></activity>
         <activity android:name="AboutActivity"></activity>
         <activity android:name=".annotations.EndlessDemo"></activity>
+        <activity android:name=".welcome.WelcomeActivity" android:label="@string/app_name">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+                <action android:name="android.intent.action.MAIN"></action>
+            </intent-filter>
+        </activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>

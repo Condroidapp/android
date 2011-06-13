@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" android:layout_gravity="center_vertical" android:gravity="center_horizontal">
+    <ImageView android:layout_height="wrap_content" android:src="@drawable/logo" android:layout_width="wrap_content" android:id="@+id/imageView1" android:paddingBottom="30dp" android:paddingTop="20dp"></ImageView>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:orientation="vertical" android:gravity="center_horizontal" android:padding="25dp">
+        <Button android:layout_height="wrap_content" android:text="@string/bShowActual" android:id="@+id/bShowActual" android:layout_width="fill_parent"></Button>
+        <Button android:layout_height="wrap_content" android:text="@string/bShowAll" android:id="@+id/bShowAll" android:layout_width="fill_parent"></Button>
+        <Button android:layout_height="wrap_content" android:text="@string/reloadCatalog" android:id="@+id/bReload" android:layout_width="fill_parent"></Button>
+    </LinearLayout>
+    
+</LinearLayout>
