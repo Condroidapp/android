@@ -21,13 +21,13 @@ public class XMLLoader extends CondroidXMLTask<List<Annotation>> {
 	}
 
 	@Override
-	protected List<Annotation> doInBackground(String... source) {
+	protected List<Annotation> doInBackground(Void... source) {
 		List<Annotation> messages = new ArrayList<Annotation>();
 		XmlPullParser pull = Xml.newPullParser();
 		Annotation annotation = null;
 		try {
 			try {
-				URL url = new URL(source[0]);
+				URL url = new URL("");
 				URLConnection conn = url.openConnection();
 
 				pull.setInput(conn.getInputStream(), null);

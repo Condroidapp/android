@@ -91,7 +91,7 @@ public class ConventionsActivity extends CondroidActivity {
 		this.cons = new ArrayList<Convention>();
 		
 		try {
-			this.cons = new XMLLoader(this).execute(ConventionsActivity.list_url).get();
+			//this.cons = new ConventionLoader(this).execute(ConventionsActivity.list_url).get();
 		} catch (Exception ex) {
 			Toast.makeText(this, ex.getMessage(),
 					Toast.LENGTH_LONG).show();

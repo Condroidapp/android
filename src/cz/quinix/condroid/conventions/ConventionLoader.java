@@ -12,23 +12,42 @@ import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.CondroidXMLTask;
 import cz.quinix.condroid.XMLProccessException;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.util.Xml;
 
-public class XMLLoader extends CondroidXMLTask<List<Convention>> {
+public class ConventionLoader extends CondroidXMLTask<List<Convention>> {
+	private static final String list_url = "http://condroid.fan-project.com/api/con-list";
 	
-	public XMLLoader(CondroidActivity caller) {
+	private ProgressDialog pd;
+
+	public ConventionLoader(Activity caller) {
 		super(caller);
+	}
+	
+	public ConventionLoader(Activity caller, ProgressDialog pd) {
+		super(caller);
+		this.pd = pd;
+	}
+	
+	@Override
+	protected void onPostExecute(List<Convention> result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		if(this.pd != null) {
+			this.pd.dismiss();
+		}
 	}
 
 	@Override
-	protected List<Convention> doInBackground(String... source) {
+	protected List<Convention> doInBackground(Void... source) {
 		List<Convention> messages = new ArrayList<Convention>();
 		XmlPullParser pull = Xml.newPullParser();
 		Convention con = null;
 		try {
 		try {
-			URL url = new URL(source[0]);
+			URL url = new URL(list_url);
 			URLConnection conn = url.openConnection();
 
 			pull.setInput(conn.getInputStream(), null);

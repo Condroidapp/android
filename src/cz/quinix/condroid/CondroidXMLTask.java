@@ -2,14 +2,15 @@ package cz.quinix.condroid;
 
 
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-abstract public class CondroidXMLTask<Result> extends AsyncTask<String, Integer, Result> {
+abstract public class CondroidXMLTask<Result> extends AsyncTask<Void, Integer, Result> {
 	protected String message = "";
-	protected CondroidActivity caller;
+	protected Activity caller;
 	
-	public CondroidXMLTask(CondroidActivity caller) {
+	public CondroidXMLTask(Activity caller) {
 		this.caller = caller;
 	}
 	

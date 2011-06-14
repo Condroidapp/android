@@ -147,8 +147,8 @@ public class AnnotationsActivity extends CondroidActivity {
 			} else {
 				this.annotations = new ArrayList<Annotation>();
 			}
-			this.annotations.addAll(new XMLLoader(this).execute(this.getUrl())
-					.get());
+			//this.annotations.addAll(new XMLLoader(this).execute(this.getUrl())
+					//.get());
 		} catch (Exception e) {
 			
 		} finally {
@@ -182,7 +182,7 @@ public class AnnotationsActivity extends CondroidActivity {
 				return false;
 			}
 			AnnotationsActivity.this.urlBuilder.addParam("page", String.valueOf((int) (this.getCount() /  this.itemsPerPage)));
-			this.itemsToAdd = new XMLLoader(AnnotationsActivity.this).execute(AnnotationsActivity.this.getUrl()).get();
+			//this.itemsToAdd = new XMLLoader(AnnotationsActivity.this).execute(AnnotationsActivity.this.getUrl()).get();
 			
 			return(this.itemsToAdd.size() == this.itemsPerPage);
 		}
