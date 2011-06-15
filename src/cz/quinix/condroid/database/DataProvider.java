@@ -1,5 +1,9 @@
 package cz.quinix.condroid.database;
 
+import java.util.List;
+
+import cz.quinix.condroid.annotations.Annotation;
+import cz.quinix.condroid.conventions.Convention;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,6 +17,7 @@ public class DataProvider {
 		
 	
 	private CondroidDatabase mDatabase;
+	private Convention con;
 	
 	public DataProvider(Context context) {
 		mDatabase = CondroidDatabase.getInstance(context);
@@ -20,6 +25,14 @@ public class DataProvider {
 	
 	public boolean hasData() {
 		return !mDatabase.isEmpty();
+	}
+
+	public void setConvention(Convention convention) {
+		con = convention;		
+	}
+
+	public void insert(List<Annotation> result) {
+		
 	}
 	
 	
