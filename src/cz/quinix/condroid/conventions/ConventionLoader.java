@@ -8,36 +8,30 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import cz.quinix.condroid.AsyncTaskListener;
 import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.CondroidXMLTask;
 import cz.quinix.condroid.XMLProccessException;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.Xml;
 
-public class ConventionLoader extends CondroidXMLTask<List<Convention>> {
+public class ConventionLoader extends AsyncTask<Void, Void, List<Convention>> {
 	private static final String list_url = "http://condroid.fan-project.com/api/con-list";
 	
-	private ProgressDialog pd;
-
-	public ConventionLoader(Activity caller) {
-		super(caller);
-	}
+	private AsyncTaskListener listener;
 	
-	public ConventionLoader(Activity caller, ProgressDialog pd) {
-		super(caller);
-		this.pd = pd;
+	public ConventionLoader(AsyncTaskListener listener) {
+		this.listener = listener;
 	}
 	
 	@Override
 	protected void onPostExecute(List<Convention> result) {
-		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-		if(this.pd != null) {
-			this.pd.dismiss();
-		}
+		this.listener.onAsyncTaskCompleted(result);
 	}
 
 	@Override
@@ -84,6 +78,9 @@ public class ConventionLoader extends CondroidXMLTask<List<Convention>> {
 						if (name.equalsIgnoreCase("cid")) {
 							con.setCid(Integer.parseInt(pull.nextText()));
 						}
+						if (name.equalsIgnoreCase("data-url")) {
+							con.setDataUrl(pull.nextText());
+						}
 					}
 					break;
 
@@ -103,7 +100,7 @@ public class ConventionLoader extends CondroidXMLTask<List<Convention>> {
 			throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 		}
 		} catch (XMLProccessException ex) {
-			this.message = ex.getMessage();
+			//this.message = ex.getMessage();
 		}
 		return messages;
 	}
