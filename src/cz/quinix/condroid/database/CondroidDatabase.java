@@ -1,5 +1,9 @@
 package cz.quinix.condroid.database;
 
+import java.util.List;
+
+import cz.quinix.condroid.annotations.Annotation;
+import cz.quinix.condroid.conventions.Convention;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -42,6 +46,10 @@ public class CondroidDatabase {
             return null;
         }
         return cursor;
+	}
+	
+	public Cursor query(String sql) {
+		return query(sql, null);
 	}
 	
 	
@@ -95,6 +103,16 @@ public class CondroidDatabase {
 			return true;
 		}
 		return false;
+	}
+
+	public void purge() {
+		this.query("DELETE FROM cons");
+		this.query("DELETE FROM lines");
+		this.query("DELETE FROM annotations");
+	}
+
+	public void insert(Convention con, List<Annotation> result) {
+		
 	}
 	
 }

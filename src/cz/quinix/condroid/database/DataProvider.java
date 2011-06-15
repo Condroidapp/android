@@ -32,7 +32,10 @@ public class DataProvider {
 	}
 
 	public void insert(List<Annotation> result) {
-		
+		if(!mDatabase.isEmpty()) {
+			mDatabase.purge();
+		}
+		mDatabase.insert(con, result);
 	}
 	
 	
