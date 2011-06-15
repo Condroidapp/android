@@ -18,6 +18,7 @@ public class Convention implements Serializable {
 	private String iconUrl = "";
 	private String date = "";
 	private int cid = 0;
+	private String dataUrl;
 	
 	public int getCid() {
 		return cid;
@@ -69,5 +70,12 @@ public class Convention implements Serializable {
 			
 		}
 		return bitmap;
+	}
+	public String getDataUrl() {
+		return this.dataUrl;
 	}	
+	
+	public void setDataUrl(String url) {
+		this.dataUrl = url;
+	}
 }
