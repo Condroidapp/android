@@ -4,6 +4,7 @@ import java.util.List;
 
 import cz.quinix.condroid.annotations.Annotation;
 import cz.quinix.condroid.conventions.Convention;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -56,8 +57,15 @@ public class CondroidDatabase {
 	
 	class CondroidOpenHelper extends SQLiteOpenHelper {
 		
-		private static final String DATABASE_CREATE = 
-			"CREATE TABLE \"annotations\" ( "+
+		private static final String DATABASE_CREATE_CONS = 
+			"CREATE TABLE \"cons\" ( "+
+			"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
+			"\"name\"  TEXT(255)NOT NULL,"+
+			"\"date\"  TEXT(255) NOT NULL,"+
+			"\"iconUrl\"  TEXT(255) NOT NULL,"+
+			"\"dataUrl\"  TEXT(255)"+
+			");";
+			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \"annotations\" ( "+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
 				"\"cid\"  INTEGER NOT NULL,"+
 				"\"pid\"  INTEGER NOT NULL,"+
@@ -70,8 +78,8 @@ public class CondroidDatabase {
 				"\"type\"  TEXT(20) NOT NULL,"+
 				"\"startTime\"  TEXT,"+
 				"\"endTime\"  TEXT"+
-			");" +
-			"CREATE TABLE \"lines\" ("+
+			");";
+			private static final String DATABASE_CREATE_LINES = 	"CREATE TABLE \"lines\" ("+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"+
 				"\"cid\"  INTEGER NOT NULL,"+
 				"\"title\"  TEXT(255) NOT NULL"+
@@ -84,12 +92,13 @@ public class CondroidDatabase {
 		
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(DATABASE_CREATE);
+			db.execSQL(DATABASE_CREATE_CONS);
+			db.execSQL(DATABASE_CREATE_ANNOTATIONS);
+			db.execSQL(DATABASE_CREATE_LINES);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
 			
 		}
 		
@@ -112,6 +121,8 @@ public class CondroidDatabase {
 	}
 
 	public void insert(Convention con, List<Annotation> result) {
+		SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
+		db.insert("cons", null, con.getContentValues());
 		
 	}
 	

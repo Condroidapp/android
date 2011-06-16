@@ -6,10 +6,14 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import cz.quinix.condroid.DBInsertable;
+
+import android.app.LauncherActivity.IconResizer;
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class Convention implements Serializable {
+public class Convention implements Serializable, DBInsertable {
 	/**
 	 * 
 	 */
@@ -77,5 +81,15 @@ public class Convention implements Serializable {
 	
 	public void setDataUrl(String url) {
 		this.dataUrl = url;
+	}
+	public ContentValues getContentValues() {
+		ContentValues ret = new ContentValues();
+		ret.put("id", this.cid);
+		ret.put("date", date);
+		ret.put("iconUrl", iconUrl);
+		ret.put("name", name);
+		ret.put("dataUrl", dataUrl);
+		
+		return ret;
 	}
 }
