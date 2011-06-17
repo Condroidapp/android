@@ -3,6 +3,7 @@ package cz.quinix.condroid.annotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -20,12 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.URLBuilder;
 import cz.quinix.condroid.conventions.Convention;
 
-public class AnnotationsActivity extends CondroidActivity {
+public class AnnotationsActivity extends ListActivity {
 	private static final String SOURCE_URL = "http://condroid.fan-project.com/api/annotations";
 	private List<Annotation> annotations = null;
 	private Convention selectedCon = null;

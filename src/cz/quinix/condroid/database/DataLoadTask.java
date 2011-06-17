@@ -26,8 +26,7 @@ public class DataLoadTask extends ListenedAsyncTask<String, String> {
 		this.pd = pd2;
 		this.db = dataProvider;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	protected void onPostExecute(List<?> result) {
 		

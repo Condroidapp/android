@@ -9,26 +9,22 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import cz.quinix.condroid.AsyncTaskListener;
-import cz.quinix.condroid.CondroidActivity;
+import cz.quinix.condroid.ListenedAsyncTask;
 import cz.quinix.condroid.XMLProccessException;
+import cz.quinix.condroid.welcome.WelcomeActivity;
 
-import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Xml;
 
-public class ConventionLoader extends AsyncTask<Void, Void, List<Convention>> {
-	private static final String list_url = "http://condroid.fan-project.com/api/con-list";
-	
-	private AsyncTaskListener listener;
+public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 	
 	public ConventionLoader(AsyncTaskListener listener) {
-		this.listener = listener;
+		super(listener);
 	}
+
+
+	private static final String list_url = "http://condroid.fan-project.com/api/con-list";
 	
-	@Override
-	protected void onPostExecute(List<Convention> result) {
-		this.listener.onAsyncTaskCompleted(result);
-	}
 
 	@Override
 	protected List<Convention> doInBackground(Void... source) {
@@ -92,7 +88,7 @@ public class ConventionLoader extends AsyncTask<Void, Void, List<Convention>> {
 				eventType = pull.next();
 			}
 		} catch (Exception e) {
-			Log.w(CondroidActivity.PREF_NAME, "XML error", e);
+			Log.w(WelcomeActivity.TAG, e);
 			throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 		}
 		} catch (XMLProccessException ex) {
