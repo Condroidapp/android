@@ -18,5 +18,6 @@
     <string name="bShowActual">Běžící pořady a požady od celé hodiny</string>
     <string name="bShowAll">Všechny pořady (s filtrováním)</string>
     <string name="reloadCatalog">Obnovit data</string>
-    
+    <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
+    <string name="downloadDialog">Aplikace potřebuje stáhnout cca 1 MB zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. Mimo tyto data se aplikace samovolně k internetu nepřipojuje.\nChcete pokračovat?</string>
 </resources>

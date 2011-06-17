@@ -8,6 +8,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import cz.quinix.condroid.AsyncTaskListener;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.conventions.Convention;
@@ -29,34 +32,23 @@ public class WelcomeActivity extends Activity implements AsyncTaskListener {
 		this.setContentView(R.layout.welcome);
 		dataProvider = new DataProvider(getApplicationContext());
 		if (!dataProvider.hasData()) {
-			this.noDataDialog();
+			this.noDataDialog(getString(R.string.noData)+" "+getString(R.string.downloadDialog));
 		}
+		
+		Button refresh = (Button) this.findViewById(R.id.bReload); 
+		refresh.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				noDataDialog(getString(R.string.downloadDialog));
+				
+			}
+		});
 	}
 
-	private void noDataDialog() {
+	private void noDataDialog(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(
-				"Datový soubor neobsahuje žádné záznamy. Aplikace potřebuje stáhnout cca 1 MB "
-						+ "zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. "
-						+ "Mimo tyto data se aplikace samovolně k internetu nepřipojuje.\nChcete pokračovat?")
-				.setPositiveButton("Ano",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.cancel();
-								pd = ProgressDialog.show(WelcomeActivity.this,
-										"", "Načítám...", true);
-
-								try {
-									new ConventionLoader(WelcomeActivity.this)
-											.execute();
-								} catch (Exception e) {
-									Log.e(WelcomeActivity.TAG, "", e);
-									return;
-								}
-
-							}
-						})
+		builder.setMessage(message)
+				.setPositiveButton("Ano", new DialogOnClick())
 				.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
@@ -67,16 +59,15 @@ public class WelcomeActivity extends Activity implements AsyncTaskListener {
 		dialog.show();
 	}
 
-	
 	@SuppressWarnings("unchecked")
 	public void onAsyncTaskCompleted(List<?> list) {
 		if (pd != null) {
 			pd.dismiss();
 			pd = null;
 		}
-		
+
 		if (list != null) {
-			//conventions downloaded
+			// conventions downloaded
 			conventionList = (List<Convention>) list;
 			AlertDialog.Builder builder = new AlertDialog.Builder(
 					WelcomeActivity.this);
@@ -90,7 +81,7 @@ public class WelcomeActivity extends Activity implements AsyncTaskListener {
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 
 				public void onClick(DialogInterface dialog, int which) {
-					
+
 					dataProvider.setConvention(conventionList.get(which));
 					pd = ProgressDialog.show(WelcomeActivity.this, "",
 							"Příprava...", true);
@@ -102,5 +93,24 @@ public class WelcomeActivity extends Activity implements AsyncTaskListener {
 			AlertDialog d = builder.create();
 			d.show();
 		}
+	}
+
+	class DialogOnClick implements DialogInterface.OnClickListener {
+
+		public void onClick(DialogInterface dialog, int which) {
+
+			dialog.cancel();
+			pd = ProgressDialog.show(WelcomeActivity.this, "", "Načítám...",
+					true);
+
+			try {
+				new ConventionLoader(WelcomeActivity.this).execute();
+			} catch (Exception e) {
+				Log.e(WelcomeActivity.TAG, "", e);
+				return;
+			}
+
+		}
+
 	}
 }
