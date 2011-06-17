@@ -25,7 +25,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.URLBuilder;
 import cz.quinix.condroid.conventions.Convention;
 
-public class AnnotationsActivity extends ListActivity {
+public class AllAnotations extends ListActivity {
 	private static final String SOURCE_URL = "http://condroid.fan-project.com/api/annotations";
 	private List<Annotation> annotations = null;
 	private Convention selectedCon = null;
@@ -36,7 +36,7 @@ public class AnnotationsActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.urlBuilder = new URLBuilder(AnnotationsActivity.SOURCE_URL);
+		this.urlBuilder = new URLBuilder(AllAnotations.SOURCE_URL);
 
 		Intent intent = this.getIntent();
 		Convention selectedCon = (Convention) intent
@@ -139,7 +139,7 @@ public class AnnotationsActivity extends ListActivity {
 		if (this.annotations != null && !force) {
 			return;
 		}
-		this.pd = ProgressDialog.show(AnnotationsActivity.this, "", "Načítám.",
+		this.pd = ProgressDialog.show(AllAnotations.this, "", "Načítám.",
 				true);
 		try {
 			if (this.annotations != null) {
@@ -166,7 +166,7 @@ public class AnnotationsActivity extends ListActivity {
 		private int itemsPerPage = 0;
 		
 		public EndlessAdapter(List<Annotation> items) {
-			super(new ArrayAdapter<Annotation>(AnnotationsActivity.this,
+			super(new ArrayAdapter<Annotation>(AllAnotations.this,
 					R.layout.annotation_list_item, android.R.id.text1, items));
 			rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
 					0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -181,7 +181,7 @@ public class AnnotationsActivity extends ListActivity {
 			if((this.getCount()-1) % this.itemsPerPage != 0) {
 				return false;
 			}
-			AnnotationsActivity.this.urlBuilder.addParam("page", String.valueOf((int) (this.getCount() /  this.itemsPerPage)));
+			AllAnotations.this.urlBuilder.addParam("page", String.valueOf((int) (this.getCount() /  this.itemsPerPage)));
 			//this.itemsToAdd = new XMLLoader(AnnotationsActivity.this).execute(AnnotationsActivity.this.getUrl()).get();
 			
 			return(this.itemsToAdd.size() == this.itemsPerPage);
@@ -214,7 +214,7 @@ public class AnnotationsActivity extends ListActivity {
 		@Override
 		public void refreshDataset() {
 			super.refreshDataset();
-			AnnotationsActivity.this.getListView().setSelection(0);
+			AllAnotations.this.getListView().setSelection(0);
 		}
 		
 		public View getView(int position, View convertView, ViewGroup parent) {
