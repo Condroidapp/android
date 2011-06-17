@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import cz.quinix.condroid.AsyncTaskListener;
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.annotations.AllAnotations;
 import cz.quinix.condroid.conventions.Convention;
 import cz.quinix.condroid.conventions.ConventionLoader;
 import cz.quinix.condroid.database.DataLoadTask;
@@ -30,7 +32,7 @@ public class WelcomeActivity extends Activity implements AsyncTaskListener {
 		super.onCreate(savedInstanceState);
 
 		this.setContentView(R.layout.welcome);
-		dataProvider = new DataProvider(getApplicationContext());
+		dataProvider = DataProvider.getInstance(getApplicationContext());
 		if (!dataProvider.hasData()) {
 			this.noDataDialog(getString(R.string.noData)+" "+getString(R.string.downloadDialog));
 		}
@@ -40,6 +42,16 @@ public class WelcomeActivity extends Activity implements AsyncTaskListener {
 			
 			public void onClick(View v) {
 				noDataDialog(getString(R.string.downloadDialog));
+				
+			}
+		});
+		
+		Button all = (Button) findViewById(R.id.bShowAll);
+		all.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent(WelcomeActivity.this, AllAnotations.class);
+				startActivity(intent);
 				
 			}
 		});
