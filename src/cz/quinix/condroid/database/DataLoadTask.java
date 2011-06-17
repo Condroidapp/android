@@ -8,18 +8,12 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.app.ProgressDialog;
+import android.util.Xml;
 import cz.quinix.condroid.AsyncTaskListener;
-import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.ListenedAsyncTask;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.annotations.Annotation;
-import cz.quinix.condroid.conventions.Convention;
-import cz.quinix.condroid.welcome.WelcomeActivity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.SystemClock;
-import android.util.Log;
-import android.util.Xml;
 
 public class DataLoadTask extends ListenedAsyncTask<String, String> {
 
@@ -63,7 +57,7 @@ public class DataLoadTask extends ListenedAsyncTask<String, String> {
 				throw new XMLProccessException("Stažení seznamu anotací se nezdařilo.", ex);
 			}
 			int eventType = 0;
-			this.publishProgress("Zpracovávám...");
+			this.publishProgress("Stahuji...");
 			try {
 				eventType = pull.getEventType();
 			} catch (XmlPullParserException e) {
@@ -128,6 +122,7 @@ public class DataLoadTask extends ListenedAsyncTask<String, String> {
 		} catch (XMLProccessException e) {
 		//	this.message = e.getMessage();
 		}
+		this.publishProgress("Zpracovávám...");
 		return messages;
 		
 	}

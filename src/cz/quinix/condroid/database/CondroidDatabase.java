@@ -1,15 +1,16 @@
 package cz.quinix.condroid.database;
 
+import java.util.HashMap;
 import java.util.List;
 
-import cz.quinix.condroid.annotations.Annotation;
-import cz.quinix.condroid.conventions.Convention;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Log;
+import cz.quinix.condroid.annotations.Annotation;
+import cz.quinix.condroid.conventions.Convention;
 
 public class CondroidDatabase {
 	public static final String TAG = "Condroid database";
@@ -68,7 +69,7 @@ public class CondroidDatabase {
 			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \"annotations\" ( "+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
 				"\"cid\"  INTEGER NOT NULL,"+
-				"\"pid\"  INTEGER NOT NULL,"+
+				"\"pid\"  TEXT(20) NOT NULL,"+
 				"\"talker\"  TEXT(255) NOT NULL,"+
 				"\"title\"  TEXT(255) NOT NULL,"+
 				"\"length\"  TEXT(20),"+
@@ -76,8 +77,8 @@ public class CondroidDatabase {
 				"\"annotation\"  TEXT,"+
 				"\"lid\"  INTEGER NOT NULL,"+
 				"\"type\"  TEXT(20) NOT NULL,"+
-				"\"startTime\"  TEXT,"+
-				"\"endTime\"  TEXT"+
+				"\"startTime\"  TEXT NULL,"+
+				"\"endTime\"  TEXT NULL"+
 			");";
 			private static final String DATABASE_CREATE_LINES = 	"CREATE TABLE \"lines\" ("+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"+
@@ -120,9 +121,27 @@ public class CondroidDatabase {
 		this.query("DELETE FROM annotations");
 	}
 
-	public void insert(Convention con, List<Annotation> result) {
+	public void insert(Convention con, List<Annotation> result) throws Exception {
 		SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
 		db.insert("cons", null, con.getContentValues());
+		HashMap<String, Integer> lines = new HashMap<String, Integer>();
+		for (Annotation annotation : result) {
+			if(!lines.containsKey(annotation.getProgramLine())) {
+				ContentValues cv = new ContentValues();
+				cv.put("title", annotation.getProgramLine());
+				cv.put("cid", con.getCid());
+				int key = (int) db.insert("lines", null,cv );
+				lines.put(annotation.getProgramLine(), key);
+			}
+			annotation.setLid(lines.get(annotation.getProgramLine()));
+		}
+		
+		for (Annotation annotation : result) {
+			ContentValues cv = annotation.getContentValues();
+			cv.put("cid", con.getCid());
+			db.insertOrThrow("annotations", null, cv);
+			
+		}
 		
 	}
 	

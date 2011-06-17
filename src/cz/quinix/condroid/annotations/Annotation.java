@@ -6,11 +6,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cz.quinix.condroid.DBInsertable;
 import cz.quinix.condroid.welcome.WelcomeActivity;
 
+import android.content.ContentValues;
 import android.util.Log;
 
-public class Annotation implements Serializable {
+public class Annotation implements Serializable, DBInsertable {
 
 	/**
 	 * 
@@ -26,6 +28,8 @@ public class Annotation implements Serializable {
 	private String annotation;
 	private Date startTime;
 	private Date endTime;
+
+	private int lid;
 	static DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
 	public Date getStartTime() {
@@ -112,5 +116,35 @@ public class Annotation implements Serializable {
 	public void setAnnotation(String annotation) {
 		this.annotation = annotation.trim();
 	}
+
+	public ContentValues getContentValues() {
+		ContentValues ret = new ContentValues();
+		ret.put("pid", this.pid);
+		ret.put("talker", talker);
+		ret.put("title", title);
+		ret.put("length", length);
+		ret.put("type", type);
+		ret.put("lid", lid);
+		ret.put("annotation", annotation);
+		if(startTime != null) {
+			ret.put("startTime", df.format(startTime));
+		}
+		if(endTime != null) {
+			ret.put("endTime", df.format(endTime));
+		}
+		
+		return ret;
+	}
+
+	public void setLid(Integer integer) {
+		lid = integer.intValue();
+		
+	}
+
+	public int getLid() {
+		return lid;
+	}
+	
+	
 
 }

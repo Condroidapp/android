@@ -2,13 +2,12 @@ package cz.quinix.condroid.database;
 
 import java.util.List;
 
+import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import cz.quinix.condroid.annotations.Annotation;
 import cz.quinix.condroid.conventions.Convention;
-import android.content.ContentProvider;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
+import cz.quinix.condroid.welcome.WelcomeActivity;
 
 public class DataProvider {
 	
@@ -35,7 +34,12 @@ public class DataProvider {
 		if(!mDatabase.isEmpty()) {
 			mDatabase.purge();
 		}
-		mDatabase.insert(con, result);
+		try {
+			mDatabase.insert(con, result);
+		} catch (Exception ex) {
+			Log.w(WelcomeActivity.TAG, ex);
+			mDatabase.purge();
+		}
 	}
 	
 	
