@@ -10,13 +10,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import cz.quinix.condroid.AsyncTaskListener;
 import cz.quinix.condroid.CondroidActivity;
-import cz.quinix.condroid.CondroidXMLTask;
 import cz.quinix.condroid.XMLProccessException;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.util.Log;
 import android.util.Xml;
 

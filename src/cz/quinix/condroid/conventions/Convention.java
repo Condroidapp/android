@@ -8,7 +8,6 @@ import java.net.URL;
 
 import cz.quinix.condroid.DBInsertable;
 
-import android.app.LauncherActivity.IconResizer;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
