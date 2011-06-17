@@ -18,7 +18,7 @@ import cz.quinix.condroid.annotations.Annotation;
 public class DataLoadTask extends ListenedAsyncTask<String, String> {
 
 	private ProgressDialog pd;
-	private DataProvider db;
+	private volatile DataProvider db;
 	
 	
 	public DataLoadTask(AsyncTaskListener listener, ProgressDialog pd2, DataProvider dataProvider) {
@@ -30,7 +30,7 @@ public class DataLoadTask extends ListenedAsyncTask<String, String> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onPostExecute(List<?> result) {
-		db.insert((List<Annotation>) result);
+		
 		super.onPostExecute(null);
 	}
 	
@@ -123,6 +123,7 @@ public class DataLoadTask extends ListenedAsyncTask<String, String> {
 		//	this.message = e.getMessage();
 		}
 		this.publishProgress("Zpracovávám...");
+		db.insert((List<Annotation>) messages);
 		return messages;
 		
 	}

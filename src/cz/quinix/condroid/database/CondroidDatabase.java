@@ -16,6 +16,9 @@ public class CondroidDatabase {
 	
 	private static final String DATABASE_NAME = "condroid.db";
 	private static final int DATABASE_VERSION = 1;
+	private static final String CON_TABLE = "cons";
+	private static final String ANNOTATION_TABLE = "annotations";
+	private static final String LINE_TABLE = "lines";
 	
 	private CondroidOpenHelper mDatabaseHelper;
 	private static volatile CondroidDatabase instance = null;
@@ -57,15 +60,17 @@ public class CondroidDatabase {
 	
 	class CondroidOpenHelper extends SQLiteOpenHelper {
 		
+		
+		
 		private static final String DATABASE_CREATE_CONS = 
-			"CREATE TABLE \"cons\" ( "+
+			"CREATE TABLE \""+ CON_TABLE +"\" ( "+
 			"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
 			"\"name\"  TEXT(255)NOT NULL,"+
 			"\"date\"  TEXT(255) NOT NULL,"+
 			"\"iconUrl\"  TEXT(255) NOT NULL,"+
 			"\"dataUrl\"  TEXT(255)"+
 			");";
-			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \"annotations\" ( "+
+			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \""+ ANNOTATION_TABLE +"\" ( "+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
 				"\"cid\"  INTEGER NOT NULL,"+
 				"\"pid\"  TEXT(20) NOT NULL,"+
@@ -79,7 +84,7 @@ public class CondroidDatabase {
 				"\"startTime\"  TEXT NULL,"+
 				"\"endTime\"  TEXT NULL"+
 			");";
-			private static final String DATABASE_CREATE_LINES = 	"CREATE TABLE \"lines\" ("+
+			private static final String DATABASE_CREATE_LINES = 	"CREATE TABLE \"" +LINE_TABLE+ "\" ("+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"+
 				"\"cid\"  INTEGER NOT NULL,"+
 				"\"title\"  TEXT(255) NOT NULL"+
@@ -115,9 +120,11 @@ public class CondroidDatabase {
 	}
 
 	public void purge() {
-		this.query("DELETE FROM cons");
-		this.query("DELETE FROM lines");
-		this.query("DELETE FROM annotations");
+		SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase(); 
+		db.execSQL("DROP TABLE "+CON_TABLE);
+		db.execSQL("DROP TABLE "+ANNOTATION_TABLE);
+		db.execSQL("DROP TABLE "+LINE_TABLE);
+		this.mDatabaseHelper.onCreate(db);
 	}
 
 	public void insert(Convention con, List<Annotation> result) throws Exception {
