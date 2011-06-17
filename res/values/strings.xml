@@ -15,7 +15,7 @@
     <string name="about_copy_me">&#169; 2011, Jan -Quinix- Langer, Fan-project</string>
     <string name="about_copy_http">http://condroid.fan-project.com</string>
     <string name="about_copy_fanp">quinix@quinix.cz</string>
-    <string name="bShowActual">Běžící pořady a požady od celé hodiny</string>
+    <string name="bShowActual">Právě běží a následuje</string>
     <string name="bShowAll">Všechny pořady (s filtrováním)</string>
     <string name="reloadCatalog">Obnovit data</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
