@@ -16,28 +16,16 @@ public class CondroidDatabase {
 	
 	private static final String DATABASE_NAME = "condroid.db";
 	private static final int DATABASE_VERSION = 1;
-	private static final String CON_TABLE = "cons";
-	private static final String ANNOTATION_TABLE = "annotations";
-	private static final String LINE_TABLE = "lines";
+	public static final String CON_TABLE = "cons";
+	public static final String ANNOTATION_TABLE = "annotations";
+	public static final String LINE_TABLE = "lines";
 	
 	private CondroidOpenHelper mDatabaseHelper;
-	private static volatile CondroidDatabase instance = null;
 	
 	
 	
-	private CondroidDatabase(Context context) {
+	public CondroidDatabase(Context context) {
 		mDatabaseHelper = new CondroidOpenHelper(context);
-	}
-	
-	public static CondroidDatabase getInstance(Context context) {
-		if(instance == null) {
-			synchronized (CondroidDatabase.class) {
-				if(instance == null) {
-					instance = new CondroidDatabase(context);
-				}
-			}
-		}
-		return instance;
 	}
 	
 	public Cursor query(String sql, String[] args) {
@@ -54,6 +42,10 @@ public class CondroidDatabase {
 	
 	public Cursor query(String sql) {
 		return query(sql, null);
+	}
+	
+	public Cursor query (String table, String[] columns, String condition, String[] conditionArgs, String orderBy, String limit) {
+		return this.mDatabaseHelper.getReadableDatabase().query(table, columns, condition, conditionArgs, null, null, orderBy, limit);
 	}
 	
 	
@@ -107,6 +99,8 @@ public class CondroidDatabase {
 			
 		}
 		
+		
+		
 	}
 
 
@@ -150,5 +144,9 @@ public class CondroidDatabase {
 		}
 		
 	}
+	
+	
+
+	
 	
 }
