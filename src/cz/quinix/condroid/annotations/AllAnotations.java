@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -22,45 +21,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.URLBuilder;
-import cz.quinix.condroid.conventions.Convention;
+import cz.quinix.condroid.database.DataProvider;
 
 public class AllAnotations extends ListActivity {
-	private static final String SOURCE_URL = "http://condroid.fan-project.com/api/annotations";
-	private List<Annotation> annotations = null;
-	private Convention selectedCon = null;
-	ProgressDialog pd;
-	URLBuilder urlBuilder;
-	private EndlessAdapter adapter;
 
+	private EndlessAdapter adapter;
+	private DataProvider provider;
+	private String search = null;
+	private List<Annotation> annotations;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		this.urlBuilder = new URLBuilder(AllAnotations.SOURCE_URL);
-
-		Intent intent = this.getIntent();
-		Convention selectedCon = (Convention) intent
-				.getSerializableExtra("con");
-		if (selectedCon != null) {
-			this.selectedCon = selectedCon;
-		}
-		this.urlBuilder.addParam("cid", String.valueOf(this.selectedCon.getCid()));
-
+		this.provider = DataProvider.getInstance(getApplicationContext());
 		this.handleIntent(this.getIntent());
-		this.adapter = new EndlessAdapter(this.annotations);
+		annotations = this.provider.getAnnotations(search, 0);
+		this.adapter = new EndlessAdapter(annotations);
 		this.setListAdapter(this.adapter);
 
 		this.setContentView(R.layout.annotation_list);
-		if (this.selectedCon == null) {
-			Toast.makeText(this,
-					"Cannot load annotations, no convention selected.",
-					Toast.LENGTH_LONG).show();
-			this.finish();
-			return;
-		}
-		View footerView = this.getLayoutInflater().inflate(
-				R.layout.annotation_list_footer, null);
-		this.getListView().addFooterView(footerView);
 	}
 
 	@Override
@@ -77,13 +54,14 @@ public class AllAnotations extends ListActivity {
 		return true;
 	}
 
-	@Override
+		@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.annotations_refresh:
-			this.urlBuilder.removeParam("stub").removeParam("page"); 
+			this.search = null;
 			// refresh deletes search term and page
-			this.loadAnnotations(true);
+			this.annotations.clear();
+			this.annotations.addAll(this.provider.getAnnotations(search, 0));
 			this.adapter.refreshDataset();
 
 			return true;
@@ -106,58 +84,25 @@ public class AllAnotations extends ListActivity {
 
 	private void handleIntent(Intent intent) {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-			this.search(query);
-		} else {
-			this.loadAnnotations();
+			search(intent.getStringExtra(SearchManager.QUERY));
 		}
-
 	}
 
 	private void search(String t) {
-		this.urlBuilder.addParam("stub", t).removeParam("page");
+		search = t;
 		List<Annotation> foo = new ArrayList<Annotation>();
-		foo.addAll(this.annotations);
-		this.loadAnnotations(true);
-		if (this.annotations.size() > 0) {
-		} else {
+		//foo.addAll(this.annotations);
+		foo = this.provider.getAnnotations(search, 0);
+		if (foo.size() > 0) {
+			this.annotations.clear();
 			this.annotations.addAll(foo);
+		} else {
 			Toast.makeText(this,
 					"Nebyly nalezeny žádné anotace obsahující '" + t + "'",
 					Toast.LENGTH_LONG).show();
 		}
 
 		this.adapter.refreshDataset();
-	}
-
-	private void loadAnnotations() {
-		this.loadAnnotations(false);
-	}
-
-	private void loadAnnotations(boolean force) {
-
-		if (this.annotations != null && !force) {
-			return;
-		}
-		this.pd = ProgressDialog.show(AllAnotations.this, "", "Načítám.",
-				true);
-		try {
-			if (this.annotations != null) {
-				this.annotations.clear();
-			} else {
-				this.annotations = new ArrayList<Annotation>();
-			}
-			//this.annotations.addAll(new XMLLoader(this).execute(this.getUrl())
-					//.get());
-		} catch (Exception e) {
-			
-		} finally {
-			this.pd.dismiss();
-		}
-	}
-
-	String getUrl() {
-		return this.urlBuilder.getUrl();
 	}
 
 	class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter {
@@ -181,8 +126,7 @@ public class AllAnotations extends ListActivity {
 			if((this.getCount()-1) % this.itemsPerPage != 0) {
 				return false;
 			}
-			AllAnotations.this.urlBuilder.addParam("page", String.valueOf((int) (this.getCount() /  this.itemsPerPage)));
-			//this.itemsToAdd = new XMLLoader(AnnotationsActivity.this).execute(AnnotationsActivity.this.getUrl()).get();
+			this.itemsToAdd = provider.getAnnotations(search, (int) (this.getCount() /  this.itemsPerPage));
 			
 			return(this.itemsToAdd.size() == this.itemsPerPage);
 		}
@@ -240,7 +184,7 @@ public class AllAnotations extends ListActivity {
 				TextView tw3 = (TextView) v
 						.findViewById(R.id.annotation_list_info);
 				if (tw != null) {
-					tw3.setText(it.getProgramLine());
+					tw3.setText(provider.getProgramLine(it.getLid()).getName());
 				}
 				TextView tw2 = (TextView) v
 						.findViewById(R.id.annotation_list_author);

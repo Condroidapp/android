@@ -69,7 +69,7 @@ public class DataProvider {
 			condition = "pid LIKE '%"+object+"%' OR title LIKE '%"+object+"%'";
 		}
 		
-		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "title ASC", "0,"+(page*ITEMS_PER_PAGE));
+		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "title ASC", (page*ITEMS_PER_PAGE) + ","+ ITEMS_PER_PAGE);
 		
 		while(c.moveToNext()) {
 			
