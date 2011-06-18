@@ -6,11 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cz.quinix.condroid.DBInsertable;
-import cz.quinix.condroid.welcome.WelcomeActivity;
-
 import android.content.ContentValues;
-import android.util.Log;
+import cz.quinix.condroid.DBInsertable;
 
 public class Annotation implements Serializable, DBInsertable {
 
@@ -41,23 +38,19 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public void setStartTime(String startTime) {
-		if (startTime.equals(""))
-			return;
-		try {
-
-			this.startTime = df.parse(startTime);
-		} catch (ParseException e) {
-			Log.w(WelcomeActivity.TAG, e);
-		}
+		this.startTime = parseDate(startTime);
 	}
 
 	public void setEndTime(String endTime) {
-		if (endTime.equals(""))
-			return;
+			this.endTime = parseDate(endTime);
+	}
+	private Date parseDate(String date) {
+		if (date == null || date.equals(""))
+			return null;
 		try {
-			this.endTime = df.parse(endTime);
+			return df.parse(date);
 		} catch (ParseException e) {
-			throw new RuntimeException(e);
+			return null;
 		}
 	}
 
@@ -81,6 +74,10 @@ public class Annotation implements Serializable, DBInsertable {
 		return type;
 	}
 
+	/**
+	 * Use only during processing new XML!
+	 * @return
+	 */
 	public String getProgramLine() {
 		return programLine;
 	}
