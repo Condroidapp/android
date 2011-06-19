@@ -1,9 +1,13 @@
 package cz.quinix.condroid.annotations;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import android.app.AlertDialog;
@@ -110,6 +114,30 @@ public class AllAnotations extends ListActivity {
 
 			});
 			builder.create().show();
+			return true;
+			
+		case R.id.dateFilter:
+			AlertDialog.Builder build = new AlertDialog.Builder(this);
+			build.setTitle(R.string.dPickDate);
+			List<Date> dates = provider.getDates();
+			
+			String[] ds = new String[dates.size()];
+			int j=0;
+			DateFormat df = new SimpleDateFormat("EEEE d. M.", new Locale("cs", "CZ"));
+			for (Date date : dates) {
+				char[] c = df.format(date).toCharArray();
+				c[0] = Character.toUpperCase(c[0]);
+				ds[j++] = new String(c);
+			}
+			build.setItems(ds, new DialogInterface.OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			build.create().show();
+			
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

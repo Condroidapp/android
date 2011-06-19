@@ -24,5 +24,7 @@
     <string name="no">Ne</string>
     <string name="dPickConvention">Vyberte con</string>
     <string name="preparing">Příprava...</string>
+    <string name="noAnnotationsFound">Nebyly nalezeny žádné vyhovující záznamy.</string>
+    <string name="dPickDate">Vyberte den</string>
     
 </resources>

@@ -1,6 +1,10 @@
 package cz.quinix.condroid.database;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -113,6 +117,23 @@ public class DataProvider {
 		while(c.moveToNext()) {
 			programLines.put(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("title")));
 		}
+	}
+
+	public List<Date> getDates() {
+		
+		Cursor c = this.mDatabase.query("SELECT DISTINCT STRFTIME('%Y-%m-%d',startTime) AS sDate FROM "+CondroidDatabase.ANNOTATION_TABLE+" ORDER by STRFTIME('%Y-%m-%d',startTime) ASC");
+		
+		List<Date> map = new ArrayList<Date>();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		while(c.moveToNext()) {
+			try {
+				map.add(df.parse(c.getString(c.getColumnIndex("sDate"))));
+			} catch (ParseException e) {
+				Log.w("DB", e);
+			}
+		}
+		
+		return map;
 	}
 	
 	
