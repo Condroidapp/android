@@ -3,6 +3,7 @@ package cz.quinix.condroid.annotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -67,6 +68,11 @@ public class AllAnotations extends ListActivity {
 			return true;
 		case R.id.search:
 			onSearchRequested();
+			return true;
+		case R.id.lineFilter:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.dPickLine);
+			
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

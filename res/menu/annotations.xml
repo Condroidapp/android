@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/annotations_refresh" android:title="@string/refresh"></item>
+    <item android:id="@+id/annotations_refresh" android:title="@string/mRefresh"></item>
     <item android:id="@+id/search" android:title="@string/search"></item>
-    <item android:id="@+id/lineFilter" android:title="@string/lineFilter"></item>
-    <item android:id="@+id/dateFilter" android:title="@string/dateFilter"></item>
+    <item android:id="@+id/lineFilter" android:title="@string/mLineFilter"></item>
+    <item android:id="@+id/dateFilter" android:title="@string/mDateFilter"></item>
 </menu>

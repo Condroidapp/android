@@ -60,8 +60,8 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 	private void noDataDialog(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(message)
-				.setPositiveButton("Ano", new DialogOnClick())
-				.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.yes, new DialogOnClick())
+				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();
@@ -83,7 +83,7 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 			conventionList = (List<Convention>) list;
 			AlertDialog.Builder builder = new AlertDialog.Builder(
 					WelcomeActivity.this);
-			builder.setTitle("Vyberte con");
+			builder.setTitle(R.string.dPickConvention);
 			String[] items = new String[list.size()];
 			int i = 0;
 			for (Object con : list) {
@@ -96,7 +96,7 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 
 					dataProvider.setConvention(conventionList.get(which));
 					pd = ProgressDialog.show(WelcomeActivity.this, "",
-							"Příprava...", true);
+							getString(R.string.preparing), true);
 					new DataLoadTask(WelcomeActivity.this, pd, dataProvider)
 							.execute(conventionList.get(which).getDataUrl());
 
@@ -112,7 +112,7 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 		public void onClick(DialogInterface dialog, int which) {
 
 			dialog.cancel();
-			pd = ProgressDialog.show(WelcomeActivity.this, "", "Načítám...",
+			pd = ProgressDialog.show(WelcomeActivity.this, "", getString(R.string.loading),
 					true);
 
 			try {

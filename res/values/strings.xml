@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">Condroid</string>
-    <string name="go">GO!</string>
-    <string name="settings">Nastavení</string>
-    <string name="conSelection">Výběr conu</string>
-    <string name="about">O programu</string>
-    <string name="welcome">Vítejte v aplikaci Condroid</string>
-    <string name="refresh">Obnovit</string>
-    <string name="search_hint">Zadejte ID pořadu nebo část názvu</string>
-    <string name="loading">Načítám</string>
+    <string name="appName">Condroid</string>
+    <string name="mAbout">O programu</string>
+    <string name="mRefresh">Obnovit</string>
+    <string name="bReloadCatalog">Obnovit data</string>
+    <string name="sSearchHint">Zadejte ID pořadu nebo část názvu</string>
+    <string name="loading">Načítám...</string>
+    <string name="downloading">Stahuji...</string>
+    <string name="processing">Zpracovávám...</string>
     <string name="search">Hledat</string>
-    <string name="about_name">Condroid v1.0 beta</string>
-    <string name="about_copy_me">&#169; 2011, Jan -Quinix- Langer, Fan-project</string>
-    <string name="about_copy_http">http://condroid.fan-project.com</string>
-    <string name="about_copy_fanp">quinix@quinix.cz</string>
+    <string name="tAboutName">Condroid v1.0 beta</string>
+    <string name="tAboutCopyright">&#169; 2011, Jan -Quinix- Langer, Fan-project</string>
+    <string name="tAboutHttp">http://condroid.fan-project.com</string>
+    <string name="tAboutMail">quinix@quinix.cz</string>
     <string name="bShowActual">Právě běží a následuje</string>
     <string name="bShowAll">Všechny pořady (s filtrováním)</string>
-    <string name="reloadCatalog">Obnovit data</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
     <string name="downloadDialog">Aplikace potřebuje stáhnout cca 1 MB zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. Mimo tyto data se aplikace samovolně k internetu nepřipojuje.\nChcete pokračovat?</string>
-    <string name="lineFilter">Filtr linie</string>
-    <string name="dateFilter">Filtr data</string>
+    <string name="mLineFilter">Filtr linie</string>
+    <string name="mDateFilter">Filtr data</string>
+    <string name="dPickLine">Vyberte linii</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
+    <string name="dPickConvention">Vyberte con</string>
+    <string name="preparing">Příprava...</string>
+    
 </resources>
