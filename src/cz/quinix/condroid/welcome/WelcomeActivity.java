@@ -2,7 +2,6 @@ package cz.quinix.condroid.welcome;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import cz.quinix.condroid.AsyncTaskListener;
+import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.annotations.AllAnotations;
 import cz.quinix.condroid.conventions.Convention;
@@ -20,7 +20,7 @@ import cz.quinix.condroid.conventions.ConventionLoader;
 import cz.quinix.condroid.database.DataLoadTask;
 import cz.quinix.condroid.database.DataProvider;
 
-public class WelcomeActivity extends Activity implements AsyncTaskListener {
+public class WelcomeActivity extends CondroidActivity implements AsyncTaskListener {
 
 	private DataProvider dataProvider = null;
 	public static final String TAG = "Condroid";

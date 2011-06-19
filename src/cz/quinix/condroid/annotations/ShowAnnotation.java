@@ -1,12 +1,12 @@
 package cz.quinix.condroid.annotations;
 
-import cz.quinix.condroid.R;
-import cz.quinix.condroid.database.DataProvider;
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
+import cz.quinix.condroid.CondroidActivity;
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.database.DataProvider;
 
-public class ShowAnnotation extends Activity {
+public class ShowAnnotation extends CondroidActivity {
 	
 	private Annotation annotation;
 	@Override
