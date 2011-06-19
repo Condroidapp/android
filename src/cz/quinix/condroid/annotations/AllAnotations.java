@@ -1,12 +1,16 @@
 package cz.quinix.condroid.annotations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,20 +25,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cz.quinix.condroid.ProgramLine;
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.SearchQueryBuilder;
 import cz.quinix.condroid.database.DataProvider;
 
 public class AllAnotations extends ListActivity {
 
 	private EndlessAdapter adapter;
 	private DataProvider provider;
-	private String search = null;
 	private List<Annotation> annotations;
+	private SearchQueryBuilder searchQuery = null;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		searchQuery = new SearchQueryBuilder();
 		this.provider = DataProvider.getInstance(getApplicationContext());
 		this.handleIntent(this.getIntent());
-		annotations = this.provider.getAnnotations(search, 0);
+		annotations = this.provider.getAnnotations(searchQuery.buildCondition(), 0);
 		this.adapter = new EndlessAdapter(annotations);
 		this.setListAdapter(this.adapter);
 
@@ -55,14 +63,14 @@ public class AllAnotations extends ListActivity {
 		return true;
 	}
 
-		@Override
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.annotations_refresh:
-			this.search = null;
+			this.searchQuery.clear();
 			// refresh deletes search term and page
 			this.annotations.clear();
-			this.annotations.addAll(this.provider.getAnnotations(search, 0));
+			this.annotations.addAll(this.provider.getAnnotations(searchQuery.buildCondition(), 0));
 			this.adapter.refreshDataset();
 
 			return true;
@@ -72,7 +80,36 @@ public class AllAnotations extends ListActivity {
 		case R.id.lineFilter:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.dPickLine);
-			
+
+			HashMap<Integer, String> pl = provider.getProgramLines();
+			final String[] pls = new String[pl.size()];
+
+			int i = 0;
+			for (String p : pl.values()) {
+				pls[i++] = p;
+			}
+			Arrays.sort(pls);
+			builder.setItems(pls, new DialogInterface.OnClickListener() {
+
+				public void onClick(DialogInterface dialog, int which) {
+					int lid = 0;
+					String value = pls[which];
+					for (Entry<Integer, String> entry : provider
+							.getProgramLines().entrySet()) {
+						if (entry.getValue().equals(value)) {
+							lid = entry.getKey();
+							break;
+						}
+					}
+					ProgramLine pl = new ProgramLine();
+					pl.setLid(lid);
+					pl.setName(value);
+					searchQuery.addParam(pl);
+					search();
+				}
+
+			});
+			builder.create().show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -90,21 +127,21 @@ public class AllAnotations extends ListActivity {
 
 	private void handleIntent(Intent intent) {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			search(intent.getStringExtra(SearchManager.QUERY));
+			searchQuery.addParam(intent.getStringExtra(SearchManager.QUERY));
+			search();
 		}
 	}
 
-	private void search(String t) {
-		search = t;
+	private void search() {
+		
 		List<Annotation> foo = new ArrayList<Annotation>();
-		//foo.addAll(this.annotations);
-		foo = this.provider.getAnnotations(search, 0);
+		// foo.addAll(this.annotations);
+		foo = this.provider.getAnnotations(searchQuery.buildCondition(), 0);
 		if (foo.size() > 0) {
 			this.annotations.clear();
 			this.annotations.addAll(foo);
 		} else {
-			Toast.makeText(this,
-					"Nebyly nalezeny žádné anotace obsahující '" + t + "'",
+			Toast.makeText(this, R.string.noAnnotationsFound,
 					Toast.LENGTH_LONG).show();
 		}
 
@@ -115,7 +152,7 @@ public class AllAnotations extends ListActivity {
 		private RotateAnimation rotate;
 		private List<Annotation> itemsToAdd;
 		private int itemsPerPage = 0;
-		
+
 		public EndlessAdapter(List<Annotation> items) {
 			super(new ArrayAdapter<Annotation>(AllAnotations.this,
 					R.layout.annotation_list_item, android.R.id.text1, items));
@@ -129,46 +166,47 @@ public class AllAnotations extends ListActivity {
 
 		@Override
 		protected boolean cacheInBackground() throws Exception {
-			if((this.getCount()-1) % this.itemsPerPage != 0) {
+			if ((this.getCount() - 1) % this.itemsPerPage != 0) {
 				return false;
 			}
-			this.itemsToAdd = provider.getAnnotations(search, (int) (this.getCount() /  this.itemsPerPage));
-			
-			return(this.itemsToAdd.size() == this.itemsPerPage);
+			this.itemsToAdd = provider.getAnnotations(searchQuery.buildCondition(),
+					(int) (this.getCount() / this.itemsPerPage));
+
+			return (this.itemsToAdd.size() == this.itemsPerPage);
 		}
 
 		@Override
 		protected void appendCachedData() {
-			if(this.itemsToAdd != null && this.itemsToAdd.size() > 0) {
+			if (this.itemsToAdd != null && this.itemsToAdd.size() > 0) {
 				@SuppressWarnings("unchecked")
-				ArrayAdapter<Annotation> a = (ArrayAdapter<Annotation>) this.getWrappedAdapter();
-				for (int i = 0; i<this.itemsToAdd.size(); i++) {
+				ArrayAdapter<Annotation> a = (ArrayAdapter<Annotation>) this
+						.getWrappedAdapter();
+				for (int i = 0; i < this.itemsToAdd.size(); i++) {
 					a.add(this.itemsToAdd.get(i));
 				}
 				this.itemsToAdd = null;
 			}
 
 		}
-		
+
 		@Override
 		protected View getPendingView(ViewGroup parent) {
-			//TODO
-			View row=getLayoutInflater().inflate(R.layout.row, null);
-			
-			View child=row.findViewById(R.id.throbber);
+			View row = getLayoutInflater().inflate(R.layout.row, null);
+
+			View child = row.findViewById(R.id.throbber);
 			child.startAnimation(rotate);
-			
-			return(row);
+
+			return (row);
 		}
-		
+
 		@Override
 		public void refreshDataset() {
 			super.refreshDataset();
 			AllAnotations.this.getListView().setSelection(0);
 		}
-		
+
 		public View getView(int position, View convertView, ViewGroup parent) {
-			
+
 			View v = convertView;
 			if (v == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -195,7 +233,7 @@ public class AllAnotations extends ListActivity {
 				TextView tw2 = (TextView) v
 						.findViewById(R.id.annotation_list_author);
 				if (tw2 != null) {
-					tw2.setText(it.getPid() + ", " +it.getAuthor());
+					tw2.setText(it.getPid() + ", " + it.getAuthor());
 				}
 				return v;
 			}

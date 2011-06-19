@@ -62,12 +62,9 @@ public class DataProvider {
 		}
 	}
 
-	public List<Annotation> getAnnotations(String object, int page) {
+	public List<Annotation> getAnnotations(String condition, int page) {
 		List<Annotation> ret = new ArrayList<Annotation>();
-		String condition = "";
-		if(object != null) {
-			condition = "pid LIKE '%"+object+"%' OR title LIKE '%"+object+"%'";
-		}
+		
 		
 		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "title ASC", (page*ITEMS_PER_PAGE) + ","+ ITEMS_PER_PAGE);
 		
@@ -92,12 +89,7 @@ public class DataProvider {
 		ProgramLine pl = new ProgramLine();
 		
 		if(programLines == null) {
-			programLines = new HashMap<Integer, String>();
-			
-			Cursor c = this.mDatabase.query(CondroidDatabase.LINE_TABLE, null, null, null, "title ASC", null);
-			while(c.moveToNext()) {
-				programLines.put(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("title")));
-			}
+			this.loadProgramLines();
 		}
 		if(programLines.containsKey(lid)) {
 			pl.setLid(lid);
@@ -105,6 +97,22 @@ public class DataProvider {
 		}
 		
 		return pl;
+	}
+
+	public HashMap<Integer, String> getProgramLines() {
+		if(programLines == null) {
+			this.loadProgramLines();
+		}
+		return programLines;
+	}
+	
+	private void loadProgramLines() {
+		programLines = new HashMap<Integer, String>();
+		
+		Cursor c = this.mDatabase.query(CondroidDatabase.LINE_TABLE, null, null, null, "title ASC", null);
+		while(c.moveToNext()) {
+			programLines.put(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("title")));
+		}
 	}
 	
 	

@@ -1,6 +1,6 @@
 package cz.quinix.condroid;
 
-public class ProgramLine {
+public class ProgramLine implements ICondition {
 	private int lid;
 	private String name;
 	private String place;
@@ -16,6 +16,9 @@ public class ProgramLine {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getCondition() {
+		return "lid = "+lid;
 	}
 	
 	
