@@ -1,5 +1,8 @@
 package cz.quinix.condroid;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +30,19 @@ public class SearchQueryBuilder {
 		return this;
 	}
 	
+	public void addParam(Date d) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		final String date = df.format(d);
+		d.setDate(d.getDate()+1);
+		final String date2 = df.format(d);
+		this.addParam(new ICondition() {
+			
+			public String getCondition() {
+				return "(startTime >=DATE('"+ date + "') AND startTime < DATE('"+ date2 +"'))";
+			}
+		});
+	}
+	
 	public String buildCondition() {
 		String condition = "";
 		for (String key : params.keySet()) {
@@ -42,6 +58,8 @@ public class SearchQueryBuilder {
 	public void clear() {
 		params.clear();
 	}
+
+	
 
 	
 

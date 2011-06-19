@@ -1,6 +1,7 @@
 package cz.quinix.condroid.annotations;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,9 +122,10 @@ public class AllAnotations extends ListActivity {
 			build.setTitle(R.string.dPickDate);
 			List<Date> dates = provider.getDates();
 			
-			String[] ds = new String[dates.size()];
+			final String[] ds = new String[dates.size()];
 			int j=0;
-			DateFormat df = new SimpleDateFormat("EEEE d. M.", new Locale("cs", "CZ"));
+			DateFormat df = new SimpleDateFormat("EEEE d. M. yyyy", new Locale("cs", "CZ"));
+			
 			for (Date date : dates) {
 				char[] c = df.format(date).toCharArray();
 				c[0] = Character.toUpperCase(c[0]);
@@ -132,7 +134,15 @@ public class AllAnotations extends ListActivity {
 			build.setItems(ds, new DialogInterface.OnClickListener() {
 				
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
+					DateFormat df = new SimpleDateFormat("EEEE d. M. yyyy", new Locale("cs","CZ"));
+					try {
+						Date d = df.parse(ds[which]);
+						searchQuery.addParam(d);
+						search();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 				}
 			});
