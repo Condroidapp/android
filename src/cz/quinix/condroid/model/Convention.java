@@ -22,7 +22,16 @@ public class Convention implements Serializable, DBInsertable {
 	private String date = "";
 	private int cid = 0;
 	private String dataUrl;
+	private String message;
 	
+	
+	
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message.trim();
+	}
 	public int getCid() {
 		return cid;
 	}
@@ -88,6 +97,7 @@ public class Convention implements Serializable, DBInsertable {
 		ret.put("iconUrl", iconUrl);
 		ret.put("name", name);
 		ret.put("dataUrl", dataUrl);
+		ret.put("message", message);
 		
 		return ret;
 	}

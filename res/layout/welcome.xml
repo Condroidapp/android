@@ -6,9 +6,18 @@
   android:layout_height="fill_parent" android:layout_gravity="center_vertical" android:gravity="center_horizontal">
     <ImageView android:layout_height="wrap_content" android:src="@drawable/logo" android:layout_width="wrap_content" android:id="@+id/imageView1" android:paddingBottom="30dp" android:paddingTop="20dp"></ImageView>
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:orientation="vertical" android:gravity="center_horizontal" android:padding="25dp">
-        <Button android:layout_height="wrap_content" android:text="@string/bShowActual" android:id="@+id/bShowActual" android:layout_width="fill_parent"></Button>
-        <Button android:layout_height="wrap_content" android:text="@string/bShowAll" android:id="@+id/bShowAll" android:layout_width="fill_parent"></Button>
-        <Button android:layout_height="wrap_content" android:id="@+id/bReload" android:layout_width="fill_parent" android:text="@string/bReloadCatalog"></Button>
+        <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/linearLayout3" android:paddingBottom="10dp">
+            <Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/bShowActual" android:id="@+id/bShowActual"></Button>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:orientation="vertical" android:paddingBottom="10dp">
+            <Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/bShowAll" android:id="@+id/bShowAll"></Button>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:orientation="vertical">
+            <Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/bReloadCatalog" android:id="@+id/bReload"></Button>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout5" android:orientation="vertical" android:layout_height="fill_parent" android:padding="10dp">
+        <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tMessage" android:text="" android:lineSpacingExtra="7dp"></TextView>
     </LinearLayout>
     
 </LinearLayout>

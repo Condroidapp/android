@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
@@ -19,7 +20,8 @@ import cz.quinix.condroid.loader.ConventionLoader;
 import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Convention;
 
-public class WelcomeActivity extends CondroidActivity implements AsyncTaskListener {
+public class WelcomeActivity extends CondroidActivity implements
+		AsyncTaskListener {
 
 	private DataProvider dataProvider = null;
 	public static final String TAG = "Condroid";
@@ -33,49 +35,63 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 		this.setContentView(R.layout.welcome);
 		dataProvider = DataProvider.getInstance(getApplicationContext());
 		if (!dataProvider.hasData()) {
-			this.noDataDialog(getString(R.string.noData)+" "+getString(R.string.downloadDialog));
+			this.noDataDialog(getString(R.string.noData) + " "
+					+ getString(R.string.downloadDialog));
 		}
-		
-		Button refresh = (Button) this.findViewById(R.id.bReload); 
+		else {
+			loadMessage();
+		}
+
+		Button refresh = (Button) this.findViewById(R.id.bReload);
 		refresh.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				noDataDialog(getString(R.string.downloadDialog));
-				
+
 			}
 		});
-		
+
 		Button all = (Button) findViewById(R.id.bShowAll);
 		all.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
-				Intent intent = new Intent(WelcomeActivity.this, AllAnotations.class);
+				Intent intent = new Intent(WelcomeActivity.this,
+						AllAnotations.class);
 				startActivity(intent);
-				
+
 			}
 		});
-		
+
 		Button now = (Button) findViewById(R.id.bShowActual);
 		now.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
-				Intent intent = new Intent(WelcomeActivity.this, RunningActivity.class);
+				Intent intent = new Intent(WelcomeActivity.this,
+						RunningActivity.class);
 				startActivity(intent);
-				
+
 			}
 		});
+	}
+	
+	private void loadMessage() {
+		Convention con = dataProvider.getCon();
+		TextView tw = (TextView) findViewById(R.id.tMessage);
+		tw.setText(con.getMessage());
 	}
 
 	private void noDataDialog(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(message)
 				.setPositiveButton(R.string.yes, new DialogOnClick())
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.no,
+						new DialogInterface.OnClickListener() {
 
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}
-				});
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
+						});
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
@@ -113,6 +129,9 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 			});
 			AlertDialog d = builder.create();
 			d.show();
+		} 
+		else {
+			loadMessage();
 		}
 	}
 
@@ -121,8 +140,8 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 		public void onClick(DialogInterface dialog, int which) {
 
 			dialog.cancel();
-			pd = ProgressDialog.show(WelcomeActivity.this, "", getString(R.string.loading),
-					true);
+			pd = ProgressDialog.show(WelcomeActivity.this, "",
+					getString(R.string.loading), true);
 
 			try {
 				new ConventionLoader(WelcomeActivity.this).execute();

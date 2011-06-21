@@ -64,7 +64,8 @@ public class CondroidDatabase {
 			"\"name\"  TEXT(255)NOT NULL,"+
 			"\"date\"  TEXT(255) NOT NULL,"+
 			"\"iconUrl\"  TEXT(255) NOT NULL,"+
-			"\"dataUrl\"  TEXT(255)"+
+			"\"dataUrl\"  TEXT(255)," +
+			"\"message\" TEXT"+
 			");";
 			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \""+ ANNOTATION_TABLE +"\" ( "+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+

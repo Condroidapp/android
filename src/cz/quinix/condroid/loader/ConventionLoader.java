@@ -74,6 +74,9 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 						if (name.equalsIgnoreCase("data-url")) {
 							con.setDataUrl(pull.nextText());
 						}
+						if (name.equalsIgnoreCase("message")) {
+							con.setMessage(pull.nextText());
+						}
 					}
 					break;
 

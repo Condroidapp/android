@@ -182,6 +182,24 @@ public class DataProvider {
 		annotation.setType(c.getString(c.getColumnIndex("type")));
 		return annotation;
 	}
+
+	public Convention getCon() {
+		if (this.con != null) {
+			return con;
+		}
+		Cursor c = this.mDatabase.query(CondroidDatabase.CON_TABLE, null, null, null, null, null);
+		Convention co = new Convention(); 
+		while (c.moveToNext()) {
+			co.setCid(c.getInt(c.getColumnIndex("id")));
+			co.setDataUrl(c.getString(c.getColumnIndex("dataUrl")));
+			co.setDate(c.getString(c.getColumnIndex("date")));
+			co.setIconUrl(c.getString(c.getColumnIndex("iconUrl")));
+			co.setName(c.getString(c.getColumnIndex("name")));
+			co.setMessage(c.getString(c.getColumnIndex("message")));			
+		}
+		this.con = co;
+		return co;
+	}
 	
 	
 
