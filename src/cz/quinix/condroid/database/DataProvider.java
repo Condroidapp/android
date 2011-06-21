@@ -70,7 +70,7 @@ public class DataProvider {
 		List<Annotation> ret = new ArrayList<Annotation>();
 		
 		
-		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "title ASC", (page*ITEMS_PER_PAGE) + ","+ ITEMS_PER_PAGE);
+		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "startTime ASC, lid ASC, title ASC", (page*ITEMS_PER_PAGE) + ","+ ITEMS_PER_PAGE);
 		
 		while(c.moveToNext()) {
 			
