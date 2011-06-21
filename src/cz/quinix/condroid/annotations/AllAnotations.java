@@ -12,7 +12,6 @@ import java.util.Locale;
 import java.util.Map.Entry;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,17 +27,16 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+import cz.quinix.condroid.CondroidListActivity;
 import cz.quinix.condroid.ProgramLine;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.SearchQueryBuilder;
 import cz.quinix.condroid.database.DataProvider;
 
-public class AllAnotations extends ListActivity {
+public class AllAnotations extends CondroidListActivity {
 
 	private EndlessAdapter adapter;
-	private DataProvider provider;
 	private List<Annotation> annotations;
 	private SearchQueryBuilder searchQuery = null;
 
@@ -257,23 +255,8 @@ public class AllAnotations extends ListActivity {
 
 			}
 			if (it != null) {
-
-				TextView tw = (TextView) v
-						.findViewById(R.id.annotation_list_title);
-				if (tw != null) {
-					tw.setText(it.getTitle());
-				}
-				TextView tw3 = (TextView) v
-						.findViewById(R.id.annotation_list_info);
-				if (tw != null) {
-					tw3.setText(provider.getProgramLine(it.getLid()).getName());
-				}
-				TextView tw2 = (TextView) v
-						.findViewById(R.id.annotation_list_author);
-				if (tw2 != null) {
-					tw2.setText(it.getPid() + ", " + it.getAuthor());
-				}
-				return v;
+				return inflanteAnnotation(v, it);
+				
 			}
 			return super.getView(position, convertView, parent);
 		}

@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent" android:gravity="center_horizontal">
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:id="@+id/tRunningTitle"></TextView>
+  android:layout_height="fill_parent" android:gravity="center_horizontal" android:background="@drawable/textlines">
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:id="@+id/tRunningTitle" android:padding="10dp" android:textSize="16dp" android:textStyle="bold"></TextView>
     
 </LinearLayout>

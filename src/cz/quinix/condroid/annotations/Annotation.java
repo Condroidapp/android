@@ -22,12 +22,12 @@ public class Annotation implements Serializable, DBInsertable {
 	private String length;
 	private String type;
 	private String programLine;
-	private String annotation;
+	private String annotation ="";
 	private Date startTime;
 	private Date endTime;
 
 	private int lid;
-	static DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+	static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	public Date getStartTime() {
 		return startTime;

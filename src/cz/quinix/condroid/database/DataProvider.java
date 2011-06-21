@@ -134,7 +134,13 @@ public class DataProvider {
 		
 		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')", null, "startTime DESC", null, false, null);
 		while (c.moveToNext()) {
-			
+			if(c.isFirst()) {
+				Annotation a = new Annotation();
+				a.setTitle("break");
+				a.setStartTime(c.getString(c.getColumnIndex("startTime")));
+				a.setAnnotation("now");
+				l.add(a);
+			}
 			
 			Annotation annotation = readAnnotation(c);
 			
