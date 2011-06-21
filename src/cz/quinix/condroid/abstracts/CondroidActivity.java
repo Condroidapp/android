@@ -1,4 +1,4 @@
-package cz.quinix.condroid;
+package cz.quinix.condroid.abstracts;
 
 
 import android.app.Activity;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import cz.quinix.condroid.AboutActivity;
+import cz.quinix.condroid.R;
 
 public abstract class CondroidActivity extends Activity {
 

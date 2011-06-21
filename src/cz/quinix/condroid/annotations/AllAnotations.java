@@ -28,10 +28,10 @@ import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import cz.quinix.condroid.CondroidListActivity;
 import cz.quinix.condroid.ProgramLine;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.SearchQueryBuilder;
+import cz.quinix.condroid.abstracts.CondroidListActivity;
 import cz.quinix.condroid.database.DataProvider;
 
 public class AllAnotations extends CondroidListActivity {

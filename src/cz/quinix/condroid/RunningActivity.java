@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import cz.quinix.condroid.abstracts.CondroidListActivity;
 import cz.quinix.condroid.annotations.Annotation;
 import cz.quinix.condroid.annotations.ShowAnnotation;
 import cz.quinix.condroid.database.DataProvider;

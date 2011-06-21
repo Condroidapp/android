@@ -8,9 +8,9 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import cz.quinix.condroid.AsyncTaskListener;
-import cz.quinix.condroid.ListenedAsyncTask;
 import cz.quinix.condroid.XMLProccessException;
+import cz.quinix.condroid.abstracts.AsyncTaskListener;
+import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.welcome.WelcomeActivity;
 
 import android.util.Log;

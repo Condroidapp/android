@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import cz.quinix.condroid.abstracts.ICondition;
+
 import android.util.Log;
 
 public class SearchQueryBuilder {

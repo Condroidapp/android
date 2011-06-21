@@ -1,5 +1,6 @@
 package cz.quinix.condroid;
 
+import cz.quinix.condroid.abstracts.CondroidActivity;
 import android.os.Bundle;
 
 public class AboutActivity extends CondroidActivity {

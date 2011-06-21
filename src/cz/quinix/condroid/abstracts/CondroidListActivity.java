@@ -1,21 +1,21 @@
-package cz.quinix.condroid;
+package cz.quinix.condroid.abstracts;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import cz.quinix.condroid.annotations.Annotation;
-import cz.quinix.condroid.database.DataProvider;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import cz.quinix.condroid.AboutActivity;
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.annotations.Annotation;
+import cz.quinix.condroid.database.DataProvider;
 
-public class CondroidListActivity extends ListActivity {
+public abstract class CondroidListActivity extends ListActivity {
 
 	protected DataProvider provider;
 	
@@ -38,7 +38,7 @@ public class CondroidListActivity extends ListActivity {
 		}
 	}
 	private static DateFormat df = new SimpleDateFormat("HH:mm");
-	protected View inflanteAnnotation(View v, Annotation annotation) {
+	public View inflanteAnnotation(View v, Annotation annotation) {
 	
 		TextView tw = (TextView) v.findViewById(R.id.alTitle);
 		if (tw != null) {

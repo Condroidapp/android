@@ -1,5 +1,7 @@
 package cz.quinix.condroid;
 
+import cz.quinix.condroid.abstracts.ICondition;
+
 public class ProgramLine implements ICondition {
 	private int lid;
 	private String name;

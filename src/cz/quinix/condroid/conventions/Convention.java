@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import cz.quinix.condroid.DBInsertable;
+import cz.quinix.condroid.abstracts.DBInsertable;
 
 import android.content.ContentValues;
 import android.graphics.Bitmap;

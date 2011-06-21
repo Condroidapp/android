@@ -1,4 +1,4 @@
-package cz.quinix.condroid;
+package cz.quinix.condroid.abstracts;
 
 public interface ICondition {
 

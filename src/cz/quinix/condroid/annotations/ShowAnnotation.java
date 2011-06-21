@@ -2,8 +2,8 @@ package cz.quinix.condroid.annotations;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 
 public class ShowAnnotation extends CondroidActivity {

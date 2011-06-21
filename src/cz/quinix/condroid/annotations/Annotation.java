@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.ContentValues;
-import cz.quinix.condroid.DBInsertable;
+import cz.quinix.condroid.abstracts.DBInsertable;
 
 public class Annotation implements Serializable, DBInsertable {
 

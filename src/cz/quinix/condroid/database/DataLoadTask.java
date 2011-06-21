@@ -10,9 +10,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ProgressDialog;
 import android.util.Xml;
-import cz.quinix.condroid.AsyncTaskListener;
-import cz.quinix.condroid.ListenedAsyncTask;
 import cz.quinix.condroid.XMLProccessException;
+import cz.quinix.condroid.abstracts.AsyncTaskListener;
+import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.annotations.Annotation;
 
 public class DataLoadTask extends ListenedAsyncTask<String, String> {
