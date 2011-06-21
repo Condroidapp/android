@@ -10,10 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import cz.quinix.condroid.AboutActivity;
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.annotations.Annotation;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.AboutActivity;
 
 public abstract class CondroidListActivity extends ListActivity {
 

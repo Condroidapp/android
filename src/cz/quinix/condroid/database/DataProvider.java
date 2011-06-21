@@ -12,10 +12,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-import cz.quinix.condroid.ProgramLine;
-import cz.quinix.condroid.annotations.Annotation;
-import cz.quinix.condroid.conventions.Convention;
-import cz.quinix.condroid.welcome.WelcomeActivity;
+import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.model.ProgramLine;
+import cz.quinix.condroid.ui.WelcomeActivity;
 
 public class DataProvider {
 	

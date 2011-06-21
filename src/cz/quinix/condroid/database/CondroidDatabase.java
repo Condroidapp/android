@@ -8,8 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import cz.quinix.condroid.annotations.Annotation;
-import cz.quinix.condroid.conventions.Convention;
+import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.model.Convention;
 
 public class CondroidDatabase {
 	public static final String TAG = "Condroid database";

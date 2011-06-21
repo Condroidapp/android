@@ -1,8 +1,7 @@
-package cz.quinix.condroid;
+package cz.quinix.condroid.ui;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,10 +17,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidListActivity;
-import cz.quinix.condroid.annotations.Annotation;
-import cz.quinix.condroid.annotations.ShowAnnotation;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.model.Annotation;
 
 public class RunningActivity extends CondroidListActivity {
 

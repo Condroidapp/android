@@ -4,22 +4,22 @@
       android:versionCode="1"
       android:versionName="1.0">
       <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@android:style/Theme.Light.NoTitleBar">
-        <activity android:name=".annotations.AllAnotations" android:launchMode="singleTop">
+        <activity android:name=".ui.AllAnotations" android:launchMode="singleTop">
         	<intent-filter>
             	<action android:name="android.intent.action.SEARCH" />
         		</intent-filter>
        			 <meta-data android:name="android.app.searchable"
                    	android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".annotations.ShowAnnotation"></activity>
-        <activity android:name="AboutActivity"></activity>
-        <activity android:name=".welcome.WelcomeActivity" android:label="@string/appName">
+        <activity android:name=".ui.ShowAnnotation"></activity>
+        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:label="@string/appName" android:name=".ui.WelcomeActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
                 <action android:name="android.intent.action.MAIN"></action>
             </intent-filter>
         </activity>
-        <activity android:name="RunningActivity"></activity>
+        <activity android:name=".ui.RunningActivity"></activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
