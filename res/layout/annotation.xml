@@ -5,7 +5,7 @@
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:background="@drawable/textlines" android:orientation="vertical" android:padding="5dp">
         <TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="TextView" android:textStyle="bold" android:paddingBottom="2dp" android:id="@+id/annot_title" android:textSize="18dp"></TextView>
         <TextView android:text="TextView" android:layout_width="fill_parent" android:textSize="18dp" android:id="@+id/annot_author" android:layout_height="wrap_content" android:paddingBottom="2dp"></TextView>
-        
+        <TextView android:text="TextView" android:layout_width="fill_parent" android:textSize="14dp" android:layout_height="wrap_content" android:id="@+id/annot_line"></TextView>
         <TextView android:text="TextView" android:layout_width="fill_parent" android:textSize="14dp" android:textColor="@color/gray" android:layout_height="wrap_content" android:id="@+id/annot_info"></TextView>
         
     </LinearLayout>
