@@ -45,7 +45,11 @@ public class CondroidDatabase {
 	}
 	
 	public Cursor query (String table, String[] columns, String condition, String[] conditionArgs, String orderBy, String limit) {
-		return this.mDatabaseHelper.getReadableDatabase().query(table, columns, condition, conditionArgs, null, null, orderBy, limit);
+		return query(table, columns, condition, conditionArgs, orderBy, limit, false, null);
+	}
+	
+	public Cursor query (String table, String[] columns, String condition, String[] conditionArgs, String orderBy, String limit, boolean distinct, String groupBy) {
+		return this.mDatabaseHelper.getReadableDatabase().query(distinct, table, columns, condition, conditionArgs, groupBy, null, orderBy, limit);
 	}
 	
 	

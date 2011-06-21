@@ -14,6 +14,7 @@ import android.widget.Button;
 import cz.quinix.condroid.AsyncTaskListener;
 import cz.quinix.condroid.CondroidActivity;
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.RunningActivity;
 import cz.quinix.condroid.annotations.AllAnotations;
 import cz.quinix.condroid.conventions.Convention;
 import cz.quinix.condroid.conventions.ConventionLoader;
@@ -51,6 +52,16 @@ public class WelcomeActivity extends CondroidActivity implements AsyncTaskListen
 			
 			public void onClick(View v) {
 				Intent intent = new Intent(WelcomeActivity.this, AllAnotations.class);
+				startActivity(intent);
+				
+			}
+		});
+		
+		Button now = (Button) findViewById(R.id.bShowActual);
+		now.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent(WelcomeActivity.this, RunningActivity.class);
 				startActivity(intent);
 				
 			}

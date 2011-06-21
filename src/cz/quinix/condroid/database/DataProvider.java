@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import android.content.Context;
@@ -74,17 +75,8 @@ public class DataProvider {
 		
 		while(c.moveToNext()) {
 			
-			Annotation annotation = new Annotation();
-			annotation.setPid(c.getString(c.getColumnIndex("pid")));
-			annotation.setTitle(c.getString(c.getColumnIndex("title")));
-			annotation.setAnnotation(c.getString(c.getColumnIndex("annotation")));
-			annotation.setAuthor(c.getString(c.getColumnIndex("talker")));
-			annotation.setEndTime(c.getString(c.getColumnIndex("endTime")));
-			annotation.setLength(c.getString(c.getColumnIndex("length")));
-			annotation.setLid(c.getInt(c.getColumnIndex("lid")));
-			annotation.setStartTime(c.getString(c.getColumnIndex("startTime")));
-			annotation.setType(c.getString(c.getColumnIndex("type")));
-			ret.add(annotation);
+			
+			ret.add(readAnnotation(c));
 		}
 		return ret;
 	}
@@ -134,6 +126,56 @@ public class DataProvider {
 		}
 		
 		return map;
+	}
+
+	
+	public List<Annotation> getRunningAndNext() {
+		List<Annotation> l = new ArrayList<Annotation>();
+		
+		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')", null, "startTime DESC", null, false, null);
+		while (c.moveToNext()) {
+			
+			
+			Annotation annotation = readAnnotation(c);
+			
+			l.add(annotation);
+			
+		}
+		
+		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')", null, "startTime ASC, lid ASC", "0,100", false, null);
+		String previous = "";
+		int hours = 0;
+		while (c2.moveToNext()) {
+			if (!previous.equals(c2.getString(c2.getColumnIndex("startTime")))) {
+				if(hours++ > 5) break;
+				Annotation a = new Annotation();
+				a.setTitle("break");
+				a.setStartTime(c2.getString(c2.getColumnIndex("startTime")));
+				l.add(a);
+				previous = c2.getString(c2.getColumnIndex("startTime"));
+			}
+			
+			Annotation annotation = readAnnotation(c2);
+
+			l.add(annotation);
+			
+		}
+		
+		return l;
+	}
+	
+	private Annotation readAnnotation(Cursor c) {
+		Annotation annotation = new Annotation();
+		annotation.setPid(c.getString(c.getColumnIndex("pid")));
+		annotation.setTitle(c.getString(c.getColumnIndex("title")));
+		annotation.setAnnotation(c.getString(c.getColumnIndex("annotation")));
+		annotation.setAuthor(c.getString(c.getColumnIndex("talker")));
+		annotation.setEndTime(c.getString(c.getColumnIndex("endTime")));
+		annotation.setLength(c.getString(c.getColumnIndex("length")));
+		annotation.setLid(c.getInt(c.getColumnIndex("lid")));
+		annotation.setStartTime(c.getString(c.getColumnIndex("startTime")));
+		annotation.setType(c.getString(c.getColumnIndex("type")));
+		return annotation;
 	}
 	
 	
