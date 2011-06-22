@@ -123,7 +123,9 @@ public class DataLoader extends ListenedAsyncTask<String, String> {
 		//	this.message = e.getMessage();
 		}
 		this.publishProgress("Zpracovávám...");
-		db.insert((List<Annotation>) messages);
+		if(messages.size() > 0) {
+			db.insert((List<Annotation>) messages);
+		}
 		return messages;
 		
 	}

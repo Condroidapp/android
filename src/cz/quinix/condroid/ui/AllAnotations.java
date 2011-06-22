@@ -203,7 +203,7 @@ public class AllAnotations extends CondroidListActivity {
 
 		@Override
 		protected boolean cacheInBackground() throws Exception {
-			if ((this.getCount() - 1) % this.itemsPerPage != 0) {
+			if (this.itemsPerPage == 0 || ((this.getCount() - 1) % this.itemsPerPage != 0)) {
 				return false;
 			}
 			this.itemsToAdd = provider.getAnnotations(searchQuery.buildCondition(),

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
@@ -37,8 +38,7 @@ public class WelcomeActivity extends CondroidActivity implements
 		if (!dataProvider.hasData()) {
 			this.noDataDialog(getString(R.string.noData) + " "
 					+ getString(R.string.downloadDialog));
-		}
-		else {
+		} else {
 			loadMessage();
 		}
 
@@ -73,7 +73,7 @@ public class WelcomeActivity extends CondroidActivity implements
 			}
 		});
 	}
-	
+
 	private void loadMessage() {
 		Convention con = dataProvider.getCon();
 		TextView tw = (TextView) findViewById(R.id.tMessage);
@@ -90,8 +90,16 @@ public class WelcomeActivity extends CondroidActivity implements
 							public void onClick(DialogInterface dialog,
 									int which) {
 								dialog.cancel();
+								if (!dataProvider.hasData()) {
+									Toast.makeText(
+											WelcomeActivity.this,
+											"Condroid nemá data se kterými by mohl pracovat, proto se nyní ukončí.",
+											Toast.LENGTH_LONG).show();
+									WelcomeActivity.this.finish();
+								}
 							}
 						});
+		builder.setCancelable(false);
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
@@ -105,6 +113,12 @@ public class WelcomeActivity extends CondroidActivity implements
 
 		if (list != null) {
 			// conventions downloaded
+			if (list.size() == 0) {
+				Toast.makeText(this,
+						"Chyba při stahování, zkuste to prosím později.",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
 			conventionList = (List<Convention>) list;
 			AlertDialog.Builder builder = new AlertDialog.Builder(
 					WelcomeActivity.this);
@@ -129,8 +143,14 @@ public class WelcomeActivity extends CondroidActivity implements
 			});
 			AlertDialog d = builder.create();
 			d.show();
-		} 
-		else {
+		} else {
+			if (!dataProvider.hasData()) {
+				Toast.makeText(this,
+						"Chyba při stahování, zkuste to prosím později.",
+						Toast.LENGTH_LONG).show();
+				return;
+
+			}
 			loadMessage();
 		}
 	}
