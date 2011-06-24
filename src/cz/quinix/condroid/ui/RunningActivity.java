@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
@@ -84,7 +85,12 @@ class CategoryAdapter extends ArrayAdapter<Annotation> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Annotation it = this.getItem(position);
 
-		View v = this.getLayout(it);
+		View v = convertView;
+		if (v == null) {
+			LayoutInflater vi = (LayoutInflater) caller.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			v = vi.inflate(R.layout.annotation_list_item, null);
+		}
+		setLayout(v, it);
 		if (it != null) {
 			if (it.getTitle() == "break") {
 				TextView tw = (TextView) v.findViewById(R.id.tRunningTitle);
@@ -103,16 +109,17 @@ class CategoryAdapter extends ArrayAdapter<Annotation> {
 
 		return super.getView(position, convertView, parent);
 	}
-
-	private View getLayout(Annotation it) {
-		if (it.getTitle() == "break") {
-			LayoutInflater vi = (LayoutInflater) caller
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			return vi.inflate(R.layout.running_simple, null);
+	
+	private void setLayout(View v, Annotation item) {
+		LinearLayout title = (LinearLayout) v.findViewById(R.id.ldateLayout);
+		LinearLayout itemL = (LinearLayout) v.findViewById(R.id.lItemLayout);
+		if(item.getTitle() == "break") {
+			title.setVisibility(View.VISIBLE);
+			itemL.setVisibility(View.GONE);
 		} else {
-			LayoutInflater vi = (LayoutInflater) caller
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			return vi.inflate(R.layout.annotation_list_item, null);
+			itemL.setVisibility(View.VISIBLE);
+			title.setVisibility(View.GONE);
 		}
 	}
+
 }

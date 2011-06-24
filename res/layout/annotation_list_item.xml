@@ -3,7 +3,17 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:orientation="vertical">
-    <TextView android:text="TextView" android:layout_height="wrap_content" android:layout_width="fill_parent" android:padding="4dp" android:textStyle="bold" android:textSize="15dp" android:id="@+id/alTitle"></TextView>
-    <TextView android:text="TextView" android:layout_height="wrap_content" android:paddingLeft="4dp" android:paddingRight="4dp" android:layout_width="fill_parent" android:paddingTop="0dp" android:id="@+id/alSecondLine"></TextView>
-    <TextView android:text="TextView" android:layout_height="wrap_content" android:padding="4dp" android:layout_width="fill_parent" android:id="@+id/alThirdLine" android:textColor="@color/gray"></TextView>
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/lItemLayout">
+        <TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="TextView" android:textStyle="bold" android:id="@+id/alTitle" android:padding="4dp" android:textSize="15dp"></TextView>
+        <TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:paddingLeft="4dp" android:text="TextView" android:paddingTop="0dp" android:paddingRight="4dp" android:id="@+id/alSecondLine"></TextView>
+        <TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="TextView" android:id="@+id/alThirdLine" android:textColor="@color/gray" android:padding="4dp"></TextView>
+    </LinearLayout>
+    <LinearLayout
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" android:gravity="center_horizontal" android:background="@drawable/textlines" android:id="@+id/ldateLayout" android:visibility="gone">
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:id="@+id/tRunningTitle" android:padding="10dp" android:textSize="16dp" android:textStyle="bold"></TextView>
+    
 </LinearLayout>
+</LinearLayout>
+

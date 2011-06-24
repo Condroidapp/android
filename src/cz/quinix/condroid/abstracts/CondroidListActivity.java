@@ -51,20 +51,22 @@ public abstract class CondroidListActivity extends ListActivity {
 		if (tw != null) {
 			tw.setText(annotation.getTitle());
 		}
-		TextView tw3 = (TextView) v.findViewById(R.id.alThirdLine);
-		if (tw != null) {
-			tw3.setText(provider.getProgramLine(annotation.getLid()).getName());
-		}
 		TextView tw2 = (TextView) v.findViewById(R.id.alSecondLine);
+		
+		if (tw != null) {
+			
+			tw2.setText(annotation.getAuthor());
+		}
+		TextView tw3 = (TextView) v.findViewById(R.id.alThirdLine);
 		if (tw2 != null) {
 			String date = "";
 			if (annotation.getStartTime() != null
 					&& annotation.getEndTime() != null) {
-				date = formatDate(annotation.getStartTime()) + " - "
-						+ todayFormat.format(annotation.getEndTime()) + ", ";
+				date = ", " + formatDate(annotation.getStartTime()) + " - "
+						+ todayFormat.format(annotation.getEndTime());
 			}
-
-			tw2.setText(date + annotation.getAuthor());
+			tw3.setText(provider.getProgramLine(annotation.getLid()).getName() + ", "+ annotation.getType() + date);
+			
 		}
 		return v;
 	}

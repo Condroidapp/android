@@ -22,7 +22,7 @@ public class Convention implements Serializable, DBInsertable {
 	private String date = "";
 	private int cid = 0;
 	private String dataUrl;
-	private String message;
+	private String message ="";
 	
 	
 	

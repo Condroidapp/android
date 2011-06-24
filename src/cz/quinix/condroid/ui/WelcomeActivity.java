@@ -76,8 +76,10 @@ public class WelcomeActivity extends CondroidActivity implements
 
 	private void loadMessage() {
 		Convention con = dataProvider.getCon();
-		TextView tw = (TextView) findViewById(R.id.tMessage);
-		tw.setText(con.getMessage());
+		if(con != null) {
+			TextView tw = (TextView) findViewById(R.id.tMessage);
+			tw.setText(con.getMessage());
+		}
 	}
 
 	private void noDataDialog(String message) {
