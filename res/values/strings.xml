@@ -9,8 +9,8 @@
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
     <string name="search">Hledat</string>
-    <string name="tAboutName">Condroid v2.0 beta</string>
-    <string name="tAboutCopyright">&#169; 2011, Jan -Quinix- Langer, Fan-project</string>
+    <string name="tAboutName">Condroid v2.0</string>
+    <string name="tAboutCopyright">&#169; 2011, Jan -Quinix- Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
     <string name="bShowActual">Právě běží a následuje</string>
