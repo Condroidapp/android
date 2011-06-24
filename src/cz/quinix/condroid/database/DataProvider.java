@@ -131,7 +131,7 @@ public class DataProvider {
 	public List<Annotation> getRunningAndNext() {
 		List<Annotation> l = new ArrayList<Annotation>();
 		
-		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')", null, "startTime DESC", null, false, null);
+		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now','localtime') AND endTime > DATETIME('now','localtime')", null, "startTime DESC", null, false, null);
 		while (c.moveToNext()) {
 			if(c.isFirst()) {
 				Annotation a = new Annotation();
@@ -147,7 +147,7 @@ public class DataProvider {
 			
 		}
 		
-		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')", null, "startTime ASC, lid ASC", "0,100", false, null);
+		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now','localtime')", null, "startTime ASC, lid ASC", "0,100", false, null);
 		String previous = "";
 		int hours = 0;
 		while (c2.moveToNext()) {

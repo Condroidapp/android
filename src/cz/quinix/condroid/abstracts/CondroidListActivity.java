@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -72,7 +73,7 @@ public abstract class CondroidListActivity extends ListActivity {
 	}
 
 	private String formatDate(Date date) {
-		Calendar today = Calendar.getInstance(new Locale("cs", "CZ"));
+		Calendar today = Calendar.getInstance(TimeZone.getTimeZone("Europe/Prague"), new Locale("cs", "CZ"));
 		today.setTime(new Date());
 
 		Calendar compared = Calendar.getInstance();

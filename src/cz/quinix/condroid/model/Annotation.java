@@ -5,8 +5,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import android.content.ContentValues;
+import android.text.StaticLayout;
 import cz.quinix.condroid.abstracts.DBInsertable;
 
 public class Annotation implements Serializable, DBInsertable {
@@ -25,9 +28,12 @@ public class Annotation implements Serializable, DBInsertable {
 	private String annotation ="";
 	private Date startTime;
 	private Date endTime;
-
+	static DateFormat df;
 	private int lid;
-	static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	static {
+		df = new SimpleDateFormat("yyyy-MM-dd HH:mm", new Locale("cs", "CZ"));
+		df.setTimeZone(TimeZone.getDefault());
+	}
 
 	public Date getStartTime() {
 		return startTime;
