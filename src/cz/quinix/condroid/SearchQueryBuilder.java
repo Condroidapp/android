@@ -31,6 +31,20 @@ public class SearchQueryBuilder {
 		this.params.put(value.getClass().getName(), value.getCondition());
 		return this;
 	}
+	public SearchQueryBuilder addParam (ICondition value, String key) {
+		this.params.put(key, value.getCondition());
+		return this;
+	}
+	
+	public SearchQueryBuilder removeParam (Object value) {
+		this.params.remove(value.getClass().getName());
+		return this;
+	}
+	
+	public boolean hasParam (Object value) {
+		return this.params.containsKey(value.getClass().getName());
+		
+	}
 	
 	public void addParam(Date d) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -39,10 +53,12 @@ public class SearchQueryBuilder {
 		final String date2 = df.format(d);
 		this.addParam(new ICondition() {
 			
+
+			
 			public String getCondition() {
 				return "(startTime >=DATE('"+ date + "') AND startTime < DATE('"+ date2 +"'))";
 			}
-		});
+		},"java.util.Date");
 	}
 	
 	public String buildCondition() {
