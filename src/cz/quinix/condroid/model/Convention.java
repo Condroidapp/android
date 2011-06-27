@@ -23,6 +23,7 @@ public class Convention implements Serializable, DBInsertable {
 	private int cid = 0;
 	private String dataUrl;
 	private String message ="";
+	private String locationsFile = "";
 	
 	
 	
@@ -98,7 +99,15 @@ public class Convention implements Serializable, DBInsertable {
 		ret.put("name", name);
 		ret.put("dataUrl", dataUrl);
 		ret.put("message", message);
+		ret.put("locationsFile", locationsFile);
 		
 		return ret;
+	}
+	public void setLocationsFile(String file) {
+		this.locationsFile  = file;		
+	}
+	
+	public String getLocationsFile() {
+		return locationsFile;
 	}
 }

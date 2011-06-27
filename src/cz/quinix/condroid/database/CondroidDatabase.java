@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 
@@ -15,7 +16,7 @@ public class CondroidDatabase {
 	public static final String TAG = "Condroid database";
 	
 	private static final String DATABASE_NAME = "condroid.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	public static final String CON_TABLE = "cons";
 	public static final String ANNOTATION_TABLE = "annotations";
 	public static final String LINE_TABLE = "lines";
@@ -65,7 +66,8 @@ public class CondroidDatabase {
 			"\"date\"  TEXT(255) NOT NULL,"+
 			"\"iconUrl\"  TEXT(255) NOT NULL,"+
 			"\"dataUrl\"  TEXT(255)," +
-			"\"message\" TEXT"+
+			"\"message\" TEXT," + 
+			"\"locationsFile\" TEXT"+
 			");";
 			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \""+ ANNOTATION_TABLE +"\" ( "+
 				"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
@@ -86,9 +88,11 @@ public class CondroidDatabase {
 				"\"cid\"  INTEGER NOT NULL,"+
 				"\"title\"  TEXT(255) NOT NULL"+
 			");";
+			
 
 		public CondroidOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			Log.w("D", "Version:" +DATABASE_VERSION);
 			
 		}
 		
@@ -101,7 +105,12 @@ public class CondroidDatabase {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			
+			if(oldVersion == 1) {
+				db.execSQL("DROP TABLE "+CON_TABLE);
+				db.execSQL("DROP TABLE "+ANNOTATION_TABLE);
+				db.execSQL("DROP TABLE "+LINE_TABLE);
+				this.onCreate(db);
+			}
 		}
 		
 		

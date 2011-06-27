@@ -6,11 +6,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
@@ -39,7 +41,7 @@ public class WelcomeActivity extends CondroidActivity implements
 			this.noDataDialog(getString(R.string.noData) + " "
 					+ getString(R.string.downloadDialog));
 		} else {
-			loadMessage();
+			initView();
 		}
 
 		Button refresh = (Button) this.findViewById(R.id.bReload);
@@ -72,13 +74,29 @@ public class WelcomeActivity extends CondroidActivity implements
 
 			}
 		});
+		
+		Button locations = (Button) findViewById(R.id.bShowLocations);
+		locations.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(dataProvider.getCon().getLocationsFile()));
+				startActivity(intent);
+			}
+		});
 	}
 
-	private void loadMessage() {
+	private void initView() {
 		Convention con = dataProvider.getCon();
 		if(con != null) {
 			TextView tw = (TextView) findViewById(R.id.tMessage);
 			tw.setText(con.getMessage());
+		}
+		LinearLayout l = (LinearLayout) findViewById(R.id.lbShowLocations);
+		if(con.getLocationsFile() != "") {
+			l.setVisibility(View.VISIBLE);
+		} else {
+			l.setVisibility(View.GONE);
 		}
 	}
 
@@ -153,7 +171,7 @@ public class WelcomeActivity extends CondroidActivity implements
 				return;
 
 			}
-			loadMessage();
+			initView();
 		}
 	}
 

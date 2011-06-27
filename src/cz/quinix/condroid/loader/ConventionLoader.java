@@ -77,6 +77,9 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 						if (name.equalsIgnoreCase("message")) {
 							con.setMessage(pull.nextText());
 						}
+						if (name.equalsIgnoreCase("locations-file")) {
+							con.setLocationsFile(pull.nextText());
+						}
 					}
 					break;
 

@@ -3,7 +3,7 @@
     <string name="appName">Condroid</string>
     <string name="mAbout">O programu</string>
     <string name="mRefresh">Obnovit</string>
-    <string name="bReloadCatalog">Obnovit data</string>
+    <string name="bReloadCatalog">Obnovit data/načíst jiný con</string>
     <string name="sSearchHint">Zadejte ID pořadu nebo část názvu</string>
     <string name="loading">Načítám...</string>
     <string name="downloading">Stahuji...</string>
@@ -16,7 +16,7 @@
     <string name="bShowActual">Právě běží a následuje</string>
     <string name="bShowAll">Všechny pořady (s filtrováním)</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
-    <string name="downloadDialog">Aplikace potřebuje stáhnout cca 1 MB zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. Mimo tyto data se aplikace samovolně k internetu nepřipojuje.\nChcete pokračovat?</string>
+    <string name="downloadDialog">Aplikace potřebuje stáhnout cca 1 MB zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. \n\nChcete pokračovat?</string>
     <string name="mLineFilter">Filtr linie</string>
     <string name="mDateFilter">Filtr data</string>
     <string name="dPickLine">Vyberte linii</string>
@@ -26,5 +26,6 @@
     <string name="preparing">Příprava...</string>
     <string name="noAnnotationsFound">Nebyly nalezeny žádné vyhovující záznamy.</string>
     <string name="dPickDate">Vyberte den</string>
+    <string name="bShowLocations">Rozmístění programu (obrázek)</string>
     
 </resources>

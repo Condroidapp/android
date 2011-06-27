@@ -195,7 +195,8 @@ public class DataProvider {
 			co.setDate(c.getString(c.getColumnIndex("date")));
 			co.setIconUrl(c.getString(c.getColumnIndex("iconUrl")));
 			co.setName(c.getString(c.getColumnIndex("name")));
-			co.setMessage(c.getString(c.getColumnIndex("message")));			
+			co.setMessage(c.getString(c.getColumnIndex("message")));
+			co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));	
 		}
 		this.con = co;
 		return co;
