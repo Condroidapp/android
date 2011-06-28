@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 
-import android.R.anim;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -52,7 +51,7 @@ public class AllAnotations extends CondroidListActivity {
 		this.adapter = new EndlessAdapter(annotations);
 		this.setListAdapter(this.adapter);
 
-		this.setContentView(android.R.layout.simple_list_item_1);
+		//this.setContentView(android.R.layout.simple_list_item_1);
 	}
 
 	@Override

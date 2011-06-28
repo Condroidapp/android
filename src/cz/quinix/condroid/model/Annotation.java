@@ -9,7 +9,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import android.content.ContentValues;
-import android.text.StaticLayout;
 import cz.quinix.condroid.abstracts.DBInsertable;
 
 public class Annotation implements Serializable, DBInsertable {

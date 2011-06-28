@@ -16,7 +16,7 @@
     <string name="bShowActual">Právě běží a následuje</string>
     <string name="bShowAll">Všechny pořady (s filtrováním)</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
-    <string name="downloadDialog">Aplikace potřebuje stáhnout cca 1 MB zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. \n\nChcete pokračovat?</string>
+    <string name="downloadDialog">Aplikace potřebuje stáhnout cca 1 MB zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. Zpracování trvá několik málo minut, podle výkonu telefonu. \n\nChcete pokračovat?</string>
     <string name="mLineFilter">Filtr linie</string>
     <string name="mDateFilter">Filtr data</string>
     <string name="dPickLine">Vyberte linii</string>

@@ -3,9 +3,11 @@ package cz.quinix.condroid.ui;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,19 +70,48 @@ public class WelcomeActivity extends CondroidActivity implements
 		now.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
+				final SharedPreferences pref = getSharedPreferences(TAG, 0);
+				boolean messageShown = pref.getBoolean("messageShown", false);
+				Convention con = dataProvider.getCon();
+				if (!messageShown && con != null && con.getMessage() != "") {
+						AlertDialog.Builder m = new AlertDialog.Builder(
+								WelcomeActivity.this);
+						m.setTitle(con.getName());
+						m.setMessage(con.getMessage());
+						m.setPositiveButton("OK, již nezobrazovat",
+								new Dialog.OnClickListener() {
+
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.dismiss();
+										SharedPreferences.Editor editor = pref.edit();
+										editor.putBoolean("messageShown", true);
+										editor.commit();
+										launchIntent();
+									}
+								});
+						m.create().show();
+					
+				} else {
+					launchIntent();
+				}
+
+			}
+
+			private void launchIntent() {
 				Intent intent = new Intent(WelcomeActivity.this,
 						RunningActivity.class);
 				startActivity(intent);
-
 			}
 		});
-		
+
 		Button locations = (Button) findViewById(R.id.bShowLocations);
 		locations.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(dataProvider.getCon().getLocationsFile()));
+				intent.setData(Uri.parse(dataProvider.getCon()
+						.getLocationsFile()));
 				startActivity(intent);
 			}
 		});
@@ -88,13 +119,13 @@ public class WelcomeActivity extends CondroidActivity implements
 
 	private void initView() {
 		Convention con = dataProvider.getCon();
-		if(con != null) {
+		if (con != null) {
 			TextView tw2 = (TextView) findViewById(R.id.tLoadedInfoCon);
 			findViewById(R.id.lLoadedInfo).setVisibility(View.VISIBLE);
 			tw2.setText(con.getName());
 		}
 		LinearLayout l = (LinearLayout) findViewById(R.id.lbShowLocations);
-		if(con.getLocationsFile() != "") {
+		if (con.getLocationsFile() != "") {
 			l.setVisibility(View.VISIBLE);
 		} else {
 			l.setVisibility(View.GONE);
@@ -169,9 +200,13 @@ public class WelcomeActivity extends CondroidActivity implements
 				Toast.makeText(this,
 						"Chyba při stahování, zkuste to prosím později.",
 						Toast.LENGTH_LONG).show();
+				finish();
 				return;
-
 			}
+			
+			SharedPreferences.Editor editor = getSharedPreferences(TAG, 0).edit();
+			editor.remove("messageShown");
+			editor.commit();
 			initView();
 		}
 	}
