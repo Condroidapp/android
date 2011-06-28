@@ -89,8 +89,9 @@ public class WelcomeActivity extends CondroidActivity implements
 	private void initView() {
 		Convention con = dataProvider.getCon();
 		if(con != null) {
-			TextView tw = (TextView) findViewById(R.id.tMessage);
-			tw.setText(con.getMessage());
+			TextView tw2 = (TextView) findViewById(R.id.tLoadedInfoCon);
+			findViewById(R.id.lLoadedInfo).setVisibility(View.VISIBLE);
+			tw2.setText(con.getName());
 		}
 		LinearLayout l = (LinearLayout) findViewById(R.id.lbShowLocations);
 		if(con.getLocationsFile() != "") {

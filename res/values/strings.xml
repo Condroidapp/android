@@ -27,5 +27,6 @@
     <string name="noAnnotationsFound">Nebyly nalezeny žádné vyhovující záznamy.</string>
     <string name="dPickDate">Vyberte den</string>
     <string name="bShowLocations">Rozmístění programu (obrázek)</string>
+    <string name="tLoadedInfo">Načtená data pro </string>
     
 </resources>
