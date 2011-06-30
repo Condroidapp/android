@@ -120,6 +120,10 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public ContentValues getContentValues() {
+		
+		if(startTime != null && endTime != null && startTime.after(endTime)) {
+			endTime.setDate(endTime.getDate()+1);
+		}
 		ContentValues ret = new ContentValues();
 		ret.put("pid", this.pid);
 		ret.put("talker", talker);
