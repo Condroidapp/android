@@ -71,9 +71,9 @@ public abstract class CondroidListActivity extends ListActivity {
 		}
 		return v;
 	}
-
-	private String formatDate(Date date) {
-		Calendar today = Calendar.getInstance(TimeZone.getTimeZone("Europe/Prague"), new Locale("cs", "CZ"));
+	
+	public boolean isDateToday (Date date) {
+		Calendar today = Calendar.getInstance(TimeZone.getDefault(), new Locale("cs", "CZ"));
 		today.setTime(new Date());
 
 		Calendar compared = Calendar.getInstance();
@@ -82,6 +82,17 @@ public abstract class CondroidListActivity extends ListActivity {
 		if (compared.get(Calendar.YEAR) == today.get(Calendar.YEAR)
 				&& compared.get(Calendar.MONTH) == today.get(Calendar.MONTH)
 				&& compared.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)) {
+			//its today
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	private String formatDate(Date date) {
+		
+		if (isDateToday(date)) {
 			//its today
 			return todayFormat.format(date);
 		}

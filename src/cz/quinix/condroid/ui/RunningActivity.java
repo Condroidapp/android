@@ -75,6 +75,7 @@ class CategoryAdapter extends ArrayAdapter<Annotation> {
 
 	private DateFormat read = new SimpleDateFormat("EEEE dd.MM. HH:mm",
 			new Locale("cs", "CZ"));
+	private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 	private RunningActivity caller;
 
 	public CategoryAdapter(List<Annotation> map, RunningActivity caller) {
@@ -97,7 +98,12 @@ class CategoryAdapter extends ArrayAdapter<Annotation> {
 				if (it.getAnnotation().equals("now")) {
 					tw.setText("Právě běží");
 				} else {
-					tw.setText(read.format(it.getStartTime()));
+					if(caller.isDateToday(it.getStartTime())) {
+						tw.setText("dnes, "+todayFormat.format(it.getStartTime()));
+					}
+					else {
+						tw.setText(read.format(it.getStartTime()));
+					}
 				}
 				v.setFocusable(false);
 				return v;
