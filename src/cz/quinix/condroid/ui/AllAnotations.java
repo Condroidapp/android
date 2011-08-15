@@ -38,19 +38,19 @@ import cz.quinix.condroid.model.ProgramLine;
 public class AllAnotations extends CondroidListActivity {
 
 	private EndlessAdapter adapter;
-	private List<Annotation> annotations;
+	private List<Annotation> annotations = new ArrayList<Annotation>();
 	private SearchQueryBuilder searchQuery = null;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		searchQuery = new SearchQueryBuilder();
 		this.provider = DataProvider.getInstance(getApplicationContext());
-		this.handleIntent(this.getIntent());
+		
 		annotations = this.provider.getAnnotations(
 				searchQuery.buildCondition(), 0);
 		this.adapter = new EndlessAdapter(annotations);
 		this.setListAdapter(this.adapter);
-
+		this.handleIntent(this.getIntent());
 		//this.setContentView(android.R.layout.simple_list_item_1);
 	}
 
