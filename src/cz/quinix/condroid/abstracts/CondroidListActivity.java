@@ -45,6 +45,10 @@ public abstract class CondroidListActivity extends ListActivity {
 	private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 	private static DateFormat dayFormat = new SimpleDateFormat(
 			"EE dd.MM. HH:mm", new Locale("cs","CZ"));
+	static {
+		todayFormat.setTimeZone(TimeZone.getDefault());
+		dayFormat.setTimeZone(TimeZone.getDefault());
+	}
 
 	public View inflanteAnnotation(View v, Annotation annotation) {
 

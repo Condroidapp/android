@@ -13,30 +13,20 @@ import android.util.Xml;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
-import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 
 public class DataLoader extends ListenedAsyncTask<String, String> {
 
 	private ProgressDialog pd;
-	private volatile DataProvider db;
 	
 	
-	public DataLoader(AsyncTaskListener listener, ProgressDialog pd2, DataProvider dataProvider) {
+	public DataLoader(AsyncTaskListener listener, ProgressDialog pd2) {
 		super(listener);
 		this.pd = pd2;
-		this.db = dataProvider;
 	}
 
 	@Override
-	protected void onPostExecute(List<?> result) {
-		
-		super.onPostExecute(null);
-	}
-	
-	@Override
-	protected void onProgressUpdate(String... values) {
-		
+	protected void onProgressUpdate(String... values) {		
 		super.onProgressUpdate(values);
 		pd.setMessage(values[0]);
 	}
@@ -92,6 +82,9 @@ public class DataLoader extends ListenedAsyncTask<String, String> {
 							if (name.equalsIgnoreCase("program-line")) {
 								annotation.setProgramLine(pull.nextText());
 							}
+							if (name.equalsIgnoreCase("location")) {
+								annotation.setLocation(pull.nextText());
+							}
 							if (name.equalsIgnoreCase("annotation")) {
 								annotation.setAnnotation(pull.nextText());
 							}
@@ -122,10 +115,7 @@ public class DataLoader extends ListenedAsyncTask<String, String> {
 		} catch (XMLProccessException e) {
 		//	this.message = e.getMessage();
 		}
-		this.publishProgress("Zpracovávám...");
-		if(messages.size() > 0) {
-			db.insert((List<Annotation>) messages);
-		}
+
 		return messages;
 		
 	}

@@ -20,9 +20,11 @@ import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
+import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.loader.ConventionLoader;
 import cz.quinix.condroid.loader.DataLoader;
+import cz.quinix.condroid.loader.DatabaseLoader;
 import cz.quinix.condroid.model.Convention;
 
 public class WelcomeActivity extends CondroidActivity implements
@@ -157,13 +159,19 @@ public class WelcomeActivity extends CondroidActivity implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public void onAsyncTaskCompleted(List<?> list) {
+	public void onAsyncTaskCompleted(ListenedAsyncTask<?,?> task) {
 		if (pd != null) {
 			pd.dismiss();
 			pd = null;
 		}
-
-		if (list != null) {
+		
+		List<?> list = null;
+		
+		if(task.hasResult()) {
+			list = task.getResult();
+		}
+		
+		if (task instanceof ConventionLoader && list != null) {
 			// conventions downloaded
 			if (list.size() == 0) {
 				Toast.makeText(this,
@@ -188,14 +196,22 @@ public class WelcomeActivity extends CondroidActivity implements
 					dataProvider.setConvention(conventionList.get(which));
 					pd = ProgressDialog.show(WelcomeActivity.this, "",
 							getString(R.string.preparing), true);
-					new DataLoader(WelcomeActivity.this, pd, dataProvider)
+					new DataLoader(WelcomeActivity.this, pd)
 							.execute(conventionList.get(which).getDataUrl());
 
 				}
 			});
 			AlertDialog d = builder.create();
 			d.show();
-		} else {
+		}
+		if(task instanceof DataLoader) {
+			if(list != null) {
+				pd = ProgressDialog.show(this, "", getString(R.string.processing), true);
+				new DatabaseLoader(WelcomeActivity.this, dataProvider).execute(list);
+			}
+		}
+		if(task instanceof DatabaseLoader) {
+		
 			if (!dataProvider.hasData()) {
 				Toast.makeText(this,
 						"Chyba při stahování, zkuste to prosím později.",
