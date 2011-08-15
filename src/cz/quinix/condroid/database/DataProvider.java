@@ -77,6 +77,7 @@ public class DataProvider {
 			
 			ret.add(readAnnotation(c));
 		}
+		c.close();
 		return ret;
 	}
 	
@@ -108,6 +109,7 @@ public class DataProvider {
 		while(c.moveToNext()) {
 			programLines.put(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("title")));
 		}
+		c.close();
 	}
 
 	public List<Date> getDates() {
@@ -123,6 +125,7 @@ public class DataProvider {
 				Log.w("DB", e);
 			}
 		}
+		c.close();
 		
 		return map;
 	}
@@ -131,12 +134,12 @@ public class DataProvider {
 	public List<Annotation> getRunningAndNext() {
 		List<Annotation> l = new ArrayList<Annotation>();
 		
-		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now','localtime') AND endTime > DATETIME('now','localtime')", null, "startTime DESC", null, false, null);
+		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')", null, "startTime DESC", null, false, null);
 		while (c.moveToNext()) {
 			if(c.isFirst()) {
 				Annotation a = new Annotation();
 				a.setTitle("break");
-				a.setStartTime(c.getString(c.getColumnIndex("startTime")));
+				a.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
 				a.setAnnotation("now");
 				l.add(a);
 			}
@@ -146,8 +149,9 @@ public class DataProvider {
 			l.add(annotation);
 			
 		}
+		c.close();
 		
-		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now','localtime')", null, "startTime ASC, lid ASC", "0,100", false, null);
+		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')", null, "startTime ASC, lid ASC", "0,100", false, null);
 		String previous = "";
 		int hours = 0;
 		while (c2.moveToNext()) {
@@ -155,7 +159,7 @@ public class DataProvider {
 				if(hours++ > 5) break;
 				Annotation a = new Annotation();
 				a.setTitle("break");
-				a.setStartTime(c2.getString(c2.getColumnIndex("startTime")));
+				a.setSQLStartTime(c2.getString(c2.getColumnIndex("startTime")));
 				l.add(a);
 				previous = c2.getString(c2.getColumnIndex("startTime"));
 			}
@@ -165,6 +169,7 @@ public class DataProvider {
 			l.add(annotation);
 			
 		}
+		c2.close();
 		
 		return l;
 	}
@@ -175,10 +180,10 @@ public class DataProvider {
 		annotation.setTitle(c.getString(c.getColumnIndex("title")));
 		annotation.setAnnotation(c.getString(c.getColumnIndex("annotation")));
 		annotation.setAuthor(c.getString(c.getColumnIndex("talker")));
-		annotation.setEndTime(c.getString(c.getColumnIndex("endTime")));
+		annotation.setSQLEndTime(c.getString(c.getColumnIndex("endTime")));
 		annotation.setLength(c.getString(c.getColumnIndex("length")));
 		annotation.setLid(c.getInt(c.getColumnIndex("lid")));
-		annotation.setStartTime(c.getString(c.getColumnIndex("startTime")));
+		annotation.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
 		annotation.setType(c.getString(c.getColumnIndex("type")));
 		return annotation;
 	}
@@ -198,6 +203,7 @@ public class DataProvider {
 			co.setMessage(c.getString(c.getColumnIndex("message")));
 			co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));	
 		}
+		c.close();
 		this.con = co;
 		return co;
 	}

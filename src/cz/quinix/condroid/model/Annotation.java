@@ -1,12 +1,11 @@
 package cz.quinix.condroid.model;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 import android.content.ContentValues;
 import cz.quinix.condroid.abstracts.DBInsertable;
@@ -27,11 +26,14 @@ public class Annotation implements Serializable, DBInsertable {
 	private String annotation ="";
 	private Date startTime;
 	private Date endTime;
-	static DateFormat df;
+	private String location;
+	static DateTimeFormatter dateISOFormatter;
+	static DateTimeFormatter dateSQLFormatter;
 	private int lid;
 	static {
-		df = new SimpleDateFormat("yyyy-MM-dd HH:mm", new Locale("cs", "CZ"));
-		df.setTimeZone(TimeZone.getDefault());
+		dateISOFormatter = ISODateTimeFormat.dateTimeNoMillis();
+		dateSQLFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
+		
 	}
 
 	public Date getStartTime() {
@@ -43,20 +45,26 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public void setStartTime(String startTime) {
-		this.startTime = parseDate(startTime);
+		this.startTime = parseDate(startTime,dateISOFormatter);
 	}
 
 	public void setEndTime(String endTime) {
-			this.endTime = parseDate(endTime);
+			this.endTime = parseDate(endTime,dateISOFormatter);
 	}
-	private Date parseDate(String date) {
+	
+	public void setSQLStartTime(String startTime) {
+		this.startTime = parseDate(startTime,dateSQLFormatter);
+	}
+
+	public void setSQLEndTime(String endTime) {
+			this.endTime = parseDate(endTime,dateSQLFormatter);
+	}
+	
+	private Date parseDate(String date, DateTimeFormatter formatter) {
 		if (date == null || date.equals(""))
 			return null;
-		try {
-			return df.parse(date);
-		} catch (ParseException e) {
-			return null;
-		}
+		return formatter.parseDateTime(date).toDate();
+
 	}
 
 	public String getPid() {
@@ -131,12 +139,14 @@ public class Annotation implements Serializable, DBInsertable {
 		ret.put("length", length);
 		ret.put("type", type);
 		ret.put("lid", lid);
+
+		ret.put("location", location);
 		ret.put("annotation", annotation);
 		if(startTime != null) {
-			ret.put("startTime", df.format(startTime));
+			ret.put("startTime", dateSQLFormatter.print(startTime.getTime()));
 		}
 		if(endTime != null) {
-			ret.put("endTime", df.format(endTime));
+			ret.put("endTime", dateSQLFormatter.print(endTime.getTime()));
 		}
 		
 		return ret;
@@ -149,6 +159,10 @@ public class Annotation implements Serializable, DBInsertable {
 
 	public int getLid() {
 		return lid;
+	}
+
+	public void setLocation(String nextText) {
+		location = nextText;
 	}
 	
 	
