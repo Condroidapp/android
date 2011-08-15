@@ -80,6 +80,16 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 						if (name.equalsIgnoreCase("locations-file")) {
 							con.setLocationsFile(pull.nextText());
 						}
+						if (name.equalsIgnoreCase("provides-timetable")) {
+							if(pull.nextText()=="yes") {
+								con.setHasTimetable(true);
+							}
+						}
+						if (name.equalsIgnoreCase("provides-annotations")) {
+							if(pull.nextText()=="yes") {
+								con.setHasAnnotations(true);
+							}
+						}
 					}
 					break;
 

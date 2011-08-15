@@ -24,6 +24,8 @@ public class Convention implements Serializable, DBInsertable {
 	private String dataUrl;
 	private String message ="";
 	private String locationsFile = "";
+	private boolean providesTimetable = false;
+	private boolean providesAnnotations = false;
 	
 	
 	
@@ -100,6 +102,8 @@ public class Convention implements Serializable, DBInsertable {
 		ret.put("dataUrl", dataUrl);
 		ret.put("message", message);
 		ret.put("locationsFile", locationsFile);
+		ret.put("has_annotations", providesAnnotations);
+		ret.put("has_timetable", providesTimetable);
 		
 		return ret;
 	}
@@ -109,5 +113,11 @@ public class Convention implements Serializable, DBInsertable {
 	
 	public String getLocationsFile() {
 		return locationsFile;
+	}
+	public void setHasTimetable(boolean b) {
+		this.providesTimetable = b;
+	}
+	public void setHasAnnotations(boolean b) {
+		this.providesAnnotations = b;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -16,7 +17,7 @@ public class CondroidDatabase {
 	public static final String TAG = "Condroid database";
 	
 	private static final String DATABASE_NAME = "condroid.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	public static final String CON_TABLE = "cons";
 	public static final String ANNOTATION_TABLE = "annotations";
 	public static final String LINE_TABLE = "lines";
@@ -67,6 +68,9 @@ public class CondroidDatabase {
 			"\"iconUrl\"  TEXT(255) NOT NULL,"+
 			"\"dataUrl\"  TEXT(255)," +
 			"\"message\" TEXT," + 
+			"\"has_annotations\" INTEGER," + 
+			"\"has_timetable\" INTEGER," + 
+			
 			"\"locationsFile\" TEXT"+
 			");";
 			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \""+ ANNOTATION_TABLE +"\" ( "+
@@ -79,6 +83,7 @@ public class CondroidDatabase {
 				"\"time\"  TEXT(255),"+
 				"\"annotation\"  TEXT,"+
 				"\"lid\"  INTEGER NOT NULL,"+
+				"\"location\"  TEXT(255) NULL,"+
 				"\"type\"  TEXT(20) NOT NULL,"+
 				"\"startTime\"  TEXT NULL,"+
 				"\"endTime\"  TEXT NULL"+
@@ -105,7 +110,7 @@ public class CondroidDatabase {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			if(oldVersion == 1) {
+			if(oldVersion < DATABASE_VERSION) {
 				db.execSQL("DROP TABLE "+CON_TABLE);
 				db.execSQL("DROP TABLE "+ANNOTATION_TABLE);
 				db.execSQL("DROP TABLE "+LINE_TABLE);
@@ -122,8 +127,10 @@ public class CondroidDatabase {
 	public boolean isEmpty() {
 		Cursor c = this.query("SELECT count(*) FROM annotations", null);
 		if(c.getInt(0) == 0) {
+			c.close();
 			return true;
 		}
+		c.close();
 		return false;
 	}
 
@@ -150,12 +157,12 @@ public class CondroidDatabase {
 			annotation.setLid(lines.get(annotation.getProgramLine()));
 		}
 		
-		for (Annotation annotation : result) {
-			ContentValues cv = annotation.getContentValues();
-			cv.put("cid", con.getCid());
-			db.insertOrThrow("annotations", null, cv);
-			
-		}
+			for (Annotation annotation : result) {
+				ContentValues cv = annotation.getContentValues();
+				cv.put("cid", con.getCid());
+				db.insertOrThrow("annotations", null, cv);			
+			}
+		
 		
 	}
 	
