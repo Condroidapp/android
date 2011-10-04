@@ -17,7 +17,7 @@ public class CondroidDatabase {
 	public static final String TAG = "Condroid database";
 	
 	private static final String DATABASE_NAME = "condroid.db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 	public static final String CON_TABLE = "cons";
 	public static final String ANNOTATION_TABLE = "annotations";
 	public static final String LINE_TABLE = "lines";
@@ -56,7 +56,7 @@ public class CondroidDatabase {
 	
 	
 	
-	class CondroidOpenHelper extends SQLiteOpenHelper {
+	static class CondroidOpenHelper extends SQLiteOpenHelper {
 		
 		
 		
@@ -83,8 +83,9 @@ public class CondroidDatabase {
 				"\"time\"  TEXT(255),"+
 				"\"annotation\"  TEXT,"+
 				"\"lid\"  INTEGER NOT NULL,"+
-				"\"location\"  TEXT(255) NULL,"+
-				"\"type\"  TEXT(20) NOT NULL,"+
+				"\"location\"  TEXT(100) NULL,"+
+				"\"mainType\"  TEXT(1) NOT NULL,"+
+				"\"additionalTypes\"  TEXT(20) NOT NULL,"+
 				"\"startTime\"  TEXT NULL,"+
 				"\"endTime\"  TEXT NULL"+
 			");";
@@ -97,12 +98,13 @@ public class CondroidDatabase {
 
 		public CondroidOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			Log.w("D", "Version:" +DATABASE_VERSION);
+			//Log.w("D", "Version:" +DATABASE_VERSION);
 			
 		}
 		
 		@Override
 		public void onCreate(SQLiteDatabase db) {
+			
 			db.execSQL(DATABASE_CREATE_CONS);
 			db.execSQL(DATABASE_CREATE_ANNOTATIONS);
 			db.execSQL(DATABASE_CREATE_LINES);
@@ -110,6 +112,7 @@ public class CondroidDatabase {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			
 			if(oldVersion < DATABASE_VERSION) {
 				db.execSQL("DROP TABLE "+CON_TABLE);
 				db.execSQL("DROP TABLE "+ANNOTATION_TABLE);

@@ -21,7 +21,8 @@ public class Annotation implements Serializable, DBInsertable {
 	private String talker;
 	private String title;
 	private String length;
-	private String type;
+	private String mainType;
+	private String additonalTypes;
 	private String programLine;
 	private String annotation ="";
 	private Date startTime;
@@ -84,7 +85,7 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public String getType() {
-		return type;
+		return mainType;
 	}
 
 	/**
@@ -116,7 +117,17 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public void setType(String type) {
-		this.type = type.trim();
+		String[] types = type.trim().split("+");
+		if(types.length > 0) {
+			mainType = types[0];
+		}
+		if(types.length > 1) {
+			for(int i=1; i<types.length; i++) {
+				additonalTypes+=types[i]+"+";
+			}
+			additonalTypes.subSequence(0, additonalTypes.length()-1); //removes last +
+		}
+		
 	}
 
 	public void setProgramLine(String programLine) {
@@ -137,7 +148,9 @@ public class Annotation implements Serializable, DBInsertable {
 		ret.put("talker", talker);
 		ret.put("title", title);
 		ret.put("length", length);
-		ret.put("type", type);
+		ret.put("mainType", mainType);
+		ret.put("additionalTypes", additonalTypes);
+		
 		ret.put("lid", lid);
 
 		ret.put("location", location);
