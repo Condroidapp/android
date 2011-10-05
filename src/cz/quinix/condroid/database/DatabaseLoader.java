@@ -16,7 +16,6 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 	private CondroidDatabase db;
 	private ProgressDialog pd;
 	private Convention con;
-	static int totalCount;
 
 	public DatabaseLoader(AsyncTaskListener listener, CondroidDatabase db,
 			Convention con) {
@@ -34,13 +33,12 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 		super.onProgressUpdate(values);
 		if (!pd.isShowing()) {
 			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			totalCount = value;
-			pd.show();
-			pd.setMax(100);
+			pd.setMax(value);
+			pd.show();			
 			return;
 		}
-		float progress = (float) value/2/totalCount;
-		pd.setProgress((int) (progress*100));
+		float progress = (float) value/2;
+		pd.setProgress((int) (progress));
 	}
 
 	@Override
