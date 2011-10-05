@@ -14,6 +14,11 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
 		this.listener = listener;
 	}
 	
+	public ListenedAsyncTask<Params, Progress> setListener(AsyncTaskListener listener) {
+		this.listener = listener;
+		return this;
+	}
+	
 	@Override
 	protected void onPostExecute(List<?> result) {
 		// TODO Auto-generated method stub

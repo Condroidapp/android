@@ -22,9 +22,9 @@ import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.ConventionLoader;
 import cz.quinix.condroid.loader.DataLoader;
-import cz.quinix.condroid.loader.DatabaseLoader;
 import cz.quinix.condroid.model.Convention;
 
 public class WelcomeActivity extends CondroidActivity implements
@@ -38,6 +38,7 @@ public class WelcomeActivity extends CondroidActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 
 		this.setContentView(R.layout.welcome);
 		dataProvider = DataProvider.getInstance(getApplicationContext());
@@ -206,8 +207,12 @@ public class WelcomeActivity extends CondroidActivity implements
 		}
 		if(task instanceof DataLoader) {
 			if(list != null) {
-				pd = ProgressDialog.show(this, "", getString(R.string.processing), true);
-				new DatabaseLoader(WelcomeActivity.this, dataProvider).execute(list);
+				pd = new ProgressDialog(WelcomeActivity.this);
+				pd.setMessage(getString(R.string.processing));
+				pd.setCancelable(true);
+				//new DatabaseLoader(WelcomeActivity.this, dataProvider).execute(list);
+				
+				this.dataProvider.prepareInsert().setListener(this, pd).execute(list);
 			}
 		}
 		if(task instanceof DatabaseLoader) {

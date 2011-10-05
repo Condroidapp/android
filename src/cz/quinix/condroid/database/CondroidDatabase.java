@@ -1,17 +1,9 @@
 package cz.quinix.condroid.database;
 
-import java.util.HashMap;
-import java.util.List;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.model.Convention;
 
 public class CondroidDatabase {
 	public static final String TAG = "Condroid database";
@@ -144,33 +136,9 @@ public class CondroidDatabase {
 		db.execSQL("DROP TABLE "+LINE_TABLE);
 		this.mDatabaseHelper.onCreate(db);
 	}
-
-	public void insert(Convention con, List<Annotation> result) throws Exception {
-		SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
-		db.insert("cons", null, con.getContentValues());
-		HashMap<String, Integer> lines = new HashMap<String, Integer>();
-		for (Annotation annotation : result) {
-			if(!lines.containsKey(annotation.getProgramLine())) {
-				ContentValues cv = new ContentValues();
-				cv.put("title", annotation.getProgramLine());
-				cv.put("cid", con.getCid());
-				int key = (int) db.insert("lines", null,cv );
-				lines.put(annotation.getProgramLine(), key);
-			}
-			annotation.setLid(lines.get(annotation.getProgramLine()));
-		}
-		
-			for (Annotation annotation : result) {
-				ContentValues cv = annotation.getContentValues();
-				cv.put("cid", con.getCid());
-				db.insertOrThrow("annotations", null, cv);			
-			}
-		
-		
+	
+	SQLiteDatabase getWritableDatabase() {
+		return mDatabaseHelper.getWritableDatabase();
 	}
-	
-	
-
-	
 	
 }

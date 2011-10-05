@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ProgressDialog;
+import android.util.Log;
 import android.util.Xml;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
@@ -73,9 +74,6 @@ public class DataLoader extends ListenedAsyncTask<String, String> {
 							if (name.equalsIgnoreCase("title")) {
 								annotation.setTitle(pull.nextText());
 							}
-							if (name.equalsIgnoreCase("length")) {
-								annotation.setLength(pull.nextText());
-							}
 							if (name.equalsIgnoreCase("type")) {
 								annotation.setType(pull.nextText());
 							}
@@ -113,7 +111,7 @@ public class DataLoader extends ListenedAsyncTask<String, String> {
 				throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 			}
 		} catch (XMLProccessException e) {
-		//	this.message = e.getMessage();
+			Log.d("X", e.getMessage());
 		}
 
 		return messages;

@@ -15,9 +15,8 @@ import android.util.Log;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.ui.WelcomeActivity;
 
-public class DataProvider {
+public class DataProvider  {
 	
 	public static String AUTHORITY = "cz.quinix.condroid.database.DataProvider";
 	public static Uri CONTENT_URI = Uri.parse("content://"+ AUTHORITY + "/database");
@@ -53,17 +52,12 @@ public class DataProvider {
 		con = convention;		
 	}
 
-	public void insert(List<Annotation> result) {
+	public DatabaseLoader prepareInsert() {
 		if(!mDatabase.isEmpty()) {
 			mDatabase.purge();
 			programLines = null;
 		}
-		try {
-			mDatabase.insert(con, result);
-		} catch (Exception ex) {
-			Log.w(WelcomeActivity.TAG, ex);
-			mDatabase.purge();
-		}
+		return new DatabaseLoader(null, mDatabase, con);
 	}
 
 	public List<Annotation> getAnnotations(String condition, int page) {
@@ -184,7 +178,7 @@ public class DataProvider {
 		annotation.setLength(c.getString(c.getColumnIndex("length")));
 		annotation.setLid(c.getInt(c.getColumnIndex("lid")));
 		annotation.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
-		annotation.setType(c.getString(c.getColumnIndex("type")));
+		annotation.setType(c.getString(c.getColumnIndex("mainType")));
 		return annotation;
 	}
 

@@ -22,20 +22,16 @@ public class Annotation implements Serializable, DBInsertable {
 	private String title;
 	private String length;
 	private String mainType;
-	private String additonalTypes;
+	private String additonalTypes="";
 	private String programLine;
 	private String annotation ="";
 	private Date startTime;
 	private Date endTime;
 	private String location;
-	static DateTimeFormatter dateISOFormatter;
-	static DateTimeFormatter dateSQLFormatter;
+	public static DateTimeFormatter dateISOFormatter = ISODateTimeFormat.dateTimeNoMillis();
+	public static DateTimeFormatter dateSQLFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
 	private int lid;
-	static {
-		dateISOFormatter = ISODateTimeFormat.dateTimeNoMillis();
-		dateSQLFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
-		
-	}
+
 
 	public Date getStartTime() {
 		return startTime;
@@ -113,19 +109,19 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public void setLength(String length) {
-		this.length = length.trim();
+		//this.length = length.trim();
 	}
 
 	public void setType(String type) {
-		String[] types = type.trim().split("+");
+		String[] types = type.trim().split("\\+");
 		if(types.length > 0) {
-			mainType = types[0];
+			mainType = types[0].trim();
 		}
 		if(types.length > 1) {
 			for(int i=1; i<types.length; i++) {
 				additonalTypes+=types[i]+"+";
 			}
-			additonalTypes.subSequence(0, additonalTypes.length()-1); //removes last +
+			additonalTypes = (String) additonalTypes.subSequence(0, additonalTypes.length()-1); //removes last +
 		}
 		
 	}
