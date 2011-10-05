@@ -11,25 +11,49 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.ProgressDialog;
 import android.util.Log;
 import android.util.Xml;
+import cz.quinix.condroid.R;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.WelcomeActivity;
 
-public class DataLoader extends ListenedAsyncTask<String, String> {
+public class DataLoader extends ListenedAsyncTask<String, Integer> {
 
 	private ProgressDialog pd;
-	
 	
 	public DataLoader(AsyncTaskListener listener, ProgressDialog pd2) {
 		super(listener);
 		this.pd = pd2;
 	}
+	
+	@Override
+	protected void onPostExecute(List<?> result) {
+		// TODO Auto-generated method stub
+		pd.dismiss();
+		super.onPostExecute(result);
+		
+	}
 
 	@Override
-	protected void onProgressUpdate(String... values) {		
+	protected void onProgressUpdate(Integer... values) {		
 		super.onProgressUpdate(values);
-		pd.setMessage(values[0]);
+		int value = values[0];
+		if(value == -1) {
+			
+			ProgressDialog pd = new ProgressDialog(this.pd.getContext());
+			this.pd.dismiss();
+			this.pd = pd;
+			pd.setMessage("Stahuji...");
+			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		}
+		else if(values.length == 2) {
+			pd.setMax(values[1]);			
+			pd.show();
+		}
+		else {
+			pd.setProgress(value);
+		}
 	}
 	
 	@Override
@@ -48,20 +72,33 @@ public class DataLoader extends ListenedAsyncTask<String, String> {
 				throw new XMLProccessException("Stažení seznamu anotací se nezdařilo.", ex);
 			}
 			int eventType = 0;
-			this.publishProgress("Stahuji...");
+			this.publishProgress(-1);
 			try {
 				eventType = pull.getEventType();
 			} catch (XmlPullParserException e) {
 				throw new XMLProccessException("Zpracování seznamu anotací se nezdařilo", e);
 			}
 			try {
+				int counter = 0;
 				while (eventType != XmlPullParser.END_DOCUMENT) {
 					switch (eventType) {
 					case XmlPullParser.START_DOCUMENT:
 						break;
+					
+					
 
 					case XmlPullParser.START_TAG:
 						String name = pull.getName();
+						if(name.equalsIgnoreCase("annotations")) {
+							if(pull.getAttributeCount() > 0) {
+								if(pull.getAttributeName(0).equals("count")) {
+									try {
+										this.publishProgress(0, Integer.parseInt(pull.getAttributeValue(0)));
+									} catch (NumberFormatException e) {
+									}
+								}
+							}
+						}
 						if (name.equalsIgnoreCase("programme")) {
 							annotation = new Annotation();
 						} else {
@@ -100,12 +137,14 @@ public class DataLoader extends ListenedAsyncTask<String, String> {
 						if (name.equalsIgnoreCase("programme")
 								&& annotation != null) {
 							messages.add(annotation);
+							this.publishProgress(counter++);
 						}
 						break;
 					default:
 						break;
 					}
 					eventType = pull.next();
+					
 				}
 			} catch (Exception e) {
 				throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
