@@ -9,10 +9,12 @@ import java.util.TimeZone;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
@@ -71,11 +73,46 @@ public abstract class CondroidListActivity extends ListActivity {
 						+ todayFormat.format(annotation.getEndTime());
 			}
 			tw3.setText(provider.getProgramLine(annotation.getLid()).getName() + ", "+ annotation.getType() + date);
-			
+		}
+		ImageView iw = (ImageView) v.findViewById(R.id.iProgramType);
+		if(iw != null) {
+			iw.setImageResource(this.getProgramIcon(annotation.getType()));
 		}
 		return v;
 	}
 	
+	private int getProgramIcon(String type) {
+		if(type.equalsIgnoreCase("P")) {
+			return R.drawable.lecture;
+		}
+		if(type.equalsIgnoreCase("B")) {
+			return R.drawable.discussion;
+		}
+		if(type.equalsIgnoreCase("C")) {
+			return R.drawable.theatre;
+		}
+		if(type.equalsIgnoreCase("D")) {
+			return R.drawable.projection;
+		}
+		if(type.equalsIgnoreCase("F")) {
+			return R.drawable.projection;
+		}
+		if(type.equalsIgnoreCase("G")) {
+			return R.drawable.game;
+		}
+		if(type.equalsIgnoreCase("H")) {
+			return R.drawable.music;
+		}
+		if(type.equalsIgnoreCase("Q")) {
+			return R.drawable.game;
+		}
+		if(type.equalsIgnoreCase("W")) {
+			return R.drawable.workshop;
+		}
+		return R.drawable.program_unknown;
+		
+	}
+
 	public boolean isDateToday (Date date) {
 		Calendar today = Calendar.getInstance(TimeZone.getDefault(), new Locale("cs", "CZ"));
 		today.setTime(new Date());

@@ -6,7 +6,7 @@
     <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/lItemLayout">
         <TextView android:textSize="15dp" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="4dp" android:text="TextView" android:textStyle="bold" android:id="@+id/alTitle"></TextView>
         <FrameLayout android:layout_height="wrap_content" android:id="@+id/frameLayout1" android:layout_width="fill_parent">
-            <ImageView android:layout_height="wrap_content" android:id="@+id/imageView1" android:src="@drawable/discussion" android:layout_gravity="right" android:layout_width="wrap_content" android:layout_margin="5dp"></ImageView>
+            <ImageView android:layout_height="wrap_content" android:src="@drawable/discussion" android:layout_gravity="right" android:layout_width="wrap_content" android:layout_margin="5dp" android:id="@+id/iProgramType"></ImageView>
             <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="fill_parent" android:orientation="vertical" android:layout_marginRight="32dp">
                 <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="TextView" android:id="@+id/alSecondLine" android:paddingTop="0dp" android:paddingRight="4dp" android:paddingLeft="4dp"></TextView>
                 <TextView android:textColor="@color/gray" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="4dp" android:text="TextView" android:id="@+id/alThirdLine"></TextView>
