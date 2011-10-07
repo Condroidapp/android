@@ -179,6 +179,7 @@ public class DataProvider  {
 		annotation.setLid(c.getInt(c.getColumnIndex("lid")));
 		annotation.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
 		annotation.setType(c.getString(c.getColumnIndex("mainType")));
+		annotation.setAdditonalTypes(c.getString(c.getColumnIndex("additionalTypes")));
 		return annotation;
 	}
 

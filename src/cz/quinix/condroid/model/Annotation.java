@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.content.ContentValues;
+import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.DBInsertable;
 
@@ -65,6 +66,9 @@ public class Annotation implements Serializable, DBInsertable {
 
 	}
 
+	public void setAdditonalTypes(String additonalTypes) {
+		this.additonalTypes = additonalTypes;
+	}
 	public String getPid() {
 		return pid;
 	}
@@ -207,7 +211,8 @@ public class Annotation implements Serializable, DBInsertable {
 	public void setLocation(String nextText) {
 		location = nextText;
 	}
-	
-	
 
+	public String[] getAdditionalTypes() {
+		return additonalTypes.split("\\+");
+	}
 }
