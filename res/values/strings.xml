@@ -28,5 +28,15 @@
     <string name="dPickDate">Vyberte den</string>
     <string name="bShowLocations">Rozmístění programu (obrázek)</string>
     <string name="tLoadedInfo">Načtená data pro </string>
+    <string name="lecture">Přednáška</string>
+    <string name="discussion">Diskuze</string>
+    <string name="projection">Projekce</string>
+    <string name="document">Dokument</string>
+    <string name="game">Turnaj</string>
+    <string name="quiz">Soutěž</string>
+    <string name="workshop">Workshop</string>
+    <string name="theatre">Ceremoniál/Divadlo</string>
+    <string name="music">Hudba</string>
+    
     
 </resources>

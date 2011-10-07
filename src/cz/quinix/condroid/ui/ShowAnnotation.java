@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
@@ -18,7 +19,7 @@ public class ShowAnnotation extends CondroidActivity {
 	private Annotation annotation;
 	private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 	private static DateFormat dayFormat = new SimpleDateFormat(
-			"EE dd.MM. HH:mm", new Locale("cs","CZ"));
+			"EE dd.MM. HH:mm", new Locale("cs", "CZ"));
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +40,65 @@ public class ShowAnnotation extends CondroidActivity {
 			date = formatDate(annotation.getStartTime()) + " - "
 					+ todayFormat.format(annotation.getEndTime()) + ", ";
 		}
-		
+
 		TextView line = (TextView) this.findViewById(R.id.annot_line);
 		line.setText(DataProvider.getInstance(getApplicationContext())
 				.getProgramLine(this.annotation.getLid()).getName());
-		
+
 		TextView info = (TextView) this.findViewById(R.id.annot_info);
-		info.setText(this.annotation.getPid()
-				+ ", "
-				+ date
-				//+ this.annotation.getLength()
-				//+ ", "
-				+ this.annotation.getType());
+		info.setText( date
+		// + this.annotation.getLength()
+		// + ", "
+		);
+		((TextView) this.findViewById(R.id.annot_type)).setText(this.annotation.getPid() + ", " +this
+				.getTextualTypes());
 
 		TextView text = (TextView) this.findViewById(R.id.annot_text);
 		text.setText(this.annotation.getAnnotation());
+		((ImageView) this.findViewById(R.id.iProgramIcon))
+				.setImageResource(annotation.getProgramIcon());
 
+	}
+
+	private CharSequence getTextualTypes() {
+		String ret = getTextualType(annotation.getType());
+		String[] aT = annotation.getAdditionalTypes();
+		for(int i = 0; i<aT.length; i++) {
+			if(aT[i].length() > 0)
+				ret+=", "+getTextualType(aT[i]);
+		}
+		return ret;
+	}
+
+	private String getTextualType(String type) {
+		if (type.equalsIgnoreCase("P"))
+			return getString(R.string.lecture);
+
+		if (type.equalsIgnoreCase("B"))
+			return getString(R.string.discussion);
+
+		if (type.equalsIgnoreCase("C"))
+			return getString(R.string.theatre);
+
+		if (type.equalsIgnoreCase("D"))
+			return getString(R.string.document);
+
+		if (type.equalsIgnoreCase("F"))
+			return getString(R.string.projection);
+
+		if (type.equalsIgnoreCase("G"))
+			return getString(R.string.game);
+
+		if (type.equalsIgnoreCase("H"))
+			return getString(R.string.music);
+
+		if (type.equalsIgnoreCase("Q"))
+			return getString(R.string.quiz);
+
+		if (type.equalsIgnoreCase("W"))
+			return getString(R.string.workshop);
+
+		return "";
 	}
 
 	private String formatDate(Date date) {

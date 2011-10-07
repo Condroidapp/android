@@ -72,7 +72,7 @@ public abstract class CondroidListActivity extends ListActivity {
 				date = ", " + formatDate(annotation.getStartTime()) + " - "
 						+ todayFormat.format(annotation.getEndTime());
 			}
-			tw3.setText(provider.getProgramLine(annotation.getLid()).getName() + ", "+ date);
+			tw3.setText(provider.getProgramLine(annotation.getLid()).getName() +  date);
 		}
 		ImageView iw = (ImageView) v.findViewById(R.id.iProgramType);
 		if(iw != null) {
