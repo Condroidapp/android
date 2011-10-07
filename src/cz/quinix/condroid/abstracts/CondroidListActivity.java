@@ -76,42 +76,12 @@ public abstract class CondroidListActivity extends ListActivity {
 		}
 		ImageView iw = (ImageView) v.findViewById(R.id.iProgramType);
 		if(iw != null) {
-			iw.setImageResource(this.getProgramIcon(annotation.getType()));
+			iw.setImageResource(annotation.getProgramIcon());
 		}
 		return v;
 	}
 	
-	private int getProgramIcon(String type) {
-		if(type.equalsIgnoreCase("P")) {
-			return R.drawable.lecture;
-		}
-		if(type.equalsIgnoreCase("B")) {
-			return R.drawable.discussion;
-		}
-		if(type.equalsIgnoreCase("C")) {
-			return R.drawable.theatre;
-		}
-		if(type.equalsIgnoreCase("D")) {
-			return R.drawable.projection;
-		}
-		if(type.equalsIgnoreCase("F")) {
-			return R.drawable.projection;
-		}
-		if(type.equalsIgnoreCase("G")) {
-			return R.drawable.game;
-		}
-		if(type.equalsIgnoreCase("H")) {
-			return R.drawable.music;
-		}
-		if(type.equalsIgnoreCase("Q")) {
-			return R.drawable.game;
-		}
-		if(type.equalsIgnoreCase("W")) {
-			return R.drawable.workshop;
-		}
-		return R.drawable.program_unknown;
-		
-	}
+	
 
 	public boolean isDateToday (Date date) {
 		Calendar today = Calendar.getInstance(TimeZone.getDefault(), new Locale("cs", "CZ"));

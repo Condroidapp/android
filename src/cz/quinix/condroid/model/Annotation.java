@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.content.ContentValues;
+import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.DBInsertable;
 
 public class Annotation implements Serializable, DBInsertable {
@@ -82,6 +83,39 @@ public class Annotation implements Serializable, DBInsertable {
 
 	public String getType() {
 		return mainType;
+	}
+	
+	public int getProgramIcon() {
+		String type = this.mainType;
+		if(type.equalsIgnoreCase("P")) {
+			return R.drawable.lecture;
+		}
+		if(type.equalsIgnoreCase("B")) {
+			return R.drawable.discussion;
+		}
+		if(type.equalsIgnoreCase("C")) {
+			return R.drawable.theatre;
+		}
+		if(type.equalsIgnoreCase("D")) {
+			return R.drawable.projection;
+		}
+		if(type.equalsIgnoreCase("F")) {
+			return R.drawable.projection;
+		}
+		if(type.equalsIgnoreCase("G")) {
+			return R.drawable.game;
+		}
+		if(type.equalsIgnoreCase("H")) {
+			return R.drawable.music;
+		}
+		if(type.equalsIgnoreCase("Q")) {
+			return R.drawable.game;
+		}
+		if(type.equalsIgnoreCase("W")) {
+			return R.drawable.workshop;
+		}
+		return R.drawable.program_unknown;
+		
 	}
 
 	/**
