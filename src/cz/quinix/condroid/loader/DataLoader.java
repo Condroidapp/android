@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ProgressDialog;
+import android.text.Html;
 import android.util.Log;
 import android.util.Xml;
 import cz.quinix.condroid.R;
@@ -109,7 +110,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 								annotation.setAuthor(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("title")) {
-								annotation.setTitle(pull.nextText());
+								annotation.setTitle(Html.fromHtml(pull.nextText()).toString());
 							}
 							if (name.equalsIgnoreCase("type")) {
 								annotation.setType(pull.nextText());
@@ -121,7 +122,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 								annotation.setLocation(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("annotation")) {
-								annotation.setAnnotation(pull.nextText());
+								annotation.setAnnotation(Html.fromHtml(pull.nextText()).toString());
 							}
 							if (name.equalsIgnoreCase("start-time")) {
 								annotation.setStartTime(pull.nextText());
