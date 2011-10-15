@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
@@ -33,26 +34,38 @@ public class ShowAnnotation extends CondroidActivity {
 
 		TextView author = (TextView) this.findViewById(R.id.annot_author);
 		author.setText(this.annotation.getAuthor());
+		
+		TextView pid = (TextView) this.findViewById(R.id.annot_pid);
+		pid.setText(this.annotation.getPid());
 
 		String date = "";
 		if (annotation.getStartTime() != null
 				&& annotation.getEndTime() != null) {
 			date = formatDate(annotation.getStartTime()) + " - "
-					+ todayFormat.format(annotation.getEndTime()) + ", ";
+					+ todayFormat.format(annotation.getEndTime());
 		}
 
 		TextView line = (TextView) this.findViewById(R.id.annot_line);
-		line.setText(DataProvider.getInstance(getApplicationContext())
+		line.setText(", " + DataProvider.getInstance(getApplicationContext())
 				.getProgramLine(this.annotation.getLid()).getName());
-
-		TextView info = (TextView) this.findViewById(R.id.annot_info);
-		info.setText( date
-		// + this.annotation.getLength()
-		// + ", "
-		);
-		((TextView) this.findViewById(R.id.annot_type)).setText(this.annotation.getPid() + ", " +this
+		if(this.annotation.getLocation() != null && this.annotation.getLocation() != "") {
+			TextView location = (TextView) this.findViewById(R.id.annot_location);
+			location.setText(this.annotation.getLocation());
+		}
+		else {
+			this.findViewById(R.id.annot_location).setVisibility(View.GONE);
+		}
+		
+		TextView info = (TextView) this.findViewById(R.id.annot_time);
+		if(date != "") {
+			
+			info.setText(date);
+			
+		} else {
+			info.setVisibility(View.GONE);
+		}
+		((TextView) this.findViewById(R.id.annot_type)).setText(", " +this
 				.getTextualTypes());
-
 		TextView text = (TextView) this.findViewById(R.id.annot_text);
 		text.setText(this.annotation.getAnnotation());
 		((ImageView) this.findViewById(R.id.iProgramIcon))
