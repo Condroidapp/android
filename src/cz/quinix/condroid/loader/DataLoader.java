@@ -119,7 +119,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 								annotation.setProgramLine(pull.nextText());
 							}
 							if (name.equalsIgnoreCase("location")) {
-								annotation.setLocation(pull.nextText());
+								annotation.setLocation(pull.nextText().trim());
 							}
 							if (name.equalsIgnoreCase("annotation")) {
 								annotation.setAnnotation(Html.fromHtml(pull.nextText()).toString());

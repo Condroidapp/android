@@ -175,7 +175,8 @@ public class DataProvider  {
 		annotation.setAnnotation(c.getString(c.getColumnIndex("annotation")));
 		annotation.setAuthor(c.getString(c.getColumnIndex("talker")));
 		annotation.setSQLEndTime(c.getString(c.getColumnIndex("endTime")));
-		annotation.setLength(c.getString(c.getColumnIndex("length")));
+		//annotation.setLength(c.getString(c.getColumnIndex("length")));
+		annotation.setLocation(c.getString(c.getColumnIndex("location")));
 		annotation.setLid(c.getInt(c.getColumnIndex("lid")));
 		annotation.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
 		annotation.setType(c.getString(c.getColumnIndex("mainType")));

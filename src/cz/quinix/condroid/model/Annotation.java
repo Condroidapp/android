@@ -211,6 +211,9 @@ public class Annotation implements Serializable, DBInsertable {
 	public void setLocation(String nextText) {
 		location = nextText;
 	}
+	public String getLocation() {
+		return location;
+	}
 
 	public String[] getAdditionalTypes() {
 		return additonalTypes.split("\\+");
