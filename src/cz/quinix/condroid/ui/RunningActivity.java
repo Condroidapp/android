@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidListActivity;
 import cz.quinix.condroid.database.DataProvider;
@@ -32,6 +33,10 @@ public class RunningActivity extends CondroidListActivity {
 		super.onCreate(savedInstanceState);
 		provider = DataProvider.getInstance(getApplicationContext());
 		list = provider.getRunningAndNext();
+		if(list.size() == 0) {
+			Toast.makeText(this, "Neexistuje žádný běžící program.", Toast.LENGTH_LONG).show();
+			this.finish();
+		}
 		this.setListAdapter(new CategoryAdapter(list, this));
 	}
 	
@@ -49,7 +54,7 @@ public class RunningActivity extends CondroidListActivity {
 		case R.id.refresh:
 			this.list.clear();
 			this.list.addAll(provider.getRunningAndNext());
-			((ArrayAdapter) this.getListAdapter()).notifyDataSetChanged();
+			((CategoryAdapter) this.getListAdapter()).notifyDataSetChanged();
 
 			return true;
 
