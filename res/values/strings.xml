@@ -17,8 +17,7 @@
     <string name="bShowAll">Všechny pořady (s filtrováním)</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
     <string name="downloadDialog">Aplikace potřebuje stáhnout cca 1 MB zdrojových dat nutných pro její běh. Pokud nemáte datový tarif, připojte se nejdříve k WiFi. Zpracování trvá několik málo minut, podle výkonu telefonu. \n\nChcete pokračovat?</string>
-    <string name="mLineFilter">Filtr linie</string>
-    <string name="mDateFilter">Filtr data</string>
+    <string name="mFilter">Filtrovat</string>
     <string name="dPickLine">Vyberte linii</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
@@ -37,6 +36,11 @@
     <string name="workshop">Workshop</string>
     <string name="theatre">Ceremoniál/Divadlo</string>
     <string name="music">Hudba</string>
+    <string name="chooseFilter">Filtrovat podle</string>
+    <string-array name="filterBy">
+        <item>Data</item>
+        <item>Linie</item>
+    </string-array>
     
     
 </resources>

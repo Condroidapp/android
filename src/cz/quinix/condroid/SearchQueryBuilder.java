@@ -77,6 +77,10 @@ public class SearchQueryBuilder {
 		params.clear();
 	}
 
+	public boolean isEmpty() {
+		return params.isEmpty();
+	}
+
 	
 
 	

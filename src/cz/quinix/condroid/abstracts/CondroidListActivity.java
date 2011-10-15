@@ -25,24 +25,7 @@ public abstract class CondroidListActivity extends ListActivity {
 
 	protected DataProvider provider;
 
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater inflanter = this.getMenuInflater();
-		inflanter.inflate(R.menu.main, menu);
-		return true;
-	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.about:
-			Intent intent2 = new Intent(this, AboutActivity.class);
-			this.startActivity(intent2);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 
 	private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 	private static DateFormat dayFormat = new SimpleDateFormat(

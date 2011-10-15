@@ -12,23 +12,7 @@ import cz.quinix.condroid.ui.AboutActivity;
 public abstract class CondroidActivity extends Activity {
 
 	public static final String PREF_NAME = "condroid";
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater inflanter = this.getMenuInflater();
-		inflanter.inflate(R.menu.main, menu);
-		return true;
-	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.about:
-			Intent intent2 = new Intent(this, AboutActivity.class);
-			this.startActivity(intent2);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+
+	
 }
