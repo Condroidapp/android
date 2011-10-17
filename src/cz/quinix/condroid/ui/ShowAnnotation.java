@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class ShowAnnotation extends CondroidActivity {
 				.getTextualTypes());
 		TextView text = (TextView) this.findViewById(R.id.annot_text);
 		text.setText(this.annotation.getAnnotation());
+		text.setMovementMethod(new ScrollingMovementMethod());
 		((ImageView) this.findViewById(R.id.iProgramIcon))
 				.setImageResource(annotation.getProgramIcon());
 
