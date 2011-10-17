@@ -6,9 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
@@ -72,6 +74,19 @@ public class ShowAnnotation extends CondroidActivity {
 		text.setMovementMethod(new ScrollingMovementMethod());
 		((ImageView) this.findViewById(R.id.iProgramIcon))
 				.setImageResource(annotation.getProgramIcon());
+		ImageView share = (ImageView) this.findViewById(R.id.iShare);
+		share.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				intent.putExtra(Intent.EXTRA_TEXT, annotation.getTitle() +", @"+annotation.getLocation() + "");
+				intent.putExtra(Intent.EXTRA_SUBJECT, "Právě jsem na pořadu ");
+				startActivity(Intent.createChooser(intent, "Sdílet"));
+				
+				
+			}
+		});
 
 	}
 
