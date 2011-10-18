@@ -65,7 +65,7 @@ public class ShowAnnotation extends CondroidActivity {
 			info.setText(date);
 			
 		} else {
-			info.setVisibility(View.GONE);
+			findViewById(R.id.lDate).setVisibility(View.GONE);
 		}
 		((TextView) this.findViewById(R.id.annot_type)).setText(", " +this
 				.getTextualTypes());

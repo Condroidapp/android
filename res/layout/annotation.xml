@@ -2,18 +2,27 @@
 <LinearLayout
   android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout android:background="@drawable/textlines" android:layout_width="fill_parent" android:padding="5dp" android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_height="wrap_content">
-        <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content" android:paddingBottom="2dp" android:textSize="18dp" android:layout_width="fill_parent" android:text="TextView"></TextView>
+        <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content" android:paddingBottom="2dp" android:layout_width="fill_parent" android:text="TextView" android:textSize="17dp"></TextView>
         <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/frameLayout1">
-            <ImageView android:src="@drawable/program_unknown" android:layout_gravity="right|center_vertical" android:padding="5dp" android:id="@+id/iProgramIcon" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageView>
-            <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                <TextView android:id="@+id/annot_author" android:layout_height="wrap_content" android:paddingBottom="2dp" android:textSize="16dp" android:layout_width="fill_parent" android:text="TextView"></TextView>
-                <TextView android:id="@+id/annot_location" android:layout_height="wrap_content" android:textSize="16dp" android:layout_width="wrap_content" android:text="TextView"></TextView>
-                <TextView android:textColor="@color/gray" android:id="@+id/annot_time" android:layout_height="wrap_content" android:textSize="16dp" android:layout_width="fill_parent" android:text="TextView"></TextView>
-                <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:layout_height="wrap_content">
-                    <TextView android:textColor="@color/gray" android:id="@+id/annot_pid" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
-                    <TextView android:textColor="@color/gray" android:id="@+id/annot_line" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
-                    <TextView android:textColor="@color/gray" android:id="@+id/annot_type" android:layout_height="wrap_content" android:layout_width="wrap_content" android:inputType="text"></TextView>
-                </LinearLayout>
+            <ImageView android:src="@drawable/program_unknown" android:layout_gravity="right|center_vertical" android:id="@+id/iProgramIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dp" android:paddingTop="5dp" android:paddingBottom="5dp" android:paddingRight="15dp"></ImageView>
+            <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingRight="35dip">
+                <TextView android:text="TextView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingBottom="2dp" android:id="@+id/annot_author" android:textSize="16dp"></TextView>
+                <FrameLayout android:layout_width="fill_parent" android:id="@+id/frameLayout2" android:layout_height="wrap_content">
+                    <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/pin" android:id="@+id/imageView2" android:layout_gravity="center_vertical"></ImageView>
+                    <TextView android:text="TextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/annot_location" android:paddingLeft="20dip" android:textSize="15dp"></TextView>
+                </FrameLayout>
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/lDate">
+                    <ImageView android:layout_width="wrap_content" android:src="@drawable/calendar" android:id="@+id/imageView1" android:layout_height="wrap_content" android:layout_gravity="center_vertical"></ImageView>
+                    <TextView android:textColor="@color/gray" android:text="TextView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/annot_time" android:paddingLeft="20dip" android:textSize="15dp"></TextView>
+                </FrameLayout>
+                <FrameLayout android:layout_width="fill_parent" android:id="@+id/frameLayout4" android:layout_height="wrap_content">
+                    <ImageView android:layout_width="wrap_content" android:src="@drawable/info" android:id="@+id/imageView4" android:layout_height="wrap_content" android:layout_gravity="center_vertical"></ImageView>
+                    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:paddingLeft="20dip">
+                        <TextView android:text="id" android:id="@+id/annot_pid" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
+                        <TextView android:text="line" android:id="@+id/annot_line" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
+                        <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:inputType="text" android:textSize="14dip"></TextView>
+                    </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
@@ -23,9 +32,9 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout5" android:layout_weight="1" android:layout_height="0dp" android:background="@drawable/textlines_reverse">
-        <ImageButton android:layout_weight="1" android:src="@android:drawable/ic_menu_share" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/iShare" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
-        <ImageButton android:src="@android:drawable/ic_menu_my_calendar" android:id="@+id/imageView2" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
-        <ImageButton android:src="@android:drawable/star_off" android:id="@+id/imageView3" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
+        <ImageButton android:layout_weight="1" android:src="@drawable/share" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/iShare" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
+        <!-- ImageButton android:src="@android:drawable/ic_menu_my_calendar" android:id="@+id/imageView2" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton -->
+        <ImageButton android:src="@drawable/star" android:id="@+id/imageView3" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
     </LinearLayout>
 
 
