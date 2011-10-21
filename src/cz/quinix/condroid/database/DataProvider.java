@@ -25,6 +25,7 @@ public class DataProvider  {
 	
 	private CondroidDatabase mDatabase;
 	private Convention con;
+	private List<Integer> favorited;
 	private static volatile DataProvider instance;
 	
 	private static HashMap<Integer, String> programLines = null;
@@ -202,6 +203,32 @@ public class DataProvider  {
 		c.close();
 		this.con = co;
 		return co;
+	}
+
+	public List<Integer> getFavorited() {
+		if(favorited != null) {
+			return favorited;
+		}
+		Cursor c = this.mDatabase.query(CondroidDatabase.FAVORITE_TABLE, null, null, null, "pid ASC", null);
+		favorited = new ArrayList<Integer>();
+		
+		while (c.moveToNext()) {
+			favorited.add(c.getInt(c.getColumnIndex("pid")));
+		}
+		return favorited;
+	}
+
+	public boolean doFavorite(String pid) {
+		Cursor c = this.mDatabase.query(CondroidDatabase.FAVORITE_TABLE, null, "pid="+pid, null, null, null);
+		favorited = null;
+		if(c.getCount() > 0) {
+			this.mDatabase.query("DELETE FROM " + CondroidDatabase.FAVORITE_TABLE + " WHERE pid = '"+pid+"'");
+			return false;
+		}
+		else {
+			this.mDatabase.query("INSERT INTO "+CondroidDatabase.FAVORITE_TABLE +" (pid) VALUES ('"+pid +"')");
+			return true;
+		}
 	}
 	
 	

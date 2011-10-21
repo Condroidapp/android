@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
+import cz.quinix.condroid.abstracts.CondroidListActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 
@@ -24,10 +25,11 @@ public class ShowAnnotation extends CondroidActivity {
 	private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 	private static DateFormat dayFormat = new SimpleDateFormat(
 			"EE dd.MM. HH:mm", new Locale("cs", "CZ"));
-
+	private DataProvider provider;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		provider = DataProvider.getInstance(getApplicationContext());
 		this.annotation = (Annotation) this.getIntent().getSerializableExtra(
 				"annotation");
 		this.setContentView(R.layout.annotation);
@@ -85,6 +87,24 @@ public class ShowAnnotation extends CondroidActivity {
 				startActivity(Intent.createChooser(intent, "Sdílet"));
 				
 				
+			}
+		});
+		
+		ImageView favorite = (ImageView) this.findViewById(R.id.iFavorite);
+		if(provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
+			favorite.setImageResource(R.drawable.star_active);
+		}
+		favorite.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				
+				ImageView favorite = (ImageView) v.findViewById(R.id.iFavorite);
+				if(provider.doFavorite(annotation.getPid())) {
+					favorite.setImageResource(R.drawable.star_active);
+				} else {
+					favorite.setImageResource(R.drawable.star);
+				}
+				CondroidListActivity.refreshDataset = true;
 			}
 		});
 

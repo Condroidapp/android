@@ -27,7 +27,7 @@ import cz.quinix.condroid.model.Annotation;
 public class RunningActivity extends CondroidListActivity {
 
 	List<Annotation> list = null;
-
+	private CategoryAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,7 +37,17 @@ public class RunningActivity extends CondroidListActivity {
 			Toast.makeText(this, "Neexistuje žádný běžící program.", Toast.LENGTH_LONG).show();
 			this.finish();
 		}
-		this.setListAdapter(new CategoryAdapter(list, this));
+		adapter = new CategoryAdapter(list, this);
+		this.setListAdapter(adapter);
+	}
+	
+	@Override
+	protected void onStart() {
+		if(refreshDataset) {
+			this.adapter.notifyDataSetChanged();
+			refreshDataset = false;
+		}
+		super.onStart();
 	}
 	
 	@Override

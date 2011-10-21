@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
@@ -25,18 +27,24 @@ public abstract class CondroidListActivity extends ListActivity {
 
 	protected DataProvider provider;
 
-
-
 	private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 	private static DateFormat dayFormat = new SimpleDateFormat(
 			"EE dd.MM. HH:mm", new Locale("cs","CZ"));
+
+	public static boolean refreshDataset = false;
 	static {
 		todayFormat.setTimeZone(TimeZone.getDefault());
 		dayFormat.setTimeZone(TimeZone.getDefault());
 	}
-
+	
+	
 	public View inflanteAnnotation(View v, Annotation annotation) {
 
+		if(provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
+			((LinearLayout) v.findViewById(R.id.lItemLayout)).setBackgroundResource(R.color.yellow);
+		} else {
+			v.setBackgroundColor(android.R.color.transparent);
+		}
 		TextView tw = (TextView) v.findViewById(R.id.alTitle);
 		if (tw != null) {
 			tw.setText(annotation.getTitle());

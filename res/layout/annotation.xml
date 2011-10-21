@@ -34,7 +34,7 @@
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout5" android:layout_weight="1" android:layout_height="0dp" android:background="@drawable/textlines_reverse">
         <ImageButton android:layout_weight="1" android:src="@drawable/share" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/iShare" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
         <!-- ImageButton android:src="@android:drawable/ic_menu_my_calendar" android:id="@+id/imageView2" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton -->
-        <ImageButton android:src="@drawable/star" android:id="@+id/imageView3" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton>
+        <ImageButton android:src="@drawable/star" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:id="@+id/iFavorite"></ImageButton>
     </LinearLayout>
 
 

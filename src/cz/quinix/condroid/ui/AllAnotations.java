@@ -52,11 +52,21 @@ public class AllAnotations extends CondroidListActivity {
 		this.setListAdapter(this.adapter);
 		this.handleIntent(this.getIntent());
 	}
+	
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		this.setIntent(intent);
 		this.handleIntent(intent);
+	}
+	
+	@Override
+	protected void onStart() {
+		if(refreshDataset) {
+			this.adapter.notifyDataSetChanged();
+			refreshDataset = false;
+		}
+		super.onStart();
 	}
 
 	@Override
@@ -315,10 +325,10 @@ public class AllAnotations extends CondroidListActivity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 
 			View v = convertView;
-			if (v == null) {
+			//if (v == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = vi.inflate(R.layout.annotation_list_item, null);
-			}
+			//}
 			Annotation it = null;
 			try {
 				it = (Annotation) this.getItem(position);
@@ -327,7 +337,6 @@ public class AllAnotations extends CondroidListActivity {
 			}
 			if (it != null) {
 				return inflanteAnnotation(v, it);
-
 			}
 			return super.getView(position, convertView, parent);
 		}
