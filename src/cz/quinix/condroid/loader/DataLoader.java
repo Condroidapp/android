@@ -12,12 +12,10 @@ import android.app.ProgressDialog;
 import android.text.Html;
 import android.util.Log;
 import android.util.Xml;
-import cz.quinix.condroid.R;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.WelcomeActivity;
 
 public class DataLoader extends ListenedAsyncTask<String, Integer> {
 

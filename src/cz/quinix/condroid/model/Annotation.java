@@ -8,10 +8,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.content.ContentValues;
-import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.DBInsertable;
-import cz.quinix.condroid.database.DataProvider;
 
 public class Annotation implements Serializable, DBInsertable {
 
