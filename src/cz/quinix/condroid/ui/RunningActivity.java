@@ -26,28 +26,18 @@ import cz.quinix.condroid.model.Annotation;
 
 public class RunningActivity extends CondroidListActivity {
 
-	List<Annotation> list = null;
-	private CategoryAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		provider = DataProvider.getInstance(getApplicationContext());
-		list = provider.getRunningAndNext();
-		if(list.size() == 0) {
+		annotations = provider.getRunningAndNext();
+		if(annotations.size() == 0) {
 			Toast.makeText(this, "Neexistuje žádný běžící program.", Toast.LENGTH_LONG).show();
 			this.finish();
 		}
-		adapter = new CategoryAdapter(list, this);
+		adapter = new CategoryAdapter(annotations, this);
 		this.setListAdapter(adapter);
-	}
-	
-	@Override
-	protected void onStart() {
-		if(refreshDataset) {
-			this.adapter.notifyDataSetChanged();
-			refreshDataset = false;
-		}
-		super.onStart();
+		registerForContextMenu(getListView());
 	}
 	
 	@Override
@@ -62,8 +52,8 @@ public class RunningActivity extends CondroidListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refresh:
-			this.list.clear();
-			this.list.addAll(provider.getRunningAndNext());
+			this.annotations.clear();
+			this.annotations.addAll(provider.getRunningAndNext());
 			((CategoryAdapter) this.getListAdapter()).notifyDataSetChanged();
 
 			return true;

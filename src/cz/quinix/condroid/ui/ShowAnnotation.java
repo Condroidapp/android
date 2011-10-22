@@ -18,6 +18,8 @@ import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.CondroidListActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
+import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 
 public class ShowAnnotation extends CondroidActivity {
 
@@ -77,36 +79,13 @@ public class ShowAnnotation extends CondroidActivity {
 		((ImageView) this.findViewById(R.id.iProgramIcon))
 				.setImageResource(annotation.getProgramIcon());
 		ImageView share = (ImageView) this.findViewById(R.id.iShare);
-		share.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_SEND);
-				intent.setType("text/plain");
-				intent.putExtra(Intent.EXTRA_TEXT, annotation.getTitle() +", @"+annotation.getLocation() + "");
-				intent.putExtra(Intent.EXTRA_SUBJECT, "Právě jsem na pořadu ");
-				startActivity(Intent.createChooser(intent, "Sdílet"));
-				
-				
-			}
-		});
+		share.setOnClickListener(new ShareProgramListener(this));
 		
 		ImageView favorite = (ImageView) this.findViewById(R.id.iFavorite);
 		if(provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
 			favorite.setImageResource(R.drawable.star_active);
 		}
-		favorite.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				
-				ImageView favorite = (ImageView) v.findViewById(R.id.iFavorite);
-				if(provider.doFavorite(annotation.getPid())) {
-					favorite.setImageResource(R.drawable.star_active);
-				} else {
-					favorite.setImageResource(R.drawable.star);
-				}
-				CondroidListActivity.refreshDataset = true;
-			}
-		});
+		favorite.setOnClickListener(new MakeFavoritedListener(this));
 
 	}
 
@@ -168,5 +147,9 @@ public class ShowAnnotation extends CondroidActivity {
 			return dayFormat.format(date);
 		}
 
+	}
+
+	public Annotation getAnnotation() {
+		return annotation;
 	}
 }

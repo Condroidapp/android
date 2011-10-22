@@ -41,6 +41,10 @@
         <item>Data</item>
         <item>Linie</item>
     </string-array>
+    <string-array name="annotationContext">
+        <item>Sdílet</item>
+        <item>Přidat k oblíbeným</item>
+    </string-array>
     
     
 </resources>
