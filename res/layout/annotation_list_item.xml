@@ -3,16 +3,19 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:orientation="vertical">
-    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/lItemLayout">
-        <TextView android:textSize="15dp" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="4dp" android:text="TextView" android:textStyle="bold" android:id="@+id/alTitle"></TextView>
-        <FrameLayout android:layout_height="wrap_content" android:id="@+id/frameLayout1" android:layout_width="fill_parent">
-            <ImageView android:layout_height="wrap_content" android:src="@drawable/discussion" android:layout_gravity="right" android:layout_width="wrap_content" android:layout_margin="5dp" android:id="@+id/iProgramType" android:paddingRight="10dip"></ImageView>
-            <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="fill_parent" android:orientation="vertical" android:layout_marginRight="32dp">
-                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="TextView" android:id="@+id/alSecondLine" android:paddingTop="0dp" android:paddingRight="4dp" android:paddingLeft="4dp"></TextView>
-                <TextView android:textColor="@color/gray" android:layout_width="fill_parent" android:layout_height="wrap_content" android:padding="4dp" android:text="TextView" android:id="@+id/alThirdLine"></TextView>
-            </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
+    <FrameLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/lItemLayout">
+        <ImageView android:layout_width="wrap_content" android:src="@drawable/star_corner" android:layout_height="wrap_content" android:layout_gravity="top|right" android:id="@+id/iFavorited" android:visibility="gone"></ImageView>
+        <LinearLayout android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent" android:id="@+id/lItemLayout2">
+            <TextView android:id="@+id/alTitle" android:text="TextView" android:textStyle="bold" android:layout_width="fill_parent" android:padding="4dp" android:textSize="15dp" android:layout_height="wrap_content"></TextView>
+            <FrameLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/frameLayout1">
+                <ImageView android:paddingRight="10dip" android:layout_width="wrap_content" android:src="@drawable/discussion" android:layout_margin="5dp" android:layout_gravity="bottom|right" android:layout_height="wrap_content" android:id="@+id/iProgramType"></ImageView>
+                <LinearLayout android:id="@+id/linearLayout1" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginRight="32dp">
+                    <TextView android:id="@+id/alSecondLine" android:text="TextView" android:layout_width="fill_parent" android:paddingLeft="4dp" android:paddingTop="0dp" android:layout_height="wrap_content" android:paddingRight="4dp"></TextView>
+                    <TextView android:id="@+id/alThirdLine" android:text="TextView" android:layout_width="fill_parent" android:padding="4dp" android:layout_height="wrap_content" android:textColor="@color/gray"></TextView>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
     <LinearLayout
   android:orientation="vertical"
   android:layout_width="fill_parent"

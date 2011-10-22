@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -123,7 +124,7 @@ class CategoryAdapter extends ArrayAdapter<Annotation> {
 	
 	private void setLayout(View v, Annotation item) {
 		LinearLayout title = (LinearLayout) v.findViewById(R.id.ldateLayout);
-		LinearLayout itemL = (LinearLayout) v.findViewById(R.id.lItemLayout);
+		FrameLayout itemL = (FrameLayout) v.findViewById(R.id.lItemLayout);
 		if(item.getTitle() == "break") {
 			title.setVisibility(View.VISIBLE);
 			itemL.setVisibility(View.GONE);

@@ -53,10 +53,13 @@ public abstract class CondroidListActivity extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-		    menu.setHeaderTitle(this.annotations.get(info.position).getTitle());
+		    Annotation an = this.annotations.get(info.position);
+		    if (an.getTitle() != "break") {
+		    menu.setHeaderTitle(an.getTitle());
 		    String[] menuItems = getResources().getStringArray(R.array.annotationContext);
 		    for (int i = 0; i<menuItems.length; i++) {
 		      menu.add(Menu.NONE, i, i, menuItems[i]);
+		    }
 		    }
 		  
 	}
@@ -66,6 +69,7 @@ public abstract class CondroidListActivity extends ListActivity {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		int menuItemIndex = item.getItemId();
 		Annotation an = this.annotations.get(info.position);
+		
 		switch (menuItemIndex) {
 		case 0:
 			new ShareProgramListener(this).invoke(an);
@@ -77,6 +81,7 @@ public abstract class CondroidListActivity extends ListActivity {
 		default:
 			break;
 		}
+		
 		  
 		  return true;
 	}
@@ -85,9 +90,9 @@ public abstract class CondroidListActivity extends ListActivity {
 	public View inflanteAnnotation(View v, Annotation annotation) {
 
 		if(provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
-			((LinearLayout) v.findViewById(R.id.lItemLayout)).setBackgroundResource(R.color.yellow);
+			((ImageView) v.findViewById(R.id.iFavorited)).setVisibility(View.VISIBLE);
 		} else {
-			((LinearLayout) v.findViewById(R.id.lItemLayout)).setBackgroundColor(android.R.color.transparent);
+			((ImageView) v.findViewById(R.id.iFavorited)).setVisibility(View.GONE);
 		}
 		TextView tw = (TextView) v.findViewById(R.id.alTitle);
 		if (tw != null) {
