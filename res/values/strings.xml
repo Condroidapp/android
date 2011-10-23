@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="appName">Condroid</string>
+    <string name="appNameAbout">Condroid - o programu</string>
     <string name="mAbout">O programu</string>
     <string name="mRefresh">Obnovit</string>
     <string name="bReloadCatalog">Obnovit data/načíst jiný con</string>
@@ -9,7 +10,7 @@
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
     <string name="search">Hledat</string>
-    <string name="tAboutName">Condroid v2.2</string>
+    <string name="tAboutName">Condroid v2.3</string>
     <string name="tAboutCopyright">&#169; 2011, Jan -Quinix- Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
