@@ -87,7 +87,7 @@ public class CondroidDatabase {
 				"\"cid\"  INTEGER NOT NULL,"+
 				"\"title\"  TEXT(255) NOT NULL"+
 			");";
-			private static final String DATABASE_CREATE_FAVORITE = 	"CREATE TABLE \"" +FAVORITE_TABLE+ "\" ("+
+			private static final String DATABASE_CREATE_FAVORITE = 	"CREATE TABLE IF NOT EXISTS \"" +FAVORITE_TABLE+ "\" ("+
 					"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"+
 					"\"pid\"  INTEGER NOT NULL"+
 			");";
@@ -106,6 +106,7 @@ public class CondroidDatabase {
 			db.execSQL(DATABASE_CREATE_LINES);
 			db.execSQL(DATABASE_CREATE_FAVORITE);
 		}
+		
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
