@@ -19,7 +19,7 @@ public class AboutDialog extends AlertDialog {
 		super(context);
 		
 		View v = LayoutInflater.from(context).inflate(R.layout.about_dialog, null);
-		this.setTitle(R.string.appName);
+		this.setTitle(R.string.appNameAbout);
 		this.setView(v);
 		this.setButton(BUTTON1, "OK", new OkListener());
 		this.setButton(BUTTON2, "Přispět", new DonateListener());

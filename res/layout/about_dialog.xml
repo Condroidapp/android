@@ -7,8 +7,7 @@
     <ScrollView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/scrollView1">
         
         <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical">
-            <LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:orientation="vertical" android:layout_gravity="center_horizontal" android:gravity="center_horizontal" android:layout_width="fill_parent" android:layout_marginBottom="20dip">
-                <TextView android:id="@+id/textView5" android:text="@string/mAbout" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:textColor="@color/white"></TextView>
+            <LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:orientation="vertical" android:layout_gravity="center_horizontal" android:gravity="center_horizontal" android:layout_width="fill_parent" android:layout_marginBottom="20dip" android:layout_marginTop="10dip">
                 <TextView android:layout_width="wrap_content" android:id="@+id/textView1" android:layout_height="wrap_content" android:text="@string/tAboutName" android:textColor="@color/lightgray"></TextView>
     <TextView android:layout_width="wrap_content" android:id="@+id/textView2" android:layout_height="wrap_content" android:autoLink="web" android:text="@string/tAboutHttp" android:textColor="@color/white"></TextView>
     <TextView android:id="@+id/textView6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/lightgray" android:text="@string/licenced"></TextView>
