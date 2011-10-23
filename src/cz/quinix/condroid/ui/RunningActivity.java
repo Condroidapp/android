@@ -64,6 +64,7 @@ public class RunningActivity extends CondroidListActivity {
 		}
 	}
 
+	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Annotation selected = (Annotation) l.getItemAtPosition(position);
@@ -89,6 +90,7 @@ class CategoryAdapter extends ArrayAdapter<Annotation> {
 		this.caller = caller;
 	}
 
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Annotation it = this.getItem(position);
 

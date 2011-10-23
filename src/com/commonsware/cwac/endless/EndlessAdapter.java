@@ -92,6 +92,7 @@ abstract public class EndlessAdapter extends AdapterWrapper {
 	 * Masks ViewType so the AdapterView replaces the "Pending" row when new
 	 * data is loaded.
 	 */
+	@Override
 	public int getItemViewType(int position) {
 		if (position==getWrappedAdapter().getCount()) {
 			return(IGNORE_ITEM_VIEW_TYPE);
@@ -106,6 +107,7 @@ abstract public class EndlessAdapter extends AdapterWrapper {
 	 * 
 	 * @see #getItemViewType(int)
 	 */
+	@Override
 	public int getViewTypeCount() {
 		return(super.getViewTypeCount()+1);
 	}

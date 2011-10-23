@@ -44,6 +44,7 @@ public class AllAnotations extends CondroidListActivity {
 
 	private SearchQueryBuilder searchQuery = null;
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		searchQuery = new SearchQueryBuilder();
@@ -316,7 +317,7 @@ public class AllAnotations extends CondroidListActivity {
 			}
 			this.itemsToAdd = provider.getAnnotations(
 					searchQuery.buildCondition(),
-					(int) (this.getCount() / this.itemsPerPage));
+					(this.getCount() / this.itemsPerPage));
 
 			return (this.itemsToAdd.size() == this.itemsPerPage);
 		}
@@ -351,6 +352,7 @@ public class AllAnotations extends CondroidListActivity {
 			AllAnotations.this.getListView().setSelection(0);
 		}
 
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
 			View v = convertView;
