@@ -11,6 +11,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -34,6 +37,26 @@ public class WelcomeActivity extends CondroidActivity implements
 	public static final String TAG = "Condroid";
 	private ProgressDialog pd;
 	private List<Convention> conventionList;
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater i = this.getMenuInflater();
+		i.inflate(R.menu.welcome, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.mAbout:
+			new AboutDialog(this).show();
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +65,15 @@ public class WelcomeActivity extends CondroidActivity implements
 
 		this.setContentView(R.layout.welcome);
 		dataProvider = DataProvider.getInstance(getApplicationContext());
+		
+		SharedPreferences pref = getSharedPreferences(TAG, 0);
+		boolean shown = pref.getBoolean("aboutShown", false);
+		if(!shown) {
+			AlertDialog dialog = new AboutDialog(this);
+			dialog.show();
+		}
+		
+		
 		if (!dataProvider.hasData()) {
 			this.noDataDialog(getString(R.string.noData) + " "
 					+ getString(R.string.downloadDialog));
