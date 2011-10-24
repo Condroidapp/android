@@ -7,7 +7,12 @@
             <ImageView android:src="@drawable/program_unknown" android:layout_gravity="right|center_vertical" android:id="@+id/iProgramIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dp" android:paddingTop="5dp" android:paddingBottom="5dp" android:paddingRight="15dp"></ImageView>
             <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingRight="35dip">
                 <TextView android:text="TextView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingBottom="2dp" android:id="@+id/annot_author" android:textSize="16dp"></TextView>
-                <FrameLayout android:layout_width="fill_parent" android:id="@+id/frameLayout2" android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:id="@+id/lLocation"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
                     <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/pin" android:id="@+id/imageView2" android:layout_gravity="center_vertical"></ImageView>
                     <TextView android:text="TextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/annot_location" android:paddingLeft="20dip" android:textSize="15dp"></TextView>
                 </FrameLayout>

@@ -42,12 +42,13 @@ import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 
 public class AllAnotations extends CondroidListActivity {
 
-	private SearchQueryBuilder searchQuery = null;
+	private static SearchQueryBuilder searchQuery = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		searchQuery = new SearchQueryBuilder();
+		if(searchQuery == null)
+			searchQuery = new SearchQueryBuilder();
 		this.provider = DataProvider.getInstance(getApplicationContext());
 
 		annotations = this.provider.getAnnotations(
@@ -64,7 +65,7 @@ public class AllAnotations extends CondroidListActivity {
 		this.setIntent(intent);
 		this.handleIntent(intent);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater i = this.getMenuInflater();

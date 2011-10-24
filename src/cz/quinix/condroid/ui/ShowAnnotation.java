@@ -9,6 +9,7 @@ import java.util.Locale;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
@@ -52,12 +53,12 @@ public class ShowAnnotation extends CondroidActivity {
 		TextView line = (TextView) this.findViewById(R.id.annot_line);
 		line.setText(", " + DataProvider.getInstance(getApplicationContext())
 				.getProgramLine(this.annotation.getLid()).getName());
-		if(this.annotation.getLocation() != null && this.annotation.getLocation() != "") {
+		if(this.annotation.getLocation() != null && !this.annotation.getLocation().trim().equals("")) {
 			TextView location = (TextView) this.findViewById(R.id.annot_location);
 			location.setText(this.annotation.getLocation());
 		}
 		else {
-			this.findViewById(R.id.annot_location).setVisibility(View.GONE);
+			((FrameLayout) findViewById(R.id.lLocation)).setVisibility(View.GONE);
 		}
 		
 		TextView info = (TextView) this.findViewById(R.id.annot_time);
