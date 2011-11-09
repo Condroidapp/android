@@ -160,7 +160,7 @@ public class WelcomeActivity extends CondroidActivity implements
 			tw2.setText(con.getName());
 		}
 		LinearLayout l = (LinearLayout) findViewById(R.id.lbShowLocations);
-		if (con.getLocationsFile() != "") {
+		if (con.getLocationsFile().trim() != "") {
 			l.setVisibility(View.VISIBLE);
 		} else {
 			l.setVisibility(View.GONE);
