@@ -153,6 +153,7 @@ public class WelcomeActivity extends CondroidActivity implements
 	}
 
 	private void initView() {
+		
 		Convention con = dataProvider.getCon();
 		if (con != null) {
 			TextView tw2 = (TextView) findViewById(R.id.tLoadedInfoCon);
@@ -160,7 +161,7 @@ public class WelcomeActivity extends CondroidActivity implements
 			tw2.setText(con.getName());
 		}
 		LinearLayout l = (LinearLayout) findViewById(R.id.lbShowLocations);
-		if (con.getLocationsFile().trim() != "") {
+		if (con.getLocationsFile()!= null && !con.getLocationsFile().trim().equals("")) {
 			l.setVisibility(View.VISIBLE);
 		} else {
 			l.setVisibility(View.GONE);
