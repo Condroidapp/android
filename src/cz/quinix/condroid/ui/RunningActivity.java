@@ -27,6 +27,8 @@ import cz.quinix.condroid.model.Annotation;
 
 public class RunningActivity extends CondroidListActivity {
 
+	private boolean favoritedOnly = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,16 +54,36 @@ public class RunningActivity extends CondroidListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.run_favorite:
+			this.favoritedOnly  = !this.favoritedOnly;
 		case R.id.refresh:
+			try {
+			List<Annotation> a = provider.getRunningAndNext(this.favoritedOnly);
 			this.annotations.clear();
-			this.annotations.addAll(provider.getRunningAndNext());
+			this.annotations.addAll(a);
 			((CategoryAdapter) this.getListAdapter()).notifyDataSetChanged();
+			} catch (IllegalStateException e) {
+				this.favoritedOnly = false;
+				Toast.makeText(this, "Žádné pořady nejsou označené jako oblíbené.", Toast.LENGTH_LONG).show();
+			}
 
 			return true;
+		
+			
 
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if(this.favoritedOnly) {
+			menu.findItem(R.id.run_favorite).setTitle(R.string.mShowAll);
+		} else {
+			menu.findItem(R.id.run_favorite).setTitle(R.string.mFavoriteOnly);
+		}
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

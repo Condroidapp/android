@@ -2,5 +2,6 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/mRefresh" android:id="@+id/refresh" android:icon="@drawable/ic_menu_refresh"></item>
+    <item android:id="@+id/run_favorite" android:title="@string/mFavoriteOnly" android:icon="@drawable/star"></item>
     
 </menu>

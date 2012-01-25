@@ -51,6 +51,8 @@
     <string name="versionNewsText">* oblíbené pořady\n* zobrazení místností\n* sdílení pořadů\n* ikonky pro typy pořadů</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
     <string name="licenced">This software is licenced\nunder NewBSD licence.</string>
+    <string name="mFavoriteOnly">Pouze oblíbené</string>
+    <string name="mShowAll">Zobrazit vše</string>
     
     
 </resources>

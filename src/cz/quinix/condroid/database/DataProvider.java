@@ -12,6 +12,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
@@ -125,11 +126,28 @@ public class DataProvider  {
 		return map;
 	}
 
-	
 	public List<Annotation> getRunningAndNext() {
+		return this.getRunningAndNext(false);
+	}
+	
+	public List<Annotation> getRunningAndNext(boolean favoritedOnly) {
 		List<Annotation> l = new ArrayList<Annotation>();
+		String favoritedcondition = "";
 		
-		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')", null, "startTime DESC", null, false, null);
+		if(favoritedOnly) {
+			List<Integer> f = this.getFavorited();
+			if(f.size() > 0) {
+				for (Integer integer : f) {
+					favoritedcondition += integer+",";
+				}
+				favoritedcondition = " AND pid IN ("+favoritedcondition.substring(0, favoritedcondition.length()-1)+")";
+			}
+			else {
+				throw new IllegalStateException("No favorited");
+			}
+ 		}
+		
+		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')"+favoritedcondition, null, "startTime DESC", null, false, null);
 		while (c.moveToNext()) {
 			if(c.isFirst()) {
 				Annotation a = new Annotation();
@@ -146,7 +164,7 @@ public class DataProvider  {
 		}
 		c.close();
 		
-		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')", null, "startTime ASC, lid ASC", "0,100", false, null);
+		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')"+favoritedcondition, null, "startTime ASC, lid ASC", "0,100", false, null);
 		String previous = "";
 		int hours = 0;
 		while (c2.moveToNext()) {
