@@ -246,7 +246,7 @@ public class AllAnotations extends CondroidListActivity {
 		}
 	}
 	
-	@Override
+	/*	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
@@ -276,7 +276,7 @@ public class AllAnotations extends CondroidListActivity {
 		}
 		  
 		  return true;
-	}
+	}*/
 
 	private void search() {
 

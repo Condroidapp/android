@@ -9,11 +9,12 @@ public class CondroidDatabase {
 	public static final String TAG = "Condroid database";
 	
 	private static final String DATABASE_NAME = "condroid.db";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 6;
 	public static final String CON_TABLE = "cons";
 	public static final String ANNOTATION_TABLE = "annotations";
 	public static final String LINE_TABLE = "lines";
 	public static final String FAVORITE_TABLE = "favorite_program";
+	public static final String REMINDER_TABLE = "reminder";
 	
 	private CondroidOpenHelper mDatabaseHelper;
 	
@@ -92,6 +93,12 @@ public class CondroidDatabase {
 					"\"pid\"  INTEGER NOT NULL"+
 			");";
 			
+			private static final String DATABASE_CREATE_REMINDER = 	"CREATE TABLE IF NOT EXISTS \"" +REMINDER_TABLE+ "\" ("+
+					"\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"+
+					"\"pid\"  INTEGER NOT NULL,"+
+					"\"minutes\"  INTEGER NOT NULL"+
+			");";
+			
 
 		public CondroidOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -105,18 +112,21 @@ public class CondroidDatabase {
 			db.execSQL(DATABASE_CREATE_ANNOTATIONS);
 			db.execSQL(DATABASE_CREATE_LINES);
 			db.execSQL(DATABASE_CREATE_FAVORITE);
+			db.execSQL(DATABASE_CREATE_REMINDER);
 		}
 		
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			
-			if(oldVersion < DATABASE_VERSION && oldVersion <= 5) {
+			if(oldVersion < DATABASE_VERSION) {
 				db.execSQL("DROP TABLE "+CON_TABLE);
 				db.execSQL("DROP TABLE "+ANNOTATION_TABLE);
 				db.execSQL("DROP TABLE "+LINE_TABLE);
 				if(oldVersion > 4)
 					db.execSQL("DROP TABLE "+FAVORITE_TABLE);
+				if(oldVersion > 5)
+					db.execSQL("DROP TABLE "+REMINDER_TABLE);
 				this.onCreate(db);
 			}
 		}

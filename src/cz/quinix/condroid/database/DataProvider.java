@@ -251,6 +251,28 @@ public class DataProvider  {
 			return true;
 		}
 	}
+
+	public boolean setReminder(Annotation annotation, int i) {
+		try{
+			this.mDatabase.query("DELETE FROM "+ CondroidDatabase.REMINDER_TABLE + " WHERE pid="+annotation.getPid());
+			this.mDatabase.query("INSERT INTO "+CondroidDatabase.REMINDER_TABLE +" (pid, minutes) VALUES ('"+annotation.getPid()+"','"+i+"')");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public Integer getReminder(String pid) {
+		Cursor c = this.mDatabase.query(CondroidDatabase.REMINDER_TABLE, null, "pid = "+pid, null, null, null);
+		if(c.getCount() > 0) {
+			c.moveToNext();
+			return Integer.parseInt(c.getString(c.getColumnIndex("minutes")));
+		}
+		else {
+			return null;
+		}
+	}
 	
 	
 

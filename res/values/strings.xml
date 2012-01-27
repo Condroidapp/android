@@ -45,6 +45,7 @@
     <string-array name="annotationContext">
         <item>Sdílet</item>
         <item>Přidat/odebrat z oblíbených</item>
+        <item >Nastavit upozornění</item>
     </string-array>
     <string name="about">- Verze: 2.3.4</string>
     <string name="versionNews">Novinky v této verzi</string>
@@ -53,6 +54,16 @@
     <string name="licenced">This software is licenced\nunder NewBSD licence.</string>
     <string name="mFavoriteOnly">Pouze oblíbené</string>
     <string name="mShowAll">Zobrazit vše</string>
+    <string name="remind">Nastavit připomenutí</string>
+    <string-array name="remindBefore">
+        <item >v čase začátku</item>
+        <item >2 minuty</item>
+        <item >5 minut</item>
+        <item >10 minut</item>
+        <item >15 minut</item>
+        <item >20 minut</item>
+        <item >30 minut</item>
+    </string-array>
     
     
 </resources>

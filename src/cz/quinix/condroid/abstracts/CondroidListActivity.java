@@ -22,6 +22,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
+import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 
 public abstract class CondroidListActivity extends ListActivity {
@@ -77,6 +78,8 @@ public abstract class CondroidListActivity extends ListActivity {
 			new MakeFavoritedListener(this).invoke(an, null);
 			this.adapter.notifyDataSetChanged();
 			break;
+		case 2:
+			new SetReminderListener(this).invoke(an);
 		default:
 			break;
 		}
