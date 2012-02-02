@@ -10,7 +10,7 @@
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
     <string name="search">Hledat</string>
-    <string name="tAboutName">Condroid v2.3</string>
+    <string name="tAboutName">Condroid v2.3.2</string>
     <string name="tAboutCopyright">&#169; 2011, Jan -Quinix- Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
@@ -48,7 +48,7 @@
     </string-array>
     <string name="about">- Verze: 2.3.4</string>
     <string name="versionNews">Novinky v této verzi</string>
-    <string name="versionNewsText">* oblíbené pořady\n* zobrazení místností\n* sdílení pořadů\n* ikonky pro typy pořadů</string>
+    <string name="versionNewsText">* oprava chyb\n* filtr na oblíbené</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
     <string name="licenced">This software is licenced\nunder NewBSD licence.</string>
     <string name="mFavoriteOnly">Pouze oblíbené</string>
