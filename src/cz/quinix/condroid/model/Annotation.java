@@ -67,11 +67,14 @@ public class Annotation implements Serializable, DBInsertable {
 			return null;
 		Date x = null;
 		try {
+			if(date.length() < 25 && formatter.equals(dateISOFormatter)) {
+				date = date.substring(0, date.length()-6)+":00"+date.substring(date.length()-6);
+			}
 			x = formatter.parseDateTime(date).toDate();
 		} catch (IllegalArgumentException e) {
-			if (formatter.equals(dateISOFormatter))
-				x = lameISOFormatter.parseDateTime(date).toDate();
-			else
+			//if (formatter.equals(dateISOFormatter))
+				//x = lameISOFormatter.parseDateTime(date).toDate();
+			//else
 				throw e;
 		}
 		return x;
