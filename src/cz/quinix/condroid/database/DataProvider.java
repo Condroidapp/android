@@ -114,12 +114,15 @@ public class DataProvider  {
 		
 		List<Date> map = new ArrayList<Date>();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		while(c.moveToNext()) {
-			try {
-				map.add(df.parse(c.getString(c.getColumnIndex("sDate"))));
-			} catch (ParseException e) {
-				Log.w("DB", e);
-			}
+		if(c.getCount() > 0) {
+			do {
+				try {
+					map.add(df.parse(c.getString(c.getColumnIndex("sDate"))));
+				} catch (ParseException e) {
+					Log.w("DB", e);
+				}
+			} while(c.moveToNext());
+		
 		}
 		c.close();
 		
