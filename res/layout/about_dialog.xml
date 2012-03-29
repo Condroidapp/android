@@ -11,7 +11,7 @@
                 <TextView android:layout_width="wrap_content" android:id="@+id/textView1" android:layout_height="wrap_content" android:text="@string/tAboutName" android:textColor="@color/lightgray"></TextView>
     <TextView android:layout_width="wrap_content" android:id="@+id/textView2" android:layout_height="wrap_content" android:autoLink="web" android:text="@string/tAboutHttp" android:textColor="@color/white"></TextView>
     <TextView android:id="@+id/textView6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/lightgray" android:text="@string/licenced" android:gravity="center"></TextView>
-    <TextView android:layout_width="wrap_content" android:id="@+id/textView3" android:layout_height="wrap_content" android:text="@string/tAboutCopyright" android:paddingTop="20dp" android:textColor="@color/lightgray"></TextView>
+    <TextView android:layout_width="wrap_content" android:id="@+id/textView3" android:layout_height="wrap_content" android:text="@string/tAboutCopyright" android:paddingTop="20dp" android:textColor="@color/lightgray" android:gravity="center_horizontal"></TextView>
     <TextView android:layout_width="wrap_content" android:id="@+id/textView4" android:layout_height="wrap_content" android:autoLink="email" android:text="@string/tAboutMail" android:textColor="@color/white"></TextView>
             </LinearLayout>
             <LinearLayout android:id="@+id/LinearLayout01" android:layout_gravity="center_horizontal" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal" android:layout_width="fill_parent" android:layout_marginBottom="20dip">

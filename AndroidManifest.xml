@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="cz.quinix.condroid"
-      android:versionName="2.3.2" android:versionCode="8">
+      android:versionName="2.3.3" android:versionCode="9">
       <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@android:style/Theme.Light.NoTitleBar">
         <activity android:name=".ui.AllAnotations" android:launchMode="singleTop">
         	<intent-filter>
