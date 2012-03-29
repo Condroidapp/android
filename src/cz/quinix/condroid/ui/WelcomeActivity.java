@@ -61,6 +61,8 @@ public class WelcomeActivity extends CondroidActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		System.setProperty("org.joda.time.DateTimeZone.Provider", 
+			    "cz.quinix.condroid.FastJodaTimeZoneProvider");
 		
 
 		this.setContentView(R.layout.welcome);
