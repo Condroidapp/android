@@ -23,16 +23,19 @@ public class Annotation implements Serializable, DBInsertable {
 	private String title;
 	private String length;
 	private String mainType;
-	private String additonalTypes="";
+	private String additonalTypes = "";
 	private String programLine;
-	private String annotation ="";
+	private String annotation = "";
 	private Date startTime;
 	private Date endTime;
 	private String location;
-	public static DateTimeFormatter dateISOFormatter = ISODateTimeFormat.dateTimeNoMillis();
-	public static DateTimeFormatter dateSQLFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
+	public static DateTimeFormatter dateISOFormatter = ISODateTimeFormat
+			.dateTimeNoMillis();
+	public static DateTimeFormatter lameISOFormatter = DateTimeFormat
+			.forPattern("yyyy-MM-dd'T'HH:mmZZ");
+	public static DateTimeFormatter dateSQLFormatter = DateTimeFormat
+			.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
 	private int lid;
-
 
 	public Date getStartTime() {
 		return startTime;
@@ -43,31 +46,42 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public void setStartTime(String startTime) {
-		this.startTime = parseDate(startTime,dateISOFormatter);
+		this.startTime = parseDate(startTime, dateISOFormatter);
 	}
 
 	public void setEndTime(String endTime) {
-			this.endTime = parseDate(endTime,dateISOFormatter);
+		this.endTime = parseDate(endTime, dateISOFormatter);
 	}
-	
+
 	public void setSQLStartTime(String startTime) {
-		this.startTime = parseDate(startTime,dateSQLFormatter);
+		this.startTime = parseDate(startTime, dateSQLFormatter);
 	}
 
 	public void setSQLEndTime(String endTime) {
-			this.endTime = parseDate(endTime,dateSQLFormatter);
+		this.endTime = parseDate(endTime, dateSQLFormatter);
 	}
-	
+
 	private Date parseDate(String date, DateTimeFormatter formatter) {
+		date = date.trim();
 		if (date == null || date.equals(""))
 			return null;
-		return formatter.parseDateTime(date).toDate();
+		Date x = null;
+		try {
+			x = formatter.parseDateTime(date).toDate();
+		} catch (IllegalArgumentException e) {
+			if (formatter.equals(dateISOFormatter))
+				x = lameISOFormatter.parseDateTime(date).toDate();
+			else
+				throw e;
+		}
+		return x;
 
 	}
 
 	public void setAdditonalTypes(String additonalTypes) {
 		this.additonalTypes = additonalTypes;
 	}
+
 	public String getPid() {
 		return pid;
 	}
@@ -87,42 +101,43 @@ public class Annotation implements Serializable, DBInsertable {
 	public String getType() {
 		return mainType;
 	}
-	
+
 	public int getProgramIcon() {
 		String type = this.mainType;
-		if(type.equalsIgnoreCase("P")) {
+		if (type.equalsIgnoreCase("P")) {
 			return R.drawable.lecture;
 		}
-		if(type.equalsIgnoreCase("B")) {
+		if (type.equalsIgnoreCase("B")) {
 			return R.drawable.discussion;
 		}
-		if(type.equalsIgnoreCase("C")) {
+		if (type.equalsIgnoreCase("C")) {
 			return R.drawable.theatre;
 		}
-		if(type.equalsIgnoreCase("D")) {
+		if (type.equalsIgnoreCase("D")) {
 			return R.drawable.projection;
 		}
-		if(type.equalsIgnoreCase("F")) {
+		if (type.equalsIgnoreCase("F")) {
 			return R.drawable.projection;
 		}
-		if(type.equalsIgnoreCase("G")) {
+		if (type.equalsIgnoreCase("G")) {
 			return R.drawable.game;
 		}
-		if(type.equalsIgnoreCase("H")) {
+		if (type.equalsIgnoreCase("H")) {
 			return R.drawable.music;
 		}
-		if(type.equalsIgnoreCase("Q")) {
+		if (type.equalsIgnoreCase("Q")) {
 			return R.drawable.game;
 		}
-		if(type.equalsIgnoreCase("W")) {
+		if (type.equalsIgnoreCase("W")) {
 			return R.drawable.workshop;
 		}
 		return R.drawable.program_unknown;
-		
+
 	}
 
 	/**
 	 * Use only during processing new XML!
+	 * 
 	 * @return
 	 */
 	public String getProgramLine() {
@@ -146,21 +161,22 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public void setLength(String length) {
-		//this.length = length.trim();
+		// this.length = length.trim();
 	}
 
 	public void setType(String type) {
 		String[] types = type.trim().split("\\+");
-		if(types.length > 0) {
+		if (types.length > 0) {
 			mainType = types[0].trim();
 		}
-		if(types.length > 1) {
-			for(int i=1; i<types.length; i++) {
-				additonalTypes+=types[i]+"+";
+		if (types.length > 1) {
+			for (int i = 1; i < types.length; i++) {
+				additonalTypes += types[i] + "+";
 			}
-			additonalTypes = (String) additonalTypes.subSequence(0, additonalTypes.length()-1); //removes last +
+			additonalTypes = (String) additonalTypes.subSequence(0,
+					additonalTypes.length() - 1); // removes last +
 		}
-		
+
 	}
 
 	public void setProgramLine(String programLine) {
@@ -172,9 +188,9 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	public ContentValues getContentValues() {
-		
-		if(startTime != null && endTime != null && startTime.after(endTime)) {
-			endTime.setDate(endTime.getDate()+1);
+
+		if (startTime != null && endTime != null && startTime.after(endTime)) {
+			endTime.setDate(endTime.getDate() + 1);
 		}
 		ContentValues ret = new ContentValues();
 		ret.put("pid", this.pid);
@@ -183,24 +199,24 @@ public class Annotation implements Serializable, DBInsertable {
 		ret.put("length", length);
 		ret.put("mainType", mainType);
 		ret.put("additionalTypes", additonalTypes);
-		
+
 		ret.put("lid", lid);
 
 		ret.put("location", location);
 		ret.put("annotation", annotation);
-		if(startTime != null) {
+		if (startTime != null) {
 			ret.put("startTime", dateSQLFormatter.print(startTime.getTime()));
 		}
-		if(endTime != null) {
+		if (endTime != null) {
 			ret.put("endTime", dateSQLFormatter.print(endTime.getTime()));
 		}
-		
+
 		return ret;
 	}
 
 	public void setLid(Integer integer) {
 		lid = integer.intValue();
-		
+
 	}
 
 	public int getLid() {
@@ -210,6 +226,7 @@ public class Annotation implements Serializable, DBInsertable {
 	public void setLocation(String nextText) {
 		location = nextText;
 	}
+
 	public String getLocation() {
 		return location;
 	}
