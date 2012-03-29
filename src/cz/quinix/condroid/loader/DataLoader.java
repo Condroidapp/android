@@ -102,31 +102,31 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 							annotation = new Annotation();
 						} else {
 							if (name.equalsIgnoreCase("pid")) {
-								annotation.setPid(pull.nextText());
+								annotation.setPid(pull.nextText().trim());
 							}
 							if (name.equalsIgnoreCase("author")) {
-								annotation.setAuthor(pull.nextText());
+								annotation.setAuthor(pull.nextText().trim());
 							}
 							if (name.equalsIgnoreCase("title")) {
-								annotation.setTitle(Html.fromHtml(pull.nextText()).toString());
+								annotation.setTitle(Html.fromHtml(pull.nextText().trim()).toString());
 							}
 							if (name.equalsIgnoreCase("type")) {
-								annotation.setType(pull.nextText());
+								annotation.setType(pull.nextText().trim());
 							}
 							if (name.equalsIgnoreCase("program-line")) {
-								annotation.setProgramLine(pull.nextText());
+								annotation.setProgramLine(pull.nextText().trim());
 							}
 							if (name.equalsIgnoreCase("location")) {
 								annotation.setLocation(pull.nextText().trim());
 							}
 							if (name.equalsIgnoreCase("annotation")) {
-								annotation.setAnnotation(Html.fromHtml(pull.nextText()).toString());
+								annotation.setAnnotation(Html.fromHtml(pull.nextText().trim()).toString());
 							}
 							if (name.equalsIgnoreCase("start-time")) {
-								annotation.setStartTime(pull.nextText());
+								annotation.setStartTime(pull.nextText().trim());
 							}
 							if (name.equalsIgnoreCase("end-time")) {
-								annotation.setEndTime(pull.nextText());
+								annotation.setEndTime(pull.nextText().trim());
 							}
 						}
 						break;
@@ -150,6 +150,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 			}
 		} catch (XMLProccessException e) {
 			Log.d("X", e.getMessage());
+			throw e;
 		}
 
 		return messages;
