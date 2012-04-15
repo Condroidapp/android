@@ -13,22 +13,13 @@ import java.util.Map.Entry;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
@@ -37,8 +28,7 @@ import cz.quinix.condroid.abstracts.CondroidListActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
-import cz.quinix.condroid.ui.listeners.ShareProgramListener;
+import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 
 public class AllAnotations extends CondroidListActivity {
 
@@ -53,7 +43,7 @@ public class AllAnotations extends CondroidListActivity {
 
 		annotations = this.provider.getAnnotations(
 				searchQuery.buildCondition(), 0);
-		this.adapter = new EndlessAdapter(annotations);
+		//this.adapter = new EndlessAdapter(this, annotations);
 		this.setListAdapter(this.adapter);
 		this.handleIntent(this.getIntent());
 		registerForContextMenu(this.getListView());
@@ -294,84 +284,4 @@ public class AllAnotations extends CondroidListActivity {
 		((EndlessAdapter) this.adapter).refreshDataset();
 	}
 
-	class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter {
-		private RotateAnimation rotate;
-		private List<Annotation> itemsToAdd;
-		private int itemsPerPage = 0;
-
-		public EndlessAdapter(List<Annotation> items) {
-			super(new ArrayAdapter<Annotation>(AllAnotations.this,
-					R.layout.annotation_list_item, android.R.id.text1, items));
-			rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
-					0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-			rotate.setDuration(1000);
-			rotate.setRepeatMode(Animation.RESTART);
-			rotate.setRepeatCount(Animation.INFINITE);
-			this.itemsPerPage = items.size();
-		}
-
-		@Override
-		protected boolean cacheInBackground() throws Exception {
-			if (this.itemsPerPage == 0
-					|| ((this.getCount() - 1) % this.itemsPerPage != 0)) {
-				return false;
-			}
-			this.itemsToAdd = provider.getAnnotations(
-					searchQuery.buildCondition(),
-					(this.getCount() / this.itemsPerPage));
-
-			return (this.itemsToAdd.size() == this.itemsPerPage);
-		}
-
-		@Override
-		protected void appendCachedData() {
-			if (this.itemsToAdd != null && this.itemsToAdd.size() > 0) {
-				@SuppressWarnings("unchecked")
-				ArrayAdapter<Annotation> a = (ArrayAdapter<Annotation>) this
-						.getWrappedAdapter();
-				for (int i = 0; i < this.itemsToAdd.size(); i++) {
-					a.add(this.itemsToAdd.get(i));
-				}
-				this.itemsToAdd = null;
-			}
-
-		}
-
-		@Override
-		protected View getPendingView(ViewGroup parent) {
-			View row = getLayoutInflater().inflate(R.layout.row, null);
-
-			View child = row.findViewById(R.id.throbber);
-			child.startAnimation(rotate);
-
-			return (row);
-		}
-
-		@Override
-		public void refreshDataset() {
-			super.refreshDataset();
-			AllAnotations.this.getListView().setSelection(0);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-
-			View v = convertView;
-			//if (v == null) {
-				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.annotation_list_item, null);
-			//}
-			Annotation it = null;
-			try {
-				it = (Annotation) this.getItem(position);
-			} catch (IndexOutOfBoundsException e) {
-
-			}
-			if (it != null) {
-				return inflanteAnnotation(v, it);
-			}
-			return super.getView(position, convertView, parent);
-		}
-
-	}
 }

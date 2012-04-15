@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+  android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:background="@drawable/gradient_second_line" android:layout_width="fill_parent" android:padding="5dp" android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_height="wrap_content">
+        <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content" android:paddingBottom="2dp" android:layout_width="fill_parent" android:text="Condroid" android:textSize="17dp"></TextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_top_line"
+        android:orientation="vertical"
+        android:padding="5dp" >
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/bNow"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="Now" android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/bAll"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="All" android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/bTW"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="TW" android:layout_weight="1"/>
+                android:text="TW" android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout6" android:orientation="vertical" android:layout_height="0dp" android:layout_weight="8">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+    </LinearLayout>
+
+
+</LinearLayout>

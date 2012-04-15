@@ -26,7 +26,16 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
 	}
 
-	@Override
+    @Override
+    protected void onPostExecute(List<?> result) {
+        super.onPostExecute(result);
+        if(pd != null) {
+            pd.dismiss();;
+            pd = null;
+        }
+    }
+
+    @Override
 	protected void onProgressUpdate(Integer... values) {
 		int value = values[0];
 		

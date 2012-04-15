@@ -32,7 +32,7 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 		List<Convention> messages = new ArrayList<Convention>();
 		XmlPullParser pull = Xml.newPullParser();
 		Convention con = null;
-		try {
+
 		try {
 			URL url = new URL(list_url);
 			URLConnection conn = url.openConnection();
@@ -107,9 +107,6 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 		} catch (Exception e) {
 			Log.w(WelcomeActivity.TAG, e);
 			throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
-		}
-		} catch (XMLProccessException ex) {
-			//this.message = ex.getMessage();
 		}
 		return messages;
 	}

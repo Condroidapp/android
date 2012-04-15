@@ -12,7 +12,8 @@
         </activity>
         <activity android:name=".ui.ShowAnnotation"></activity>
         <activity android:name=".ui.AboutActivity"></activity>
-        <activity android:label="@string/appName" android:name=".ui.WelcomeActivity" android:configChanges="keyboardHidden|orientation">
+          <activity android:name=".ui.ProgramActivity"></activity>
+        <activity android:label="@string/appName" android:name=".ui.ProgramActivity" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
                 <action android:name="android.intent.action.MAIN"></action>
