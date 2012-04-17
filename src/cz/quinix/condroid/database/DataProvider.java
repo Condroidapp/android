@@ -149,7 +149,7 @@ public class DataProvider  {
 				throw new IllegalStateException("No favorited");
 			}
  		}
-		
+
 		Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')"+favoritedcondition, null, "startTime DESC", null, false, null);
 		while (c.moveToNext()) {
 			if(c.isFirst()) {
@@ -166,8 +166,8 @@ public class DataProvider  {
 			
 		}
 		c.close();
-		
-		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')"+favoritedcondition, null, "startTime ASC, lid ASC", "0,100", false, null);
+		//TODO!!!!!! CHANGE!!!!
+		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('2012-04-01')"+favoritedcondition, null, "startTime ASC, lid ASC", "0,100", false, null);
 		String previous = "";
 		int hours = 0;
 		while (c2.moveToNext()) {

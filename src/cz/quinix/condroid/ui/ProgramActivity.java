@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
@@ -50,6 +51,23 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         if(this.dataAvailable()) {
             this.initView();
         }
+        Button running = (Button) this.findViewById(R.id.bNow);
+        running.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchView(SCREEN_RUNNING);
+            }
+        });
+
+
+        Button all = (Button) this.findViewById(R.id.bAll);
+        running.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchView(SCREEN_ALL);
+            }
+        });
+
 
 
     }
@@ -90,18 +108,29 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         dialog.show();
     }
 
-    private void initView() {
+    private void loadDatalist() {
         if(this.screen == SCREEN_RUNNING) {
             annotations = provider.getRunningAndNext();
         }
         if(this.screen == SCREEN_ALL) {
             annotations = provider.getAnnotations("",0);
         }
+    }
+    private void initView() {
+        this.loadDatalist();
         if(this.screen == SCREEN_RUNNING || this.screen == SCREEN_ALL) {
             adapter = new RunningAdapter(annotations, this);
             ListView lw = (ListView) this.findViewById(R.id.listView);
             lw.setAdapter(adapter);
             registerForContextMenu(lw);
+        }
+    }
+
+    private void switchView(String viewName) {
+        if(!this.screen.equals(viewName)) {
+            this.screen = viewName;
+            loadDatalist();
+            adapter.notifyDataSetChanged();
         }
     }
 
