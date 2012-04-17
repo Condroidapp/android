@@ -4,12 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
+import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 
 import java.text.DateFormat;
@@ -35,8 +35,13 @@ public class RunningAdapter extends EndlessAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    protected List<Annotation> getPrecachedData(int page) {
+        return DataProvider.getInstance(getActivity()).getRunningAndNext(page);
+    }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        //TODO - change data loading to load only data and date headings generate in here
         Annotation it = null;
         try {
             it = (Annotation) this.getItem(position);
@@ -56,10 +61,9 @@ public class RunningAdapter extends EndlessAdapter {
                 if (it.getAnnotation().equals("now")) {
                     tw.setText("Právě běží");
                 } else {
-                    if(false /*caller.isDateToday(it.getStartTime())*/) {
-                        tw.setText("dnes, "+todayFormat.format(it.getStartTime()));
-                    }
-                    else {
+                    if (isDateToday(it.getStartTime())) {
+                        tw.setText("dnes, " + todayFormat.format(it.getStartTime()));
+                    } else {
                         tw.setText(read.format(it.getStartTime()));
                     }
                 }
@@ -77,7 +81,7 @@ public class RunningAdapter extends EndlessAdapter {
     private void setLayout(View v, Annotation item) {
         LinearLayout title = (LinearLayout) v.findViewById(R.id.ldateLayout);
         FrameLayout itemL = (FrameLayout) v.findViewById(R.id.lItemLayout);
-        if(item.getTitle() == "break") {
+        if (item.getTitle() == "break") {
             title.setVisibility(View.VISIBLE);
             itemL.setVisibility(View.GONE);
         } else {

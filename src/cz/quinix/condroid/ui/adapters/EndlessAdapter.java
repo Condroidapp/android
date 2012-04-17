@@ -14,7 +14,9 @@ import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,6 +30,10 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     private List<Annotation> itemsToAdd;
     private int itemsPerPage = 0;
     private CondroidActivity activity;
+
+    private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
+    private static DateFormat dayFormat = new SimpleDateFormat(
+            "EE dd.MM. HH:mm", new Locale("cs", "CZ"));
 
     public EndlessAdapter(CondroidActivity activity, List<Annotation> items) {
         super(new ArrayAdapter<Annotation>(activity,
@@ -47,11 +53,13 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
                 || ((this.getCount() - 1) % this.itemsPerPage != 0)) {
             return false;
         }
-        this.itemsToAdd = DataProvider.getInstance(activity).getAnnotations(
-                /*activity.getSearchQuery().buildCondition()*/"",
-                (this.getCount() / this.itemsPerPage));
+        this.itemsToAdd = this.getPrecachedData(this.getCount() / this.itemsPerPage);
 
         return (this.itemsToAdd.size() == this.itemsPerPage);
+    }
+
+    protected List<Annotation> getPrecachedData(int page) {
+        return DataProvider.getInstance(activity).getAnnotations("", page);
     }
 
     @Override
@@ -80,7 +88,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     @Override
     public View getView(int position, View v, ViewGroup parent) {
-
+        //TODO - use ViewHolder pattern - http://developer.android.com/training/improving-layouts/smooth-scrolling.html
 
         //if (v == null) {
         LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -118,12 +126,12 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         TextView tw3 = (TextView) v.findViewById(R.id.alThirdLine);
         if (tw2 != null) {
             String date = "";
-            /*if (annotation.getStartTime() != null
+            if (annotation.getStartTime() != null
                     && annotation.getEndTime() != null) {
                 date = ", " + formatDate(annotation.getStartTime()) + " - "
                         + todayFormat.format(annotation.getEndTime());
-            }     */
-            /*tw3.setText(provider.getProgramLine(annotation.getLid()).getName() +  date);  */
+            }
+            tw3.setText(DataProvider.getInstance(activity).getProgramLine(annotation.getLid()).getName() + date);
         }
         ImageView iw = (ImageView) v.findViewById(R.id.iProgramType);
         if (iw != null) {
@@ -134,6 +142,34 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     public CondroidActivity getActivity() {
         return this.activity;
+    }
+
+    public boolean isDateToday(Date date) {
+        Calendar today = Calendar.getInstance(TimeZone.getDefault(), new Locale("cs", "CZ"));
+        today.setTime(new Date());
+
+        Calendar compared = Calendar.getInstance();
+        compared.setTime(date);
+
+        if (compared.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                && compared.get(Calendar.MONTH) == today.get(Calendar.MONTH)
+                && compared.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)) {
+            //its today
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private String formatDate(Date date) {
+
+        if (isDateToday(date)) {
+            //its today
+            return todayFormat.format(date);
+        } else {
+            return dayFormat.format(date);
+        }
+
     }
 
 }
