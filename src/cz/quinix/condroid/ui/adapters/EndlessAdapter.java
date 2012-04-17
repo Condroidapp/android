@@ -8,13 +8,11 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.AllAnotations;
 
 import java.util.List;
 
@@ -81,12 +79,6 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     }
 
     @Override
-    public void refreshDataset() {
-        super.refreshDataset();
-        ((ListView)activity.findViewById(R.id.listView)).setSelection(0);
-    }
-
-    @Override
     public View getView(int position, View v, ViewGroup parent) {
 
 
@@ -108,7 +100,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     public View inflanteAnnotation(View v, Annotation annotation) {
 
-        if(false /*provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))*/) {
+        if (false /*provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))*/) {
             ((ImageView) v.findViewById(R.id.iFavorited)).setVisibility(View.VISIBLE);
         } else {
             ((ImageView) v.findViewById(R.id.iFavorited)).setVisibility(View.GONE);
@@ -134,7 +126,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
             /*tw3.setText(provider.getProgramLine(annotation.getLid()).getName() +  date);  */
         }
         ImageView iw = (ImageView) v.findViewById(R.id.iProgramType);
-        if(iw != null) {
+        if (iw != null) {
             iw.setImageResource(annotation.getProgramIcon());
         }
         return v;
