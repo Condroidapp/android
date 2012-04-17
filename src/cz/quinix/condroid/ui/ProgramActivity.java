@@ -5,17 +5,17 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
-import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.RunningAdapter;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
-
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,8 +32,8 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     private static final String SCREEN_TW = "TW";
 
     protected DataProvider provider;
-    protected List<Annotation> annotations = null;
-    protected BaseAdapter adapter;
+    protected ListView lwRunning = null;
+    protected ListView lwAll = null;
 
     private String screen = ProgramActivity.SCREEN_RUNNING;
 
@@ -44,16 +44,16 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 "cz.quinix.condroid.FastJodaTimeZoneProvider");
 
 
-
         this.setContentView(R.layout.program);
         provider = DataProvider.getInstance(getApplicationContext());
 
-        if(this.dataAvailable()) {
+        lwRunning = (ListView) this.findViewById(R.id.lwRunning);
+        lwAll = (ListView) this.findViewById(R.id.lwAll);
+        if (this.dataAvailable()) {
             this.initView();
         }
         Button running = (Button) this.findViewById(R.id.bNow);
         running.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
                 switchView(SCREEN_RUNNING);
             }
@@ -61,27 +61,21 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
 
         Button all = (Button) this.findViewById(R.id.bAll);
-        running.setOnClickListener(new View.OnClickListener() {
-            @Override
+        all.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 switchView(SCREEN_ALL);
             }
         });
 
-
-
     }
 
     private boolean dataAvailable() {
-        if(provider.hasData()) {
+        if (provider.hasData()) {
             return true;
         } else {
             this.loadData();
+            return true;
         }
-
-
-
-        return false;
     }
 
     private void loadData() {
@@ -108,33 +102,42 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         dialog.show();
     }
 
-    private void loadDatalist() {
-        if(this.screen == SCREEN_RUNNING) {
-            annotations = provider.getRunningAndNext();
-        }
-        if(this.screen == SCREEN_ALL) {
-            annotations = provider.getAnnotations("",0);
-        }
-    }
     private void initView() {
-        this.loadDatalist();
-        if(this.screen == SCREEN_RUNNING || this.screen == SCREEN_ALL) {
+        this.initListView();
+        /*if(this.screen == SCREEN_RUNNING || this.screen == SCREEN_ALL) {
             adapter = new RunningAdapter(annotations, this);
             ListView lw = (ListView) this.findViewById(R.id.listView);
             lw.setAdapter(adapter);
             registerForContextMenu(lw);
-        }
+        } */
     }
 
     private void switchView(String viewName) {
-        if(!this.screen.equals(viewName)) {
+        if (!this.screen.equals(viewName)) {
             this.screen = viewName;
-            loadDatalist();
-            adapter.notifyDataSetChanged();
+            this.initListView();
         }
     }
 
-    @Override
+    private void initListView() {
+        if (this.screen == SCREEN_ALL) {
+            if (this.lwAll.getAdapter() == null) {
+                //init
+                this.lwAll.setAdapter(new EndlessAdapter(this, provider.getAnnotations("", 0)));
+            }
+            lwRunning.setVisibility(View.GONE);
+            lwAll.setVisibility(View.VISIBLE);
+        }
+        if (this.screen == SCREEN_RUNNING) {
+            if (this.lwRunning.getAdapter() == null) {
+                this.lwRunning.setAdapter(new RunningAdapter(provider.getRunningAndNext(), this));
+            }
+            lwAll.setVisibility(View.GONE);
+            lwRunning.setVisibility(View.VISIBLE);
+        }
+    }
+
+
     public void onAsyncTaskCompleted(ListenedAsyncTask<?, ?> task) {
 
         if (!provider.hasData()) {
