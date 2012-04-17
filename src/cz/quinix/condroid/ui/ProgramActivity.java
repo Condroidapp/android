@@ -130,7 +130,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         }
         if (this.screen == SCREEN_RUNNING) {
             if (this.lwRunning.getAdapter() == null) {
-                this.lwRunning.setAdapter(new RunningAdapter(provider.getRunningAndNext(), this));
+                this.lwRunning.setAdapter(new RunningAdapter(provider.getRunningAndNext(0), this));
             }
             lwAll.setVisibility(View.GONE);
             lwRunning.setVisibility(View.VISIBLE);
