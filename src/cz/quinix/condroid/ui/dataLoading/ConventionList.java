@@ -1,6 +1,5 @@
 package cz.quinix.condroid.ui.dataLoading;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -10,9 +9,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
-import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.loader.ConventionLoader;
-import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.WelcomeActivity;
 
@@ -37,7 +34,7 @@ public class ConventionList implements DialogInterface.OnClickListener, AsyncTas
     public void onClick(DialogInterface dialog, int which) {
 
         dialog.cancel();
-        pd = ProgressDialog.show(parent, "",parent.getString(R.string.loading), true);
+        pd = ProgressDialog.show(parent, "", parent.getString(R.string.loading), true);
 
         try {
             new ConventionLoader(this).execute();
@@ -48,11 +45,10 @@ public class ConventionList implements DialogInterface.OnClickListener, AsyncTas
 
     }
 
-    @Override
     public void onAsyncTaskCompleted(ListenedAsyncTask<?, ?> task) {
         pd.dismiss();
 
-        if(task.hasResult()) {
+        if (task.hasResult()) {
             List<?> list = task.getResult();
             // conventions downloaded
             if (list.size() == 0) {

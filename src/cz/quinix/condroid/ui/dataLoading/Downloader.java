@@ -30,7 +30,6 @@ public class Downloader implements DialogInterface.OnClickListener, AsyncTaskLis
         this.conventionList = conventionList;
     }
 
-    @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         DataProvider.getInstance(parent).setConvention(conventionList.get(i));
         pd = ProgressDialog.show(parent, "",
@@ -39,7 +38,6 @@ public class Downloader implements DialogInterface.OnClickListener, AsyncTaskLis
                 .execute(conventionList.get(i).getDataUrl());
     }
 
-    @Override
     public void onAsyncTaskCompleted(ListenedAsyncTask<?, ?> task) {
         pd.dismiss();
 
