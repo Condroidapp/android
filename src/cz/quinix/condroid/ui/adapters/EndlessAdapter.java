@@ -30,6 +30,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     private List<Annotation> itemsToAdd;
     private int itemsPerPage = 0;
     private CondroidActivity activity;
+    protected DataProvider provider;
 
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
     private static DateFormat dayFormat = new SimpleDateFormat(
@@ -45,6 +46,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         rotate.setRepeatMode(Animation.RESTART);
         rotate.setRepeatCount(Animation.INFINITE);
         this.itemsPerPage = items.size();
+        this.provider = DataProvider.getInstance(activity);
     }
 
     @Override
@@ -87,55 +89,78 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     }
 
     @Override
-    public View getView(int position, View v, ViewGroup parent) {
-        //TODO - use ViewHolder pattern - http://developer.android.com/training/improving-layouts/smooth-scrolling.html
+    final public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = vi.inflate(R.layout.annotation_list_item, null);
+        }
+        if (convertView.getTag(R.id.listItem) == null) {
+            convertView.setTag(R.id.listItem, this.initializeItemLayout(convertView));
+        }
 
-        //if (v == null) {
-        LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(R.layout.annotation_list_item, null);
-        //}
         Annotation it = null;
         try {
             it = (Annotation) this.getItem(position);
         } catch (IndexOutOfBoundsException e) {
 
         }
-        if (it != null) {
-            return this.inflanteAnnotation(v, it);
+        if (it != null && convertView.getTag(R.id.listItem) != null) {
+            return this.inflateAnnotation(convertView, it);
         }
-        return super.getView(position, v, parent);
+        return super.getView(position, convertView, parent);
     }
 
-    public View inflanteAnnotation(View v, Annotation annotation) {
+    protected ViewHolder initializeItemLayout(View convertView) {
+        ViewHolder viewHolder = new ViewHolder();
+        viewHolder.author = (TextView) convertView.findViewById(R.id.alAuthor);
+        viewHolder.title = (TextView) convertView.findViewById(R.id.alTitle);
+        viewHolder.line = (TextView) convertView.findViewById(R.id.alLine);
+        viewHolder.place = (TextView) convertView.findViewById(R.id.alPlace);
+        viewHolder.time = (TextView) convertView.findViewById(R.id.alTime);
+        viewHolder.favorited = (ImageView) convertView.findViewById(R.id.iFavorited);
+        viewHolder.programType = (ImageView) convertView.findViewById(R.id.iProgramType);
+        viewHolder.place.setVisibility(View.GONE);
+        viewHolder.time.setVisibility(View.VISIBLE);
+        return viewHolder;
+    }
 
+    public View inflateAnnotation(View v, Annotation annotation) {
+        ViewHolder vh = (ViewHolder) v.getTag(R.id.listItem);
         if (false /*provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))*/) {
-            ((ImageView) v.findViewById(R.id.iFavorited)).setVisibility(View.VISIBLE);
+            vh.favorited.setVisibility(View.VISIBLE);
         } else {
-            ((ImageView) v.findViewById(R.id.iFavorited)).setVisibility(View.GONE);
+            vh.favorited.setVisibility(View.GONE);
         }
-        TextView tw = (TextView) v.findViewById(R.id.alTitle);
-        if (tw != null) {
-            tw.setText(annotation.getTitle());
-        }
-        TextView tw2 = (TextView) v.findViewById(R.id.alSecondLine);
 
-        if (tw != null) {
-
-            tw2.setText(annotation.getAuthor());
+        if (vh.title != null) {
+            vh.title.setText(annotation.getTitle());
         }
-        TextView tw3 = (TextView) v.findViewById(R.id.alThirdLine);
-        if (tw2 != null) {
-            String date = "";
-            if (annotation.getStartTime() != null
-                    && annotation.getEndTime() != null) {
-                date = ", " + formatDate(annotation.getStartTime()) + " - "
-                        + todayFormat.format(annotation.getEndTime());
+        if (vh.author != null) {
+            vh.author.setText(annotation.getAuthor());
+        }
+
+        if (vh.line != null) {
+            vh.line.setText(provider.getProgramLine(annotation.getLid()).getName());
+        }
+        if (annotation.getStartTime() != null && annotation.getEndTime() != null) {
+            vh.time.setText(formatDate(annotation.getStartTime()) + " - "
+                    + todayFormat.format(annotation.getEndTime()));
+            if (annotation.getLid() > 0) {
+                vh.line.setText(vh.line.getText() + ",");
             }
-            tw3.setText(DataProvider.getInstance(activity).getProgramLine(annotation.getLid()).getName() + date);
+        } else {
+            vh.title.setText("");
         }
-        ImageView iw = (ImageView) v.findViewById(R.id.iProgramType);
-        if (iw != null) {
-            iw.setImageResource(annotation.getProgramIcon());
+        if (annotation.getLocation() != null) {
+            vh.place.setText(annotation.getLocation());
+            if (annotation.getLid() > 0) {
+                vh.line.setText(vh.line.getText() + ",");
+            }
+        } else {
+            vh.place.setText("");
+        }
+        if (vh.programType != null) {
+            vh.programType.setImageResource(annotation.getProgramIcon());
         }
         return v;
     }
@@ -172,4 +197,15 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     }
 
+    class ViewHolder {
+        ImageView favorited;
+        TextView title;
+        TextView author;
+        TextView line;
+        TextView time;
+        TextView place;
+        ImageView programType;
+    }
+
 }
+

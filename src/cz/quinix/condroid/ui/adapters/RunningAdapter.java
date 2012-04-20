@@ -1,9 +1,6 @@
 package cz.quinix.condroid.ui.adapters;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,7 +23,7 @@ import java.util.Locale;
  */
 public class RunningAdapter extends EndlessAdapter {
 
-    private DateFormat read = new SimpleDateFormat("EEEE dd.MM. HH:mm",
+    private DateFormat generalFormat = new SimpleDateFormat("EEEE dd.MM. HH:mm",
             new Locale("cs", "CZ"));
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 
@@ -40,54 +37,67 @@ public class RunningAdapter extends EndlessAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        //TODO - change data loading to load only data and date headings generate in here
-        Annotation it = null;
-        try {
-            it = (Annotation) this.getItem(position);
-        } catch (IndexOutOfBoundsException e) {
-        }
-
-        View v = convertView;
-        if (v == null) {
-            LayoutInflater vi = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.annotation_list_item, null);
-        }
-
-        if (it != null) {
-            setLayout(v, it);
-            if (it.getTitle() == "break") {
-                TextView tw = (TextView) v.findViewById(R.id.tRunningTitle);
-                if (it.getAnnotation().equals("now")) {
-                    tw.setText("Právě běží");
+    public View inflateAnnotation(View v, Annotation annotation) {
+        this.setLayout(v, annotation);
+        if (annotation.getTitle() == "break") {
+            ViewHolder vh = (ViewHolder) v.getTag(R.id.listItem);
+            if (annotation.getAnnotation().equals("now")) {
+                vh.runningTitle.setText(R.string.runningNow);
+            } else {
+                if (isDateToday(annotation.getStartTime())) {
+                    vh.runningTitle.setText(getActivity().getString(R.string.today) + ", " + todayFormat.format(annotation.getStartTime()));
                 } else {
-                    if (isDateToday(it.getStartTime())) {
-                        tw.setText("dnes, " + todayFormat.format(it.getStartTime()));
-                    } else {
-                        tw.setText(read.format(it.getStartTime()));
-                    }
+                    vh.runningTitle.setText(generalFormat.format(annotation.getStartTime()));
                 }
-                v.setFocusable(false);
-                return v;
             }
-
-            return this.inflanteAnnotation(v, it);
-
+            v.setFocusable(false);
+            return v;
         }
+        return super.inflateAnnotation(v, annotation);
+    }
 
-        return super.getView(position, convertView, parent);
+    @Override
+    protected EndlessAdapter.ViewHolder initializeItemLayout(View convertView) {
+        EndlessAdapter.ViewHolder evh = super.initializeItemLayout(convertView);
+        ViewHolder vh = new ViewHolder();
+        vh.author = evh.author;
+        vh.favorited = evh.favorited;
+        vh.line = evh.line;
+        vh.place = evh.place;
+        vh.programType = evh.programType;
+        vh.time = evh.time;
+        vh.title = evh.title;
+        vh.runningTitle = (TextView) convertView.findViewById(R.id.tRunningTitle);
+
+        vh.time.setVisibility(View.GONE);
+        vh.place.setVisibility(View.VISIBLE);
+        return vh;
     }
 
     private void setLayout(View v, Annotation item) {
-        LinearLayout title = (LinearLayout) v.findViewById(R.id.ldateLayout);
-        FrameLayout itemL = (FrameLayout) v.findViewById(R.id.lItemLayout);
-        if (item.getTitle() == "break") {
-            title.setVisibility(View.VISIBLE);
-            itemL.setVisibility(View.GONE);
-        } else {
-            itemL.setVisibility(View.VISIBLE);
-            title.setVisibility(View.GONE);
+        LayoutHolder lh = (LayoutHolder) v.getTag(R.id.layoutList);
+        if (lh == null) {
+            lh = new LayoutHolder();
+            lh.titleLayout = (LinearLayout) v.findViewById(R.id.ldateLayout);
+            lh.itemLayout = (FrameLayout) v.findViewById(R.id.lItemLayout);
+            v.setTag(R.id.layoutList, lh);
         }
+        if (item.getTitle() == "break") {
+            lh.titleLayout.setVisibility(View.VISIBLE);
+            lh.itemLayout.setVisibility(View.GONE);
+        } else {
+            lh.itemLayout.setVisibility(View.VISIBLE);
+            lh.titleLayout.setVisibility(View.GONE);
+        }
+    }
+
+    class LayoutHolder {
+        LinearLayout titleLayout;
+        FrameLayout itemLayout;
+    }
+
+    class ViewHolder extends EndlessAdapter.ViewHolder {
+        TextView runningTitle;
     }
 
 }

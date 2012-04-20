@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="listItem" type="id">listItem</item>
+    <item name="layoutList" type="id">layoutList</item>
+    <!-- temp - remove when not needed -->
+    <item name="alSecondLine" type="id">secondLine</item>
+    <item name="alThirdLine" type="id">alThirdLine</item>
+    
+</resources>
