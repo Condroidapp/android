@@ -2,9 +2,11 @@ package cz.quinix.condroid.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.RunningAdapter;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
@@ -24,7 +27,7 @@ import cz.quinix.condroid.ui.dataLoading.ConventionList;
  * Time: 23:30
  * To change this template use File | Settings | File Templates.
  */
-public class ProgramActivity extends CondroidActivity implements AsyncTaskListener {
+public class ProgramActivity extends CondroidActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
 
     public static final String TAG = "Condroid";
     private static final String SCREEN_RUNNING = "running";
@@ -66,6 +69,9 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 switchView(SCREEN_ALL);
             }
         });
+
+        lwRunning.setOnItemClickListener(this);
+        lwAll.setOnItemClickListener(this);
 
     }
 
@@ -152,6 +158,16 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         editor.remove("messageShown");
         editor.commit();
         initView();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (adapterView instanceof ListView) {
+            Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
+            Intent intent = new Intent(this, ShowAnnotation.class);
+            intent.putExtra("annotation", selected);
+            this.startActivity(intent);
+        }
     }
 }
 
