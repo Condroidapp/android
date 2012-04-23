@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,6 +22,9 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.RunningAdapter;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
+import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
+import cz.quinix.condroid.ui.listeners.SetReminderListener;
+import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,7 +44,11 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     protected ListView lwRunning = null;
     protected ListView lwAll = null;
 
+    private View openedContextMenu;
+
+
     private String screen = ProgramActivity.SCREEN_RUNNING;
+    public static boolean refreshDataset = false;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +82,24 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
         lwRunning.setOnItemClickListener(this);
         lwAll.setOnItemClickListener(this);
+        registerForContextMenu(lwRunning);
+        registerForContextMenu(lwAll);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (this.refreshDataset) {
+            if (lwAll.getAdapter() != null) {
+                ((EndlessAdapter) lwAll.getAdapter()).refreshDataset();
+            }
+            if (lwRunning.getAdapter() != null) {
+                ((EndlessAdapter) lwRunning.getAdapter()).refreshDataset();
+            }
+            refreshDataset = false;
+        }
     }
 
     private boolean dataAvailable() {
@@ -110,12 +137,6 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
     private void initView() {
         this.initListView();
-        /*if(this.screen == SCREEN_RUNNING || this.screen == SCREEN_ALL) {
-            adapter = new RunningAdapter(annotations, this);
-            ListView lw = (ListView) this.findViewById(R.id.listView);
-            lw.setAdapter(adapter);
-            registerForContextMenu(lw);
-        } */
     }
 
     private void switchView(String viewName) {
@@ -130,6 +151,8 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             if (this.lwAll.getAdapter() == null) {
                 //init
                 this.lwAll.setAdapter(new EndlessAdapter(this, provider.getAnnotations("", 0)));
+            } else {
+                ((EndlessAdapter) lwAll.getAdapter()).refreshDataset();
             }
             lwRunning.setVisibility(View.GONE);
             lwAll.setVisibility(View.VISIBLE);
@@ -137,6 +160,8 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         if (this.screen == SCREEN_RUNNING) {
             if (this.lwRunning.getAdapter() == null) {
                 this.lwRunning.setAdapter(new RunningAdapter(provider.getRunningAndNext(0), this));
+            } else {
+                ((EndlessAdapter) lwRunning.getAdapter()).refreshDataset();
             }
             lwAll.setVisibility(View.GONE);
             lwRunning.setVisibility(View.VISIBLE);
@@ -168,6 +193,56 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             intent.putExtra("annotation", selected);
             this.startActivity(intent);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        if (v instanceof ListView) {
+            openedContextMenu = v;
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            Annotation an = (Annotation) ((ListView) v).getItemAtPosition(info.position);
+            if (an.getTitle() != "break") {
+                menu.setHeaderTitle(an.getTitle());
+                String[] menuItems = getResources().getStringArray(R.array.annotationContext);
+                for (int i = 0; i < menuItems.length; i++) {
+                    menu.add(Menu.NONE, i, i, menuItems[i]);
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void onContextMenuClosed(Menu menu) {
+        super.onContextMenuClosed(menu);
+        this.openedContextMenu = null;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        if (this.openedContextMenu != null) {
+            int menuItemIndex = item.getItemId();
+            Annotation an = (Annotation) ((ListView) this.openedContextMenu).getItemAtPosition(info.position);
+
+            switch (menuItemIndex) {
+                case 0:
+                    new ShareProgramListener(this).invoke(an);
+                    break;
+                case 1:
+
+                    new MakeFavoritedListener(this).invoke(an, null);
+                    ((EndlessAdapter) ((ListView) openedContextMenu).getAdapter()).refreshDataset();
+                    break;
+                case 2:
+                    new SetReminderListener(this).invoke(an);
+                default:
+                    break;
+            }
+        }
+        return true;
     }
 }
 
