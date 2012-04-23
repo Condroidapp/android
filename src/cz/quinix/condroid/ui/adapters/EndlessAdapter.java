@@ -51,13 +51,12 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     @Override
     protected boolean cacheInBackground() throws Exception {
-        if (this.itemsPerPage == 0
-                || ((this.getCount() - 1) % this.itemsPerPage != 0)) {
+        if (this.itemsPerPage == 0) {
             return false;
         }
         this.itemsToAdd = this.getPrecachedData(this.getCount() / this.itemsPerPage);
 
-        return (this.itemsToAdd.size() == this.itemsPerPage);
+        return (this.itemsToAdd.size() > 0);
     }
 
     protected List<Annotation> getPrecachedData(int page) {
