@@ -126,7 +126,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     public View inflateAnnotation(View v, Annotation annotation) {
         ViewHolder vh = (ViewHolder) v.getTag(R.id.listItem);
-        if (false /*provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))*/) {
+        if (provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
             vh.favorited.setVisibility(View.VISIBLE);
         } else {
             vh.favorited.setVisibility(View.GONE);
@@ -142,16 +142,17 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         if (vh.line != null) {
             vh.line.setText(provider.getProgramLine(annotation.getLid()).getName());
         }
-        if (annotation.getStartTime() != null && annotation.getEndTime() != null) {
+        if (vh.time.getVisibility() == View.VISIBLE &&
+                annotation.getStartTime() != null && annotation.getEndTime() != null) {
             vh.time.setText(formatDate(annotation.getStartTime()) + " - "
                     + todayFormat.format(annotation.getEndTime()));
             if (annotation.getLid() > 0) {
                 vh.line.setText(vh.line.getText() + ",");
             }
         } else {
-            vh.title.setText("");
+            vh.time.setText("");
         }
-        if (annotation.getLocation() != null) {
+        if (vh.place.getVisibility() == View.VISIBLE && annotation.getLocation() != null) {
             vh.place.setText(annotation.getLocation());
             if (annotation.getLid() > 0) {
                 vh.line.setText(vh.line.getText() + ",");
