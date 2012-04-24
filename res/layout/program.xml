@@ -4,11 +4,10 @@
         android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout android:background="@drawable/gradient_second_line" android:layout_width="fill_parent"
-                  android:padding="5dp" android:id="@+id/linearLayout3" android:orientation="vertical"
-                  android:layout_height="wrap_content">
-        <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content"
-                  android:paddingBottom="2dp" android:layout_width="fill_parent" android:text="Condroid"
-                  android:textSize="17dp"></TextView>
+                  android:id="@+id/linearLayout3" android:orientation="vertical"
+                  android:layout_height="wrap_content" android:padding="8dp">
+        <ImageView android:id="@+id/iLogo" android:src="@drawable/logo" android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"></ImageView>
     </LinearLayout>
 
 
@@ -18,34 +17,103 @@
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_top_line"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="0dp">
 
 
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-            <Button
-                    android:id="@+id/bNow"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:text="Now" android:layout_weight="1"/>
 
-            <Button
-                    android:id="@+id/bAll"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:text="All" android:layout_weight="1"/>
+            <FrameLayout
+                android:id="@+id/fRunning"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:clickable="true" >
 
-            <Button
-                    android:id="@+id/bTW"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="0dip"
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="TW" android:layout_weight="1"/>
-            android:text="TW" android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:src="@drawable/clock_icon" android:paddingTop="4dp"/>
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="@string/tRunning"
+                    android:textColor="@color/lightgray" 
+                    android:gravity="center_vertical|center_horizontal" 
+                    android:paddingTop="22dp" 
+                    android:textSize="10dp" 
+                    android:paddingBottom="4dp" 
+                    android:textStyle="bold"/>
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/fAll"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:clickable="true" >
+
+                <ImageView
+                    android:id="@+id/ImageView01"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="5px"
+                    android:src="@drawable/list_icon" />
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/lightgray" 
+                    android:gravity="center_vertical|center_horizontal" 
+                    android:paddingTop="22dp" 
+                    android:textSize="10dp" 
+                    android:paddingBottom="4dp" 
+                    android:textStyle="bold"
+                    android:text="@string/tAll" />
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/fTwitter"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:clickable="true" >
+
+                <ImageView
+                    android:id="@+id/ImageView02"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="5px"
+                    android:src="@drawable/twitter" />
+
+                <TextView
+                    android:id="@+id/TextView04"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/lightgray" 
+                    android:gravity="center_vertical|center_horizontal" 
+                    android:paddingTop="22dp" 
+                    android:textSize="10dp" 
+                    android:paddingBottom="4dp" 
+                    android:textStyle="bold"
+                    android:text="@string/tTwitter" />
+            </FrameLayout>
+
 
         </LinearLayout>
 

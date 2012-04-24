@@ -68,6 +68,9 @@
     </string-array>
     <string name="today">Dnes</string>
     <string name="runningNow">Právě běží</string>
+    <string name="tRunning">Běžící</string>
+    <string name="tAll">Všechny</string>
+    <string name="tTwitter">Twitter</string>
 
 
 </resources>

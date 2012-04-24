@@ -9,10 +9,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
@@ -65,7 +62,9 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         if (this.dataAvailable()) {
             this.initView();
         }
-        Button running = (Button) this.findViewById(R.id.bNow);
+        FrameLayout running = (FrameLayout) this.findViewById(R.id.fRunning);
+        FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
+        FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
         running.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 switchView(SCREEN_RUNNING);
@@ -73,7 +72,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         });
 
 
-        Button all = (Button) this.findViewById(R.id.bAll);
+
         all.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 switchView(SCREEN_ALL);
@@ -147,6 +146,9 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     }
 
     private void initListView() {
+        FrameLayout running = (FrameLayout) this.findViewById(R.id.fRunning);
+        FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
+        FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
         if (this.screen == SCREEN_ALL) {
             if (this.lwAll.getAdapter() == null) {
                 //init
@@ -156,6 +158,10 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             }
             lwRunning.setVisibility(View.GONE);
             lwAll.setVisibility(View.VISIBLE);
+
+            all.setBackgroundColor(R.color.black);
+            running.setBackgroundColor(android.R.color.transparent);
+            twitter.setBackgroundColor(android.R.color.transparent);
         }
         if (this.screen == SCREEN_RUNNING) {
             if (this.lwRunning.getAdapter() == null) {
@@ -165,6 +171,10 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             }
             lwAll.setVisibility(View.GONE);
             lwRunning.setVisibility(View.VISIBLE);
+
+            running.setBackgroundColor(R.color.black);
+            all.setBackgroundColor(android.R.color.transparent);
+            twitter.setBackgroundColor(android.R.color.transparent);
         }
     }
 
