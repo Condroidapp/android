@@ -4,10 +4,34 @@
         android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout android:background="@drawable/gradient_second_line" android:layout_width="fill_parent"
-                  android:id="@+id/linearLayout3" android:orientation="vertical"
-                  android:layout_height="wrap_content" android:padding="8dp">
-        <ImageView android:id="@+id/iLogo" android:src="@drawable/logo" android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"></ImageView>
+                  android:id="@+id/linearLayout3" android:orientation="horizontal"
+                  android:layout_height="wrap_content" android:padding="4dp">
+
+        <ImageView android:id="@+id/iLogo" android:src="@drawable/logo" android:layout_width="fill_parent"
+                   android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="left"></ImageView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_gravity="center" android:gravity="right|center_vertical" android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/ibFilter"
+                style="@style/ButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/style_greenbutton"
+                android:src="@drawable/filter_small" />
+
+            <ImageButton
+                android:id="@+id/ibSearch"
+                style="@style/ButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/style_greenbutton"
+                android:src="@drawable/search_small" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -112,6 +136,7 @@
                     android:paddingBottom="4dp" 
                     android:textStyle="bold"
                     android:text="@string/tTwitter" />
+
             </FrameLayout>
 
 
@@ -140,6 +165,5 @@
 
 
     </LinearLayout>
-
 
 </LinearLayout>
