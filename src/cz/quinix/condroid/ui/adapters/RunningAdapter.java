@@ -73,6 +73,7 @@ public class RunningAdapter extends EndlessAdapter {
                 }
             }
             v.setFocusable(false);
+            v.setClickable(false);
             return v;
         }
         return super.inflateAnnotation(v, annotation);

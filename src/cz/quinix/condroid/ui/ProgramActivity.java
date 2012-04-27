@@ -234,9 +234,11 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView instanceof ListView) {
             Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
-            Intent intent = new Intent(this, ShowAnnotation.class);
-            intent.putExtra("annotation", selected);
-            this.startActivity(intent);
+            if(!selected.getTitle().startsWith("break")) {
+                Intent intent = new Intent(this, ShowAnnotation.class);
+                intent.putExtra("annotation", selected);
+                this.startActivity(intent);
+            }
         }
     }
 
