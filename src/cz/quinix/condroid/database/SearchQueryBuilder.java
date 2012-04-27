@@ -21,7 +21,7 @@ public class SearchQueryBuilder {
 	
 	public SearchQueryBuilder addParam(String value) {
 		if(value != null) {
-			this.params.put("stub", "pid LIKE '%"+value+"%' OR title LIKE '%"+value+"%'");
+			this.params.put("stub", "pid LIKE '%"+value+"%' OR title LIKE '%"+value+"%' OR talker LIKE '%"+value+"%'");
 		}
 		
 		return this;
