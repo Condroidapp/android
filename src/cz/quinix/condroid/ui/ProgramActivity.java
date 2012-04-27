@@ -1,6 +1,7 @@
 package cz.quinix.condroid.ui;
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -63,6 +64,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
         lwRunning = (ListView) this.findViewById(R.id.lwRunning);
         lwAll = (ListView) this.findViewById(R.id.lwAll);
+
         if (this.dataAvailable()) {
             this.initView();
         }
@@ -85,6 +87,14 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         ImageButton ibFilter = (ImageButton) this.findViewById(R.id.ibFilter);
         ibFilter.setOnClickListener(new FilterListener(this));
 
+        ImageButton ibSearch = (ImageButton) this.findViewById(R.id.ibSearch);
+        ibSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProgramActivity.this.onSearchRequested();
+            }
+        });
+
 
         lwRunning.setOnItemClickListener(this);
         lwAll.setOnItemClickListener(this);
@@ -92,6 +102,19 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         registerForContextMenu(lwAll);
 
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        this.setIntent(intent);
+        this.handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            SearchProvider.getSearchQueryBuilder(screen).addParam(intent.getStringExtra(SearchManager.QUERY));
+            this.applySearch();
+        }
     }
 
     @Override
@@ -147,6 +170,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
     private void initView() {
         this.initListView();
+        this.handleIntent(this.getIntent());
     }
 
     private void switchView(String viewName) {

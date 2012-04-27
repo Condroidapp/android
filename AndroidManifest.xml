@@ -6,13 +6,14 @@
           <activity android:name=".ui.ShowAnnotation"></activity>
         <activity android:name=".ui.AboutActivity"></activity>
           <activity android:name=".ui.ProgramActivity"></activity>
-        <activity android:label="@string/appName" android:name=".ui.ProgramActivity" android:configChanges="keyboardHidden|orientation">
+        <activity android:label="@string/appName" android:name=".ui.ProgramActivity" android:launchMode="singleTop">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
                 <action android:name="android.intent.action.MAIN"></action>
+                <action android:name="android.intent.action.SEARCH"></action>
             </intent-filter>
+            <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".ui.RunningActivity"></activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
