@@ -61,11 +61,13 @@ public class DataProvider {
         return new DatabaseLoader(null, mDatabase, con);
     }
 
-    public List<Annotation> getAnnotations(String condition, int page) {
+    public List<Annotation> getAnnotations(SearchQueryBuilder con, int skip) {
         List<Annotation> ret = new ArrayList<Annotation>();
+        String condition = null;
+        if(con != null)
+                condition = con.buildCondition();
 
-
-        Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "startTime ASC, lid ASC, title ASC", (page * ITEMS_PER_PAGE) + "," + ITEMS_PER_PAGE);
+        Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "startTime ASC, lid ASC, title ASC", (skip) + "," + ITEMS_PER_PAGE);
 
         while (c.moveToNext()) {
 
@@ -129,15 +131,18 @@ public class DataProvider {
     }
 
     public List<Annotation> getRunningAndNext(int page) {
-        return this.getRunningAndNext(page, false);
+        return this.getRunningAndNext(null, page);
     }
 
-    public List<Annotation> getRunningAndNext(int page, boolean favoritedOnly) {
+    public List<Annotation> getRunningAndNext(SearchQueryBuilder sb, int skip) {
         List<Annotation> l = new ArrayList<Annotation>();
-        String favoritedcondition = "";
+        String condition = "";
+        if(sb != null) {
+            condition = sb.buildCondition();
+        }
 
-        if (favoritedOnly) {
-            List<Integer> f = this.getFavorited();
+        if (condition != null) {
+            /*List<Integer> f = this.getFavorited();
             if (f.size() > 0) {
                 for (Integer integer : f) {
                     favoritedcondition += integer + ",";
@@ -145,19 +150,11 @@ public class DataProvider {
                 favoritedcondition = " AND pid IN (" + favoritedcondition.substring(0, favoritedcondition.length() - 1) + ")";
             } else {
                 throw new IllegalStateException("No favorited");
-            }
+            }   */
         }
-        if (page == 0) {
-            Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')" + favoritedcondition, null, "startTime DESC", null, false, null);
+        if (skip == 0) {
+            Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')" + (!condition.equals("")?" AND "+condition:""), null, "startTime DESC", null, false, null);
             while (c.moveToNext()) {
-                if (c.isFirst()) {
-                    Annotation a = new Annotation();
-                    a.setTitle("break");
-                    a.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
-                    a.setAnnotation("now");
-                    l.add(a);
-                }
-
                 Annotation annotation = readAnnotation(c);
 
                 l.add(annotation);
@@ -166,22 +163,12 @@ public class DataProvider {
             c.close();
         }
         //TODO!!!!!! CHANGE!!!!
-        Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('2012-04-01')" + favoritedcondition, null, "startTime ASC, lid ASC", (page * ITEMS_PER_PAGE) + "," + ITEMS_PER_PAGE, false, null);
-        Log.i("DB-Running", "LIMIT: " + ((page * ITEMS_PER_PAGE) + "," + ITEMS_PER_PAGE) + ", returned items " + c2.getCount());
-        String previous = "";
+        Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('2012-04-01')" + (!condition.equals("")?" AND "+condition:""), null, "startTime ASC, lid ASC", (skip) + "," + ITEMS_PER_PAGE, false, null);
+        Log.i("DB-Running", "LIMIT: " + ((skip) + "," + ITEMS_PER_PAGE) + ", returned items " + c2.getCount());
+
         while (c2.moveToNext()) {
-            if (!previous.equals(c2.getString(c2.getColumnIndex("startTime")))) {
-                Annotation a = new Annotation();
-                a.setTitle("break");
-                a.setSQLStartTime(c2.getString(c2.getColumnIndex("startTime")));
-                l.add(a);
-                previous = c2.getString(c2.getColumnIndex("startTime"));
-            }
-
             Annotation annotation = readAnnotation(c2);
-
             l.add(annotation);
-
         }
         c2.close();
 

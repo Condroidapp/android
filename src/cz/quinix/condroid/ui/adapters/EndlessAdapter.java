@@ -1,6 +1,7 @@
 package cz.quinix.condroid.ui.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,14 +30,15 @@ import java.util.*;
  */
 public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter {
     private RotateAnimation rotate;
-    private List<Annotation> itemsToAdd;
-    private int itemsPerPage = 0;
+    protected List<Annotation> itemsToAdd;
+    protected int totalItems = 0;
     private CondroidActivity activity;
     protected DataProvider provider;
 
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
     private static DateFormat dayFormat = new SimpleDateFormat(
             "EE dd.MM. HH:mm", new Locale("cs", "CZ"));
+
 
     public EndlessAdapter(CondroidActivity activity, List<Annotation> items) {
         super(new ArrayAdapter<Annotation>(activity,
@@ -45,22 +49,47 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         rotate.setDuration(1000);
         rotate.setRepeatMode(Animation.RESTART);
         rotate.setRepeatCount(Animation.INFINITE);
-        this.itemsPerPage = items.size();
         this.provider = DataProvider.getInstance(activity);
+        totalItems = items.size();
+
+    }
+
+  /*  @Override
+    public Object getItem(int position) {
+        return items.get(position);
+    }*/
+
+    public void setItems(List<Annotation> items, boolean refresh) {
+        ArrayAdapter<Annotation> a = (ArrayAdapter<Annotation>) this.getWrappedAdapter();
+        a.clear();
+        this.insertSettedList(items, a);
+        this.totalItems = items.size();
+        if(refresh) {
+            this.refreshDataset();
+        }
+        Log.i("xxxxx", "i"+this.getCount());
+        Log.i("xxxxx", "i"+items.size());
+        Log.i("xxxxx", "i"+this.getWrappedAdapter().getCount());
+    }
+
+    protected void insertSettedList(List<Annotation> items, ArrayAdapter<Annotation> a) {
+        for(int i = 0; i<items.size(); i++) {
+            a.add(items.get(i));
+        }
     }
 
     @Override
     protected boolean cacheInBackground() throws Exception {
-        if (this.itemsPerPage == 0) {
+        if (this.getCount() == 0) {
             return false;
         }
-        this.itemsToAdd = this.getPrecachedData(this.getCount() / this.itemsPerPage);
-
+        this.itemsToAdd = this.getPrecachedData(totalItems);
+        totalItems += itemsToAdd.size();
         return (this.itemsToAdd.size() > 0);
     }
 
-    protected List<Annotation> getPrecachedData(int page) {
-        return DataProvider.getInstance(activity).getAnnotations("", page);
+    protected List<Annotation> getPrecachedData(int skip) {
+        return DataProvider.getInstance(activity).getAnnotations(SearchProvider.getSearchQueryBuilder(ProgramActivity.SCREEN_ALL), skip);
     }
 
     @Override
@@ -88,7 +117,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     }
 
     @Override
-    final public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.annotation_list_item, null);

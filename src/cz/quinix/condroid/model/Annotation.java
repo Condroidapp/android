@@ -237,4 +237,8 @@ public class Annotation implements Serializable, DBInsertable {
 	public String[] getAdditionalTypes() {
 		return additonalTypes.split("\\+");
 	}
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 }

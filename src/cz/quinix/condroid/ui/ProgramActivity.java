@@ -15,13 +15,17 @@ import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.RunningAdapter;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
+import cz.quinix.condroid.ui.listeners.FilterListener;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,9 +37,9 @@ import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 public class ProgramActivity extends CondroidActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
 
     public static final String TAG = "Condroid";
-    private static final String SCREEN_RUNNING = "running";
-    private static final String SCREEN_ALL = "all";
-    private static final String SCREEN_TW = "TW";
+    public static final String SCREEN_RUNNING = "running";
+    public static final String SCREEN_ALL = "all";
+    public static final String SCREEN_TW = "TW";
 
     protected DataProvider provider;
     protected ListView lwRunning = null;
@@ -72,12 +76,15 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         });
 
 
-
         all.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 switchView(SCREEN_ALL);
             }
         });
+
+        ImageButton ibFilter = (ImageButton) this.findViewById(R.id.ibFilter);
+        ibFilter.setOnClickListener(new FilterListener(this));
+
 
         lwRunning.setOnItemClickListener(this);
         lwAll.setOnItemClickListener(this);
@@ -91,13 +98,17 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     protected void onResume() {
         super.onResume();
         if (this.refreshDataset) {
-            if (lwAll.getAdapter() != null) {
-                ((EndlessAdapter) lwAll.getAdapter()).refreshDataset();
-            }
-            if (lwRunning.getAdapter() != null) {
-                ((EndlessAdapter) lwRunning.getAdapter()).refreshDataset();
-            }
+            this.refreshLists();
             refreshDataset = false;
+        }
+    }
+
+    private void refreshLists() {
+        if (lwAll.getAdapter() != null) {
+            ((EndlessAdapter) lwAll.getAdapter()).refreshDataset();
+        }
+        if (lwRunning.getAdapter() != null) {
+            ((EndlessAdapter) lwRunning.getAdapter()).refreshDataset();
         }
     }
 
@@ -152,7 +163,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         if (this.screen == SCREEN_ALL) {
             if (this.lwAll.getAdapter() == null) {
                 //init
-                this.lwAll.setAdapter(new EndlessAdapter(this, provider.getAnnotations("", 0)));
+                this.lwAll.setAdapter(new EndlessAdapter(this, provider.getAnnotations(null, 0)));
             } else {
                 ((EndlessAdapter) lwAll.getAdapter()).refreshDataset();
             }
@@ -253,6 +264,35 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             }
         }
         return true;
+    }
+
+    public String getActualScreenTag() {
+        return this.screen;
+    }
+
+
+
+    public void applySearch() {
+        if (screen == SCREEN_RUNNING) {
+            List<Annotation> i = provider.getRunningAndNext(SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING), 0);
+            if (i.size() > 0) {
+                ((EndlessAdapter) lwRunning.getAdapter()).setItems(i, true);
+                lwRunning.setSelection(0);
+            } else {
+                Toast.makeText(this, "Nebyly nalezeny žádné záznamy", Toast.LENGTH_LONG).show(); //better - to UI
+            }
+        }
+
+        if (screen == SCREEN_ALL) {
+            List<Annotation> i = provider.getAnnotations(SearchProvider.getSearchQueryBuilder(SCREEN_ALL), 0);
+            if (i.size() > 0) {
+                ((EndlessAdapter) lwAll.getAdapter()).setItems(i, true);
+                lwAll.setSelection(0);
+
+            } else {
+                Toast.makeText(this, "Nebyly nalezeny žádné záznamy", Toast.LENGTH_LONG).show(); //better - to UI
+            }
+        }
     }
 }
 
