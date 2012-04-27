@@ -59,14 +59,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
 
             HashMap<Integer, String> pl = DataProvider.getInstance(activity).getProgramLines();
             int i = 0;
-            final String[] pls;
-            //   if (search.hasParam(new ProgramLine())) {
-            //pls = new String[pl.size() + 1];
-            //pls[0] = "- Zrušit filtr";
-            //i++;
-            // } else {
-            pls = new String[pl.size()];
-            //  }
+            final String[] pls = new String[pl.size()];
 
             for (String p : pl.values()) {
                 pls[i++] = p;
@@ -81,15 +74,9 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
             AlertDialog.Builder build = new AlertDialog.Builder(activity);
             build.setTitle(R.string.dPickDate);
             List<Date> dates = DataProvider.getInstance(activity).getDates();
-            String[] ds;
+            String[] ds = new String[dates.size()];
             int j = 0;
-            // if (search.hasParam(new Date())) {
-            //  ds = new String[dates.size() + 1];
-            //  ds[0] = "- Zrušit filtr";
-            //  j++;
-            //} else {
-            ds = new String[dates.size()];
-            //}
+
 
             DateFormat df = new SimpleDateFormat(
                     "EEEE d. M. yyyy", new Locale("cs",

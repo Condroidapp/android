@@ -43,7 +43,17 @@
     <string-array name="filterBy">
         <item>Data</item>
         <item>Linie</item>
+        <item>Pouze oblíbené</item>
     </string-array>
+
+    <string-array name="disableFilterBy">
+        <item>Fulltext</item>
+        <item>Data</item>
+        <item>Linie</item>
+        <item>Oblíbené</item>
+        <item>Všechny filtry</item>
+    </string-array>
+    <string name="disableFilter">Vyberte filtry které chcete zrušit</string>
     <string-array name="annotationContext">
         <item>Sdílet</item>
         <item>Přidat/odebrat z oblíbených</item>

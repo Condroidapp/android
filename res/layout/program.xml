@@ -165,6 +165,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:focusable="true"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"
@@ -176,6 +177,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:focusable="true"
                 android:text="Small Text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"/>

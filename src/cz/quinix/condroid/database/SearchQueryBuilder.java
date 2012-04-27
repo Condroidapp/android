@@ -22,7 +22,7 @@ public class SearchQueryBuilder {
 	
 	public SearchQueryBuilder addParam(final String value) {
 		if(value != null) {
-            this.params.put("stub",new ICondition() {
+            this.params.put(new String().getClass().getName(),new ICondition() {
                 @Override
                 public String getCondition() {
                     return "pid LIKE '%"+value+"%' OR title LIKE '%"+value+"%' OR talker LIKE '%"+value+"%'";
@@ -72,7 +72,7 @@ public class SearchQueryBuilder {
             public String getReadable() {
                 return new SimpleDateFormat("dd.MM.yy").format(d);
             }
-        },"java.util.Date");
+        },new Date().getClass().getName());
 	}
 	
 	public String buildCondition() {

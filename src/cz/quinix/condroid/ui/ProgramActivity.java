@@ -22,10 +22,7 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.RunningAdapter;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
-import cz.quinix.condroid.ui.listeners.FilterListener;
-import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
-import cz.quinix.condroid.ui.listeners.SetReminderListener;
-import cz.quinix.condroid.ui.listeners.ShareProgramListener;
+import cz.quinix.condroid.ui.listeners.*;
 
 import java.util.List;
 
@@ -95,6 +92,15 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 ProgramActivity.this.onSearchRequested();
             }
         });
+
+
+
+        TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatusAll);
+        tFilterAll.setOnClickListener(new DisableFilterListener(this));
+
+
+        TextView tFilterRunning = (TextView) this.findViewById(R.id.tFilterStatusRunning);
+        tFilterRunning.setOnClickListener(new DisableFilterListener(this));
 
 
         lwRunning.setOnItemClickListener(this);
@@ -203,9 +209,9 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             all.setBackgroundColor(R.color.black);
             running.setBackgroundColor(android.R.color.transparent);
             twitter.setBackgroundColor(android.R.color.transparent);
-            if (!(((EndlessAdapter) this.lwAll.getAdapter()).getDataSize() > 0)) {
-                this.showNoDataLine();
-            }
+
+                this.showNoDataLine(!(((EndlessAdapter) this.lwAll.getAdapter()).getDataSize() > 0));
+
         }
         if (this.screen == SCREEN_RUNNING) {
             if (this.lwRunning.getAdapter() == null) {
@@ -223,9 +229,8 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             running.setBackgroundColor(R.color.black);
             all.setBackgroundColor(android.R.color.transparent);
             twitter.setBackgroundColor(android.R.color.transparent);
-            if (!(((EndlessAdapter) this.lwRunning.getAdapter()).getDataSize() > 0)) {
-                this.showNoDataLine();
-            }
+                this.showNoDataLine(!(((EndlessAdapter) this.lwRunning.getAdapter()).getDataSize() > 0));
+
         }
     }
 
@@ -326,9 +331,8 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             ((EndlessAdapter) lwRunning.getAdapter()).setItems(i, true);
             lwRunning.setSelection(0);
             lwRunning.setVisibility(View.VISIBLE);
-            if (i.size() > 0) {
-                this.showNoDataLine();
-            }
+                this.showNoDataLine(i.size() == 0);
+
         }
 
         if (screen == SCREEN_ALL) {
@@ -339,22 +343,30 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 tw.setVisibility(View.VISIBLE);
                 tw.setText(sb.getReadableCondition());
             }
+            else {
+                findViewById(R.id.tFilterStatusAll).setVisibility(View.GONE);
+            }
+
 
             ((EndlessAdapter) lwAll.getAdapter()).setItems(i, true);
             lwAll.setSelection(0);
             lwAll.setVisibility(View.VISIBLE);
 
 
-            if (i.size() > 0) {
-                this.showNoDataLine();
-            }
+
+                this.showNoDataLine(i.size()==0);
+
         }
     }
 
-    public void showNoDataLine() {
-        lwRunning.setVisibility(View.GONE);
-        lwAll.setVisibility(View.GONE);
-        this.findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
+    public void showNoDataLine(boolean b) {
+        if (b) {
+            lwRunning.setVisibility(View.GONE);
+            lwAll.setVisibility(View.GONE);
+            this.findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
+        } else {
+            this.findViewById(R.id.tNoData).setVisibility(View.GONE);
+        }
 
     }
 }
