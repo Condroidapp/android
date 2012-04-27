@@ -62,9 +62,10 @@ public class Annotation implements Serializable, DBInsertable {
 	}
 
 	private Date parseDate(String date, DateTimeFormatter formatter) {
-		date = date.trim();
+
 		if (date == null || date.equals(""))
 			return null;
+        date = date.trim();
 		Date x = null;
 		try {
 			if(date.length() < 25 && formatter.equals(dateISOFormatter)) {

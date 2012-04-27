@@ -96,9 +96,9 @@ public class WelcomeActivity extends CondroidActivity implements
 		all.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent intent = new Intent(WelcomeActivity.this,
-						AllAnotations.class);
-				startActivity(intent);
+				//Intent intent = new Intent(WelcomeActivity.this,
+				//		AllAnotations.class);
+				//startActivity(intent);
 
 			}
 		});
@@ -136,9 +136,9 @@ public class WelcomeActivity extends CondroidActivity implements
 			}
 
 			private void launchIntent() {
-				Intent intent = new Intent(WelcomeActivity.this,
-						RunningActivity.class);
-				startActivity(intent);
+			//	Intent intent = new Intent(WelcomeActivity.this,
+			//			RunningActivity.class);
+			//	startActivity(intent);
 			}
 		});
 

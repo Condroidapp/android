@@ -85,4 +85,5 @@
     <item name="android:shadowDy">1</item>
     <item name="android:shadowRadius">2</item>
 </style>
+    <string name="tNoData">Nejsou k dispozici žádná data</string>
 </resources>

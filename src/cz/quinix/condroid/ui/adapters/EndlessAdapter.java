@@ -51,6 +51,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         rotate.setRepeatCount(Animation.INFINITE);
         this.provider = DataProvider.getInstance(activity);
         totalItems = items.size();
+        this.keepOnAppending.set(!(items.size() < DataProvider.ITEMS_PER_PAGE));
 
     }
 
@@ -64,8 +65,9 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         a.clear();
         this.insertSettedList(items, a);
         this.totalItems = items.size();
+        this.keepOnAppending.set(!(items.size() < DataProvider.ITEMS_PER_PAGE));
         if(refresh) {
-            this.refreshDataset();
+            this.notifyDataSetChanged();
         }
         Log.i("xxxxx", "i"+this.getCount());
         Log.i("xxxxx", "i"+items.size());
@@ -85,7 +87,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         }
         this.itemsToAdd = this.getPrecachedData(totalItems);
         totalItems += itemsToAdd.size();
-        return (this.itemsToAdd.size() > 0);
+        return !(itemsToAdd.size() < DataProvider.ITEMS_PER_PAGE);
     }
 
     protected List<Annotation> getPrecachedData(int skip) {
@@ -196,6 +198,10 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     public CondroidActivity getActivity() {
         return this.activity;
+    }
+
+    public int getDataSize() {
+        return this.totalItems;
     }
 
     public boolean isDateToday(Date date) {

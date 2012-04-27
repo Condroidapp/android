@@ -143,26 +143,58 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout6" android:orientation="vertical"
-                  android:layout_height="0dp" android:layout_weight="8">
+
+    <LinearLayout
+        android:id="@+id/llListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="8"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tFilterStatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" style="@drawable/textlines" android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"/>
 
         <ListView
-                android:id="@+id/lwRunning"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-        </ListView>
-        <ListView
-                android:id="@+id/lwAll"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:visibility="gone">
-        </ListView>
-        <ListView
-                android:id="@+id/lwTwitter"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:visibility="gone">
+            android:id="@+id/lwRunning"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
         </ListView>
 
+        <ListView
+            android:id="@+id/lwAll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+        </ListView>
+
+        <ListView
+            android:id="@+id/lwTwitter"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+        </ListView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tNoData"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" android:visibility="gone" android:gravity="center">
+
+        <TextView
+            android:id="@+id/tNoDataText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tNoData"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="visible" />
 
     </LinearLayout>
 

@@ -128,10 +128,10 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
     private void refreshLists() {
         if (lwAll.getAdapter() != null) {
-            ((EndlessAdapter) lwAll.getAdapter()).refreshDataset();
+            ((EndlessAdapter) lwAll.getAdapter()).notifyDataSetChanged();
         }
         if (lwRunning.getAdapter() != null) {
-            ((EndlessAdapter) lwRunning.getAdapter()).refreshDataset();
+            ((EndlessAdapter) lwRunning.getAdapter()).notifyDataSetChanged();
         }
     }
 
@@ -184,12 +184,14 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         FrameLayout running = (FrameLayout) this.findViewById(R.id.fRunning);
         FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
         FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
+        this.findViewById(R.id.tNoData).setVisibility(View.GONE);
+        this.findViewById(R.id.llListView).setVisibility(View.VISIBLE);
         if (this.screen == SCREEN_ALL) {
             if (this.lwAll.getAdapter() == null) {
                 //init
                 this.lwAll.setAdapter(new EndlessAdapter(this, provider.getAnnotations(null, 0)));
             } else {
-                ((EndlessAdapter) lwAll.getAdapter()).refreshDataset();
+                ((EndlessAdapter) lwAll.getAdapter()).notifyDataSetChanged();
             }
             lwRunning.setVisibility(View.GONE);
             lwAll.setVisibility(View.VISIBLE);
@@ -197,12 +199,15 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             all.setBackgroundColor(R.color.black);
             running.setBackgroundColor(android.R.color.transparent);
             twitter.setBackgroundColor(android.R.color.transparent);
+            if(!(((EndlessAdapter) this.lwAll.getAdapter()).getDataSize() > 0)) {
+                this.showNoDataLine();
+            }
         }
         if (this.screen == SCREEN_RUNNING) {
             if (this.lwRunning.getAdapter() == null) {
                 this.lwRunning.setAdapter(new RunningAdapter(provider.getRunningAndNext(0), this));
             } else {
-                ((EndlessAdapter) lwRunning.getAdapter()).refreshDataset();
+                ((EndlessAdapter) lwRunning.getAdapter()).notifyDataSetChanged();
             }
             lwAll.setVisibility(View.GONE);
             lwRunning.setVisibility(View.VISIBLE);
@@ -210,6 +215,9 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             running.setBackgroundColor(R.color.black);
             all.setBackgroundColor(android.R.color.transparent);
             twitter.setBackgroundColor(android.R.color.transparent);
+            if(!(((EndlessAdapter) this.lwRunning.getAdapter()).getDataSize() > 0)) {
+                this.showNoDataLine();
+            }
         }
     }
 
@@ -281,7 +289,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 case 1:
 
                     new MakeFavoritedListener(this).invoke(an, null);
-                    ((EndlessAdapter) ((ListView) openedContextMenu).getAdapter()).refreshDataset();
+                    ((EndlessAdapter) ((ListView) openedContextMenu).getAdapter()).notifyDataSetChanged();
                     break;
                 case 2:
                     new SetReminderListener(this).invoke(an);
@@ -305,7 +313,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 ((EndlessAdapter) lwRunning.getAdapter()).setItems(i, true);
                 lwRunning.setSelection(0);
             } else {
-                Toast.makeText(this, "Nebyly nalezeny žádné záznamy", Toast.LENGTH_LONG).show(); //better - to UI
+                this.showNoDataLine();
             }
         }
 
@@ -316,9 +324,15 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 lwAll.setSelection(0);
 
             } else {
-                Toast.makeText(this, "Nebyly nalezeny žádné záznamy", Toast.LENGTH_LONG).show(); //better - to UI
+                this.showNoDataLine();
             }
         }
+    }
+
+    public void showNoDataLine() {
+            this.findViewById(R.id.llListView).setVisibility(View.GONE);
+            this.findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
+
     }
 }
 

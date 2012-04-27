@@ -36,6 +36,7 @@ public class RunningAdapter extends EndlessAdapter {
     public RunningAdapter(List<Annotation> map, CondroidActivity caller) {
         super(caller, AddBreaks.addBreaks(map, null));
         this.totalItems = map.size();
+        this.keepOnAppending.set(!(map.size() < DataProvider.ITEMS_PER_PAGE));
     }
 
     @Override
@@ -46,7 +47,9 @@ public class RunningAdapter extends EndlessAdapter {
     @Override
     protected boolean cacheInBackground() throws Exception {
         boolean x = super.cacheInBackground();
-        this.itemsToAdd = AddBreaks.addBreaks(this.itemsToAdd, (Annotation) this.getItem(this.getWrappedAdapter().getCount()-1));
+        if(this.itemsToAdd.size() > 0) {
+            this.itemsToAdd = AddBreaks.addBreaks(this.itemsToAdd, (Annotation) this.getItem(this.getWrappedAdapter().getCount()-1));
+        }
         return x;
     }
 
