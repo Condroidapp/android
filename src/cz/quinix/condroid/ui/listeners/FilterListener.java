@@ -3,6 +3,7 @@ package cz.quinix.condroid.ui.listeners;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
@@ -74,6 +75,10 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
             AlertDialog.Builder build = new AlertDialog.Builder(activity);
             build.setTitle(R.string.dPickDate);
             List<Date> dates = DataProvider.getInstance(activity).getDates();
+            if(dates.size() == 0) {
+                Toast.makeText(activity, R.string.noDatesAvailable, Toast.LENGTH_LONG).show();
+                return;
+            }
             String[] ds = new String[dates.size()];
             int j = 0;
 

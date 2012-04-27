@@ -118,7 +118,9 @@ public class DataProvider {
         if (c.getCount() > 0) {
             do {
                 try {
-                    map.add(df.parse(c.getString(c.getColumnIndex("sDate"))));
+                    if(c.getString(c.getColumnIndex("sDate")) != null) {
+                        map.add(df.parse(c.getString(c.getColumnIndex("sDate"))));
+                    }
                 } catch (ParseException e) {
                     Log.w("DB", e);
                 }

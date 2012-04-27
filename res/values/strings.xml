@@ -96,4 +96,5 @@
     <item name="android:shadowRadius">2</item>
 </style>
     <string name="tNoData">Nejsou k dispozici žádná data</string>
+    <string name="noDatesAvailable">Nejsou k dispozici žádné časy začátků pořadů, nelze filtrovat podle data.</string>
 </resources>
