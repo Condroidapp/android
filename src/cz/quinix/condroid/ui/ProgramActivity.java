@@ -17,6 +17,7 @@ import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
+import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.RunningAdapter;
@@ -111,7 +112,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     }
 
     private void handleIntent(Intent intent) {
-        if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             SearchProvider.getSearchQueryBuilder(screen).addParam(intent.getStringExtra(SearchManager.QUERY));
             this.applySearch();
         }
@@ -185,7 +186,6 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
         FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
         this.findViewById(R.id.tNoData).setVisibility(View.GONE);
-        this.findViewById(R.id.llListView).setVisibility(View.VISIBLE);
         if (this.screen == SCREEN_ALL) {
             if (this.lwAll.getAdapter() == null) {
                 //init
@@ -196,10 +196,14 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             lwRunning.setVisibility(View.GONE);
             lwAll.setVisibility(View.VISIBLE);
 
+            findViewById(R.id.tFilterStatusRunning).setVisibility(View.GONE);
+            if (!SearchProvider.getSearchQueryBuilder(SCREEN_ALL).isEmpty())
+                findViewById(R.id.tFilterStatusAll).setVisibility(View.VISIBLE);
+
             all.setBackgroundColor(R.color.black);
             running.setBackgroundColor(android.R.color.transparent);
             twitter.setBackgroundColor(android.R.color.transparent);
-            if(!(((EndlessAdapter) this.lwAll.getAdapter()).getDataSize() > 0)) {
+            if (!(((EndlessAdapter) this.lwAll.getAdapter()).getDataSize() > 0)) {
                 this.showNoDataLine();
             }
         }
@@ -212,10 +216,14 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             lwAll.setVisibility(View.GONE);
             lwRunning.setVisibility(View.VISIBLE);
 
+            findViewById(R.id.tFilterStatusAll).setVisibility(View.GONE);
+            if (!SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING).isEmpty())
+                findViewById(R.id.tFilterStatusRunning).setVisibility(View.VISIBLE);
+
             running.setBackgroundColor(R.color.black);
             all.setBackgroundColor(android.R.color.transparent);
             twitter.setBackgroundColor(android.R.color.transparent);
-            if(!(((EndlessAdapter) this.lwRunning.getAdapter()).getDataSize() > 0)) {
+            if (!(((EndlessAdapter) this.lwRunning.getAdapter()).getDataSize() > 0)) {
                 this.showNoDataLine();
             }
         }
@@ -242,7 +250,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView instanceof ListView) {
             Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
-            if(!selected.getTitle().startsWith("break")) {
+            if (!selected.getTitle().startsWith("break")) {
                 Intent intent = new Intent(this, ShowAnnotation.class);
                 intent.putExtra("annotation", selected);
                 this.startActivity(intent);
@@ -305,33 +313,48 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     }
 
 
-
     public void applySearch() {
         if (screen == SCREEN_RUNNING) {
-            List<Annotation> i = provider.getRunningAndNext(SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING), 0);
+            SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING);
+            List<Annotation> i = provider.getRunningAndNext(sb, 0);
+            if (!sb.isEmpty()) {
+                TextView tw = (TextView) findViewById(R.id.tFilterStatusRunning);
+                tw.setVisibility(View.VISIBLE);
+                tw.setText(sb.getReadableCondition());
+            }
+
+            ((EndlessAdapter) lwRunning.getAdapter()).setItems(i, true);
+            lwRunning.setSelection(0);
+            lwRunning.setVisibility(View.VISIBLE);
             if (i.size() > 0) {
-                ((EndlessAdapter) lwRunning.getAdapter()).setItems(i, true);
-                lwRunning.setSelection(0);
-            } else {
                 this.showNoDataLine();
             }
         }
 
         if (screen == SCREEN_ALL) {
-            List<Annotation> i = provider.getAnnotations(SearchProvider.getSearchQueryBuilder(SCREEN_ALL), 0);
-            if (i.size() > 0) {
-                ((EndlessAdapter) lwAll.getAdapter()).setItems(i, true);
-                lwAll.setSelection(0);
+            SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(SCREEN_ALL);
+            List<Annotation> i = provider.getAnnotations(sb, 0);
+            if (!sb.isEmpty()) {
+                TextView tw = (TextView) findViewById(R.id.tFilterStatusAll);
+                tw.setVisibility(View.VISIBLE);
+                tw.setText(sb.getReadableCondition());
+            }
 
-            } else {
+            ((EndlessAdapter) lwAll.getAdapter()).setItems(i, true);
+            lwAll.setSelection(0);
+            lwAll.setVisibility(View.VISIBLE);
+
+
+            if (i.size() > 0) {
                 this.showNoDataLine();
             }
         }
     }
 
     public void showNoDataLine() {
-            this.findViewById(R.id.llListView).setVisibility(View.GONE);
-            this.findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
+        lwRunning.setVisibility(View.GONE);
+        lwAll.setVisibility(View.GONE);
+        this.findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
 
     }
 }

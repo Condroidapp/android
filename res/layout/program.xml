@@ -13,7 +13,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_gravity="center" android:gravity="right|center_vertical" android:layout_weight="1">
-
+
+
             <ImageButton
                 android:id="@+id/ibFilter"
                 style="@style/ButtonText"
@@ -21,7 +22,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/style_greenbutton"
                 android:src="@drawable/filter_small" />
-
+
+
             <ImageButton
                 android:id="@+id/ibSearch"
                 style="@style/ButtonText"
@@ -143,21 +145,40 @@
         </LinearLayout>
 
     </LinearLayout>
-
+
+
+
+
+
     <LinearLayout
         android:id="@+id/llListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="8"
         android:orientation="vertical" >
-
+
+
+
+
         <TextView
-            android:id="@+id/tFilterStatus"
+            android:id="@+id/tFilterStatusRunning"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:text="Small Text"
-            android:textAppearance="?android:attr/textAppearanceSmall" style="@drawable/textlines" android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"/>
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"
+                android:visibility="gone"/>
+
+        <TextView
+                android:visibility="gone"
+                android:id="@+id/tFilterStatusAll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"/>
 
         <ListView
             android:id="@+id/lwRunning"
@@ -180,21 +201,24 @@
             android:visibility="gone" >
         </ListView>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/tNoData"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" android:visibility="gone" android:gravity="center">
-
-        <TextView
-            android:id="@+id/tNoDataText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tNoData"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="visible" />
+        <LinearLayout
+            android:id="@+id/tNoData"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tNoDataText"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="@string/tNoData"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="visible" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

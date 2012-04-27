@@ -21,6 +21,11 @@ public class ProgramLine implements ICondition {
 	public String getCondition() {
 		return "lid = "+lid;
 	}
-	
-	
+
+    @Override
+    public String getReadable() {
+        return this.name;
+    }
+
+
 }

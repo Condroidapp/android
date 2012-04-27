@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import cz.quinix.condroid.abstracts.ICondition;
 
@@ -12,27 +13,37 @@ import android.util.Log;
 
 public class SearchQueryBuilder {
 	
-	private Map<String, String> params;
+	private Map<String, ICondition> params;
 	
 	
 	public SearchQueryBuilder() {
-		this.params = new HashMap<String, String>();
+		this.params = new HashMap<String, ICondition>();
 	}
 	
-	public SearchQueryBuilder addParam(String value) {
+	public SearchQueryBuilder addParam(final String value) {
 		if(value != null) {
-			this.params.put("stub", "pid LIKE '%"+value+"%' OR title LIKE '%"+value+"%' OR talker LIKE '%"+value+"%'");
+            this.params.put("stub",new ICondition() {
+                @Override
+                public String getCondition() {
+                    return "pid LIKE '%"+value+"%' OR title LIKE '%"+value+"%' OR talker LIKE '%"+value+"%'";
+                }
+
+                @Override
+                public String getReadable() {
+                    return "*"+value+"*";  //To change body of implemented methods use File | Settings | File Templates.
+                }
+            });
 		}
 		
 		return this;
 	}
 	
 	public SearchQueryBuilder addParam (ICondition value) {
-		this.params.put(value.getClass().getName(), value.getCondition());
+		this.params.put(value.getClass().getName(), value);
 		return this;
 	}
 	public SearchQueryBuilder addParam (ICondition value, String key) {
-		this.params.put(key, value.getCondition());
+		this.params.put(key, value);
 		return this;
 	}
 	
@@ -46,19 +57,22 @@ public class SearchQueryBuilder {
 		
 	}
 	
-	public void addParam(Date d) {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	public void addParam(final Date d) {
+		final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		final String date = df.format(d);
 		d.setDate(d.getDate()+1);
 		final String date2 = df.format(d);
 		this.addParam(new ICondition() {
-			
 
-			
 			public String getCondition() {
 				return "(startTime >=DATE('"+ date + "') AND startTime < DATE('"+ date2 +"'))";
 			}
-		},"java.util.Date");
+
+            @Override
+            public String getReadable() {
+                return new SimpleDateFormat("dd.MM.yy").format(d);
+            }
+        },"java.util.Date");
 	}
 	
 	public String buildCondition() {
@@ -67,7 +81,7 @@ public class SearchQueryBuilder {
 			if(!condition.equals("")) {
 				condition += " AND ";
 			}
-			condition += " ("+params.get(key)+")";
+			condition += " ("+params.get(key).getCondition()+")";
 		}
 		Log.i("Condroid URL", "Builded URL "+ condition);
 		return condition;
@@ -81,8 +95,15 @@ public class SearchQueryBuilder {
 		return params.isEmpty();
 	}
 
-	
 
-	
-
+    public String getReadableCondition() {
+        String ret = "Filtr: ";
+        for(String key : params.keySet()) {
+            if(!ret.equals("Filtr: ")) {
+                ret += " & ";
+            }
+            ret += params.get(key).getReadable();
+        }
+        return ret;
+    }
 }
