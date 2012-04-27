@@ -1,7 +1,6 @@
 package cz.quinix.condroid.ui.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,9 +68,6 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         if(refresh) {
             this.notifyDataSetChanged();
         }
-        Log.i("xxxxx", "i"+this.getCount());
-        Log.i("xxxxx", "i"+items.size());
-        Log.i("xxxxx", "i"+this.getWrappedAdapter().getCount());
     }
 
     protected void insertSettedList(List<Annotation> items, ArrayAdapter<Annotation> a) {

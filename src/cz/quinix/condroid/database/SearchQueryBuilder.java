@@ -83,7 +83,7 @@ public class SearchQueryBuilder {
 			}
 			condition += " ("+params.get(key).getCondition()+")";
 		}
-		Log.i("Condroid URL", "Builded URL "+ condition);
+		Log.d("Condroid", "Builded URL "+ condition);
 		return condition;
 	}
 

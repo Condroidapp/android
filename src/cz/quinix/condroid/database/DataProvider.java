@@ -122,7 +122,7 @@ public class DataProvider {
                         map.add(df.parse(c.getString(c.getColumnIndex("sDate"))));
                     }
                 } catch (ParseException e) {
-                    Log.w("DB", e);
+                    Log.e("Condroid","Exception when parsing dates for list dialog.", e);
                 }
             } while (c.moveToNext());
 
@@ -166,7 +166,7 @@ public class DataProvider {
         }
         //TODO!!!!!! CHANGE!!!!
         Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('2012-04-01')" + (!condition.equals("")?" AND "+condition:""), null, "startTime ASC, lid ASC", (skip) + "," + ITEMS_PER_PAGE, false, null);
-        Log.i("DB-Running", "LIMIT: " + ((skip) + "," + ITEMS_PER_PAGE) + ", returned items " + c2.getCount());
+        Log.d("Condroid", "LIMIT: " + ((skip) + "," + ITEMS_PER_PAGE) + ", returned items " + c2.getCount());
 
         while (c2.moveToNext()) {
             Annotation annotation = readAnnotation(c2);

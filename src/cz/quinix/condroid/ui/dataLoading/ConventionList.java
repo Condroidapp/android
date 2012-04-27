@@ -39,7 +39,7 @@ public class ConventionList implements DialogInterface.OnClickListener, AsyncTas
         try {
             new ConventionLoader(this).execute();
         } catch (Exception e) {
-            Log.e(WelcomeActivity.TAG, "", e);
+            Log.e(WelcomeActivity.TAG, "Exception during XML con-data recieve.", e);
             return;
         }
 

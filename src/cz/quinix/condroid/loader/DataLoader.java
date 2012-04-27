@@ -149,7 +149,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 				throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 			}
 		} catch (XMLProccessException e) {
-			Log.d("X", e.getMessage());
+			Log.e("Condroid","Exception during XML data recieve.", e);
 			throw e;
 		}
 

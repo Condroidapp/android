@@ -105,7 +105,7 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 				eventType = pull.next();
 			}
 		} catch (Exception e) {
-			Log.w(WelcomeActivity.TAG, e);
+			Log.e("Condroid","Exception when parsing con list XML", e);
 			throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 		}
 		return messages;

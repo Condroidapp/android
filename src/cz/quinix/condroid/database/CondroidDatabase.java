@@ -102,7 +102,6 @@ public class CondroidDatabase {
 
 		public CondroidOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			//Log.w("D", "Version:" +DATABASE_VERSION);	
 		}
 		
 		@Override
