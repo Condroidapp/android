@@ -152,7 +152,7 @@ public class DataProvider {
                 favoritedcondition = " AND pid IN (" + favoritedcondition.substring(0, favoritedcondition.length() - 1) + ")";
             } else {
                 throw new IllegalStateException("No favorited");
-            }   */
+            } */
         }
         if (skip == 0) {
             Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')" + (!condition.equals("")?" AND "+condition:""), null, "startTime DESC", null, false, null);

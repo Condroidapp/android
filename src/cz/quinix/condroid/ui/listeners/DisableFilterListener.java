@@ -63,7 +63,7 @@ class DisableFilterTypeSelected implements Dialog.OnClickListener {
                 break;
             case 3:
                 //favorites
-                //todo
+                search.removeParam(new Object());
                 break;
             default:
                 search.clear();
