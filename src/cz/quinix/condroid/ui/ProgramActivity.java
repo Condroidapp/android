@@ -6,10 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
@@ -153,7 +150,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
     private void loadData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.noData)
+        builder.setMessage(R.string.downloadDialog)
                 .setPositiveButton(R.string.yes, new ConventionList(this))
                 .setNegativeButton(R.string.no,
                         new DialogInterface.OnClickListener() {
@@ -244,6 +241,11 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             finish();
             return;
         }
+        SearchProvider.getSearchQueryBuilder(SCREEN_ALL).clear();
+        SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING).clear();
+        lwAll.setAdapter(null);
+        lwRunning.setAdapter(null);
+        this.initListView();
 
         SharedPreferences.Editor editor = getSharedPreferences(TAG, 0).edit();
         editor.remove("messageShown");
@@ -327,6 +329,9 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 tw.setVisibility(View.VISIBLE);
                 tw.setText(sb.getReadableCondition());
             }
+            else {
+                findViewById(R.id.tFilterStatusRunning).setVisibility(View.GONE);
+            }
 
             ((EndlessAdapter) lwRunning.getAdapter()).setItems(i, true);
             lwRunning.setSelection(0);
@@ -368,6 +373,32 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             this.findViewById(R.id.tNoData).setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mi = this.getMenuInflater();
+        mi.inflate(R.menu.program, menu);
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mAbout:
+                new AboutDialog(this).show();
+                return true;
+            case R.id.mAnnotations_refresh:
+                SearchProvider.getSearchQueryBuilder(screen).clear();
+                applySearch();
+                return true;
+            case R.id.mData_reload:
+                this.loadData();
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
 

@@ -97,4 +97,6 @@
 </style>
     <string name="tNoData">Nejsou k dispozici žádná data</string>
     <string name="noDatesAvailable">Nejsou k dispozici žádné časy začátků pořadů, nelze filtrovat podle data.</string>
+    <string name="mReload">Načíst data</string>
+    <string name="mSettings">Nastavení</string>
 </resources>

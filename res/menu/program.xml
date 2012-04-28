@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mData_reload" android:title="@string/mReload"></item>
+    <item android:id="@+id/mAnnotations_refresh" android:title="@string/mRefresh" android:icon="@drawable/ic_menu_refresh" android:visible="true"></item>
+
+
+    <item android:id="@+id/mSettings" android:title="@string/mSettings" android:icon="@android:drawable/ic_menu_preferences"></item>
+    <item android:title="@string/mAbout" android:id="@+id/mAbout"></item>
+</menu>

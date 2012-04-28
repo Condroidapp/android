@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/annotations_refresh" android:title="@string/mRefresh" android:icon="@drawable/ic_menu_refresh" android:visible="false"></item>
-    <item android:id="@+id/search" android:title="@string/search" android:icon="@android:drawable/ic_menu_search"></item>
-    <item android:id="@+id/filter" android:title="@string/mFilter" android:icon="@drawable/filter"></item>
-</menu>
