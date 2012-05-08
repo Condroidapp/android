@@ -5,6 +5,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.abstracts.CondroidActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -19,16 +21,19 @@ import cz.quinix.condroid.model.Annotation;
 
 public class DataLoader extends ListenedAsyncTask<String, Integer> {
 
-	private ProgressDialog pd;
+	//private ProgressDialog pd;
+    private String pdString;
+    private int pdMax;
+    //private int pdActual;
 	
-	public DataLoader(AsyncTaskListener listener, ProgressDialog pd2) {
+	public DataLoader(AsyncTaskListener listener) {
 		super(listener);
-		this.pd = pd2;
+        pdString = parentActivity.getString(R.string.loading);
+		this.showDialog();
 	}
 	
 	@Override
 	protected void onPostExecute(List<?> result) {
-		// TODO Auto-generated method stub
 		pd.dismiss();
 		super.onPostExecute(result);
 		
@@ -38,24 +43,34 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 	protected void onProgressUpdate(Integer... values) {		
 		super.onProgressUpdate(values);
 		int value = values[0];
-		if(value == -1) {
-			
-			ProgressDialog pd = new ProgressDialog(this.pd.getContext());
-			this.pd.dismiss();
-			this.pd = pd;
-			pd.setMessage("Stahuji...");
-			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		if(values.length == 2) {
+            this.pd.dismiss();
+            pdString = parentActivity.getString(R.string.downloading);
+            this.pdMax = values[1];
+            this.showDialog();
 		}
-		else if(values.length == 2) {
-			pd.setMax(values[1]);			
-			pd.show();
-		}
-		else {
+		else if(pd.getMax() > 0) {
 			pd.setProgress(value);
 		}
 	}
-	
-	@Override
+
+    @Override
+    protected void showDialog() {
+        if(this.pd != null && this.pd.isShowing()) {
+            pd.dismiss();
+        }
+        if(parentActivity != null) {
+            this.pd = new ProgressDialog(parentActivity);
+            this.pd.setMessage(pdString);
+            if(this.pdMax > 0) {
+                this.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setMax(pdMax);
+            }
+            pd.show();
+        }
+    }
+
+    @Override
 	protected List<?> doInBackground(String... params) {
 		List<Annotation> messages = new ArrayList<Annotation>();
 		XmlPullParser pull = Xml.newPullParser();
@@ -92,7 +107,9 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 							if(pull.getAttributeCount() > 0) {
 								if(pull.getAttributeName(0).equals("count")) {
 									try {
-										this.publishProgress(0, Integer.parseInt(pull.getAttributeValue(0)));
+                                        int x= Integer.parseInt(pull.getAttributeValue(0));
+                                        if(x >0)
+										    this.publishProgress(0, x);
 									} catch (NumberFormatException e) {
 									}
 								}

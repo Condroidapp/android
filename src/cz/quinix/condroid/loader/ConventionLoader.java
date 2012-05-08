@@ -5,6 +5,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
+import android.widget.Toast;
+import cz.quinix.condroid.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -12,7 +15,6 @@ import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Convention;
-import cz.quinix.condroid.ui.WelcomeActivity;
 
 import android.util.Log;
 import android.util.Xml;
@@ -25,9 +27,14 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 
 
 	private static final String list_url = "http://condroid.fan-project.com/api/con-list";
-	
 
-	@Override
+    @Override
+    protected void showDialog() {
+        if(parentActivity != null)
+            pd= ProgressDialog.show(parentActivity, "", parentActivity.getString(R.string.loading), true);
+    }
+
+    @Override
 	protected List<Convention> doInBackground(Void... source) {
 		List<Convention> messages = new ArrayList<Convention>();
 		XmlPullParser pull = Xml.newPullParser();
@@ -106,7 +113,8 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 			}
 		} catch (Exception e) {
 			Log.e("Condroid","Exception when parsing con list XML", e);
-			throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
+//            Toast.makeText(parentActivity,"Data download failed - "+e.getMessage(),Toast.LENGTH_LONG).show();
+			//throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
 		}
 		return messages;
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Annotation;
@@ -14,13 +15,11 @@ import cz.quinix.condroid.model.Convention;
 public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
 	private CondroidDatabase db;
-	private ProgressDialog pd;
 	private Convention con;
+    private int pdMax;
 
-	public DatabaseLoader(AsyncTaskListener listener, CondroidDatabase db,
-			Convention con) {
+	public DatabaseLoader(AsyncTaskListener listener, CondroidDatabase db, Convention con) {
 		super(listener);
-
 		this.db = db;
 		this.con = con;
 
@@ -29,10 +28,15 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
     @Override
     protected void onPostExecute(List<?> result) {
         super.onPostExecute(result);
-        if(pd != null) {
-            pd.dismiss();;
-            pd = null;
-        }
+    }
+
+    @Override
+    protected void showDialog() {
+        pd = new ProgressDialog(parentActivity);
+        pd.setMessage(parentActivity.getString(R.string.processing));
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setMax(pdMax);
+        pd.show();
     }
 
     @Override
@@ -40,10 +44,9 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 		int value = values[0];
 		
 		super.onProgressUpdate(values);
-		if (!pd.isShowing()) {
-			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			pd.setMax(value);
-			pd.show();			
+		if (pd == null) {
+			pdMax = value;
+			showDialog();
 			return;
 		}
 		float progress = (float) value/2;
@@ -82,11 +85,5 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 		return null;
 	}
 
-	public DatabaseLoader setListener(AsyncTaskListener welcomeActivity,
-			ProgressDialog pd2) {
-		super.setListener(welcomeActivity);
-		this.pd = pd2;
-		return this;
-	}
 
 }

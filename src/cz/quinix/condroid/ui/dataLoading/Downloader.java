@@ -2,11 +2,13 @@ package cz.quinix.condroid.ui.dataLoading;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Convention;
 
@@ -19,11 +21,11 @@ import java.util.List;
  * Time: 11:49
  * To change this template use File | Settings | File Templates.
  */
-public class Downloader implements DialogInterface.OnClickListener, AsyncTaskListener {
+public class Downloader extends AsyncTaskDialog {
 
-    private CondroidActivity parent;
     private List<Convention> conventionList;
-    private ProgressDialog pd;
+    private DataLoader task1;
+    private DatabaseLoader task2;
 
     public Downloader(CondroidActivity parent, List<Convention> conventionList) {
         this.parent = parent;
@@ -32,23 +34,40 @@ public class Downloader implements DialogInterface.OnClickListener, AsyncTaskLis
 
     public void onClick(DialogInterface dialogInterface, int i) {
         DataProvider.getInstance(parent).setConvention(conventionList.get(i));
-        pd = ProgressDialog.show(parent, "",
-                parent.getString(R.string.preparing), true);
-        new DataLoader(this, pd)
-                .execute(conventionList.get(i).getDataUrl());
+        task1 = new DataLoader(this);
+        task1.execute(conventionList.get(i).getDataUrl());
+    }
+
+    @Override
+    public void setParent(CondroidActivity parent) {
+        super.setParent(parent);    //To change body of overridden methods use File | Settings | File Templates.
+        if(task1 != null && !task1.getStatus().equals(AsyncTask.Status.FINISHED)) {
+            if(parent == null) {
+                task1.detach();
+            }
+            else {
+                task1.attach(parent);
+            }
+        }
+        if(task2 != null && !task2.getStatus().equals(AsyncTask.Status.FINISHED)) {
+            if(parent == null) {
+                task2.detach();
+            }
+            else {
+                task2.attach(parent);
+            }
+        }
     }
 
     public void onAsyncTaskCompleted(ListenedAsyncTask<?, ?> task) {
-        pd.dismiss();
+
 
         if (task.hasResult()) {
             List<?> list = task.getResult();
             if (list != null) {
-                pd = new ProgressDialog(parent);
-                pd.setMessage(parent.getString(R.string.processing));
-                pd.setCancelable(true);
-
-                DataProvider.getInstance(parent).prepareInsert().setListener((AsyncTaskListener) parent, pd).execute(list);
+                task2 = DataProvider.getInstance(parent).prepareInsert();
+                task2.setListener((AsyncTaskListener) parent);
+                task2.execute(list);
             }
         }
     }

@@ -1,5 +1,6 @@
 package cz.quinix.condroid.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.RunningAdapter;
+import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
 import cz.quinix.condroid.ui.listeners.*;
 
@@ -40,12 +42,14 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     protected DataProvider provider;
     protected ListView lwRunning = null;
     protected ListView lwAll = null;
+    private ListenedAsyncTask task = null;
 
     private View openedContextMenu;
 
 
     private String screen = ProgramActivity.SCREEN_RUNNING;
     public static boolean refreshDataset = false;
+    private AsyncTaskDialog asyncTaskHandler;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -60,9 +64,16 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         lwRunning = (ListView) this.findViewById(R.id.lwRunning);
         lwAll = (ListView) this.findViewById(R.id.lwAll);
 
+        asyncTaskHandler = (AsyncTaskDialog) getLastNonConfigurationInstance();
+        if(asyncTaskHandler != null) {
+            asyncTaskHandler.setParent(this);
+        }
+
         if (this.dataAvailable()) {
             this.initView();
         }
+
+
         FrameLayout running = (FrameLayout) this.findViewById(R.id.fRunning);
         FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
         FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
@@ -143,15 +154,19 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         if (provider.hasData()) {
             return true;
         } else {
-            this.loadData();
-            return true;
+            if(asyncTaskHandler == null) {
+                this.loadData();
+                return true;
+            }
         }
+        return false;
     }
 
     private void loadData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        asyncTaskHandler = new ConventionList(this);
         builder.setMessage(R.string.downloadDialog)
-                .setPositiveButton(R.string.yes, new ConventionList(this))
+                .setPositiveButton(R.string.yes, asyncTaskHandler)
                 .setNegativeButton(R.string.no,
                         new DialogInterface.OnClickListener() {
 
@@ -233,7 +248,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
 
     public void onAsyncTaskCompleted(ListenedAsyncTask<?, ?> task) {
-
+        asyncTaskHandler = null;
         if (!provider.hasData()) {
             Toast.makeText(this,
                     "Chyba při stahování, zkuste to prosím později.",
@@ -252,6 +267,21 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         editor.commit();
         initView();
     }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+        if(this.asyncTaskHandler != null) {
+            this.asyncTaskHandler.setParent(null);
+            return this.asyncTaskHandler;
+        }
+        return super.onRetainNonConfigurationInstance();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
