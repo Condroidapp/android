@@ -63,6 +63,11 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
         lwRunning = (ListView) this.findViewById(R.id.lwRunning);
         lwAll = (ListView) this.findViewById(R.id.lwAll);
+        if(savedInstanceState != null) {
+            if(savedInstanceState.containsKey("activeView")) {
+                screen = savedInstanceState.getString("activeView");
+            }
+        }
 
         asyncTaskHandler = (AsyncTaskDialog) getLastNonConfigurationInstance();
         if(asyncTaskHandler != null) {
@@ -117,6 +122,12 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         registerForContextMenu(lwAll);
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("activeView",this.getActualScreenTag());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -204,7 +215,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
         FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
         this.findViewById(R.id.tNoData).setVisibility(View.GONE);
-        if (this.screen == SCREEN_ALL) {
+        if (this.screen.equals(SCREEN_ALL)) {
             if (this.lwAll.getAdapter() == null) {
                 //init
                 this.lwAll.setAdapter(new EndlessAdapter(this, provider.getAnnotations(null, 0)));
@@ -225,7 +236,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 this.showNoDataLine(!(((EndlessAdapter) this.lwAll.getAdapter()).getDataSize() > 0));
 
         }
-        if (this.screen == SCREEN_RUNNING) {
+        if (this.screen.equals(SCREEN_RUNNING)) {
             if (this.lwRunning.getAdapter() == null) {
                 this.lwRunning.setAdapter(new RunningAdapter(provider.getRunningAndNext(0), this));
             } else {
@@ -279,7 +290,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             this.asyncTaskHandler.setParent(null);
             return this.asyncTaskHandler;
         }
-        return super.onRetainNonConfigurationInstance();    //To change body of overridden methods use File | Settings | File Templates.
+        return super.onRetainNonConfigurationInstance();
     }
 
 
@@ -351,7 +362,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
 
     public void applySearch() {
-        if (screen == SCREEN_RUNNING) {
+        if (screen.equals(SCREEN_RUNNING)) {
             SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING);
             List<Annotation> i = provider.getRunningAndNext(sb, 0);
             if (!sb.isEmpty()) {
@@ -370,7 +381,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
         }
 
-        if (screen == SCREEN_ALL) {
+        if (screen.equals(SCREEN_ALL)) {
             SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(SCREEN_ALL);
             List<Annotation> i = provider.getAnnotations(sb, 0);
             if (!sb.isEmpty()) {
