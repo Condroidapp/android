@@ -3,6 +3,7 @@ package cz.quinix.condroid.ui.listeners;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.service.ReminderManager;
 import cz.quinix.condroid.ui.ShowAnnotation;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -49,6 +50,7 @@ public class SetReminderListener implements OnClickListener {
 				dialog.dismiss();
 				DataProvider provider = DataProvider.getInstance(activity);
 				if(provider.setReminder(annotation, minutes[which])) {
+                    ReminderManager.updateAlarmManager(activity);
 					Toast.makeText(activity, "Upozornění bylo nastaveno.", Toast.LENGTH_SHORT).show();
 				}
 				else {

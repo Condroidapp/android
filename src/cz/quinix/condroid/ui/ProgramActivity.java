@@ -436,7 +436,11 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 return true;
             case R.id.mData_reload:
                 this.loadData();
-
+                return true;
+            case R.id.mSettings:
+                Intent i = new Intent(this, Preferences.class);
+                this.startActivity(i);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

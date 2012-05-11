@@ -7,6 +7,8 @@ import android.util.Log;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
+import cz.quinix.condroid.model.Reminder;
+import cz.quinix.condroid.service.ReminderManager;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -259,5 +261,28 @@ public class DataProvider {
         }
     }
 
+    public boolean removeReminder(String pid) {
+        try {
+            this.mDatabase.query("DELETE FROM " + CondroidDatabase.REMINDER_TABLE + " WHERE pid=" + pid);
+            return true;
+        }
+        catch (Exception e) {
+            Log.w("Condroid",e);
+            return false;
+        }
+    }
 
+
+    public Reminder getNextReminder() {
+        Cursor c = this.mDatabase.query("SELECT r.minutes AS remind, a.* FROM "+CondroidDatabase.REMINDER_TABLE + " r JOIN "+CondroidDatabase.ANNOTATION_TABLE + " a USING (pid) ORDER by startTime ASC LIMIT 1");
+        if(c != null && c.getCount() > 0) {
+            c.moveToFirst();
+            Reminder r = new Reminder();
+            r.annotation = this.readAnnotation(c);
+            r.reminder = c.getInt(c.getColumnIndex("remind"));
+            c.close();
+            return r;
+        }
+        return null;
+    }
 }
