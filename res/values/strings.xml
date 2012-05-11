@@ -99,4 +99,10 @@
     <string name="noDatesAvailable">Nejsou k dispozici žádné časy začátků pořadů, nelze filtrovat podle data.</string>
     <string name="mReload">Načíst data</string>
     <string name="mSettings">Nastavení</string>
+    <string name="pUpdateTitle">Zjišťování aktualizací</string>
+    <string name="pAutoUpdate">Kontrolovat nové verze programu</string>
+    <string name="pLastUpdate">Poslední aktualizace</string>
+    <string name="pReminderTitle">Upozornění</string>
+    <string name="pReminderFlash">Oznámení blikáním diody</string>
+    <string name="pReminderTone">Zvukové upozornění</string>
 </resources>

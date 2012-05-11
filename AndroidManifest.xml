@@ -5,7 +5,7 @@
       <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@android:style/Theme.Light.NoTitleBar">
           <activity android:name=".ui.ShowAnnotation"></activity>
         <activity android:name=".ui.AboutActivity"></activity>
-          <activity android:name=".ui.ProgramActivity"></activity>
+          <activity android:name=".ui.Preferences"></activity>
         <activity android:label="@string/appName" android:name=".ui.ProgramActivity" android:launchMode="singleTop">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
@@ -15,7 +15,8 @@
             <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
         </activity>
 
-    </application>
+          <service android:name=".service.ReminderTask"/>
+      </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"></uses-sdk>
 </manifest>
