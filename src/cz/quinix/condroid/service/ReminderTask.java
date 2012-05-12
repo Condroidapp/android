@@ -5,8 +5,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.IBinder;
-import android.widget.Toast;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
@@ -14,7 +17,6 @@ import cz.quinix.condroid.model.Reminder;
 import cz.quinix.condroid.ui.ShowAnnotation;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,24 +52,50 @@ public class ReminderTask extends Service {
     private void handleCommand(Intent intent) {
         Reminder r = DataProvider.getInstance(getApplicationContext()).getNextReminder();
 
+        if (r != null) {
+            Annotation annotation = r.annotation;
+            NotificationManager nm = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+            Notification n = new Notification(R.drawable.icon_status_bar, annotation.getTitle() + " začíná za " + r.reminder + " minut!", System.currentTimeMillis());
 
-        Annotation annotation = r.annotation;
-        NotificationManager nm = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-        Notification n = new Notification(R.drawable.icon, annotation.getTitle() + " začíná z "+r.reminder+" minut!",System.currentTimeMillis());
+            Intent i = new Intent(this, ShowAnnotation.class);
+            i.putExtra("annotation", annotation);
+            PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
+            try {
+                n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v " + df.print(annotation.getStartTime().getTime()), pi);
 
-        Intent i = new Intent(this, ShowAnnotation.class);
-        i.putExtra("annotation",annotation);
-        PendingIntent pi = PendingIntent.getActivity(this,0,i,0);
-        n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v "+ df.print(annotation.getStartTime().getTime()),pi);
-        n.flags |= Notification.FLAG_AUTO_CANCEL;
-        nm.notify(notificationId++,n);
-        DataProvider.getInstance(getApplicationContext()).removeReminder(annotation.getPid());
+            n.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        //plan new
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            if (sp.getBoolean("reminder_tone_check", false)) {
+                String sound = sp.getString("reminder_tone", null);
+                if (sound != null) {
+                    n.sound = Uri.parse(sound);
+                }
+            }
+            if (sp.getBoolean("reminder_vibrate", false)) {
+                n.defaults |= Notification.DEFAULT_VIBRATE;
+            }
+            if (sp.getBoolean("reminder_flash", true)) {
+                n.flags |= Notification.FLAG_SHOW_LIGHTS;
+                n.ledARGB = 0xff00ff00;
+                n.ledOnMS = 300;
+                n.ledOffMS = 1000;
+            }
+
+            nm.notify(notificationId++, n);
+            } catch (NullPointerException e) {
+                Log.d("Condroid","Null pointer in service",e);
+            } finally {
+                if(annotation != null) {
+                    DataProvider.getInstance(getApplicationContext()).removeReminder(annotation.getPid());
+                }
+
+            }
+        }
         ReminderManager.updateAlarmManager(this);
 
         this.stopSelf();
-
+        return;
     }
 
 }

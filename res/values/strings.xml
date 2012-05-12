@@ -99,10 +99,31 @@
     <string name="noDatesAvailable">Nejsou k dispozici žádné časy začátků pořadů, nelze filtrovat podle data.</string>
     <string name="mReload">Načíst data</string>
     <string name="mSettings">Nastavení</string>
-    <string name="pUpdateTitle">Zjišťování aktualizací</string>
-    <string name="pAutoUpdate">Kontrolovat nové verze programu</string>
+    <string name="pUpdateTitle">Zjišťování aktualizací dat</string>
+    <string name="pAutoUpdate">Automatická kontrola</string>
+    <string name="pAutoUpdatePeriod">Frekvence aktualizace</string>
     <string name="pLastUpdate">Poslední aktualizace</string>
-    <string name="pReminderTitle">Upozornění</string>
+    <string name="pReminderTitle">Upozornění začátku programu</string>
     <string name="pReminderFlash">Oznámení blikáním diody</string>
-    <string name="pReminderTone">Zvukové upozornění</string>
+    <string name="pReminderTone">Zvuk upozornění</string>
+    <string name="pReminderToneCheckbox">Zvukové upozornění</string>
+    <string name="pReminderVibrate">Vibrovat</string>
+    <string-array name="pAutoUpdatePeriods">
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>1 hodina</item>
+        <item>2 hodiny</item>
+        <item>3 hodiny</item>
+        <item>6 hodin</item>
+        <item>12 hodin</item>
+    </string-array>
+    <string-array name="pAutoUpdatePeriodsValues">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+        <item>360</item>
+        <item>720</item>
+    </string-array>
 </resources>

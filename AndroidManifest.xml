@@ -18,5 +18,6 @@
           <service android:name=".service.ReminderTask"/>
       </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"></uses-sdk>
 </manifest>
