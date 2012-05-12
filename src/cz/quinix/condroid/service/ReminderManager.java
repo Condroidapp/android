@@ -21,6 +21,7 @@ import cz.quinix.condroid.ui.ShowAnnotation;
 public class ReminderManager {
 
     public static void updateAlarmManager(Context context) {
+        Log.d("Condroid","Setting up alarm service");
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         DataProvider dp = DataProvider.getInstance(context);
 
@@ -32,6 +33,10 @@ public class ReminderManager {
             long time = /*annotation.getStartTime().getTime()*/ System.currentTimeMillis() + closest.reminder*10*1000;
 
             am.set(AlarmManager.RTC_WAKEUP, time, pi);
+            Log.d("Condroid","Alarm will run in "+time);
+        }
+        else {
+            Log.d("Condroid","No next alarm");
         }
     }
 }

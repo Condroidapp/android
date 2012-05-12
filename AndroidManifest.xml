@@ -15,9 +15,17 @@
             <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
         </activity>
 
-          <service android:name=".service.ReminderTask"/>
+        <service android:name=".service.ReminderTask"/>
+
+        <receiver android:name=".service.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
       </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"></uses-sdk>
 </manifest>
