@@ -31,7 +31,15 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
     }
 
     @Override
+    protected void onPreExecute() {
+
+    }
+
+    @Override
     protected void showDialog() {
+        if(pd!=null) {
+            pd.dismiss();
+        }
         pd = new ProgressDialog(parentActivity);
         pd.setMessage(parentActivity.getString(R.string.processing));
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -44,7 +52,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 		int value = values[0];
 		
 		super.onProgressUpdate(values);
-		if (pd == null) {
+		if (pd == null || !pd.isShowing()) {
 			pdMax = value;
 			showDialog();
 			return;
