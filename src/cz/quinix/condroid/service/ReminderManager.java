@@ -30,7 +30,7 @@ public class ReminderManager {
         if(closest != null) {
 
             PendingIntent pi = PendingIntent.getService(context,0,new Intent(context, ReminderTask.class),0);
-            long time = /*annotation.getStartTime().getTime()*/ System.currentTimeMillis() + closest.reminder*10*1000;
+            long time = closest.annotation.getStartTime().getTime() + (closest.reminder*60*1000);
 
             am.set(AlarmManager.RTC_WAKEUP, time, pi);
             Log.d("Condroid","Alarm will run in "+time);

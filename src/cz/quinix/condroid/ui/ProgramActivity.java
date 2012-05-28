@@ -430,13 +430,15 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             case R.id.mAbout:
                 new AboutDialog(this).show();
                 return true;
-            case R.id.mAnnotations_refresh:
-                SearchProvider.getSearchQueryBuilder(screen).clear();
-                applySearch();
+            case R.id.mReminderList:
+                Intent in = new Intent(this, ReminderList.class);
+                this.startActivityForResult(in,0);
+
                 return true;
             case R.id.mData_reload:
                 this.loadData();
                 return true;
+
             case R.id.mSettings:
                 Intent i = new Intent(this, Preferences.class);
                 this.startActivity(i);

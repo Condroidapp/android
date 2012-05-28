@@ -285,4 +285,19 @@ public class DataProvider {
         }
         return null;
     }
+
+    public List<Reminder> getReminderList() {
+        List<Reminder> r = new ArrayList<Reminder>();
+
+        Cursor c  = this.mDatabase.query("SELECT r.minutes AS remind, a.* FROM "+CondroidDatabase.REMINDER_TABLE+" r JOIN "+CondroidDatabase.ANNOTATION_TABLE+" a USING (pid) ORDER by startTime ASC LIMIT 20");
+        if(c.getCount() >0)
+            do {
+                Reminder reminder = new Reminder();
+                reminder.annotation = this.readAnnotation(c);
+                reminder.reminder = c.getInt(c.getColumnIndex("remind"));
+                r.add(reminder);
+            } while (c.moveToNext());
+        c.close();
+        return r;
+    }
 }

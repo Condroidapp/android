@@ -1,6 +1,7 @@
 package cz.quinix.condroid.ui;
 
 
+import android.preference.PreferenceManager;
 import cz.quinix.condroid.R;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -32,7 +33,7 @@ public class AboutDialog extends AlertDialog {
 	class OkListener implements OnClickListener {
 
 		public void onClick(DialogInterface dialog, int which) {
-			SharedPreferences pr = getContext().getSharedPreferences(WelcomeActivity.TAG, 0);
+			SharedPreferences pr = PreferenceManager.getDefaultSharedPreferences(AboutDialog.this.getContext());
 			SharedPreferences.Editor e = pr.edit();
 			e.putBoolean("aboutShown", true);
 			e.commit();
