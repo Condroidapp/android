@@ -73,7 +73,7 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:gravity="center_horizontal"
-            android:background="@drawable/textlines" android:id="@+id/ldateLayout" android:visibility="gone">
+            android:background="@color/lightlighgray" android:id="@+id/ldateLayout" android:visibility="gone">
         <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView"
                   android:id="@+id/tRunningTitle" android:padding="10dp" android:textSize="16dp"
                   android:textStyle="bold"></TextView>

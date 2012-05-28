@@ -108,6 +108,8 @@
     <string name="pReminderTone">Zvuk upozornění</string>
     <string name="pReminderToneCheckbox">Zvukové upozornění</string>
     <string name="pReminderVibrate">Vibrovat</string>
+    <string name="mReminder">Připomenutí</string>
+    <string name="planedReminders">Plánované připomenutí (kliknutím odstraňte)</string>
     <string-array name="pAutoUpdatePeriods">
         <item>15 minut</item>
         <item>30 minut</item>
@@ -125,5 +127,8 @@
         <item>180</item>
         <item>360</item>
         <item>720</item>
+    </string-array>
+    <string-array name="reminderContext">
+        <item>Zrušit připomenutí</item>
     </string-array>
 </resources>
