@@ -59,13 +59,12 @@ public class SearchQueryBuilder {
 	
 	public void addParam(final Date d) {
 		final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		final String date = df.format(d);
-		d.setDate(d.getDate()+1);
-		final String date2 = df.format(d);
 		this.addParam(new ICondition() {
 
 			public String getCondition() {
-				return "(startTime >=DATE('"+ date + "') AND startTime < DATE('"+ date2 +"'))";
+                Date d2 = (Date) d.clone();
+                d2.setDate(d.getDate()+1);
+				return "(startTime >=DATE('"+ df.format(d) + "') AND startTime < DATE('"+ df.format(d2) +"'))";
 			}
 
             @Override
