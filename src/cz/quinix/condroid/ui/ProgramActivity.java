@@ -69,12 +69,6 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         provider = DataProvider.getInstance(getApplicationContext());
 
         lwMain = (ListView) this.findViewById(R.id.lwMain);
-        //lwAll = (ListView) this.findViewById(R.id.lwAll);
-        /*if(savedInstanceState != null) {
-            if(savedInstanceState.containsKey("activeView")) {
-                screen = savedInstanceState.getString("activeView");
-            }
-        }  */
 
         asyncTaskHandler = (AsyncTaskDialog) getLastNonConfigurationInstance();
         if(asyncTaskHandler != null) {
@@ -88,7 +82,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
         FrameLayout running = (FrameLayout) this.findViewById(R.id.fRunning);
         FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
-        FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
+        //FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
         running.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 switchView(Running.class);
@@ -120,18 +114,13 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
 
         lwMain.setOnItemClickListener(this);
-        //lwAll.setOnItemClickListener(this);
+
         registerForContextMenu(lwMain);
-        //registerForContextMenu(lwAll);
 
-
+        if(!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
+            applySearch(); //for applying search when screen rotates
+        }
     }
-
-/*    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("activeView",this.getActualScreenTag());
-        super.onSaveInstanceState(outState);
-    }  */
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -152,7 +141,6 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         overridePendingTransition(0, 0);
         if (this.refreshDataset) {
             this.refreshRegistry.performRefresh();
-            //this.refreshLists();
             refreshDataset = false;
         }
     }
@@ -385,4 +373,3 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         }
     }
 }
-
