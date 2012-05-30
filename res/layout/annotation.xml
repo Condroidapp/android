@@ -8,30 +8,41 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="left|center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingLeft="4dp"
-            android:paddingTop="6dp" >
+            android:orientation="horizontal" android:layout_weight="1" android:gravity="left|center_vertical" android:paddingLeft="5dp" android:paddingBottom="5dp" android:paddingTop="5dp">
 
             <ImageView
                 android:id="@+id/iLogo"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:src="@drawable/logo"/>
-
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo" />
         </LinearLayout>
 
 
-        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.93"
+            android:gravity="right|center_vertical" >
+
+
+            <ImageButton
+                android:id="@+id/ibSearch"
+                style="@style/ButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@drawable/style_greenbutton"
+                android:src="@drawable/search_small" android:padding="8dp" android:visibility="invisible"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout android:background="@drawable/textlines" android:layout_width="fill_parent" android:padding="5dp" android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_height="wrap_content">
         <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content" android:paddingBottom="2dp" android:layout_width="fill_parent" android:text="TextView" android:textSize="17dp"></TextView>
         <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/frameLayout1">
-            <ImageView android:src="@drawable/program_unknown" android:layout_gravity="right|center_vertical" android:id="@+id/iProgramIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dp" android:paddingTop="5dp" android:paddingBottom="5dp" android:paddingRight="15dp"></ImageView>
-            <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingRight="35dip">
+            <ImageView android:src="@drawable/program_unknown" android:layout_gravity="top|right" android:id="@+id/iProgramIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dp" android:paddingBottom="5dp" android:paddingRight="10dp" android:paddingTop="5dp"></ImageView>
+            <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingRight="10dip">
                 <TextView android:text="TextView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingBottom="2dp" android:id="@+id/annot_author" android:textSize="16dp"></TextView>
 
                 <FrameLayout
@@ -51,7 +62,7 @@
                     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:paddingLeft="20dip">
                         <TextView android:text="id" android:id="@+id/annot_pid" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
                         <TextView android:text="line" android:id="@+id/annot_line" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
-                        <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
+                        <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip" android:maxLines="1"></TextView>
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>

@@ -44,6 +44,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     protected ListView lwMain = null;
     //protected ListView lwAll = null;
     private ListenedAsyncTask task = null;
+    private boolean animateOnResult = false;
 
     //private View openedContextMenu;
 
@@ -138,7 +139,11 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     @Override
     protected void onResume() {
         super.onResume();
-        overridePendingTransition(0, 0);
+        if(!animateOnResult) {
+            overridePendingTransition(0, 0);
+
+        }
+        animateOnResult = false;
         if (this.refreshDataset) {
             this.refreshRegistry.performRefresh();
             refreshDataset = false;
@@ -245,6 +250,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         if (adapterView instanceof ListView) {
             Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
             if (!selected.getTitle().startsWith("break")) {
+                this.animateOnResult = true;
                 Intent intent = new Intent(this, ShowAnnotation.class);
                 intent.putExtra("annotation", selected);
                 this.startActivity(intent);
