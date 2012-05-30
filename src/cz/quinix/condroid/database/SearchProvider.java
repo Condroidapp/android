@@ -26,4 +26,7 @@ public class SearchProvider {
         return map.get(tag);
     }
 
+    public static Map<String, SearchQueryBuilder> getSearchQueryBuilders() {
+        return map;
+    }
 }

@@ -14,6 +14,7 @@ import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.All;
 import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.text.DateFormat;
@@ -87,7 +88,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     }
 
     protected List<Annotation> getPrecachedData(int skip) {
-        return DataProvider.getInstance(activity).getAnnotations(SearchProvider.getSearchQueryBuilder(ProgramActivity.SCREEN_ALL), skip);
+        return DataProvider.getInstance(activity).getAnnotations(SearchProvider.getSearchQueryBuilder(All.class.getName()), skip);
     }
 
     @Override

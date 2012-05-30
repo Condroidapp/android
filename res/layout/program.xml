@@ -18,7 +18,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/logo" />
         </LinearLayout>
-
+
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -125,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:clickable="true" >
+                android:clickable="true" android:visibility="gone" >
 
                 <ImageView
                     android:id="@+id/ImageView02"
@@ -169,7 +170,7 @@
 
 
         <TextView
-            android:id="@+id/tFilterStatusRunning"
+            android:id="@+id/tFilterStatus"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -179,36 +180,11 @@
             android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"
                 android:visibility="gone"/>
 
-        <TextView
-                android:visibility="gone"
-                android:id="@+id/tFilterStatusAll"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="Small Text"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"/>
-
         <ListView
-            android:id="@+id/lwRunning"
+            android:id="@+id/lwMain"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:visibility="visible">
-        </ListView>
-
-        <ListView
-            android:id="@+id/lwAll"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-        </ListView>
-
-        <ListView
-            android:id="@+id/lwTwitter"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
         </ListView>
 
         <LinearLayout

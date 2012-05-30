@@ -37,7 +37,7 @@ public class FilterListener implements View.OnClickListener {
     public void onClick(View view) {
         AlertDialog.Builder ab = new AlertDialog.Builder(activity);
         ab.setTitle(R.string.chooseFilter);
-        ab.setItems(R.array.filterBy, new FilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(activity.getActualScreenTag())));
+        ab.setItems(R.array.filterBy, new FilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(activity.getClass().getName())));
 
         ab.create().show();
     }

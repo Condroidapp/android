@@ -4,17 +4,24 @@
       android:versionName="2.3.3" android:versionCode="9">
       <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@android:style/Theme.Light.NoTitleBar">
           <activity android:name=".ui.ShowAnnotation"></activity>
-        <activity android:name=".ui.AboutActivity"></activity>
           <activity android:name=".ui.Preferences"></activity>
-        <activity android:label="@string/appName" android:name=".ui.ProgramActivity" android:launchMode="singleTop">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-                <action android:name="android.intent.action.MAIN"></action>
-                <action android:name="android.intent.action.SEARCH"></action>
-            </intent-filter>
-            <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
-        </activity>
+
           <activity android:name=".ui.ReminderList" android:theme="@android:style/Theme.Dialog" android:label="Přehled připomenutí"/>
+          <activity android:name=".ui.Running">
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN"/>
+                  <category android:name="android.intent.category.LAUNCHER"/>
+                  <action android:name="android.intent.action.SEARCH"></action>
+              </intent-filter>
+              <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
+          </activity>
+          <activity android:name=".ui.All">
+              <intent-filter>
+
+                  <action android:name="android.intent.action.SEARCH"></action>
+              </intent-filter>
+              <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
+          </activity>
 
           <service android:name=".service.ReminderTask"/>
 

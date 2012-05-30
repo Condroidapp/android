@@ -51,7 +51,7 @@
                     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:paddingLeft="20dip">
                         <TextView android:text="id" android:id="@+id/annot_pid" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
                         <TextView android:text="line" android:id="@+id/annot_line" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
-                        <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:inputType="text" android:textSize="14dip"></TextView>
+                        <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/gray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"></TextView>
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>

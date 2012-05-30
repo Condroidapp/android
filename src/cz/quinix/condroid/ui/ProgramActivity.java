@@ -23,6 +23,7 @@ import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
 import cz.quinix.condroid.ui.listeners.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,24 +33,25 @@ import java.util.List;
  * Time: 23:30
  * To change this template use File | Settings | File Templates.
  */
-public class ProgramActivity extends CondroidActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
+public abstract class ProgramActivity extends CondroidActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
 
     public static final String TAG = "Condroid";
-    public static final String SCREEN_RUNNING = "running";
-    public static final String SCREEN_ALL = "all";
+    //public static final String SCREEN_RUNNING = "running";
+    //public static final String SCREEN_ALL = "all";
     public static final String SCREEN_TW = "TW";
 
     protected DataProvider provider;
-    protected ListView lwRunning = null;
-    protected ListView lwAll = null;
+    protected ListView lwMain = null;
+    //protected ListView lwAll = null;
     private ListenedAsyncTask task = null;
 
-    private View openedContextMenu;
+    //private View openedContextMenu;
 
 
-    private String screen = ProgramActivity.SCREEN_RUNNING;
+    //private String screen = ProgramActivity.SCREEN_RUNNING;
     public static boolean refreshDataset = false;
     private AsyncTaskDialog asyncTaskHandler;
+    private static RefreshRegistry refreshRegistry;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -57,17 +59,22 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         System.setProperty("org.joda.time.DateTimeZone.Provider",
                 "cz.quinix.condroid.FastJodaTimeZoneProvider");
 
+        if(this.refreshRegistry == null) {
+            this.refreshRegistry = new RefreshRegistry();
+        }
+        this.refreshRegistry.registerInstance(this);
+
 
         this.setContentView(R.layout.program);
         provider = DataProvider.getInstance(getApplicationContext());
 
-        lwRunning = (ListView) this.findViewById(R.id.lwRunning);
-        lwAll = (ListView) this.findViewById(R.id.lwAll);
-        if(savedInstanceState != null) {
+        lwMain = (ListView) this.findViewById(R.id.lwMain);
+        //lwAll = (ListView) this.findViewById(R.id.lwAll);
+        /*if(savedInstanceState != null) {
             if(savedInstanceState.containsKey("activeView")) {
                 screen = savedInstanceState.getString("activeView");
             }
-        }
+        }  */
 
         asyncTaskHandler = (AsyncTaskDialog) getLastNonConfigurationInstance();
         if(asyncTaskHandler != null) {
@@ -84,14 +91,14 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
         running.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                switchView(SCREEN_RUNNING);
+                switchView(Running.class);
             }
         });
 
 
         all.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                switchView(SCREEN_ALL);
+                switchView(All.class);
             }
         });
 
@@ -108,27 +115,23 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
 
 
-        TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatusAll);
+        TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatus);
         tFilterAll.setOnClickListener(new DisableFilterListener(this));
 
 
-        TextView tFilterRunning = (TextView) this.findViewById(R.id.tFilterStatusRunning);
-        tFilterRunning.setOnClickListener(new DisableFilterListener(this));
-
-
-        lwRunning.setOnItemClickListener(this);
-        lwAll.setOnItemClickListener(this);
-        registerForContextMenu(lwRunning);
-        registerForContextMenu(lwAll);
+        lwMain.setOnItemClickListener(this);
+        //lwAll.setOnItemClickListener(this);
+        registerForContextMenu(lwMain);
+        //registerForContextMenu(lwAll);
 
 
     }
 
-    @Override
+/*    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("activeView",this.getActualScreenTag());
         super.onSaveInstanceState(outState);
-    }
+    }  */
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -138,7 +141,7 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            SearchProvider.getSearchQueryBuilder(screen).addParam(intent.getStringExtra(SearchManager.QUERY));
+            SearchProvider.getSearchQueryBuilder(this.getClass().getName()).addParam(intent.getStringExtra(SearchManager.QUERY));
             this.applySearch();
         }
     }
@@ -146,18 +149,11 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     @Override
     protected void onResume() {
         super.onResume();
+        overridePendingTransition(0, 0);
         if (this.refreshDataset) {
-            this.refreshLists();
+            this.refreshRegistry.performRefresh();
+            //this.refreshLists();
             refreshDataset = false;
-        }
-    }
-
-    private void refreshLists() {
-        if (lwAll.getAdapter() != null) {
-            ((EndlessAdapter) lwAll.getAdapter()).notifyDataSetChanged();
-        }
-        if (lwRunning.getAdapter() != null) {
-            ((EndlessAdapter) lwRunning.getAdapter()).notifyDataSetChanged();
         }
     }
 
@@ -203,58 +199,21 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
         this.handleIntent(this.getIntent());
     }
 
-    private void switchView(String viewName) {
-        if (!this.screen.equals(viewName)) {
-            this.screen = viewName;
-            this.initListView();
+    private void switchView(Class<?> viewName) {
+        if(this.getClass() != viewName) {
+            Intent intent = new Intent(this, viewName);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            this.startActivity(intent);
         }
     }
 
-    private void initListView() {
-        FrameLayout running = (FrameLayout) this.findViewById(R.id.fRunning);
-        FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
-        FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
-        this.findViewById(R.id.tNoData).setVisibility(View.GONE);
-        if (this.screen.equals(SCREEN_ALL)) {
-            if (this.lwAll.getAdapter() == null) {
-                //init
-                this.lwAll.setAdapter(new EndlessAdapter(this, provider.getAnnotations(null, 0)));
-            } else {
-                ((EndlessAdapter) lwAll.getAdapter()).notifyDataSetChanged();
-            }
-            lwRunning.setVisibility(View.GONE);
-            lwAll.setVisibility(View.VISIBLE);
 
-            findViewById(R.id.tFilterStatusRunning).setVisibility(View.GONE);
-            if (!SearchProvider.getSearchQueryBuilder(SCREEN_ALL).isEmpty())
-                findViewById(R.id.tFilterStatusAll).setVisibility(View.VISIBLE);
 
-            all.setBackgroundColor(R.color.black);
-            running.setBackgroundColor(android.R.color.transparent);
-            twitter.setBackgroundColor(android.R.color.transparent);
-
-                this.showNoDataLine(!(((EndlessAdapter) this.lwAll.getAdapter()).getDataSize() > 0));
-
-        }
-        if (this.screen.equals(SCREEN_RUNNING)) {
-            if (this.lwRunning.getAdapter() == null) {
-                this.lwRunning.setAdapter(new RunningAdapter(provider.getRunningAndNext(0), this));
-            } else {
-                ((EndlessAdapter) lwRunning.getAdapter()).notifyDataSetChanged();
-            }
-            lwAll.setVisibility(View.GONE);
-            lwRunning.setVisibility(View.VISIBLE);
-
-            findViewById(R.id.tFilterStatusAll).setVisibility(View.GONE);
-            if (!SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING).isEmpty())
-                findViewById(R.id.tFilterStatusRunning).setVisibility(View.VISIBLE);
-
-            running.setBackgroundColor(R.color.black);
-            all.setBackgroundColor(android.R.color.transparent);
-            twitter.setBackgroundColor(android.R.color.transparent);
-                this.showNoDataLine(!(((EndlessAdapter) this.lwRunning.getAdapter()).getDataSize() > 0));
-
-        }
+    protected void initListView() {
+        findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
+        if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty())
+            findViewById(R.id.tFilterStatus).setVisibility(View.VISIBLE);
     }
 
 
@@ -267,11 +226,10 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
             finish();
             return;
         }
-        SearchProvider.getSearchQueryBuilder(SCREEN_ALL).clear();
-        SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING).clear();
-        lwAll.setAdapter(null);
-        lwRunning.setAdapter(null);
-        this.initListView();
+        SearchProvider.getSearchQueryBuilders().clear();
+
+        refreshDataset = true;
+        this.onResume();
 
         SharedPreferences.Editor editor = getSharedPreferences(TAG, 0).edit();
         editor.remove("messageShown");
@@ -310,7 +268,6 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         if (v instanceof ListView) {
-            openedContextMenu = v;
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             Annotation an = (Annotation) ((ListView) v).getItemAtPosition(info.position);
             if (an.getTitle() != "break") {
@@ -325,18 +282,12 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
     }
 
     @Override
-    public void onContextMenuClosed(Menu menu) {
-        super.onContextMenuClosed(menu);
-        this.openedContextMenu = null;
-    }
-
-    @Override
     public boolean onContextItemSelected(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        if (this.openedContextMenu != null) {
+
             int menuItemIndex = item.getItemId();
-            Annotation an = (Annotation) ((ListView) this.openedContextMenu).getItemAtPosition(info.position);
+            Annotation an = (Annotation) ((ListView) this.lwMain).getItemAtPosition(info.position);
 
             switch (menuItemIndex) {
                 case 0:
@@ -345,70 +296,42 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 case 1:
 
                     new MakeFavoritedListener(this).invoke(an, null);
-                    ((EndlessAdapter) ((ListView) openedContextMenu).getAdapter()).notifyDataSetChanged();
+                    ((EndlessAdapter) ((ListView) lwMain).getAdapter()).notifyDataSetChanged();
                     break;
                 case 2:
                     new SetReminderListener(this).invoke(an);
                 default:
                     break;
             }
-        }
+
         return true;
     }
 
-    public String getActualScreenTag() {
-        return this.screen;
-    }
-
-
     public void applySearch() {
-        if (screen.equals(SCREEN_RUNNING)) {
-            SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(SCREEN_RUNNING);
-            List<Annotation> i = provider.getRunningAndNext(sb, 0);
+            SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
+            List<Annotation> i = this.loadData(sb, 0);
             if (!sb.isEmpty()) {
-                TextView tw = (TextView) findViewById(R.id.tFilterStatusRunning);
+                TextView tw = (TextView) findViewById(R.id.tFilterStatus);
                 tw.setVisibility(View.VISIBLE);
                 tw.setText(sb.getReadableCondition());
             }
             else {
-                findViewById(R.id.tFilterStatusRunning).setVisibility(View.GONE);
-            }
-
-            ((EndlessAdapter) lwRunning.getAdapter()).setItems(i, true);
-            lwRunning.setSelection(0);
-            lwRunning.setVisibility(View.VISIBLE);
-                this.showNoDataLine(i.size() == 0);
-
-        }
-
-        if (screen.equals(SCREEN_ALL)) {
-            SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(SCREEN_ALL);
-            List<Annotation> i = provider.getAnnotations(sb, 0);
-            if (!sb.isEmpty()) {
-                TextView tw = (TextView) findViewById(R.id.tFilterStatusAll);
-                tw.setVisibility(View.VISIBLE);
-                tw.setText(sb.getReadableCondition());
-            }
-            else {
-                findViewById(R.id.tFilterStatusAll).setVisibility(View.GONE);
+                findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
             }
 
 
-            ((EndlessAdapter) lwAll.getAdapter()).setItems(i, true);
-            lwAll.setSelection(0);
-            lwAll.setVisibility(View.VISIBLE);
+            ((EndlessAdapter) lwMain.getAdapter()).setItems(i, true);
+            lwMain.setSelection(0);
+            lwMain.setVisibility(View.VISIBLE);
+            this.showNoDataLine(i.size()==0);
 
-
-
-                this.showNoDataLine(i.size()==0);
-
-        }
     }
+
+    protected abstract List<Annotation> loadData(SearchQueryBuilder sb, int page);
 
     public void showNoDataLine(boolean b) {
         if (b) {
-            lwRunning.setVisibility(View.GONE);
-            lwAll.setVisibility(View.GONE);
+            lwMain.setVisibility(View.GONE);
             this.findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
         } else {
             this.findViewById(R.id.tNoData).setVisibility(View.GONE);
@@ -445,6 +368,20 @@ public class ProgramActivity extends CondroidActivity implements AsyncTaskListen
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class RefreshRegistry {
+        private List<ProgramActivity> list = new ArrayList<ProgramActivity>();
+
+        void registerInstance(ProgramActivity p) {
+            list.add(p);
+        }
+
+        void performRefresh() {
+            for(ProgramActivity p :list) {
+                p.applySearch();
+            }
         }
     }
 }

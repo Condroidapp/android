@@ -12,6 +12,7 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.ProgramActivity;
+import cz.quinix.condroid.ui.Running;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,7 +56,7 @@ public class RunningAdapter extends EndlessAdapter {
 
     @Override
     protected List<Annotation> getPrecachedData(int page) {
-        return DataProvider.getInstance(getActivity()).getRunningAndNext(SearchProvider.getSearchQueryBuilder(ProgramActivity.SCREEN_RUNNING), page);
+        return DataProvider.getInstance(getActivity()).getRunningAndNext(SearchProvider.getSearchQueryBuilder(Running.class.getName()), page);
 
     }
 
