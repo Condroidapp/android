@@ -80,7 +80,10 @@ public class SearchQueryBuilder {
 			if(!condition.equals("")) {
 				condition += " AND ";
 			}
-			condition += " ("+params.get(key).getCondition()+")";
+            String cd = params.get(key).getCondition();
+            if(!cd.trim().equals("")) {
+			    condition += " ("+cd+")";
+            }
 		}
 		Log.d("Condroid", "Builded URL "+ condition);
 		return condition;

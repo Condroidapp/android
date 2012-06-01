@@ -111,6 +111,9 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                         }
                         condition = "pid IN (" + condition + ")";
                     }
+                    else {
+                        return "1=0";
+                    }
                     return condition;
                 }
 
