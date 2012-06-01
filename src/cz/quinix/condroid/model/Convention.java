@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
 import cz.quinix.condroid.abstracts.DBInsertable;
 
@@ -26,10 +27,10 @@ public class Convention implements Serializable, DBInsertable {
 	private String locationsFile = "";
 	private boolean providesTimetable = false;
 	private boolean providesAnnotations = false;
-	
-	
-	
-	public String getMessage() {
+    private Date lastUpdate = new Date();
+
+
+    public String getMessage() {
 		return message;
 	}
 	public void setMessage(String message) {
@@ -44,6 +45,11 @@ public class Convention implements Serializable, DBInsertable {
 	public String getIconUrl() {
 		return iconUrl;
 	}
+
+    public void setLastUpdate(Date lastUpdate1) {
+        lastUpdate = lastUpdate1;
+    }
+
 	public String getName() {
 		return name;
 	}
@@ -120,4 +126,8 @@ public class Convention implements Serializable, DBInsertable {
 	public void setHasAnnotations(boolean b) {
 		this.providesAnnotations = b;
 	}
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
 }

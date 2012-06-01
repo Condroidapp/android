@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import cz.quinix.condroid.ui.Preferences;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,5 +18,6 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("Condroid","BootReciever called");
         ReminderManager.updateAlarmManager(context);
+        Preferences.planUpdateService(context);
     }
 }

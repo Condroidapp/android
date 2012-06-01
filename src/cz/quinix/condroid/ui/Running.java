@@ -22,6 +22,7 @@ public class Running extends ProgramActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.findViewById(R.id.fRunning).setBackgroundColor(R.color.black);
+        Preferences.planUpdateService(this);
     }
 
     @Override

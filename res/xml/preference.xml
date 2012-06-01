@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="@string/pUpdateTitle">
-        <CheckBoxPreference android:key="auto_update" android:title="@string/pAutoUpdate" android:defaultValue="true"/>
-        <ListPreference android:key="auto_update_period" android:title="@string/pAutoUpdatePeriod"
-                        android:dependency="auto_update" android:entries="@array/pAutoUpdatePeriods" android:entryValues="@array/pAutoUpdatePeriodsValues" android:defaultValue="60" />
+        <CheckBoxPreference android:key="update_check" android:title="@string/pAutoUpdate" android:defaultValue="true"/>
+        <ListPreference android:key="update_check_period" android:title="@string/pAutoUpdatePeriod"
+                        android:dependency="update_check" android:entries="@array/pAutoUpdatePeriods" android:entryValues="@array/pAutoUpdatePeriodsValues" android:defaultValue="60" />
         <Preference android:selectable="false" android:key="last_update" android:enabled="false" android:title="@string/pLastUpdate"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pReminderTitle">

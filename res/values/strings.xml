@@ -111,6 +111,7 @@
     <string name="mReminder">Připomenutí</string>
     <string name="planedReminders">Plánované připomenutí (kliknutím odstraňte)</string>
     <string-array name="pAutoUpdatePeriods">
+        <item>1 minuta</item>
         <item>15 minut</item>
         <item>30 minut</item>
         <item>1 hodina</item>
@@ -120,6 +121,7 @@
         <item>12 hodin</item>
     </string-array>
     <string-array name="pAutoUpdatePeriodsValues">
+        <item>1</item>
         <item>15</item>
         <item>30</item>
         <item>60</item>
@@ -131,4 +133,7 @@
     <string-array name="reminderContext">
         <item>Zrušit připomenutí</item>
     </string-array>
+    <string name="dUpdatesFoundTitle">Aktualizace programu</string>
+    <string name="dUpdatesFoundMsg">Na serveru je k dispozici novější verze programu akce. \n\nChcete nyní provést aktualizaci? \nAktualizaci lze později stáhnout prostřednictvím menu.</string>
+    <string name="dNotNow">Nyní ne</string>
 </resources>

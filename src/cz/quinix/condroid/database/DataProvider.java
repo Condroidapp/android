@@ -13,10 +13,7 @@ import cz.quinix.condroid.service.ReminderManager;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class DataProvider {
 
@@ -209,6 +206,13 @@ public class DataProvider {
             co.setName(c.getString(c.getColumnIndex("name")));
             co.setMessage(c.getString(c.getColumnIndex("message")));
             co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",new Locale("cs","CZ"));
+            try {
+                co.setLastUpdate(format.parse(c.getString(c.getColumnIndex("lastUpdate"))));
+            } catch (Exception e) {
+                Log.e("Condroid","Parsing DB date",e);
+                co.setLastUpdate(new Date());
+            }
         }
         c.close();
         this.con = co;
@@ -299,5 +303,15 @@ public class DataProvider {
             } while (c.moveToNext());
         c.close();
         return r;
+    }
+
+    public int getAnnotationsCount() {
+        Cursor c = this.mDatabase.query("SELECT count(*) FROM annotations", null);
+        int count = 0;
+        if(c.getCount() > 0) {
+            count = c.getInt(0);
+        }
+        c.close();
+        return count;
     }
 }

@@ -2,11 +2,15 @@ package cz.quinix.condroid.loader;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
+import cz.quinix.condroid.database.DataProvider;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -105,14 +109,26 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 						String name = pull.getName();
 						if(name.equalsIgnoreCase("annotations")) {
 							if(pull.getAttributeCount() > 0) {
-								if(pull.getAttributeName(0).equals("count")) {
-									try {
-                                        int x= Integer.parseInt(pull.getAttributeValue(0));
-                                        if(x >0)
-										    this.publishProgress(0, x);
-									} catch (NumberFormatException e) {
-									}
-								}
+                                for(int i=0; i<pull.getAttributeCount();i++) {
+                                    if(pull.getAttributeName(i).equalsIgnoreCase("count")) {
+                                        try {
+                                            int x= Integer.parseInt(pull.getAttributeValue(i));
+                                            if(x >0)
+                                                this.publishProgress(0, x);
+                                        } catch (NumberFormatException e) {
+                                        }
+                                    }
+                                    if(pull.getAttributeName(i).equalsIgnoreCase("lastUpdate")) {
+                                        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+                                        try {
+                                            DataProvider.getInstance(parentActivity).getCon().setLastUpdate(format.parse(pull.getAttributeValue(i).trim()));
+                                        } catch (ParseException e) {
+                                            Log.e("Condroid", "Last update parse", e);
+                                        }
+
+                                    }
+
+                                }
 							}
 						}
 						if (name.equalsIgnoreCase("programme")) {

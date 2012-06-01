@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import cz.quinix.condroid.R;
@@ -78,6 +79,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
         if (this.dataAvailable()) {
             this.initView();
+            this.showUpdatesDialog();
         }
 
 
@@ -147,6 +149,38 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         if (this.refreshDataset) {
             this.refreshRegistry.performRefresh();
             refreshDataset = false;
+        }
+
+        this.showUpdatesDialog();
+    }
+
+    private void showUpdatesDialog() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sp.getBoolean("updates_found",false) && !sp.getBoolean("updates_found_message", false)) {
+            AlertDialog.Builder ab = new AlertDialog.Builder(this);
+            ab.setTitle(R.string.dUpdatesFoundTitle);
+            ab.setMessage(R.string.dUpdatesFoundMsg);
+
+            ab.setNegativeButton(R.string.dNotNow, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            ab.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    //TODO
+                }
+            });
+            ab.setCancelable(true);
+            ab.create().show();
+
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putBoolean("updates_found_message", true);
+            edit.commit();
         }
     }
 
@@ -224,9 +258,14 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         refreshDataset = true;
         this.onResume();
 
-        SharedPreferences.Editor editor = getSharedPreferences(TAG, 0).edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.remove("messageShown");
+        editor.remove("updates_found");
+        editor.remove("updates_found_message");
         editor.commit();
+        //TODO - fix bug - service not start
+        Preferences.planUpdateService(this);
+
         initView();
     }
 

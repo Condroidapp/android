@@ -64,7 +64,7 @@ public class CondroidDatabase {
 			"\"message\" TEXT," + 
 			"\"has_annotations\" INTEGER," + 
 			"\"has_timetable\" INTEGER," + 
-			
+			"\"lastUpdate\" TEXT," +
 			"\"locationsFile\" TEXT"+
 			");";
 			private static final String DATABASE_CREATE_ANNOTATIONS = 	"CREATE TABLE \""+ ANNOTATION_TABLE +"\" ( "+
