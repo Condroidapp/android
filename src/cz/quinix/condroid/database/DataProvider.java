@@ -164,7 +164,7 @@ public class DataProvider {
             c.close();
         }
         //TODO!!!!!! CHANGE!!!!
-        Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('2012-04-01')" + (!condition.equals("")?" AND "+condition:""), null, "startTime ASC, lid ASC", (skip) + "," + ITEMS_PER_PAGE, false, null);
+        Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')" + (!condition.equals("")?" AND "+condition:""), null, "startTime ASC, lid ASC", (skip) + "," + ITEMS_PER_PAGE, false, null);
         Log.d("Condroid", "LIMIT: " + ((skip) + "," + ITEMS_PER_PAGE) + ", returned items " + c2.getCount());
 
         while (c2.moveToNext()) {

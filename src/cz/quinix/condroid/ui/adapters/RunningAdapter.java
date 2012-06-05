@@ -67,7 +67,7 @@ public class RunningAdapter extends EndlessAdapter {
         this.setLayout(v, annotation);
         if (annotation.getTitle() == "break" || annotation.getTitle().equals("break-now")) {
             ViewHolder vh = (ViewHolder) v.getTag(R.id.listItem);
-            if (annotation.getTitle().equals("break-now")) {
+            if (annotation.getStartTime().before(new Date())) {
                 vh.runningTitle.setText(R.string.runningNow);
             } else {
                 if (isDateToday(annotation.getStartTime())) {
@@ -157,7 +157,7 @@ public class RunningAdapter extends EndlessAdapter {
         private static Annotation getTimeHeader(Annotation x) {
             Annotation a = new Annotation();
             a.setStartTime(x.getStartTime());
-            a.setTitle((x.getStartTime().before(new Date()) && x.getEndTime().after(new Date()))?"break-now":"break");
+            a.setTitle("break");
             return a;
         }
     }
