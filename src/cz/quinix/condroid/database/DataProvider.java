@@ -246,9 +246,14 @@ public class DataProvider {
 
     public boolean setReminder(Annotation annotation, int i) {
         try {
-            this.mDatabase.query("DELETE FROM " + CondroidDatabase.REMINDER_TABLE + " WHERE pid=" + annotation.getPid());
-            this.mDatabase.query("INSERT INTO " + CondroidDatabase.REMINDER_TABLE + " (pid, minutes) VALUES ('" + annotation.getPid() + "','" + i + "')");
-            return true;
+            Cursor c = this.mDatabase.query("SELECT pid FROM "+CondroidDatabase.ANNOTATION_TABLE+" WHERE pid ="+annotation.getPid()+" AND startTime IS NOT NULL");
+            if(c.getCount() > 0) {
+                this.mDatabase.query("DELETE FROM " + CondroidDatabase.REMINDER_TABLE + " WHERE pid=" + annotation.getPid());
+                this.mDatabase.query("INSERT INTO " + CondroidDatabase.REMINDER_TABLE + " (pid, minutes) VALUES ('" + annotation.getPid() + "','" + i + "')");
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -294,14 +299,16 @@ public class DataProvider {
         List<Reminder> r = new ArrayList<Reminder>();
 
         Cursor c  = this.mDatabase.query("SELECT r.minutes AS remind, a.* FROM "+CondroidDatabase.REMINDER_TABLE+" r JOIN "+CondroidDatabase.ANNOTATION_TABLE+" a USING (pid) ORDER by startTime ASC LIMIT 20");
-        if(c.getCount() >0)
-            do {
-                Reminder reminder = new Reminder();
-                reminder.annotation = this.readAnnotation(c);
-                reminder.reminder = c.getInt(c.getColumnIndex("remind"));
-                r.add(reminder);
-            } while (c.moveToNext());
-        c.close();
+        if(c != null) {
+            if(c.getCount() >0)
+                do {
+                    Reminder reminder = new Reminder();
+                    reminder.annotation = this.readAnnotation(c);
+                    reminder.reminder = c.getInt(c.getColumnIndex("remind"));
+                    r.add(reminder);
+                } while (c.moveToNext());
+            c.close();
+        }
         return r;
     }
 

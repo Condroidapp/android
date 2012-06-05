@@ -32,6 +32,10 @@ public class SetReminderListener implements OnClickListener {
 	}
 	
 	public void invoke(final Annotation annotation) {
+        if(annotation.getStartTime() == null) {
+            Toast.makeText(activity,"Program nemá zadaný čas - nelze nastavit připomenutí!",Toast.LENGTH_LONG).show();
+            return;
+        }
 		AlertDialog.Builder ab = new AlertDialog.Builder(activity);
 		ab.setTitle(R.string.remind);
 		Integer exReminder = DataProvider.getInstance(activity).getReminder(annotation.getPid());
@@ -54,7 +58,7 @@ public class SetReminderListener implements OnClickListener {
 					Toast.makeText(activity, "Upozornění bylo nastaveno.", Toast.LENGTH_SHORT).show();
 				}
 				else {
-					Toast.makeText(activity, "Chyba - Upozornění nebylo nastaveno.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, "Chyba - Nelze nastavit upozornění!", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

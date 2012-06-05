@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.util.Log;
+import android.widget.Toast;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Reminder;
@@ -28,6 +29,14 @@ public class ReminderManager {
         //find closest event
         Reminder closest = dp.getNextReminder();
         if(closest != null) {
+            if(closest.annotation == null) {
+                Toast.makeText(context,"Systémová chyba, vymažte data programu.",Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(closest.annotation.getStartTime() == null) {
+                dp.removeReminder(closest.annotation.getPid());
+                return;
+            }
 
             PendingIntent pi = PendingIntent.getService(context,0,new Intent(context, ReminderTask.class),0);
             long time = closest.annotation.getStartTime().getTime() + (closest.reminder*60*1000);

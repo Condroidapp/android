@@ -104,10 +104,14 @@ public class ReminderList extends ListActivity {
                 title.setText(r.annotation.getTitle());
                 Date today = new Date();
                 Date st = r.annotation.getStartTime();
-                if((st.getYear() == today.getYear() && st.getMonth() == today.getMonth() && st.getDate() == today.getDate())) {
-                    date.setText("dnes, "+todayFormat.format(r.annotation.getStartTime()));
-                } else {
-                    date.setText(dayFormat.format(r.annotation.getStartTime()));
+                try{
+                    if((st.getYear() == today.getYear() && st.getMonth() == today.getMonth() && st.getDate() == today.getDate())) {
+                        date.setText("dnes, "+todayFormat.format(r.annotation.getStartTime()));
+                    } else {
+                        date.setText(dayFormat.format(r.annotation.getStartTime()));
+                    }
+                } catch (NullPointerException e) {
+
                 }
 
                 remind.setText(r.reminder + " min před");
