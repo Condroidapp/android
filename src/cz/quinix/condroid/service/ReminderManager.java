@@ -12,6 +12,8 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Reminder;
 import cz.quinix.condroid.ui.ShowAnnotation;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Honza
@@ -42,7 +44,7 @@ public class ReminderManager {
             long time = closest.annotation.getStartTime().getTime() + (closest.reminder*60*1000);
 
             am.set(AlarmManager.RTC_WAKEUP, time, pi);
-            Log.d("Condroid","Alarm will run in "+time);
+            Log.d("Condroid","Alarm will run in "+new Date(time));
         }
         else {
             Log.d("Condroid","No next alarm");
