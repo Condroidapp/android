@@ -1,8 +1,6 @@
 package cz.quinix.condroid.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
@@ -21,7 +19,7 @@ import java.util.List;
 public class Running extends ProgramActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.findViewById(R.id.fRunning).setBackgroundColor(R.color.black);
+        this.findViewById(R.id.fRunning).setBackgroundResource(R.color.black);
         Preferences.planUpdateService(this);
     }
 
@@ -29,7 +27,7 @@ public class Running extends ProgramActivity {
     protected void initListView() {
         if (this.lwMain.getAdapter() == null) {
             //init
-            this.lwMain.setAdapter(new RunningAdapter(this.loadData(null,0),this));
+            this.lwMain.setAdapter(new RunningAdapter(this.loadData(null, 0), this));
         } else {
             ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
         }
@@ -38,6 +36,6 @@ public class Running extends ProgramActivity {
 
     @Override
     protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
-        return this.provider.getRunningAndNext(sb,page);
+        return this.provider.getRunningAndNext(sb, page);
     }
 }

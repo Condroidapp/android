@@ -19,7 +19,6 @@ import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
-import cz.quinix.condroid.ui.adapters.RunningAdapter;
 import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
 import cz.quinix.condroid.ui.listeners.*;
@@ -61,10 +60,10 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         System.setProperty("org.joda.time.DateTimeZone.Provider",
                 "cz.quinix.condroid.FastJodaTimeZoneProvider");
 
-        if(this.refreshRegistry == null) {
-            this.refreshRegistry = new RefreshRegistry();
+        if (refreshRegistry == null) {
+            refreshRegistry = new RefreshRegistry();
         }
-        this.refreshRegistry.registerInstance(this);
+        refreshRegistry.registerInstance(this);
 
 
         this.setContentView(R.layout.program);
@@ -73,7 +72,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         lwMain = (ListView) this.findViewById(R.id.lwMain);
 
         asyncTaskHandler = (AsyncTaskDialog) getLastNonConfigurationInstance();
-        if(asyncTaskHandler != null) {
+        if (asyncTaskHandler != null) {
             asyncTaskHandler.setParent(this);
         }
 
@@ -111,7 +110,6 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         });
 
 
-
         TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatus);
         tFilterAll.setOnClickListener(new DisableFilterListener(this));
 
@@ -120,7 +118,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
         registerForContextMenu(lwMain);
 
-        if(!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
+        if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
             applySearch(); //for applying search when screen rotates
         }
     }
@@ -141,13 +139,13 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     @Override
     protected void onResume() {
         super.onResume();
-        if(!animateOnResult) {
+        if (!animateOnResult) {
             overridePendingTransition(0, 0);
 
         }
         animateOnResult = false;
-        if (this.refreshDataset) {
-            this.refreshRegistry.performRefresh();
+        if (refreshDataset) {
+            refreshRegistry.performRefresh();
             refreshDataset = false;
         }
 
@@ -156,7 +154,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
     private void showUpdatesDialog() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        if(sp.getBoolean("updates_found",false) && !sp.getBoolean("updates_found_message", false)) {
+        if (sp.getBoolean("updates_found", false) && !sp.getBoolean("updates_found_message", false)) {
             AlertDialog.Builder ab = new AlertDialog.Builder(this);
             ab.setTitle(R.string.dUpdatesFoundTitle);
             ab.setMessage(R.string.dUpdatesFoundMsg);
@@ -188,7 +186,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         if (provider.hasData()) {
             return true;
         } else {
-            if(asyncTaskHandler == null) {
+            if (asyncTaskHandler == null) {
                 this.loadData();
                 return true;
             }
@@ -227,14 +225,13 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     }
 
     private void switchView(Class<?> viewName) {
-        if(this.getClass() != viewName) {
+        if (this.getClass() != viewName) {
             Intent intent = new Intent(this, viewName);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             this.startActivity(intent);
         }
     }
-
 
 
     protected void initListView() {
@@ -276,7 +273,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
     @Override
     public Object onRetainNonConfigurationInstance() {
-        if(this.asyncTaskHandler != null) {
+        if (this.asyncTaskHandler != null) {
             this.asyncTaskHandler.setParent(null);
             return this.asyncTaskHandler;
         }
@@ -319,44 +316,43 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-            int menuItemIndex = item.getItemId();
-            Annotation an = (Annotation) ((ListView) this.lwMain).getItemAtPosition(info.position);
+        int menuItemIndex = item.getItemId();
+        Annotation an = (Annotation) this.lwMain.getItemAtPosition(info.position);
 
-            switch (menuItemIndex) {
-                case 0:
-                    new ShareProgramListener(this).invoke(an);
-                    break;
-                case 1:
+        switch (menuItemIndex) {
+            case 0:
+                new ShareProgramListener(this).invoke(an);
+                break;
+            case 1:
 
-                    new MakeFavoritedListener(this).invoke(an, null);
-                    ((EndlessAdapter) ((ListView) lwMain).getAdapter()).notifyDataSetChanged();
-                    break;
-                case 2:
-                    new SetReminderListener(this).invoke(an);
-                default:
-                    break;
-            }
+                new MakeFavoritedListener(this).invoke(an, null);
+                ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
+                break;
+            case 2:
+                new SetReminderListener(this).invoke(an);
+            default:
+                break;
+        }
 
         return true;
     }
 
     public void applySearch() {
-            SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
-            List<Annotation> i = this.loadData(sb, 0);
-            if (!sb.isEmpty()) {
-                TextView tw = (TextView) findViewById(R.id.tFilterStatus);
-                tw.setVisibility(View.VISIBLE);
-                tw.setText(sb.getReadableCondition());
-            }
-            else {
-                findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
-            }
+        SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
+        List<Annotation> i = this.loadData(sb, 0);
+        if (!sb.isEmpty()) {
+            TextView tw = (TextView) findViewById(R.id.tFilterStatus);
+            tw.setVisibility(View.VISIBLE);
+            tw.setText(sb.getReadableCondition());
+        } else {
+            findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
+        }
 
 
-            ((EndlessAdapter) lwMain.getAdapter()).setItems(i, true);
-            lwMain.setSelection(0);
-            lwMain.setVisibility(View.VISIBLE);
-            this.showNoDataLine(i.size()==0);
+        ((EndlessAdapter) lwMain.getAdapter()).setItems(i, true);
+        lwMain.setSelection(0);
+        lwMain.setVisibility(View.VISIBLE);
+        this.showNoDataLine(i.size() == 0);
 
     }
 
@@ -388,7 +384,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
                 return true;
             case R.id.mReminderList:
                 Intent in = new Intent(this, ReminderList.class);
-                this.startActivityForResult(in,0);
+                this.startActivityForResult(in, 0);
 
                 return true;
             case R.id.mData_reload:
@@ -412,7 +408,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         }
 
         void performRefresh() {
-            for(ProgramActivity p :list) {
+            for (ProgramActivity p : list) {
                 p.applySearch();
             }
         }

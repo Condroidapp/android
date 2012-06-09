@@ -15,8 +15,6 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Reminder;
 import cz.quinix.condroid.ui.ShowAnnotation;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
 
@@ -57,7 +55,7 @@ public class ReminderTask extends Service {
             Annotation annotation = r.annotation;
             NotificationManager nm = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
             Notification n = new Notification(R.drawable.icon_status_bar,
-                    annotation.getTitle() + " začíná "+(r.reminder > 0?"za " + r.reminder + (r.reminder >=5?" minut!":" minuty!"):"právě teď!"), System.currentTimeMillis());
+                    annotation.getTitle() + " začíná " + (r.reminder > 0 ? "za " + r.reminder + (r.reminder >= 5 ? " minut!" : " minuty!") : "právě teď!"), System.currentTimeMillis());
 
             Intent i = new Intent(this, ShowAnnotation.class);
             i.putExtra("annotation", annotation);
@@ -65,30 +63,30 @@ public class ReminderTask extends Service {
             try {
                 n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v " + df.format(annotation.getStartTime()), pi);
 
-            n.flags |= Notification.FLAG_AUTO_CANCEL;
+                n.flags |= Notification.FLAG_AUTO_CANCEL;
 
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-            if (sp.getBoolean("reminder_tone_check", false)) {
-                String sound = sp.getString("reminder_tone", null);
-                if (sound != null) {
-                    n.sound = Uri.parse(sound);
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                if (sp.getBoolean("reminder_tone_check", false)) {
+                    String sound = sp.getString("reminder_tone", null);
+                    if (sound != null) {
+                        n.sound = Uri.parse(sound);
+                    }
                 }
-            }
-            if (sp.getBoolean("reminder_vibrate", false)) {
-                n.defaults |= Notification.DEFAULT_VIBRATE;
-            }
-            if (sp.getBoolean("reminder_flash", true)) {
-                n.flags |= Notification.FLAG_SHOW_LIGHTS;
-                n.ledARGB = 0xff00ff00;
-                n.ledOnMS = 300;
-                n.ledOffMS = 1000;
-            }
+                if (sp.getBoolean("reminder_vibrate", false)) {
+                    n.defaults |= Notification.DEFAULT_VIBRATE;
+                }
+                if (sp.getBoolean("reminder_flash", true)) {
+                    n.flags |= Notification.FLAG_SHOW_LIGHTS;
+                    n.ledARGB = 0xff00ff00;
+                    n.ledOnMS = 300;
+                    n.ledOffMS = 1000;
+                }
 
-            nm.notify(Integer.parseInt(annotation.getPid()), n);
+                nm.notify(Integer.parseInt(annotation.getPid()), n);
             } catch (NullPointerException e) {
-                Log.d("Condroid","Null pointer in service",e);
+                Log.d("Condroid", "Null pointer in service", e);
             } finally {
-                if(annotation != null) {
+                if (annotation != null) {
                     DataProvider.getInstance(getApplicationContext()).removeReminder(annotation.getPid());
                 }
 

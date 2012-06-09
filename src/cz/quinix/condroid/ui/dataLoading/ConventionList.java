@@ -1,13 +1,11 @@
 package cz.quinix.condroid.ui.dataLoading;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.loader.ConventionLoader;
@@ -34,7 +32,7 @@ public class ConventionList extends AsyncTaskDialog {
 
         dialog.cancel();
         try {
-            task=new ConventionLoader(this);
+            task = new ConventionLoader(this);
             task.execute();
         } catch (Exception e) {
             Log.e("Condroid", "Exception during XML con-data recieve.", e);
@@ -47,11 +45,10 @@ public class ConventionList extends AsyncTaskDialog {
     public void setParent(CondroidActivity parent) {
         super.setParent(parent);    //To change body of overridden methods use File | Settings | File Templates.
 
-        if(task != null && !task.getStatus().equals(AsyncTask.Status.FINISHED)) {
-            if(parent == null) {
+        if (task != null && !task.getStatus().equals(AsyncTask.Status.FINISHED)) {
+            if (parent == null) {
                 task.detach();
-            }
-            else {
+            } else {
                 task.attach(parent);
             }
         }

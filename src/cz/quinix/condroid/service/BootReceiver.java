@@ -16,7 +16,7 @@ import cz.quinix.condroid.ui.Preferences;
 public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("Condroid","BootReciever called");
+        Log.d("Condroid", "BootReciever called");
         ReminderManager.updateAlarmManager(context);
         Preferences.planUpdateService(context);
     }

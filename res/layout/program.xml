@@ -104,7 +104,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="5px"
+                    android:paddingTop="5dp"
                     android:src="@drawable/list_icon" />
 
                 <TextView
@@ -133,7 +133,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="5px"
+                    android:paddingTop="5dp"
                     android:src="@drawable/twitter" />
 
                 <TextView

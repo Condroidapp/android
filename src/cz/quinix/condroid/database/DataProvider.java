@@ -8,7 +8,6 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
 import cz.quinix.condroid.model.Reminder;
-import cz.quinix.condroid.service.ReminderManager;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -63,8 +62,8 @@ public class DataProvider {
     public List<Annotation> getAnnotations(SearchQueryBuilder con, int skip) {
         List<Annotation> ret = new ArrayList<Annotation>();
         String condition = null;
-        if(con != null)
-                condition = con.buildCondition();
+        if (con != null)
+            condition = con.buildCondition();
 
         Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, condition, null, "startTime ASC, lid ASC, title ASC", (skip) + "," + ITEMS_PER_PAGE);
 
@@ -83,9 +82,11 @@ public class DataProvider {
         if (programLines == null) {
             this.loadProgramLines();
         }
-        if (programLines.containsKey(lid)) {
-            pl.setLid(lid);
-            pl.setName(programLines.get(lid));
+        if (programLines != null) {
+            if (programLines.containsKey(lid)) {
+                pl.setLid(lid);
+                pl.setName(programLines.get(lid));
+            }
         }
 
         return pl;
@@ -117,11 +118,11 @@ public class DataProvider {
         if (c.getCount() > 0) {
             do {
                 try {
-                    if(c.getString(c.getColumnIndex("sDate")) != null) {
+                    if (c.getString(c.getColumnIndex("sDate")) != null) {
                         map.add(df.parse(c.getString(c.getColumnIndex("sDate"))));
                     }
                 } catch (ParseException e) {
-                    Log.e("Condroid","Exception when parsing dates for list dialog.", e);
+                    Log.e("Condroid", "Exception when parsing dates for list dialog.", e);
                 }
             } while (c.moveToNext());
 
@@ -138,7 +139,7 @@ public class DataProvider {
     public List<Annotation> getRunningAndNext(SearchQueryBuilder sb, int skip) {
         List<Annotation> l = new ArrayList<Annotation>();
         String condition = "";
-        if(sb != null) {
+        if (sb != null) {
             condition = sb.buildCondition();
         }
 
@@ -154,7 +155,7 @@ public class DataProvider {
             } */
         }
         if (skip == 0) {
-            Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')" + (!condition.equals("")?" AND "+condition:""), null, "startTime DESC", null, false, null);
+            Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime DESC", null, false);
             while (c.moveToNext()) {
                 Annotation annotation = readAnnotation(c);
 
@@ -163,8 +164,8 @@ public class DataProvider {
             }
             c.close();
         }
-        //TODO!!!!!! CHANGE!!!!
-        Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')" + (!condition.equals("")?" AND "+condition:""), null, "startTime ASC, lid ASC", (skip) + "," + ITEMS_PER_PAGE, false, null);
+
+        Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime ASC, lid ASC", (skip) + "," + ITEMS_PER_PAGE, false);
         Log.d("Condroid", "LIMIT: " + ((skip) + "," + ITEMS_PER_PAGE) + ", returned items " + c2.getCount());
 
         while (c2.moveToNext()) {
@@ -206,11 +207,11 @@ public class DataProvider {
             co.setName(c.getString(c.getColumnIndex("name")));
             co.setMessage(c.getString(c.getColumnIndex("message")));
             co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",new Locale("cs","CZ"));
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("cs", "CZ"));
             try {
                 co.setLastUpdate(format.parse(c.getString(c.getColumnIndex("lastUpdate"))));
             } catch (Exception e) {
-                Log.e("Condroid","Parsing DB date",e);
+                Log.e("Condroid", "Parsing DB date", e);
                 co.setLastUpdate(new Date());
             }
         }
@@ -246,8 +247,8 @@ public class DataProvider {
 
     public boolean setReminder(Annotation annotation, int i) {
         try {
-            Cursor c = this.mDatabase.query("SELECT pid FROM "+CondroidDatabase.ANNOTATION_TABLE+" WHERE pid ="+annotation.getPid()+" AND startTime IS NOT NULL");
-            if(c.getCount() > 0) {
+            Cursor c = this.mDatabase.query("SELECT pid FROM " + CondroidDatabase.ANNOTATION_TABLE + " WHERE pid =" + annotation.getPid() + " AND startTime IS NOT NULL");
+            if (c.getCount() > 0) {
                 this.mDatabase.query("DELETE FROM " + CondroidDatabase.REMINDER_TABLE + " WHERE pid=" + annotation.getPid());
                 this.mDatabase.query("INSERT INTO " + CondroidDatabase.REMINDER_TABLE + " (pid, minutes) VALUES ('" + annotation.getPid() + "','" + i + "')");
                 return true;
@@ -274,17 +275,16 @@ public class DataProvider {
         try {
             this.mDatabase.query("DELETE FROM " + CondroidDatabase.REMINDER_TABLE + " WHERE pid=" + pid);
             return true;
-        }
-        catch (Exception e) {
-            Log.w("Condroid",e);
+        } catch (Exception e) {
+            Log.w("Condroid", e);
             return false;
         }
     }
 
 
     public Reminder getNextReminder() {
-        Cursor c = this.mDatabase.query("SELECT r.minutes AS remind, a.* FROM "+CondroidDatabase.REMINDER_TABLE + " r JOIN "+CondroidDatabase.ANNOTATION_TABLE + " a USING (pid) ORDER by startTime ASC LIMIT 1");
-        if(c != null && c.getCount() > 0) {
+        Cursor c = this.mDatabase.query("SELECT r.minutes AS remind, a.* FROM " + CondroidDatabase.REMINDER_TABLE + " r JOIN " + CondroidDatabase.ANNOTATION_TABLE + " a USING (pid) ORDER by startTime ASC LIMIT 1");
+        if (c != null && c.getCount() > 0) {
             c.moveToFirst();
             Reminder r = new Reminder();
             r.annotation = this.readAnnotation(c);
@@ -298,9 +298,9 @@ public class DataProvider {
     public List<Reminder> getReminderList() {
         List<Reminder> r = new ArrayList<Reminder>();
 
-        Cursor c  = this.mDatabase.query("SELECT r.minutes AS remind, a.* FROM "+CondroidDatabase.REMINDER_TABLE+" r JOIN "+CondroidDatabase.ANNOTATION_TABLE+" a USING (pid) ORDER by startTime ASC LIMIT 20");
-        if(c != null) {
-            if(c.getCount() >0)
+        Cursor c = this.mDatabase.query("SELECT r.minutes AS remind, a.* FROM " + CondroidDatabase.REMINDER_TABLE + " r JOIN " + CondroidDatabase.ANNOTATION_TABLE + " a USING (pid) ORDER by startTime ASC LIMIT 20");
+        if (c != null) {
+            if (c.getCount() > 0)
                 do {
                     Reminder reminder = new Reminder();
                     reminder.annotation = this.readAnnotation(c);
@@ -315,7 +315,7 @@ public class DataProvider {
     public int getAnnotationsCount() {
         Cursor c = this.mDatabase.query("SELECT count(*) FROM annotations", null);
         int count = 0;
-        if(c.getCount() > 0) {
+        if (c.getCount() > 0) {
             count = c.getInt(0);
         }
         c.close();

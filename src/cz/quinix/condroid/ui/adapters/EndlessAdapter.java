@@ -15,7 +15,6 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.All;
-import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,7 +54,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     }
 
-  /*  @Override
+    /*  @Override
     public Object getItem(int position) {
         return items.get(position);
     }*/
@@ -66,13 +65,13 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         this.insertSettedList(items, a);
         this.totalItems = items.size();
         this.keepOnAppending.set(!(items.size() < DataProvider.ITEMS_PER_PAGE));
-        if(refresh) {
+        if (refresh) {
             this.notifyDataSetChanged();
         }
     }
 
     protected void insertSettedList(List<Annotation> items, ArrayAdapter<Annotation> a) {
-        for(int i = 0; i<items.size(); i++) {
+        for (int i = 0; i < items.size(); i++) {
             a.add(items.get(i));
         }
     }

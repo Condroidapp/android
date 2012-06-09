@@ -1,32 +1,31 @@
 package cz.quinix.condroid.abstracts;
 
-import java.util.List;
-
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
+import java.util.List;
+
 public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Params, Progress, List<?>> {
 
     protected Activity parentActivity;
-	private AsyncTaskListener listener;
-	private List<?> result;
+    private AsyncTaskListener listener;
+    private List<?> result;
     protected ProgressDialog pd;
-	
-	public ListenedAsyncTask(AsyncTaskListener listener) {
-		this.listener = listener;
-        if(listener != null)
+
+    public ListenedAsyncTask(AsyncTaskListener listener) {
+        this.listener = listener;
+        if (listener != null)
             this.parentActivity = listener.getActivity();
-	}
-	
-	public ListenedAsyncTask<Params, Progress> setListener(AsyncTaskListener listener) {
-		this.listener = listener;
-        if(listener != null && parentActivity == null) {
+    }
+
+    public ListenedAsyncTask<Params, Progress> setListener(AsyncTaskListener listener) {
+        this.listener = listener;
+        if (listener != null && parentActivity == null) {
             parentActivity = listener.getActivity();
         }
-		return this;
-	}
+        return this;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -34,34 +33,34 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
     }
 
     @Override
-	protected void onPostExecute(List<?> result) {
-		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-		this.result = result;
-        if(pd != null) {
+    protected void onPostExecute(List<?> result) {
+        // TODO Auto-generated method stub
+        super.onPostExecute(result);
+        this.result = result;
+        if (pd != null) {
             pd.dismiss();
         }
-		if(listener != null) {
-			listener.onAsyncTaskCompleted(this);
-		}
-		
-	}
-	
-	public boolean hasResult() {
-		if(result != null) return true;
-		return false;
-	}
-	
-	public List<?> getResult() {
-		return result;
-	}
+        if (listener != null) {
+            listener.onAsyncTaskCompleted(this);
+        }
+
+    }
+
+    public boolean hasResult() {
+        if (result != null) return true;
+        return false;
+    }
+
+    public List<?> getResult() {
+        return result;
+    }
 
     public void attach(CondroidActivity parent) {
         this.parentActivity = parent;
-        if(listener == null) {
+        if (listener == null) {
             listener = (AsyncTaskListener) parent;
         }
-        if(!this.getStatus().equals(Status.FINISHED) && pd != null) {
+        if (!this.getStatus().equals(Status.FINISHED) && pd != null) {
             this.showDialog();
         }
     }
@@ -71,10 +70,10 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
     }
 
     public void detach() {
-        if(listener.equals(parentActivity)) {
+        if (listener.equals(parentActivity)) {
             listener = null;
         }
-        if(pd!=null && pd.isShowing()) {
+        if (pd != null && pd.isShowing()) {
             pd.dismiss();
         }
         this.parentActivity = null;

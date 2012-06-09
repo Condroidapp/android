@@ -1,9 +1,7 @@
 package cz.quinix.condroid.ui.dataLoading;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
@@ -41,19 +39,17 @@ public class Downloader extends AsyncTaskDialog {
     @Override
     public void setParent(CondroidActivity parent) {
         super.setParent(parent);    //To change body of overridden methods use File | Settings | File Templates.
-        if(task1 != null && !task1.getStatus().equals(AsyncTask.Status.FINISHED)) {
-            if(parent == null) {
+        if (task1 != null && !task1.getStatus().equals(AsyncTask.Status.FINISHED)) {
+            if (parent == null) {
                 task1.detach();
-            }
-            else {
+            } else {
                 task1.attach(parent);
             }
         }
-        if(task2 != null && !task2.getStatus().equals(AsyncTask.Status.FINISHED)) {
-            if(parent == null) {
+        if (task2 != null && !task2.getStatus().equals(AsyncTask.Status.FINISHED)) {
+            if (parent == null) {
                 task2.detach();
-            }
-            else {
+            } else {
                 task2.attach(parent);
             }
         }

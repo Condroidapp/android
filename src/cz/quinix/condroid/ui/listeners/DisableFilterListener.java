@@ -35,6 +35,7 @@ public class DisableFilterListener implements View.OnClickListener {
         ab.create().show();
     }
 }
+
 class DisableFilterTypeSelected implements Dialog.OnClickListener {
 
 

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="cz.quinix.condroid"
       android:versionName="2.3.3" android:versionCode="9">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
       <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@android:style/Theme.Light.NoTitleBar">
           <activity android:name=".ui.ShowAnnotation"></activity>
           <activity android:name=".ui.Preferences"></activity>
@@ -33,9 +37,6 @@
             </intent-filter>
         </receiver>
       </application>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"></uses-sdk>
 </manifest>

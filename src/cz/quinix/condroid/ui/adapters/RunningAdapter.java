@@ -1,7 +1,6 @@
 package cz.quinix.condroid.ui.adapters;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -11,7 +10,6 @@ import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.ProgramActivity;
 import cz.quinix.condroid.ui.Running;
 
 import java.text.DateFormat;
@@ -48,8 +46,8 @@ public class RunningAdapter extends EndlessAdapter {
     @Override
     protected boolean cacheInBackground() throws Exception {
         boolean x = super.cacheInBackground();
-        if(this.itemsToAdd.size() > 0) {
-            this.itemsToAdd = AddBreaks.addBreaks(this.itemsToAdd, (Annotation) this.getItem(this.getWrappedAdapter().getCount()-1));
+        if (this.itemsToAdd.size() > 0) {
+            this.itemsToAdd = AddBreaks.addBreaks(this.itemsToAdd, (Annotation) this.getItem(this.getWrappedAdapter().getCount() - 1));
         }
         return x;
     }
@@ -59,7 +57,6 @@ public class RunningAdapter extends EndlessAdapter {
         return DataProvider.getInstance(getActivity()).getRunningAndNext(SearchProvider.getSearchQueryBuilder(Running.class.getName()), page);
 
     }
-
 
 
     @Override
@@ -129,28 +126,26 @@ public class RunningAdapter extends EndlessAdapter {
 
     private static class AddBreaks {
         static List<Annotation> addBreaks(List<Annotation> annotations, Annotation lastItem) {
-                Date previous = new Date();
+            Date previous = new Date();
             List<Annotation> formatted = new ArrayList<Annotation>();
-                for(int i =0;annotations.size() > i; i++) {
-                    Annotation a = annotations.get(i);
-                    if(i == 0) {
-                        if(lastItem == null) {
-                            formatted.add(getTimeHeader(a));
-                            previous = a.getStartTime();
-                        }
-                        else {
-                            if(!lastItem.getStartTime().equals(a.getStartTime())) {
-                                formatted.add(getTimeHeader(a));
-                            }
-                            previous = a.getStartTime();
-                        }
-                    }
-                    else if(a.getStartTime().after(previous)) {
+            for (int i = 0; annotations.size() > i; i++) {
+                Annotation a = annotations.get(i);
+                if (i == 0) {
+                    if (lastItem == null) {
                         formatted.add(getTimeHeader(a));
                         previous = a.getStartTime();
+                    } else {
+                        if (!lastItem.getStartTime().equals(a.getStartTime())) {
+                            formatted.add(getTimeHeader(a));
+                        }
+                        previous = a.getStartTime();
                     }
-                    formatted.add(a);
+                } else if (a.getStartTime().after(previous)) {
+                    formatted.add(getTimeHeader(a));
+                    previous = a.getStartTime();
                 }
+                formatted.add(a);
+            }
             return formatted;
         }
 

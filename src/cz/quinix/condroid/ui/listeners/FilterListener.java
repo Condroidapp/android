@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ICondition;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
@@ -76,7 +75,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
             AlertDialog.Builder build = new AlertDialog.Builder(activity);
             build.setTitle(R.string.dPickDate);
             List<Date> dates = DataProvider.getInstance(activity).getDates();
-            if(dates.size() == 0) {
+            if (dates.size() == 0) {
                 Toast.makeText(activity, R.string.noDatesAvailable, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -96,7 +95,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
             build.setItems(ds, new DateFilter(activity, search, ds));
             build.create().show();
         }
-        if(which == 2) {
+        if (which == 2) {
             search.addParam(new ICondition() {
                 @Override
                 public String getCondition() {
@@ -104,14 +103,13 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                     List<Integer> f = DataProvider.getInstance(activity).getFavorited();
                     if (f.size() > 0) {
                         for (Integer integer : f) {
-                            if(!condition.equals("")) {
-                                condition+=", ";
+                            if (!condition.equals("")) {
+                                condition += ", ";
                             }
                             condition += integer.toString();
                         }
                         condition = "pid IN (" + condition + ")";
-                    }
-                    else {
+                    } else {
                         return "1=0";
                     }
                     return condition;
@@ -121,7 +119,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                 public String getReadable() {
                     return "Oblíbené";
                 }
-            },new Object().getClass().getName());
+            }, new Object().getClass().getName());
             activity.applySearch();
         }
     }

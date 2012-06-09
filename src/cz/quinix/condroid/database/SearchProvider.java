@@ -20,7 +20,7 @@ public class SearchProvider {
 
 
     public static SearchQueryBuilder getSearchQueryBuilder(String tag) {
-        if(!map.containsKey(tag)) {
+        if (!map.containsKey(tag)) {
             map.put(tag, new SearchQueryBuilder());
         }
         return map.get(tag);

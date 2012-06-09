@@ -4,31 +4,24 @@
     <string name="appNameAbout">Condroid - o programu</string>
     <string name="mAbout">O programu</string>
     <string name="mRefresh">Obnovit</string>
-    <string name="bReloadCatalog">Obnovit data/načíst jiný con</string>
-    <string name="sSearchHint">Zadejte ID pořadu nebo část názvu</string>
+     <string name="sSearchHint">Zadejte ID pořadu nebo část názvu</string>
     <string name="loading">Načítám...</string>
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
-    <string name="search">Hledat</string>
     <string name="tAboutName">Condroid v2.3.3</string>
-    <string name="tAboutCopyright">&#169; 2011-2012\nJan -Quinix- Langer, Fan-Project</string>
+    <string name="tAboutCopyright">&#169; 2011-2012\nJan &#8211;Quinix&#8211; Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
-    <string name="bShowActual">Právě běží a následuje</string>
-    <string name="bShowAll">Všechny pořady</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
     <string name="downloadDialog">Aplikace potřebuje stáhnout zdrojová data programu. Zpracování trvá několik málo
         minut, podle výkonu telefonu. \n\nChcete pokračovat?
     </string>
-    <string name="mFilter">Filtrovat</string>
     <string name="dPickLine">Vyberte linii</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="dPickConvention">Dostupné cony</string>
-    <string name="preparing">Příprava...</string>
     <string name="noAnnotationsFound">Nebyly nalezeny žádné vyhovující záznamy.</string>
     <string name="dPickDate">Vyberte den</string>
-    <string name="bShowLocations">Rozmístění programu (obrázek)</string>
     <string name="tLoadedInfo">Načtená data pro</string>
     <string name="lecture">Přednáška</string>
     <string name="discussion">Diskuze</string>
@@ -65,7 +58,6 @@
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
     <string name="licenced">This software is licenced\nunder NewBSD licence.</string>
     <string name="mFavoriteOnly">Pouze oblíbené</string>
-    <string name="mShowAll">Zobrazit vše</string>
     <string name="remind">Nastavit připomenutí</string>
     <string-array name="remindBefore">
         <item>v čase začátku</item>

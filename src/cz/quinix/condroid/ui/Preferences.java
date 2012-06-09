@@ -29,7 +29,6 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
     private SharedPreferences sp;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +36,7 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         ListPreference lp = (ListPreference) findPreference("update_check_period");
         CharSequence entry = lp.getEntry();
-        if(entry == null) {
+        if (entry == null) {
             lp.setValueIndex(2);
             entry = lp.getEntry();
         }
@@ -65,20 +64,20 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
     public static void planUpdateService(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if(!(preferences.getBoolean("update_check", false) && !preferences.getBoolean("updates_found", false))) {
+        if (!(preferences.getBoolean("update_check", false) && !preferences.getBoolean("updates_found", false))) {
             stopUpdateService(context);
             return;
         }
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        long interval = 60;
-        interval = Integer.parseInt(preferences.getString("update_check_period","60"));
-        interval *= 60*1000;
+        long interval;
+        interval = Integer.parseInt(preferences.getString("update_check_period", "60"));
+        interval *= 60 * 1000;
         long time = interval + SystemClock.elapsedRealtime();
 
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context, UpdatesService.class), 0);
 
         am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, time, interval, pendingIntent);
-        Log.d("Condroid","Update service planned. It will start at "+(new Date(System.currentTimeMillis() + interval)));
+        Log.d("Condroid", "Update service planned. It will start at " + (new Date(System.currentTimeMillis() + interval)));
     }
 
     public static void stopUpdateService(Context context) {
@@ -89,8 +88,8 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if(s.equals("update_check") || s.equals("update_check_period")) {
-            if(sp.getBoolean("update_check", false)) {
+        if (s.equals("update_check") || s.equals("update_check_period")) {
+            if (sp.getBoolean("update_check", false)) {
                 planUpdateService(this);
             } else {
                 stopUpdateService(this);
@@ -98,7 +97,7 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
 
         }
-        if(s.equals("update_check_period")) {
+        if (s.equals("update_check_period")) {
             ListPreference lp = (ListPreference) findPreference("update_check_period");
             lp.setSummary(lp.getEntry());
         }
