@@ -18,6 +18,8 @@ import cz.quinix.condroid.ui.ShowAnnotation;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Honza
@@ -27,7 +29,6 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class ReminderTask extends Service {
 
-    private static int notificationId = 1;
 
     public IBinder onBind(Intent intent) {
         return null;
@@ -47,7 +48,7 @@ public class ReminderTask extends Service {
         return Service.START_STICKY;
     }
 
-    public static DateTimeFormatter df = DateTimeFormat.mediumTime();
+    public static SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 
     private void handleCommand(Intent intent) {
         Reminder r = DataProvider.getInstance(getApplicationContext()).getNextReminder();
@@ -55,13 +56,14 @@ public class ReminderTask extends Service {
         if (r != null) {
             Annotation annotation = r.annotation;
             NotificationManager nm = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-            Notification n = new Notification(R.drawable.icon_status_bar, annotation.getTitle() + " začíná za " + r.reminder + " minut!", System.currentTimeMillis());
+            Notification n = new Notification(R.drawable.icon_status_bar,
+                    annotation.getTitle() + " začíná "+(r.reminder > 0?"za " + r.reminder + (r.reminder >=5?" minut!":" minuty!"):"právě teď!"), System.currentTimeMillis());
 
             Intent i = new Intent(this, ShowAnnotation.class);
             i.putExtra("annotation", annotation);
-            PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
+            PendingIntent pi = PendingIntent.getActivity(this, Integer.parseInt(annotation.getPid()), i, PendingIntent.FLAG_ONE_SHOT);
             try {
-                n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v " + df.print(annotation.getStartTime().getTime()), pi);
+                n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v " + df.format(annotation.getStartTime()), pi);
 
             n.flags |= Notification.FLAG_AUTO_CANCEL;
 
@@ -82,7 +84,7 @@ public class ReminderTask extends Service {
                 n.ledOffMS = 1000;
             }
 
-            nm.notify(notificationId++, n);
+            nm.notify(Integer.parseInt(annotation.getPid()), n);
             } catch (NullPointerException e) {
                 Log.d("Condroid","Null pointer in service",e);
             } finally {
