@@ -28,6 +28,8 @@ public class Convention implements Serializable, DBInsertable {
     private boolean providesAnnotations = false;
     private Date lastUpdate = new Date();
 
+    private static String dataURL = "http://condroid.fan-project.com/api/2/annotations/";
+
 
     public String getMessage() {
         return message;
@@ -96,7 +98,7 @@ public class Convention implements Serializable, DBInsertable {
     }
 
     public String getDataUrl() {
-        return this.dataUrl;
+        return dataURL+this.cid;
     }
 
     public void setDataUrl(String url) {

@@ -23,7 +23,7 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
     }
 
 
-    private static final String list_url = "http://condroid.fan-project.com/api/con-list";
+    private static final String list_url = "http://condroid.fan-project.com/api/2/cons";
 
     @Override
     protected void showDialog() {
