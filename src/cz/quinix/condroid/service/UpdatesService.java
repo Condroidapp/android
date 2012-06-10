@@ -92,7 +92,7 @@ public class UpdatesService extends Service {
                     Log.d("Condroid", "Found updates, stopping myself");
                 }
                 Log.d("Condroid", "HTTP Code " + response.getStatusLine().getStatusCode());
-                editor.putString("last_update", formatter.format(new Date()));
+                editor.putLong("last_update", new Date().getTime());
             } catch (IOException e) {
                 Log.e("Condroid", "IO", e);
             } catch (java.text.ParseException e) {

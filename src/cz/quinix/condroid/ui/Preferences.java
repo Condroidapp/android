@@ -15,6 +15,7 @@ import android.util.Log;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.service.UpdatesService;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -59,7 +60,14 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
     private void displayLastRun() {
         Preference lastUpdate = findPreference("last_update");
-        lastUpdate.setSummary(sp.getString("last_update", "zatím neproběhla"));
+        long time = sp.getLong("last_update", 0);;
+        if(time == 0) {
+            lastUpdate.setSummary("zatím neproběhla");
+        }
+        else {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+            lastUpdate.setSummary(formatter.format(new Date(time)));
+        }
     }
 
     public static void planUpdateService(Context context) {
@@ -72,12 +80,13 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
         long interval;
         interval = Integer.parseInt(preferences.getString("update_check_period", "60"));
         interval *= 60 * 1000;
-        long time = interval + SystemClock.elapsedRealtime();
+
+        long time = interval + preferences.getLong("last_update", System.currentTimeMillis());
 
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context, UpdatesService.class), 0);
 
-        am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, time, interval, pendingIntent);
-        Log.d("Condroid", "Update service planned. It will start at " + (new Date(System.currentTimeMillis() + interval)));
+        am.setInexactRepeating(AlarmManager.RTC, time, interval, pendingIntent);
+        Log.d("Condroid", "Update service planned. It will start at " + (new Date(time)));
     }
 
     public static void stopUpdateService(Context context) {
