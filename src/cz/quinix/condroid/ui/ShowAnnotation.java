@@ -40,7 +40,7 @@ public class ShowAnnotation extends CondroidActivity {
         author.setText(this.annotation.getAuthor());
 
         TextView pid = (TextView) this.findViewById(R.id.annot_pid);
-        pid.setText(this.annotation.getPid());
+        pid.setText(""+this.annotation.getPid());
 
         String date = "";
         if (annotation.getStartTime() != null

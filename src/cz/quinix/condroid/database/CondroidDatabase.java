@@ -65,20 +65,18 @@ public class CondroidDatabase {
                         "\"locationsFile\" TEXT" +
                         ");";
         private static final String DATABASE_CREATE_ANNOTATIONS = "CREATE TABLE \"" + ANNOTATION_TABLE + "\" ( " +
-                "\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 "\"cid\"  INTEGER NOT NULL," +
-                "\"pid\"  TEXT(20) NOT NULL," +
+                "\"pid\"  INTEGER NOT NULL," +
                 "\"talker\"  TEXT(255) NOT NULL," +
                 "\"title\"  TEXT(255) NOT NULL," +
-                "\"length\"  TEXT(20)," +
-                "\"time\"  TEXT(255)," +
                 "\"annotation\"  TEXT," +
                 "\"lid\"  INTEGER NOT NULL," +
                 "\"location\"  TEXT(100) NULL," +
                 "\"mainType\"  TEXT(1) NOT NULL," +
                 "\"additionalTypes\"  TEXT(20) NOT NULL," +
                 "\"startTime\"  TEXT NULL," +
-                "\"endTime\"  TEXT NULL" +
+                "\"endTime\"  TEXT NULL," +
+                "PRIMARY KEY (cid, pid)" +
                 ");";
         private static final String DATABASE_CREATE_LINES = "CREATE TABLE \"" + LINE_TABLE + "\" (" +
                 "\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +

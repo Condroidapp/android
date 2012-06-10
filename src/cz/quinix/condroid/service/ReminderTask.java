@@ -59,7 +59,7 @@ public class ReminderTask extends Service {
 
             Intent i = new Intent(this, ShowAnnotation.class);
             i.putExtra("annotation", annotation);
-            PendingIntent pi = PendingIntent.getActivity(this, Integer.parseInt(annotation.getPid()), i, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pi = PendingIntent.getActivity(this, annotation.getPid(), i, PendingIntent.FLAG_ONE_SHOT);
             try {
                 n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v " + df.format(annotation.getStartTime()), pi);
 
@@ -82,7 +82,7 @@ public class ReminderTask extends Service {
                     n.ledOffMS = 1000;
                 }
 
-                nm.notify(Integer.parseInt(annotation.getPid()), n);
+                nm.notify(annotation.getPid(), n);
             } catch (NullPointerException e) {
                 Log.d("Condroid", "Null pointer in service", e);
             } finally {

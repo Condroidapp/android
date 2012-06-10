@@ -17,7 +17,7 @@ public class Annotation implements Serializable, DBInsertable {
      */
     private static final long serialVersionUID = 29890241539328629L;
 
-    private String pid;
+    private int pid;
     private String talker;
     private String title;
     private String length;
@@ -85,7 +85,7 @@ public class Annotation implements Serializable, DBInsertable {
         this.additonalTypes = additonalTypes;
     }
 
-    public String getPid() {
+    public int getPid() {
         return pid;
     }
 
@@ -151,8 +151,16 @@ public class Annotation implements Serializable, DBInsertable {
         return annotation;
     }
 
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+
     public void setPid(String pid) {
-        this.pid = pid.trim();
+        try {
+            this.pid = Integer.parseInt(pid.trim());
+        } catch (NumberFormatException e) {
+
+        }
     }
 
     public void setAuthor(String talker) {
@@ -195,7 +203,6 @@ public class Annotation implements Serializable, DBInsertable {
         ret.put("pid", this.pid);
         ret.put("talker", talker);
         ret.put("title", title);
-        ret.put("length", length);
         ret.put("mainType", mainType);
         ret.put("additionalTypes", additonalTypes);
 
