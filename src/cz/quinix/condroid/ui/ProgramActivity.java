@@ -21,6 +21,7 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
+import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.listeners.*;
 
 import java.util.ArrayList;
@@ -170,7 +171,8 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
-                    //TODO
+                    asyncTaskHandler = new Downloader(ProgramActivity.this, provider.getCon());
+                    ((Downloader)asyncTaskHandler).invoke();
                 }
             });
             ab.setCancelable(true);
@@ -187,7 +189,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
             return true;
         } else {
             if (asyncTaskHandler == null) {
-                this.loadData();
+                this.loadData(true);
                 return true;
             }
         }
@@ -195,9 +197,27 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     }
 
     private void loadData() {
+        this.loadData(false);
+    }
+
+    private void loadData(boolean forceFull) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        asyncTaskHandler = new ConventionList(this);
-        builder.setMessage(R.string.downloadDialog)
+        builder.setCancelable(true);
+        if(provider.hasData() && !forceFull) {
+            asyncTaskHandler = new Downloader(this, provider.getCon());
+            builder.setMessage(R.string.updateOrFullDialog)
+                    .setNegativeButton(R.string.full, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            ProgramActivity.this.loadData(true);
+                        }
+                    })
+                    .setPositiveButton(R.string.update, asyncTaskHandler);
+        }
+        else {
+            asyncTaskHandler = new ConventionList(this);
+            builder.setMessage(R.string.downloadDialog)
                 .setPositiveButton(R.string.yes, asyncTaskHandler)
                 .setNegativeButton(R.string.no,
                         new DialogInterface.OnClickListener() {
@@ -214,7 +234,9 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
                                 }
                             }
                         });
-        builder.setCancelable(true);
+
+
+        }
         AlertDialog dialog = builder.create();
         dialog.show();
     }

@@ -51,12 +51,14 @@ public class DataProvider {
         con = convention;
     }
 
-    public DatabaseLoader prepareInsert() {
-        if (!mDatabase.isEmpty()) {
+    public DatabaseLoader prepareInsert(boolean fullInsert) {
+        if (fullInsert && !mDatabase.isEmpty()) {
             mDatabase.purge();
+        }
+        if(!mDatabase.isEmpty()) {
             programLines = null;
         }
-        return new DatabaseLoader(null, mDatabase, con);
+        return new DatabaseLoader(null, mDatabase, con, fullInsert);
     }
 
     public List<Annotation> getAnnotations(SearchQueryBuilder con, int skip) {
@@ -233,7 +235,7 @@ public class DataProvider {
         return favorited;
     }
 
-    public boolean doFavorite(String pid) {
+    public boolean doFavorite(int pid) {
         Cursor c = this.mDatabase.query(CondroidDatabase.FAVORITE_TABLE, null, "pid=" + pid, null, null, null);
         favorited = null;
         if (c.getCount() > 0) {
@@ -261,7 +263,7 @@ public class DataProvider {
         }
     }
 
-    public Integer getReminder(String pid) {
+    public Integer getReminder(int pid) {
         Cursor c = this.mDatabase.query(CondroidDatabase.REMINDER_TABLE, null, "pid = " + pid, null, null, null);
         if (c.getCount() > 0) {
             c.moveToNext();
@@ -271,7 +273,7 @@ public class DataProvider {
         }
     }
 
-    public boolean removeReminder(String pid) {
+    public boolean removeReminder(int pid) {
         try {
             this.mDatabase.query("DELETE FROM " + CondroidDatabase.REMINDER_TABLE + " WHERE pid=" + pid);
             return true;

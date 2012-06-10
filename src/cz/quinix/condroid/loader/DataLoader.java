@@ -13,8 +13,9 @@ import cz.quinix.condroid.model.Annotation;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
     //private ProgressDialog pd;
     private String pdString;
     private int pdMax;
+    private int resultCode = 0;
     //private int pdActual;
 
     public DataLoader(AsyncTaskListener listener) {
@@ -37,7 +39,10 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
     protected void onPostExecute(List<?> result) {
         pd.dismiss();
         super.onPostExecute(result);
+    }
 
+    public int getResultCode() {
+        return this.resultCode;
     }
 
     @Override
@@ -78,9 +83,21 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
         try {
             try {
                 URL url = new URL(params[0]);
-                URLConnection conn = url.openConnection();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                if(params.length > 1) {
+                    conn.setRequestProperty("If-Modified-Since",params[1]);
+                }
+                InputStream is = conn.getInputStream();
+                try {
+                    int s = Integer.parseInt(conn.getHeaderField("Content-Length"));
+                    if(s < 150) {
+                        resultCode = 1;
+                    }
+                } catch (NumberFormatException e) {
 
-                pull.setInput(conn.getInputStream(), null);
+                }
+
+                pull.setInput(is, null);
 
             } catch (Exception ex) {
                 throw new XMLProccessException("Stažení seznamu anotací se nezdařilo.", ex);
@@ -90,6 +107,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
             try {
                 eventType = pull.getEventType();
             } catch (XmlPullParserException e) {
+                resultCode = -1;
                 throw new XMLProccessException("Zpracování seznamu anotací se nezdařilo", e);
             }
             try {
@@ -174,9 +192,12 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
 
                 }
             } catch (Exception e) {
+                resultCode = -1;
                 throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
+
             }
         } catch (XMLProccessException e) {
+            resultCode = -1;
             Log.e("Condroid", "Exception during XML data recieve.", e);
             throw e;
         }

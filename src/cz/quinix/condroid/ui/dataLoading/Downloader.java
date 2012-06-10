@@ -2,6 +2,7 @@ package cz.quinix.condroid.ui.dataLoading;
 
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.widget.Toast;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
@@ -9,8 +10,11 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.ProgramActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,16 +28,24 @@ public class Downloader extends AsyncTaskDialog {
     private List<Convention> conventionList;
     private DataLoader task1;
     private DatabaseLoader task2;
+    private Convention convention;
 
     public Downloader(CondroidActivity parent, List<Convention> conventionList) {
         this.parent = parent;
         this.conventionList = conventionList;
     }
 
+    public Downloader(ProgramActivity programActivity, Convention convention) {
+        this.parent = programActivity;
+        this.convention = convention;
+    }
+
     public void onClick(DialogInterface dialogInterface, int i) {
-        DataProvider.getInstance(parent).setConvention(conventionList.get(i));
-        task1 = new DataLoader(this);
-        task1.execute(conventionList.get(i).getDataUrl());
+        if(conventionList != null) {
+            DataProvider.getInstance(parent).setConvention(conventionList.get(i));
+            convention = conventionList.get(i);
+        }
+        this.invoke();
     }
 
     @Override
@@ -60,11 +72,27 @@ public class Downloader extends AsyncTaskDialog {
 
         if (task.hasResult()) {
             List<?> list = task.getResult();
-            if (list != null) {
-                task2 = DataProvider.getInstance(parent).prepareInsert();
+            if(list.size() == 0 && ((DataLoader) task).getResultCode() != -1) {
+                Toast.makeText(parent, "Nejsou k dispozici žádné aktualizace.", Toast.LENGTH_LONG).show();
+                ((AsyncTaskListener) parent).onAsyncTaskCompleted(task);
+            }
+            else if (list != null) {
+                task2 = DataProvider.getInstance(parent).prepareInsert(conventionList != null);
                 task2.setListener((AsyncTaskListener) parent);
                 task2.execute(list);
             }
         }
+    }
+
+    public void invoke() {
+        String lastUpdate = null;
+
+        if(conventionList == null) {
+            SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+            lastUpdate = format.format(convention.getLastUpdate());
+        }
+        task1 = new DataLoader(this);
+
+        task1.execute(convention.getDataUrl(), lastUpdate);
     }
 }

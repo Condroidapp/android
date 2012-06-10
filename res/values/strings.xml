@@ -128,4 +128,7 @@
     <string name="dUpdatesFoundTitle">Aktualizace programu</string>
     <string name="dUpdatesFoundMsg">Na serveru je k dispozici novější verze programu akce. \n\nChcete nyní provést aktualizaci? \nAktualizaci lze později stáhnout prostřednictvím menu.</string>
     <string name="dNotNow">Nyní ne</string>
+    <string name="updateOrFullDialog">Chcete pouze aktualizovat data pro aktulélně načtenou akci nebo provést kompletní aktualizaci/načíst data jiné akce?</string>
+    <string name="full">Kompletně</string>
+    <string name="update">Pouze aktualizace</string>
 </resources>

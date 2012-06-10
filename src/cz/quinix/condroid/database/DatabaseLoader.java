@@ -11,18 +11,20 @@ import cz.quinix.condroid.model.Convention;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
     private CondroidDatabase db;
     private Convention con;
     private int pdMax;
+    private boolean fullInsert;
 
-    public DatabaseLoader(AsyncTaskListener listener, CondroidDatabase db, Convention con) {
+    public DatabaseLoader(AsyncTaskListener listener, CondroidDatabase db, Convention con, boolean fullInsert) {
         super(listener);
         this.db = db;
         this.con = con;
-
+        this.fullInsert = fullInsert;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
     @Override
     protected void onPreExecute() {
-
+        //intentionally
     }
 
     @Override
@@ -69,14 +71,22 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
         int counter = 0;
         if (items.size() > 0) {
             SQLiteDatabase db = this.db.getWritableDatabase();
-            db.insert("cons", null, con.getContentValues());
+            if(fullInsert)
+                db.insert("cons", null, con.getContentValues());
+
             HashMap<String, Integer> lines = new HashMap<String, Integer>();
+            if(!fullInsert) {
+                HashMap<Integer, String> l = DataProvider.getInstance(null).getProgramLines();
+                for (Integer i: l.keySet()) {
+                    lines.put(l.get(i), i);
+                }
+            }
             for (Annotation annotation : items) {
                 if (!lines.containsKey(annotation.getProgramLine())) {
                     ContentValues cv = new ContentValues();
                     cv.put("title", annotation.getProgramLine());
                     cv.put("cid", con.getCid());
-                    int key = (int) db.insert("lines", null, cv);
+                    int key = (int) db.replace("lines", null, cv);
                     lines.put(annotation.getProgramLine(), key);
                 }
                 this.publishProgress(counter++);
@@ -86,7 +96,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
             for (Annotation annotation : items) {
                 ContentValues cv = annotation.getContentValues();
                 cv.put("cid", con.getCid());
-                db.insertOrThrow("annotations", null, cv);
+                db.replaceOrThrow("annotations", null, cv);
                 this.publishProgress(counter++);
             }
         }
