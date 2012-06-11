@@ -209,8 +209,8 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
                     .setNegativeButton(R.string.full, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            ProgramActivity.this.loadData(true);
+                            asyncTaskHandler = new ConventionList(ProgramActivity.this);
+                            asyncTaskHandler.onClick(dialogInterface, i);
                         }
                     })
                     .setPositiveButton(R.string.update, asyncTaskHandler);
