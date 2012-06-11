@@ -23,7 +23,7 @@ public class Running extends ProgramActivity {
         super.onCreate(savedInstanceState);
         this.findViewById(R.id.fRunning).setBackgroundResource(R.color.black);
         Preferences.planUpdateService(this);
-        if(lwMain.getAdapter().getCount() == 0 && SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
+        if(lwMain.getAdapter().getCount() == 0 && SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty() && provider.hasData()) {
             Intent intent = new Intent(this, All.class);
             startActivity(intent);
         }
