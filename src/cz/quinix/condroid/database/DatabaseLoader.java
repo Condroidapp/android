@@ -2,12 +2,17 @@ package cz.quinix.condroid.database;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.ProgramActivity;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +51,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
         pd.setMessage(parentActivity.getString(R.string.processing));
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setMax(pdMax);
+        pd.setCancelable(false);
         pd.show();
     }
 
@@ -81,24 +87,41 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
                     lines.put(l.get(i), i);
                 }
             }
-            for (Annotation annotation : items) {
-                if (!lines.containsKey(annotation.getProgramLine())) {
-                    ContentValues cv = new ContentValues();
-                    cv.put("title", annotation.getProgramLine());
-                    cv.put("cid", con.getCid());
-                    int key = (int) db.replace("lines", null, cv);
-                    lines.put(annotation.getProgramLine(), key);
+            try {
+                db.beginTransaction();
+                for (Annotation annotation : items) {
+                    if (!lines.containsKey(annotation.getProgramLine())) {
+                        ContentValues cv = new ContentValues();
+                        cv.put("title", annotation.getProgramLine());
+                        cv.put("cid", con.getCid());
+                        int key = (int) db.replace("lines", null, cv);
+                        lines.put(annotation.getProgramLine(), key);
+                    }
+                    this.publishProgress(counter++);
+                    annotation.setLid(lines.get(annotation.getProgramLine()));
+                    if(this.isCancelled()) {
+                        Log.d("Condroid", "Premature end");
+                        db.endTransaction();
+                        return null;
+                    }
                 }
-                this.publishProgress(counter++);
-                annotation.setLid(lines.get(annotation.getProgramLine()));
-            }
 
-            for (Annotation annotation : items) {
-                ContentValues cv = annotation.getContentValues();
-                cv.put("cid", con.getCid());
-                db.replaceOrThrow("annotations", null, cv);
-                this.publishProgress(counter++);
+                for (Annotation annotation : items) {
+                    ContentValues cv = annotation.getContentValues();
+                    cv.put("cid", con.getCid());
+                    db.replaceOrThrow("annotations", null, cv);
+                    this.publishProgress(counter++);
+                    if(this.isCancelled()) {
+                        Log.d("Condroid", "Premature end 2");
+                        db.endTransaction();
+                        return null;
+                    }
+                }
+                db.setTransactionSuccessful();
+            } catch (SQLException e) {
+                Log.e("Condroid", "DB Insert", e);
             }
+            db.endTransaction();
         }
         return null;
     }
