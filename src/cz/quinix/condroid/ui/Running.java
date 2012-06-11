@@ -1,7 +1,9 @@
 package cz.quinix.condroid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
@@ -21,6 +23,10 @@ public class Running extends ProgramActivity {
         super.onCreate(savedInstanceState);
         this.findViewById(R.id.fRunning).setBackgroundResource(R.color.black);
         Preferences.planUpdateService(this);
+        if(lwMain.getAdapter().getCount() == 0 && SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
+            Intent intent = new Intent(this, All.class);
+            startActivity(intent);
+        }
     }
 
     @Override
