@@ -435,4 +435,10 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
             }
         }
     }
+
+    public void stopAsyncTask() {
+        if(asyncTaskHandler != null) {
+            asyncTaskHandler = null;
+        }
+    }
 }

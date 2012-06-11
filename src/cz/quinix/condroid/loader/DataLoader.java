@@ -1,6 +1,7 @@
 package cz.quinix.condroid.loader;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.text.Html;
 import android.util.Log;
 import android.util.Xml;
@@ -10,6 +11,7 @@ import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.ProgramActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -71,6 +73,17 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
                 this.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 pd.setMax(pdMax);
             }
+            pd.setCancelable(true);
+            pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    dialogInterface.dismiss();
+                    DataLoader.this.cancel(true);
+                    if(parentActivity instanceof ProgramActivity) {
+                        ((ProgramActivity) parentActivity).stopAsyncTask();
+                    }
+                }
+            });
             pd.show();
         }
     }
@@ -113,6 +126,10 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
             try {
                 int counter = 0;
                 while (eventType != XmlPullParser.END_DOCUMENT) {
+                    if(this.isCancelled()) {
+                        Log.d("Condroid", "DataLoader cancel");
+                        return null;
+                    }
                     switch (eventType) {
                         case XmlPullParser.START_DOCUMENT:
                             break;

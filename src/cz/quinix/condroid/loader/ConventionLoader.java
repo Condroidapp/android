@@ -1,6 +1,7 @@
 package cz.quinix.condroid.loader;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.util.Xml;
 import cz.quinix.condroid.R;
@@ -8,6 +9,7 @@ import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.ProgramActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -27,8 +29,18 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 
     @Override
     protected void showDialog() {
-        if (parentActivity != null)
-            pd = ProgressDialog.show(parentActivity, "", parentActivity.getString(R.string.loading), true);
+        if (parentActivity != null) {
+            pd = ProgressDialog.show(parentActivity, "", parentActivity.getString(R.string.loading), true, true, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    dialogInterface.dismiss();
+                    ConventionLoader.this.cancel(true);
+                    if(parentActivity instanceof ProgramActivity) {
+                        ((ProgramActivity) parentActivity).stopAsyncTask();
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -54,6 +66,9 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
 
         try {
             while (eventType != XmlPullParser.END_DOCUMENT) {
+                if(this.isCancelled()) {
+                    return null;
+                }
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
                         break;
