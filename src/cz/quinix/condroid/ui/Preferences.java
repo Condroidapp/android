@@ -90,7 +90,7 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context, UpdatesService.class), 0);
 
-        am.setInexactRepeating(AlarmManager.RTC, time, interval, pendingIntent);
+        am.setInexactRepeating(AlarmManager.RTC, time, interval*60*1000, pendingIntent);
         Log.d("Condroid", "Update service planned. It will start at " + (new Date(time)));
     }
 
