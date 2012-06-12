@@ -73,7 +73,7 @@
             <TextView android:id="@+id/annot_text" android:layout_height="fill_parent" android:textSize="15dp" android:layout_width="fill_parent" android:text="TextView" android:lineSpacingExtra="7dp" android:scrollbars="vertical"></TextView>
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout5" android:background="@drawable/textlines_reverse" android:layout_height="wrap_content" android:layout_weight="0">
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout7" android:background="@drawable/textlines_reverse" android:layout_height="wrap_content" android:layout_weight="0">
         <ImageButton android:layout_weight="1" android:src="@drawable/share" android:layout_width="fill_parent" android:id="@+id/iShare" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:layout_height="wrap_content" android:paddingBottom="5dip" android:paddingTop="5dip"></ImageButton>
         <!-- ImageButton android:src="@android:drawable/ic_menu_my_calendar" android:id="@+id/imageView2" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></ImageButton -->
         <ImageButton android:src="@drawable/star" android:layout_weight="1" android:background="@android:color/transparent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:id="@+id/iFavorite" android:layout_height="wrap_content" android:layout_width="fill_parent" android:paddingBottom="5dip" android:paddingTop="5dip"></ImageButton>
