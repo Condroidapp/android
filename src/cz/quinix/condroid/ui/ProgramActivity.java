@@ -216,6 +216,8 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
                     .setPositiveButton(R.string.update, asyncTaskHandler);
         }
         else {
+
+
             asyncTaskHandler = new ConventionList(this);
             builder.setMessage(R.string.downloadDialog)
                     .setCancelable(false)
@@ -277,9 +279,26 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
         refreshDataset = true;
         this.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sp.edit();
+        if(!sp.getBoolean("con_specific_message", false)) {
+            if(!provider.getCon().getMessage().equals("")) {
+                AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                ab.setTitle(provider.getCon().getName());
+                ab.setMessage(provider.getCon().getMessage());
+                ab.setCancelable(true);
+                ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                ab.create().show();
+            }
+            editor.putBoolean("con_specific_message", true);
 
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.remove("messageShown");
+        }
+
         editor.remove("updates_found");
         editor.remove("updates_found_message");
         editor.remove("updates_found_time");
@@ -349,7 +368,6 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
                 new ShareProgramListener(this).invoke(an);
                 break;
             case 1:
-
                 new MakeFavoritedListener(this).invoke(an, null);
                 ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
                 break;

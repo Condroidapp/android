@@ -3,8 +3,10 @@ package cz.quinix.condroid.database;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
@@ -34,6 +36,11 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
     @Override
     protected void onPostExecute(List<?> result) {
+        if(this.fullInsert) {
+            SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(parentActivity).edit();
+            e.remove("con_specific_message");
+            e.commit();
+        }
         super.onPostExecute(result);
     }
 
