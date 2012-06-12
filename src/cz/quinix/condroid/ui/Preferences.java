@@ -71,6 +71,7 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
     }
 
     public static void planUpdateService(Context context) {
+        stopUpdateService(context); //stop already planed
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (!(preferences.getBoolean("update_check", false) && !preferences.getBoolean("updates_found", false))) {
             stopUpdateService(context);
@@ -79,9 +80,13 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         long interval;
         interval = Integer.parseInt(preferences.getString("update_check_period", "60"));
-        interval *= 60 * 1000;
+        if(!preferences.contains("last_update")) {
+            SharedPreferences.Editor e = preferences.edit();
+            e.putLong("last_update", System.currentTimeMillis()-(interval-1)*60*1000);
+            e.commit();
+        }
 
-        long time = interval + preferences.getLong("last_update", System.currentTimeMillis());
+        long time = interval*60 * 1000 + preferences.getLong("last_update", System.currentTimeMillis());
 
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context, UpdatesService.class), 0);
 

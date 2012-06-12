@@ -77,8 +77,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
         int counter = 0;
         if (items.size() > 0) {
             SQLiteDatabase db = this.db.getWritableDatabase();
-            if(fullInsert)
-                db.insert("cons", null, con.getContentValues());
+            db.replace("cons", null, con.getContentValues());
 
             HashMap<String, Integer> lines = new HashMap<String, Integer>();
             if(!fullInsert) {

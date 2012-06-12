@@ -67,15 +67,17 @@ public class UpdatesService extends Service {
             HttpClient client = new DefaultHttpClient();
             HttpHead head = new HttpHead();
             try {
-                head.setURI(new URI("http://condroid.fan-project.com/api/2/annotations/" + convention.getCid()));
+                head.setURI(new URI(convention.getDataUrl()));
             } catch (URISyntaxException e) {
                 Log.e("Condroid", "URL parsing", e);
             }
-            SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-            head.setHeader("If-Modified-Since", format.format(convention.getLastUpdate()));
-            //head.setHeader("X-If-Count-Not-Match", ""+DataProvider.getInstance(this).getAnnotationsCount());
+            SimpleDateFormat internationalFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+
+            head.setHeader("If-Modified-Since", internationalFormat.format(convention.getLastUpdate())); //if new/updates
+            head.setHeader("X-If-Count-Not-Match", ""+DataProvider.getInstance(this).getAnnotationsCount()); //if deletes
+
             SharedPreferences.Editor editor = preferences.edit();
+
             try {
                 Log.d("Condroid", "Executing HEAD request");
                 HttpResponse response = client.execute(head);
@@ -84,9 +86,9 @@ public class UpdatesService extends Service {
                     editor.putBoolean("updates_found", true);
 
                     try {
-                        editor.putString("updates_found_time", formatter.format(format.parse(response.getFirstHeader("Last-Modified").getValue())));
+                        editor.putLong("updates_found_time", internationalFormat.parse(response.getFirstHeader("Last-Modified").getValue()).getTime());
                     } catch (NullPointerException e) {
-                        editor.putString("updates_found_time", formatter.format(new Date()));
+                        editor.putLong("updates_found_time", new Date().getTime());
                     }
                     Preferences.stopUpdateService(this);
                     Log.d("Condroid", "Found updates, stopping myself");

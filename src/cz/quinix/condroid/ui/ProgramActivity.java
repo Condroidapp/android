@@ -218,6 +218,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         else {
             asyncTaskHandler = new ConventionList(this);
             builder.setMessage(R.string.downloadDialog)
+                    .setCancelable(false)
                 .setPositiveButton(R.string.yes, asyncTaskHandler)
                 .setNegativeButton(R.string.no,
                         new DialogInterface.OnClickListener() {
@@ -272,7 +273,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
             finish();
             return;
         }
-        SearchProvider.getSearchQueryBuilders().clear();
+        //SearchProvider.getSearchQueryBuilders().clear(); why is this in here?!
 
         refreshDataset = true;
         this.onResume();
@@ -281,8 +282,10 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         editor.remove("messageShown");
         editor.remove("updates_found");
         editor.remove("updates_found_message");
+        editor.remove("updates_found_time");
+
         editor.commit();
-        //TODO - fix bug - service not start
+
         Preferences.planUpdateService(this);
 
         initView();

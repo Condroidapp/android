@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import cz.quinix.condroid.abstracts.DBInsertable;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -116,6 +118,9 @@ public class Convention implements Serializable, DBInsertable {
         ret.put("locationsFile", locationsFile);
         ret.put("has_annotations", providesAnnotations);
         ret.put("has_timetable", providesTimetable);
+        DateTimeFormatter dateSQLFormatter = DateTimeFormat
+                .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
+        ret.put("lastUpdate", dateSQLFormatter.print(lastUpdate.getTime()));
 
         return ret;
     }
@@ -139,4 +144,6 @@ public class Convention implements Serializable, DBInsertable {
     public Date getLastUpdate() {
         return lastUpdate;
     }
+
+
 }

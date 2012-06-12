@@ -12,6 +12,8 @@ import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.ProgramActivity;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -148,11 +150,12 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
                                             } catch (NumberFormatException e) {
                                             }
                                         }
-                                        if (pull.getAttributeName(i).equalsIgnoreCase("lastUpdate")) {
-                                            SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+                                        if (pull.getAttributeName(i).equalsIgnoreCase("last-update")) {
+                                            DateTimeFormatter format = ISODateTimeFormat
+                                                    .dateTimeNoMillis();
                                             try {
-                                                DataProvider.getInstance(parentActivity).getCon().setLastUpdate(format.parse(pull.getAttributeValue(i).trim()));
-                                            } catch (ParseException e) {
+                                                DataProvider.getInstance(parentActivity).getCon().setLastUpdate(format.parseDateTime(pull.getAttributeValue(i).trim()).toDate());
+                                            } catch (Exception e) {
                                                 Log.e("Condroid", "Last update parse", e);
                                             }
 

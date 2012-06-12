@@ -8,6 +8,8 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
 import cz.quinix.condroid.model.Reminder;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -209,9 +211,10 @@ public class DataProvider {
             co.setName(c.getString(c.getColumnIndex("name")));
             co.setMessage(c.getString(c.getColumnIndex("message")));
             co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("cs", "CZ"));
+            DateTimeFormatter format = DateTimeFormat
+                    .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
             try {
-                co.setLastUpdate(format.parse(c.getString(c.getColumnIndex("lastUpdate"))));
+                co.setLastUpdate(format.parseDateTime(c.getString(c.getColumnIndex("lastUpdate"))).toDate());
             } catch (Exception e) {
                 Log.e("Condroid", "Parsing DB date", e);
                 co.setLastUpdate(new Date());
