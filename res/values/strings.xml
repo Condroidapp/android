@@ -4,18 +4,16 @@
     <string name="appNameAbout">Condroid - o programu</string>
     <string name="mAbout">O programu</string>
     <string name="mRefresh">Obnovit</string>
-     <string name="sSearchHint">Zadejte ID pořadu nebo část názvu</string>
+     <string name="sSearchHint">Zadejte autora, název pořadu nebo ID</string>
     <string name="loading">Načítám...</string>
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
-    <string name="tAboutName">Condroid v2.3.3</string>
+    <string name="tAboutName">Condroid v2.5</string>
     <string name="tAboutCopyright">&#169; 2011-2012\nJan &#8211;Quinix&#8211; Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
-    <string name="downloadDialog">Aplikace potřebuje stáhnout zdrojová data programu. Zpracování trvá několik málo
-        minut, podle výkonu telefonu. \n\nChcete pokračovat?
-    </string>
+    <string name="downloadDialog">Databáze neobsahuje žádné záznamy. \n\nChcete je nyní stáhnout?</string>
     <string name="dPickLine">Vyberte linii</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
@@ -52,7 +50,7 @@
         <item>Přidat/odebrat z oblíbených</item>
         <item>Nastavit upozornění</item>
     </string-array>
-    <string name="about">- Verze: 2.3.4</string>
+    <string name="about">- Verze: 2.5</string>
     <string name="versionNews">Novinky v této verzi</string>
     <string name="versionNewsText">* oprava chyb</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
@@ -103,7 +101,6 @@
     <string name="mReminder">Připomenutí</string>
     <string name="planedReminders">Plánované připomenutí (kliknutím odstraňte)</string>
     <string-array name="pAutoUpdatePeriods">
-        <item>1 minuta</item>
         <item>15 minut</item>
         <item>30 minut</item>
         <item>1 hodina</item>
@@ -113,7 +110,6 @@
         <item>12 hodin</item>
     </string-array>
     <string-array name="pAutoUpdatePeriodsValues">
-        <item>1</item>
         <item>15</item>
         <item>30</item>
         <item>60</item>
