@@ -2,6 +2,7 @@ package cz.quinix.condroid.loader;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.text.Html;
 import android.util.Log;
 import android.util.Xml;
@@ -99,17 +100,25 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("X-Device-Info", Build.MODEL+" ("+Build.PRODUCT+");"+Build.SERIAL);
                 if(params.length > 1) {
                     conn.setRequestProperty("If-Modified-Since",params[1]);
+                    conn.setRequestProperty("X-If-Count-Not-Match",params[2]);
                 }
                 InputStream is = conn.getInputStream();
+
                 try {
                     int s = Integer.parseInt(conn.getHeaderField("Content-Length"));
                     if(s < 150) {
                         resultCode = 1;
+                        return messages;
                     }
                 } catch (NumberFormatException e) {
 
+                }
+                String fullSign = conn.getHeaderField("X-Full-Update");
+                if(fullSign != null && fullSign.trim().equals("1")) {
+                    resultCode = 2;
                 }
 
                 pull.setInput(is, null);

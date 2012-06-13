@@ -77,7 +77,7 @@ public class Downloader extends AsyncTaskDialog {
                 ((AsyncTaskListener) parent).onAsyncTaskCompleted(task);
             }
             else if (list != null) {
-                task2 = DataProvider.getInstance(parent).prepareInsert(conventionList != null);
+                task2 = DataProvider.getInstance(parent).prepareInsert(conventionList != null || (task instanceof DataLoader && ((DataLoader) task).getResultCode() == 2));
                 task2.setListener((AsyncTaskListener) parent);
                 task2.execute(list);
             }
@@ -93,6 +93,6 @@ public class Downloader extends AsyncTaskDialog {
         }
         task1 = new DataLoader(this);
 
-        task1.execute(convention.getDataUrl(), lastUpdate);
+        task1.execute(convention.getDataUrl(), lastUpdate, String.valueOf(DataProvider.getInstance(parent).getAnnotationsCount()));
     }
 }

@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -75,7 +76,7 @@ public class UpdatesService extends Service {
 
             head.setHeader("If-Modified-Since", internationalFormat.format(convention.getLastUpdate())); //if new/updates
             head.setHeader("X-If-Count-Not-Match", ""+DataProvider.getInstance(this).getAnnotationsCount()); //if deletes
-
+            head.setHeader("X-Device-Info", Build.MODEL+" ("+Build.PRODUCT+");"+Build.SERIAL);
             SharedPreferences.Editor editor = preferences.edit();
 
             try {

@@ -2,6 +2,7 @@ package cz.quinix.condroid.loader;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.util.Log;
 import android.util.Xml;
 import cz.quinix.condroid.R;
@@ -52,6 +53,7 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
         try {
             URL url = new URL(list_url);
             URLConnection conn = url.openConnection();
+            conn.setRequestProperty("X-Device-Info",Build.MODEL+" ("+Build.PRODUCT+");"+Build.SERIAL);
 
             pull.setInput(conn.getInputStream(), null);
         } catch (Exception ex) {
