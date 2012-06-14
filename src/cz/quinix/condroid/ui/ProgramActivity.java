@@ -25,6 +25,7 @@ import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.listeners.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,6 +47,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     //protected ListView lwAll = null;
     private ListenedAsyncTask task = null;
     private boolean animateOnResult = false;
+    private Date onResumeTime = null;
 
     //private View openedContextMenu;
 
@@ -145,12 +147,24 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
         }
         animateOnResult = false;
+        Date now = new Date();
+        if(!refreshDataset && onResumeTime != null &&
+                (now.getHours() != onResumeTime.getHours() || now.getTime()-onResumeTime.getTime() > 5*60*1000)) {
+            //onPause-onResume interval was more than 5 minutes or hour changed
+            refreshDataset = true;
+        }
         if (refreshDataset) {
             refreshRegistry.performRefresh();
             refreshDataset = false;
         }
 
         this.showUpdatesDialog();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onResumeTime = new Date();
     }
 
     private void showUpdatesDialog() {
