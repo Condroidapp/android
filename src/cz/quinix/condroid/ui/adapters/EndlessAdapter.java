@@ -178,7 +178,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         } else {
             vh.time.setText("");
         }
-        if (vh.place.getVisibility() == View.VISIBLE && annotation.getLocation() != null) {
+        if (vh.place.getVisibility() == View.VISIBLE && annotation.getLocation() != null && !annotation.getLocation().trim().equals("")) {
             vh.place.setText(annotation.getLocation());
             if (annotation.getLid() > 0) {
                 vh.line.setText(vh.line.getText() + ",");
