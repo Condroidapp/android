@@ -135,6 +135,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             SearchProvider.getSearchQueryBuilder(this.getClass().getName()).addParam(intent.getStringExtra(SearchManager.QUERY));
+            intent.removeExtra(SearchManager.QUERY);
             this.applySearch();
         }
     }
