@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/pUpdateTitle">
+        <CheckBoxPreference android:key="update_check" android:title="@string/pAutoUpdate" android:defaultValue="false"/>
+        <ListPreference android:key="update_check_period" android:title="@string/pAutoUpdatePeriod"
+                        android:dependency="update_check" android:entries="@array/pAutoUpdatePeriods" android:entryValues="@array/pAutoUpdatePeriodsValues" android:defaultValue="60" />
+        <Preference android:selectable="false" android:key="last_update" android:enabled="false" android:title="@string/pLastUpdate"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pReminderTitle">
+        <CheckBoxPreference android:key="reminder_flash" android:title="@string/pReminderFlash" android:defaultValue="true"/>
+        <CheckBoxPreference android:key="reminder_tone_check" android:title="@string/pReminderToneCheckbox" android:defaultValue="false" />
+        <RingtonePreference android:title="@string/pReminderTone" android:key="reminder_tone"
+                            android:dependency="reminder_tone_check"
+                            android:ringtoneType="notification" android:showDefault="true" />
+        <CheckBoxPreference android:key="reminder_vibrate" android:title="@string/pReminderVibrate" android:defaultValue="false" />
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>

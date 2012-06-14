@@ -1,3 +1,6 @@
 Thumbs.db
 /bin
 /gen
+/.idea
+/out
+/Condroid.iml

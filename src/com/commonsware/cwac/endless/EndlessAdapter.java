@@ -52,7 +52,7 @@ abstract public class EndlessAdapter extends AdapterWrapper {
 	abstract protected void appendCachedData();
 	
 	private View pendingView=null;
-	private AtomicBoolean keepOnAppending=new AtomicBoolean(true);
+	protected AtomicBoolean keepOnAppending=new AtomicBoolean(true);
 	private Context context;
 	private int pendingResource=-1;
 
@@ -152,11 +152,6 @@ abstract public class EndlessAdapter extends AdapterWrapper {
 		Log.e("EndlessAdapter", "Exception in cacheInBackground()", e);
 		
 		return(false);
-	}
-	
-	public void refreshDataset() {
-		this.keepOnAppending.set(true);
-		super.notifyDataSetChanged();
 	}
 	
 	/**

@@ -1,19 +1,14 @@
 package cz.quinix.condroid;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TimeZone;
-
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.Provider;
 
+import java.util.*;
 
 
 public class FastJodaTimeZoneProvider implements Provider {
 
-	public static final Set<String> AVAILABLE_IDS = new HashSet<String>();
+    public static final Set<String> AVAILABLE_IDS = new HashSet<String>();
 
     static {
         AVAILABLE_IDS.addAll(Arrays.asList(TimeZone.getAvailableIDs()));
@@ -31,7 +26,7 @@ public class FastJodaTimeZoneProvider implements Provider {
 
         int rawOffset = tz.getRawOffset();
 
-            //sub-optimal. could be improved to only create a new Date every few minutes
+        //sub-optimal. could be improved to only create a new Date every few minutes
         if (tz.inDaylightTime(new Date())) {
             rawOffset += tz.getDSTSavings();
         }

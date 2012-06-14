@@ -4,30 +4,23 @@
     <string name="appNameAbout">Condroid - o programu</string>
     <string name="mAbout">O programu</string>
     <string name="mRefresh">Obnovit</string>
-    <string name="bReloadCatalog">Obnovit data/načíst jiný con</string>
-    <string name="sSearchHint">Zadejte ID pořadu nebo část názvu</string>
+     <string name="sSearchHint">Zadejte autora, název pořadu nebo ID</string>
     <string name="loading">Načítám...</string>
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
-    <string name="search">Hledat</string>
-    <string name="tAboutName">Condroid v2.3.3</string>
-    <string name="tAboutCopyright">&#169; 2011-2012\nJan -Quinix- Langer, Fan-Project</string>
+    <string name="tAboutName">Condroid v2.5</string>
+    <string name="tAboutCopyright">&#169; 2011-2012\nJan &#8211;Quinix&#8211; Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
-    <string name="bShowActual">Právě běží a následuje</string>
-    <string name="bShowAll">Všechny pořady</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
-    <string name="downloadDialog">Aplikace potřebuje stáhnout zdrojová data programu. Zpracování trvá několik málo minut, podle výkonu telefonu. \n\nChcete pokračovat?</string>
-    <string name="mFilter">Filtrovat</string>
+    <string name="downloadDialog">Databáze neobsahuje žádné záznamy. \n\nChcete je nyní stáhnout?</string>
     <string name="dPickLine">Vyberte linii</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="dPickConvention">Dostupné cony</string>
-    <string name="preparing">Příprava...</string>
     <string name="noAnnotationsFound">Nebyly nalezeny žádné vyhovující záznamy.</string>
     <string name="dPickDate">Vyberte den</string>
-    <string name="bShowLocations">Rozmístění programu (obrázek)</string>
-    <string name="tLoadedInfo">Načtená data pro </string>
+    <string name="tLoadedInfo">Načtená data pro</string>
     <string name="lecture">Přednáška</string>
     <string name="discussion">Diskuze</string>
     <string name="projection">Projekce</string>
@@ -41,18 +34,97 @@
     <string-array name="filterBy">
         <item>Data</item>
         <item>Linie</item>
+        <item>Pouze oblíbené</item>
     </string-array>
+
+    <string-array name="disableFilterBy">
+        <item>Fulltext</item>
+        <item>Data</item>
+        <item>Linie</item>
+        <item>Oblíbené</item>
+        <item>Všechny filtry</item>
+    </string-array>
+    <string name="disableFilter">Vyberte filtry které chcete zrušit</string>
     <string-array name="annotationContext">
         <item>Sdílet</item>
         <item>Přidat/odebrat z oblíbených</item>
+        <item>Nastavit upozornění</item>
     </string-array>
-    <string name="about">- Verze: 2.3.4</string>
+    <string name="about">- Verze: 2.5</string>
     <string name="versionNews">Novinky v této verzi</string>
     <string name="versionNewsText">* oprava chyb</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
     <string name="licenced">This software is licenced\nunder NewBSD licence.</string>
     <string name="mFavoriteOnly">Pouze oblíbené</string>
-    <string name="mShowAll">Zobrazit vše</string>
-    
-    
+    <string name="remind">Nastavit připomenutí</string>
+    <string-array name="remindBefore">
+        <item>v čase začátku</item>
+        <item>2 minuty</item>
+        <item>5 minut</item>
+        <item>10 minut</item>
+        <item>15 minut</item>
+        <item>20 minut</item>
+        <item>30 minut</item>
+    </string-array>
+    <string name="today">Dnes</string>
+    <string name="runningNow">Právě běží</string>
+    <string name="tRunning">Běžící</string>
+    <string name="tAll">Všechny</string>
+    <string name="tTwitter">Twitter</string>
+
+<style name="ButtonText">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textColor">#ffffff</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_margin">3dp</item>
+    <item name="android:textSize">30dp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:shadowColor">#000000</item>
+    <item name="android:shadowDx">1</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:shadowRadius">2</item>
+</style>
+    <string name="tNoData">Nejsou k dispozici žádná data</string>
+    <string name="noDatesAvailable">Nejsou k dispozici žádné časy začátků pořadů, nelze filtrovat podle data.</string>
+    <string name="mReload">Načíst data</string>
+    <string name="mSettings">Nastavení</string>
+    <string name="pUpdateTitle">Zjišťování aktualizací dat</string>
+    <string name="pAutoUpdate">Automatická kontrola</string>
+    <string name="pAutoUpdatePeriod">Frekvence aktualizace</string>
+    <string name="pLastUpdate">Poslední aktualizace</string>
+    <string name="pReminderTitle">Upozornění začátku programu</string>
+    <string name="pReminderFlash">Oznámení blikáním diody</string>
+    <string name="pReminderTone">Zvuk upozornění</string>
+    <string name="pReminderToneCheckbox">Zvukové upozornění</string>
+    <string name="pReminderVibrate">Vibrovat</string>
+    <string name="mReminder">Připomenutí</string>
+    <string name="planedReminders">Plánované připomenutí (kliknutím odstraňte)</string>
+    <string-array name="pAutoUpdatePeriods">
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>1 hodina</item>
+        <item>2 hodiny</item>
+        <item>3 hodiny</item>
+        <item>6 hodin</item>
+        <item>12 hodin</item>
+    </string-array>
+    <string-array name="pAutoUpdatePeriodsValues">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+        <item>360</item>
+        <item>720</item>
+    </string-array>
+    <string-array name="reminderContext">
+        <item>Zrušit připomenutí</item>
+    </string-array>
+    <string name="dUpdatesFoundTitle">Aktualizace programu</string>
+    <string name="dUpdatesFoundMsg">Na serveru je k dispozici novější verze programu akce. \n\nChcete nyní provést aktualizaci? \nAktualizaci lze později stáhnout prostřednictvím menu.</string>
+    <string name="dNotNow">Nyní ne</string>
+    <string name="updateOrFullDialog">Chcete pouze aktualizovat data pro aktulélně načtenou akci nebo provést kompletní aktualizaci/načíst data jiné akce?</string>
+    <string name="full">Kompletně</string>
+    <string name="update">Pouze aktualizace</string>
 </resources>

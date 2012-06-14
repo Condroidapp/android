@@ -2,25 +2,41 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="cz.quinix.condroid"
       android:versionName="2.3.4" android:versionCode="10">
-      <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@android:style/Theme.Light.NoTitleBar">
-        <activity android:name=".ui.AllAnotations" android:launchMode="singleTop">
-        	<intent-filter>
-            	<action android:name="android.intent.action.SEARCH" />
-        		</intent-filter>
-       			 <meta-data android:name="android.app.searchable"
-                   	android:resource="@xml/searchable"/>
-        </activity>
-        <activity android:name=".ui.ShowAnnotation"></activity>
-        <activity android:name=".ui.AboutActivity"></activity>
-        <activity android:label="@string/appName" android:name=".ui.WelcomeActivity" android:configChanges="keyboardHidden|orientation">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-                <action android:name="android.intent.action.MAIN"></action>
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.RunningActivity"></activity>
-
-    </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@android:style/Theme.Light.NoTitleBar">
+          <activity android:name=".ui.ShowAnnotation"></activity>
+          <activity android:name=".ui.Preferences"></activity>
+
+          <activity android:name=".ui.ReminderList" android:theme="@android:style/Theme.Dialog" android:label="Pøehled pøipomenutí"/>
+          <activity android:name=".ui.Running">
+              <intent-filter>
+                  <action android:name="android.intent.action.MAIN"/>
+                  <category android:name="android.intent.category.LAUNCHER"/>
+                  <action android:name="android.intent.action.SEARCH"></action>
+              </intent-filter>
+              <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
+          </activity>
+          <activity android:name=".ui.All">
+              <intent-filter>
+
+                  <action android:name="android.intent.action.SEARCH"></action>
+              </intent-filter>
+              <meta-data android:name="android.app.searchable"  android:resource="@xml/searchable"/>
+          </activity>
+
+          <service android:name=".service.ReminderTask"/>
+          <service android:name=".service.UpdatesService"/>
+
+          <receiver android:name=".service.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+      </application>
+
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"></uses-sdk>
 </manifest>
