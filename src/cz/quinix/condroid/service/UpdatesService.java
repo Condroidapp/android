@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.Preferences;
@@ -76,7 +77,7 @@ public class UpdatesService extends Service {
 
             head.setHeader("If-Modified-Since", internationalFormat.format(convention.getLastUpdate())); //if new/updates
             head.setHeader("X-If-Count-Not-Match", ""+DataProvider.getInstance(this).getAnnotationsCount()); //if deletes
-            head.setHeader("X-Device-Info", Build.MODEL+" ("+Build.PRODUCT+");"+Build.SERIAL);
+            head.setHeader("X-Device-Info", Build.MODEL+" ("+Build.PRODUCT+");"+ CondroidActivity.getUniqueDeviceIdentifier(this));
             SharedPreferences.Editor editor = preferences.edit();
 
             try {

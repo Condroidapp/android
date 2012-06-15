@@ -10,7 +10,7 @@
           <activity android:name=".ui.ShowAnnotation"></activity>
           <activity android:name=".ui.Preferences"></activity>
 
-          <activity android:name=".ui.ReminderList" android:theme="@android:style/Theme.Dialog" android:label="Pøehled pøipomenutí"/>
+          <activity android:name=".ui.ReminderList" android:theme="@android:style/Theme.Dialog" android:label="PÅ™ehled pÅ™ipomenutÃ­"/>
           <activity android:name=".ui.Running">
               <intent-filter>
                   <action android:name="android.intent.action.MAIN"/>

@@ -9,6 +9,7 @@ import android.util.Xml;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
+import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
@@ -100,7 +101,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("X-Device-Info", Build.MODEL+" ("+Build.PRODUCT+");"+Build.SERIAL);
+                conn.setRequestProperty("X-Device-Info", Build.MODEL+" ("+Build.PRODUCT+");"+ CondroidActivity.getUniqueDeviceIdentifier(parentActivity));
                 if(params.length > 1) {
                     conn.setRequestProperty("If-Modified-Since",params[1]);
                     conn.setRequestProperty("X-If-Count-Not-Match",params[2]);

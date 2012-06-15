@@ -8,6 +8,7 @@ import android.util.Xml;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
+import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.ProgramActivity;
@@ -53,7 +54,7 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
         try {
             URL url = new URL(list_url);
             URLConnection conn = url.openConnection();
-            conn.setRequestProperty("X-Device-Info",Build.MODEL+" ("+Build.PRODUCT+");"+Build.SERIAL);
+            conn.setRequestProperty("X-Device-Info",Build.MODEL+" ("+Build.PRODUCT+");"+ CondroidActivity.getUniqueDeviceIdentifier(parentActivity));
 
             pull.setInput(conn.getInputStream(), null);
         } catch (Exception ex) {
