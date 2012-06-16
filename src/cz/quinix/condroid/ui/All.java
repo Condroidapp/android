@@ -1,7 +1,15 @@
 package cz.quinix.condroid.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import com.actionbarsherlock.app.SherlockFragment;
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
@@ -15,26 +23,30 @@ import java.util.List;
  * Time: 22:35
  * To change this template use File | Settings | File Templates.
  */
-public class All extends ProgramActivity {
-    public void onCreate(Bundle savedInstanceState) {
+public class All extends CondroidFragment {
+        @Override
+    protected EndlessAdapter getListViewAdapter() {
+        return new EndlessAdapter(this.getActivity(), this.loadData(null, 0));
+    }
+
+    /*public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.findViewById(R.id.fAll).setBackgroundResource(R.color.black);
+        getSupportActionBar().selectTab(getSupportActionBar().getTabAt(1));
     }
 
     @Override
     protected void initListView() {
         if (this.lwMain.getAdapter() == null) {
             //init
-            this.lwMain.setAdapter(new EndlessAdapter(this, this.loadData(null, 0)));
+            this.lwMain.setAdapter();
         } else {
             ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
         }
         super.initListView();    //To change body of overridden methods use File | Settings | File Templates.
     }
-
-    @Override
+*/
     protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
-        return this.provider.getAnnotations(sb, page);
+        return DataProvider.getInstance(this.getActivity()).getAnnotations(sb, page);
     }
 
 

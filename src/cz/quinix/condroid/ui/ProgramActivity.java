@@ -2,14 +2,25 @@ package cz.quinix.condroid.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.*;
+
+import android.view.ContextMenu;
+import android.view.View;
 import android.widget.*;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
@@ -35,7 +46,7 @@ import java.util.List;
  * Time: 23:30
  * To change this template use File | Settings | File Templates.
  */
-public abstract class ProgramActivity extends CondroidActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
+public class ProgramActivity extends SherlockFragmentActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
 
     public static final String TAG = "Condroid";
     //public static final String SCREEN_RUNNING = "running";
@@ -43,7 +54,7 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     public static final String SCREEN_TW = "TW";
 
     protected DataProvider provider;
-    protected ListView lwMain = null;
+ //   protected ListView lwMain = null;
     //protected ListView lwAll = null;
     private ListenedAsyncTask task = null;
     private boolean animateOnResult = false;
@@ -54,54 +65,43 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
 
     //private String screen = ProgramActivity.SCREEN_RUNNING;
     public static boolean refreshDataset = false;
-    private AsyncTaskDialog asyncTaskHandler;
-    private static RefreshRegistry refreshRegistry;
+    private static AsyncTaskDialog asyncTaskHandler;
+    private static CondroidFragment.RefreshRegistry refreshRegistry;
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.program);
         System.setProperty("org.joda.time.DateTimeZone.Provider",
                 "cz.quinix.condroid.FastJodaTimeZoneProvider");
 
-        if (refreshRegistry == null) {
-            refreshRegistry = new RefreshRegistry();
-        }
-        refreshRegistry.registerInstance(this);
-
-
-        this.setContentView(R.layout.program);
         provider = DataProvider.getInstance(getApplicationContext());
 
-        lwMain = (ListView) this.findViewById(R.id.lwMain);
-
-        asyncTaskHandler = (AsyncTaskDialog) getLastNonConfigurationInstance();
+    //    lwMain = (ListView) this.findViewById(R.id.lwMain);
         if (asyncTaskHandler != null) {
             asyncTaskHandler.setParent(this);
         }
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        ActionBar.Tab runningTab = actionBar.newTab().setText(R.string.tRunning);
+        ActionBar.Tab allTab = actionBar.newTab().setText(R.string.tAll);
+
+        CondroidFragment runningFragment = new Running();
+        CondroidFragment allFragment = new All();
+
+        runningTab.setTabListener(new TabListener(runningFragment));
+        allTab.setTabListener(new TabListener(allFragment));
+
+        actionBar.addTab(runningTab);
+        actionBar.addTab(allTab);
 
         if (this.dataAvailable()) {
             this.initView();
             this.showUpdatesDialog();
         }
 
-
-        FrameLayout running = (FrameLayout) this.findViewById(R.id.fRunning);
-        FrameLayout all = (FrameLayout) this.findViewById(R.id.fAll);
-        //FrameLayout twitter = (FrameLayout) this.findViewById(R.id.fTwitter);
-        running.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                switchView(Running.class);
-            }
-        });
-
-
-        all.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                switchView(All.class);
-            }
-        });
-
-        ImageButton ibFilter = (ImageButton) this.findViewById(R.id.ibFilter);
+       /* ImageButton ibFilter = (ImageButton) this.findViewById(R.id.ibFilter);
         ibFilter.setOnClickListener(new FilterListener(this));
 
         ImageButton ibSearch = (ImageButton) this.findViewById(R.id.ibSearch);
@@ -110,16 +110,18 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
             public void onClick(View view) {
                 ProgramActivity.this.onSearchRequested();
             }
-        });
+        });    */
 
 
         TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatus);
         tFilterAll.setOnClickListener(new DisableFilterListener(this));
 
+        if(refreshRegistry == null) {
+            refreshRegistry = CondroidFragment.getRefreshRegistry();
+        }
 
-        lwMain.setOnItemClickListener(this);
 
-        registerForContextMenu(lwMain);
+
 
         if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
             applySearch(); //for applying search when screen rotates
@@ -140,14 +142,15 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         }
     }
 
+    public void applySearch() {
+        if(TabListener.activeFragment != null) {
+            TabListener.activeFragment.applySearch();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (!animateOnResult) {
-            overridePendingTransition(0, 0);
-
-        }
-        animateOnResult = false;
         Date now = new Date();
         if(!refreshDataset && onResumeTime != null &&
                 (now.getHours() != onResumeTime.getHours() || now.getTime()-onResumeTime.getTime() > 5*60*1000)) {
@@ -166,6 +169,14 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     protected void onPause() {
         super.onPause();
         onResumeTime = new Date();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(asyncTaskHandler != null) {
+            asyncTaskHandler.setParent(null);
+        }
     }
 
     private void showUpdatesDialog() {
@@ -264,16 +275,6 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
         this.handleIntent(this.getIntent());
     }
 
-    private void switchView(Class<?> viewName) {
-        if (this.getClass() != viewName) {
-            Intent intent = new Intent(this, viewName);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            this.startActivity(intent);
-        }
-    }
-
-
     protected void initListView() {
         findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
         if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty())
@@ -331,16 +332,6 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     }
 
     @Override
-    public Object onRetainNonConfigurationInstance() {
-        if (this.asyncTaskHandler != null) {
-            this.asyncTaskHandler.setParent(null);
-            return this.asyncTaskHandler;
-        }
-        return super.onRetainNonConfigurationInstance();
-    }
-
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView instanceof ListView) {
             Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
@@ -354,81 +345,8 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        if (v instanceof ListView) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            Annotation an = (Annotation) ((ListView) v).getItemAtPosition(info.position);
-            if (an.getTitle() != "break") {
-                menu.setHeaderTitle(an.getTitle());
-                String[] menuItems = getResources().getStringArray(R.array.annotationContext);
-                for (int i = 0; i < menuItems.length; i++) {
-                    menu.add(Menu.NONE, i, i, menuItems[i]);
-                }
-            }
-        }
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        int menuItemIndex = item.getItemId();
-        Annotation an = (Annotation) this.lwMain.getItemAtPosition(info.position);
-
-        switch (menuItemIndex) {
-            case 0:
-                new ShareProgramListener(this).invoke(an);
-                break;
-            case 1:
-                new MakeFavoritedListener(this).invoke(an, null);
-                ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
-                break;
-            case 2:
-                new SetReminderListener(this).invoke(an);
-            default:
-                break;
-        }
-
-        return true;
-    }
-
-    public void applySearch() {
-        SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
-        List<Annotation> i = this.loadData(sb, 0);
-        if (!sb.isEmpty()) {
-            TextView tw = (TextView) findViewById(R.id.tFilterStatus);
-            tw.setVisibility(View.VISIBLE);
-            tw.setText(sb.getReadableCondition());
-        } else {
-            findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
-        }
-
-
-        ((EndlessAdapter) lwMain.getAdapter()).setItems(i, true);
-        lwMain.setSelection(0);
-        lwMain.setVisibility(View.VISIBLE);
-        this.showNoDataLine(i.size() == 0);
-
-    }
-
-    protected abstract List<Annotation> loadData(SearchQueryBuilder sb, int page);
-
-    public void showNoDataLine(boolean b) {
-        if (b) {
-            lwMain.setVisibility(View.GONE);
-            this.findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
-        } else {
-            this.findViewById(R.id.tNoData).setVisibility(View.GONE);
-        }
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater mi = this.getMenuInflater();
+        MenuInflater mi = this.getSupportMenuInflater();
         mi.inflate(R.menu.program, menu);
         super.onCreateOptionsMenu(menu);
         return true;
@@ -455,20 +373,6 @@ public abstract class ProgramActivity extends CondroidActivity implements AsyncT
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private class RefreshRegistry {
-        private List<ProgramActivity> list = new ArrayList<ProgramActivity>();
-
-        void registerInstance(ProgramActivity p) {
-            list.add(p);
-        }
-
-        void performRefresh() {
-            for (ProgramActivity p : list) {
-                p.applySearch();
-            }
         }
     }
 

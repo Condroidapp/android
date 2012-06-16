@@ -1,5 +1,6 @@
 package cz.quinix.condroid.ui.adapters;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -32,7 +33,7 @@ public class RunningAdapter extends EndlessAdapter {
             new Locale("cs", "CZ"));
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 
-    public RunningAdapter(List<Annotation> map, CondroidActivity caller) {
+    public RunningAdapter(List<Annotation> map, Activity caller) {
         super(caller, AddBreaks.addBreaks(map, null));
         this.totalItems = map.size();
         this.keepOnAppending.set(!(map.size() < DataProvider.ITEMS_PER_PAGE));

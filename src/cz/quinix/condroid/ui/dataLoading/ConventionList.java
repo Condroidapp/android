@@ -10,6 +10,7 @@ import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.loader.ConventionLoader;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ConventionList extends AsyncTaskDialog {
 
     private ConventionLoader task;
 
-    public ConventionList(CondroidActivity parent) {
+    public ConventionList(ProgramActivity parent) {
         this.parent = parent;
     }
 
@@ -42,7 +43,7 @@ public class ConventionList extends AsyncTaskDialog {
     }
 
     @Override
-    public void setParent(CondroidActivity parent) {
+    public void setParent(ProgramActivity parent) {
         super.setParent(parent);    //To change body of overridden methods use File | Settings | File Templates.
 
         if (task != null && !task.getStatus().equals(AsyncTask.Status.FINISHED)) {

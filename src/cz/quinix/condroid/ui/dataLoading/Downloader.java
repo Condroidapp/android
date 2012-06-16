@@ -1,5 +1,6 @@
 package cz.quinix.condroid.ui.dataLoading;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -30,13 +31,13 @@ public class Downloader extends AsyncTaskDialog {
     private DatabaseLoader task2;
     private Convention convention;
 
-    public Downloader(CondroidActivity parent, List<Convention> conventionList) {
+    public Downloader(ProgramActivity parent, List<Convention> conventionList) {
         this.parent = parent;
         this.conventionList = conventionList;
     }
 
-    public Downloader(ProgramActivity programActivity, Convention convention) {
-        this.parent = programActivity;
+    public Downloader(Activity programActivity, Convention convention) {
+        this.parent = (ProgramActivity) programActivity;
         this.convention = convention;
     }
 
@@ -49,7 +50,7 @@ public class Downloader extends AsyncTaskDialog {
     }
 
     @Override
-    public void setParent(CondroidActivity parent) {
+    public void setParent(ProgramActivity parent) {
         super.setParent(parent);    //To change body of overridden methods use File | Settings | File Templates.
         if (task1 != null && !task1.getStatus().equals(AsyncTask.Status.FINISHED)) {
             if (parent == null) {

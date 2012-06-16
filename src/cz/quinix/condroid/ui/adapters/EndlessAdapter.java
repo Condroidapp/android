@@ -1,5 +1,6 @@
 package cz.quinix.condroid.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     private RotateAnimation rotate;
     protected List<Annotation> itemsToAdd;
     protected int totalItems = 0;
-    private CondroidActivity activity;
+    private Activity activity;
     protected DataProvider provider;
 
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
@@ -39,7 +40,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
             "EE dd.MM. HH:mm", new Locale("cs", "CZ"));
 
 
-    public EndlessAdapter(CondroidActivity activity, List<Annotation> items) {
+    public EndlessAdapter(Activity activity, List<Annotation> items) {
         super(new ArrayAdapter<Annotation>(activity,
                 R.layout.annotation_list_item, android.R.id.text1, items));
         this.activity = activity;
@@ -192,7 +193,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         return v;
     }
 
-    public CondroidActivity getActivity() {
+    public Activity getActivity() {
         return this.activity;
     }
 

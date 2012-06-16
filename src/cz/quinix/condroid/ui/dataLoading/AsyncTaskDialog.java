@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
+import cz.quinix.condroid.ui.ProgramActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,10 +14,10 @@ import cz.quinix.condroid.abstracts.CondroidActivity;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class AsyncTaskDialog implements DialogInterface.OnClickListener, AsyncTaskListener {
-    protected CondroidActivity parent;
+    protected ProgramActivity parent;
     protected AsyncTaskDialog subDialog = null;
 
-    public void setParent(CondroidActivity parent) {
+    public void setParent(ProgramActivity parent) {
         this.parent = parent;
         if (subDialog != null) {
             subDialog.setParent(parent);

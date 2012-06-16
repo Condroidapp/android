@@ -3,6 +3,7 @@ package cz.quinix.condroid.abstracts;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.util.List;
 
@@ -55,7 +56,7 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
         return result;
     }
 
-    public void attach(CondroidActivity parent) {
+    public void attach(ProgramActivity parent) {
         this.parentActivity = parent;
         if (listener == null) {
             listener = (AsyncTaskListener) parent;

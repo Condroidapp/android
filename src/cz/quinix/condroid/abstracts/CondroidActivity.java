@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.Date;
 
-public abstract class CondroidActivity extends Activity {
+public abstract class CondroidActivity extends SherlockFragmentActivity {
 
     public static final String PREF_NAME = "condroid";
 
