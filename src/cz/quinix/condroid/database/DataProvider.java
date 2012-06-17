@@ -57,9 +57,8 @@ public class DataProvider {
         if (fullInsert && !mDatabase.isEmpty()) {
             mDatabase.purge();
         }
-        if(!mDatabase.isEmpty()) {
-            programLines = null;
-        }
+        programLines = null;
+
         return new DatabaseLoader(null, mDatabase, con, fullInsert);
     }
 
