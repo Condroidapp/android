@@ -1,0 +1,10 @@
+<resources>
+    <color name="ab_action_green">#ff46be2e</color>
+    <color name="yellow">#ff0000</color>
+    <color name="gray">#808080</color>
+    <color name="lightgray">#d0d0d0</color>
+    <color name="white">#ffffff</color>
+    <color name="cblue">#1E75B8</color>
+    <color name="black">#000000</color>
+    <color name="lightlighgray">#f0f0f0</color>
+</resources>

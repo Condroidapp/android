@@ -28,13 +28,13 @@ public class MakeFavoritedListener implements OnClickListener {
                 activity.getApplicationContext()).doFavorite(
                 annotation.getPid());
         if (v != null) {
-            ImageView favorite = (ImageView) v.findViewById(R.id.iFavorite);
+           /* ImageView favorite = (ImageView) v.findViewById(R.id.iFavorite);
 
             if (favorited) {
                 favorite.setImageResource(R.drawable.star_active);
             } else {
                 favorite.setImageResource(R.drawable.star);
-            }
+            }     */
         }
         ProgramActivity.refreshDataset = true;
     }

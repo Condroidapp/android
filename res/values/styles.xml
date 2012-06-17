@@ -1,0 +1,29 @@
+<resources>
+    <style name="Theme" parent="android:Theme"></style>
+    <style name="Theme.Condroid" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarTabStyle">@style/Theme.Condroid.ActionBarTabs</item>
+        <item name="android:actionBarTabStyle">@style/Theme.Condroid.ActionBarTabs</item>
+
+        <item name="actionBarStyle">@style/Theme.Condroid.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Theme.Condroid.ActionBar</item>
+
+        <!--item name="selectableItemBackground">@drawable/ad_selectable_background</item-->
+        <item name="android:selectableItemBackground">@drawable/ad_selectable_background</item>
+        <item name="actionBarItemBackground">@drawable/ad_selectable_background</item>
+        <item name="android:actionBarItemBackground">@drawable/ad_selectable_background</item>
+
+    </style>
+
+    <style name="Theme.Condroid.ActionBarTabs" parent="Widget.Sherlock.Light.ActionBar.TabView">
+        <item name="background">@drawable/actionbar_tab_bg</item>
+        <item name="android:background">@drawable/actionbar_tab_bg</item>
+    </style>
+    <style name="Theme.Condroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@drawable/gradient_second_line</item>
+        <item name="android:background">@drawable/gradient_second_line</item>
+        <item name="logo">@drawable/logo</item>
+        <item name="android:logo">@drawable/logo</item>
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="android:displayOptions">useLogo|showHome</item>
+    </style>
+</resources>
