@@ -105,7 +105,7 @@ public abstract class CondroidFragment extends SherlockFragment {
                 new ShareProgramListener(this.getActivity()).invoke(an);
                 break;
             case 1:
-                new MakeFavoritedListener(this.getActivity()).invoke(an, null);
+                new MakeFavoritedListener(this.getActivity()).invoke(an);
                 ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
                 break;
             case 2:

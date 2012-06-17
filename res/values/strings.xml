@@ -130,4 +130,5 @@
     <string name="mFilter">Filtrovat</string>
     <string name="mSearch">Hledat</string>
     <string name="mShare">Sdílet</string>
+    <string name="mFavorite">Oblíbené</string>
 </resources>

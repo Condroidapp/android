@@ -20,23 +20,15 @@ public class MakeFavoritedListener implements OnClickListener {
     }
 
     public void onClick(View v) {
-        this.invoke(((ShowAnnotation) activity).getAnnotation(), v);
+        this.invoke(((ShowAnnotation) activity).getAnnotation());
     }
 
-    public void invoke(Annotation annotation, View v) {
+    public boolean invoke(Annotation annotation) {
         boolean favorited = DataProvider.getInstance(
                 activity.getApplicationContext()).doFavorite(
                 annotation.getPid());
-        if (v != null) {
-           /* ImageView favorite = (ImageView) v.findViewById(R.id.iFavorite);
-
-            if (favorited) {
-                favorite.setImageResource(R.drawable.star_active);
-            } else {
-                favorite.setImageResource(R.drawable.star);
-            }     */
-        }
         ProgramActivity.refreshDataset = true;
+        return favorited;
     }
 
 }

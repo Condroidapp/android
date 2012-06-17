@@ -1,15 +1,21 @@
 package cz.quinix.condroid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.ShareActionProvider;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
+import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 
 import java.text.DateFormat;
@@ -28,10 +34,11 @@ public class ShowAnnotation extends CondroidActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataProvider provider = DataProvider.getInstance(getApplicationContext());
         this.annotation = (Annotation) this.getIntent().getSerializableExtra(
                 "annotation");
         this.setContentView(R.layout.annotation);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView title = (TextView) this.findViewById(R.id.annot_title);
         title.setText(this.annotation.getTitle());
@@ -74,14 +81,7 @@ public class ShowAnnotation extends CondroidActivity {
         text.setMovementMethod(new ScrollingMovementMethod());
         ((ImageView) this.findViewById(R.id.iProgramIcon))
                 .setImageResource(annotation.getProgramIcon());
-        ImageView share = (ImageView) this.findViewById(R.id.iShare);
-        share.setOnClickListener(new ShareProgramListener(this));
 
-        ImageView favorite = (ImageView) this.findViewById(R.id.iFavorite);
-        if (provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
-            favorite.setImageResource(R.drawable.star_active);
-        }
-        favorite.setOnClickListener(new MakeFavoritedListener(this));
 
     }
 
@@ -147,5 +147,45 @@ public class ShowAnnotation extends CondroidActivity {
 
     public Annotation getAnnotation() {
         return annotation;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mi = this.getSupportMenuInflater();
+        mi.inflate(R.menu.show_annotation, menu);
+        ShareActionProvider mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.mShare).getActionProvider();
+        mShareActionProvider.setShareIntent(new ShareProgramListener(this).getShareActionIntent(this.annotation));
+
+        if (DataProvider.getInstance(this).getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
+            menu.findItem(R.id.mFavorite).setIcon(R.drawable.ic_action_star_active);
+        }
+
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, ProgramActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            case R.id.mReminder:
+                new SetReminderListener(this).invoke(this.annotation);
+                return true;
+            case R.id.mFavorite:
+                if(new MakeFavoritedListener(this).invoke(this.annotation)) {
+                    item.setIcon(R.drawable.ic_action_star_active);
+                }
+                else {
+                    item.setIcon(R.drawable.ic_action_star);
+                }
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
