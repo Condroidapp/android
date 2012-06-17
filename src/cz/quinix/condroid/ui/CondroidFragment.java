@@ -80,11 +80,15 @@ public abstract class CondroidFragment extends SherlockFragment {
 
     }
 
-    private void initListView() {
+    protected void initListView() {
         if (this.lwMain.getAdapter() == null) {
             //init
             this.lwMain.setAdapter(this.getListViewAdapter());
             this.lwMain.setOnItemClickListener((AdapterView.OnItemClickListener) this.getActivity());
+            if(lwMain.getAdapter().getCount() == 0) {
+                lwMain.setVisibility(View.GONE);
+                this.getView().findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
+            }
             this.registerForContextMenu(lwMain);
         } else {
             ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
