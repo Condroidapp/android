@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
@@ -26,7 +27,7 @@ import java.util.List;
 public class All extends CondroidFragment {
         @Override
     protected EndlessAdapter getListViewAdapter() {
-        return new EndlessAdapter(this.getActivity(), this.loadData(null, 0));
+        return new EndlessAdapter(this.getActivity(), this.loadData(SearchProvider.getSearchQueryBuilder(this.getClass().getName()), 0));
     }
 
     /*public void onCreate(Bundle savedInstanceState) {

@@ -127,4 +127,6 @@
     <string name="updateOrFullDialog">Chcete pouze aktualizovat data pro aktulélně načtenou akci nebo provést kompletní aktualizaci/načíst data jiné akce?</string>
     <string name="full">Kompletně</string>
     <string name="update">Pouze aktualizace</string>
+    <string name="mFilter">Filtrovat</string>
+    <string name="mSearch">Hledat</string>
 </resources>

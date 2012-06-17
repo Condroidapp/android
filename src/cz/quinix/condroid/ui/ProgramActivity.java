@@ -75,6 +75,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         System.setProperty("org.joda.time.DateTimeZone.Provider",
                 "cz.quinix.condroid.FastJodaTimeZoneProvider");
 
+
         provider = DataProvider.getInstance(getApplicationContext());
 
     //    lwMain = (ListView) this.findViewById(R.id.lwMain);
@@ -95,6 +96,13 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
         actionBar.addTab(runningTab);
         actionBar.addTab(allTab);
+
+        if(savedInstanceState != null) {
+            int tab = savedInstanceState.getInt("selected_tab",0);
+            if(tab != actionBar.getSelectedTab().getPosition()) {
+                actionBar.selectTab(actionBar.getTabAt(tab));
+            }
+        }
 
         if (this.dataAvailable()) {
             this.initView();
@@ -123,10 +131,11 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
 
 
-        if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
+        if (TabListener.activeFragment != null && !SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).isEmpty()) {
             applySearch(); //for applying search when screen rotates
         }
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -135,8 +144,8 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     }
 
     private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            SearchProvider.getSearchQueryBuilder(this.getClass().getName()).addParam(intent.getStringExtra(SearchManager.QUERY));
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()) && TabListener.activeFragment != null) {
+            SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).addParam(intent.getStringExtra(SearchManager.QUERY));
             intent.removeExtra(SearchManager.QUERY);
             this.applySearch();
         }
@@ -146,6 +155,12 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         if(TabListener.activeFragment != null) {
             TabListener.activeFragment.applySearch();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("selected_tab",this.getSupportActionBar().getSelectedTab().getPosition());
     }
 
     @Override
@@ -277,7 +292,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
     protected void initListView() {
         findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
-        if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty())
+        if (TabListener.activeFragment != null && !SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).isEmpty())
             findViewById(R.id.tFilterStatus).setVisibility(View.VISIBLE);
     }
 
@@ -370,6 +385,12 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
             case R.id.mSettings:
                 Intent i = new Intent(this, Preferences.class);
                 this.startActivity(i);
+                return true;
+            case R.id.mFilter:
+                new FilterListener(this).invoke();
+                return true;
+            case R.id.mSearch:
+                onSearchRequested();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -25,13 +25,18 @@ public class TabListener implements ActionBar.TabListener {
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        if(fragment.getView() != null && fragment.getView().getParent() != null) {
+            ((ViewGroup) fragment.getView().getParent()).removeView(fragment.getView());
+        }
         ft.replace(R.id.fragment_container, fragment);
         activeFragment = fragment;
     }
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        ((ViewGroup) fragment.getView().getParent()).removeView(fragment.getView());
+        if(fragment.getView() != null) {
+            ((ViewGroup) fragment.getView().getParent()).removeView(fragment.getView());
+        }
         ft.remove(fragment);
     }
 

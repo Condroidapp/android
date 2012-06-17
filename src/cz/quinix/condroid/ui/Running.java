@@ -46,7 +46,7 @@ public class Running extends CondroidFragment {
 
     @Override
     protected EndlessAdapter getListViewAdapter() {
-        return new RunningAdapter(this.loadData(null, 0), this.getActivity());
+        return new RunningAdapter(this.loadData(SearchProvider.getSearchQueryBuilder(this.getClass().getName()), 0), this.getActivity());
     }
 
     protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {

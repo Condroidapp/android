@@ -76,6 +76,7 @@ public abstract class CondroidFragment extends SherlockFragment {
         else {
             ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
         }
+        this.updateSearchField(getActivity());
 
     }
 
@@ -136,7 +137,7 @@ public abstract class CondroidFragment extends SherlockFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.updateSearchField(activity);
+
     }
 
     private void updateSearchField(Activity activity) {

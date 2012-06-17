@@ -30,7 +30,7 @@ public class DisableFilterListener implements View.OnClickListener {
     public void onClick(View view) {
         AlertDialog.Builder ab = new AlertDialog.Builder(activity);
         ab.setTitle(R.string.disableFilter);
-        ab.setItems(R.array.disableFilterBy, new DisableFilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(activity.getClass().getName())));
+        ab.setItems(R.array.disableFilterBy, new DisableFilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName())));
 
         ab.create().show();
     }

@@ -24,7 +24,7 @@ import java.util.*;
  * Time: 21:41
  * To change this template use File | Settings | File Templates.
  */
-public class FilterListener implements View.OnClickListener {
+public class FilterListener {
     private ProgramActivity activity;
 
     public FilterListener(ProgramActivity activity) {
@@ -32,11 +32,10 @@ public class FilterListener implements View.OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View view) {
+    public void invoke() {
         AlertDialog.Builder ab = new AlertDialog.Builder(activity);
         ab.setTitle(R.string.chooseFilter);
-        ab.setItems(R.array.filterBy, new FilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(activity.getClass().getName())));
+        ab.setItems(R.array.filterBy, new FilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName())));
 
         ab.create().show();
     }
