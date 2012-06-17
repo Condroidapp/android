@@ -58,6 +58,7 @@ public class DataProvider {
             mDatabase.purge();
         }
         programLines = null;
+        favorited = null;
 
         return new DatabaseLoader(null, mDatabase, con, fullInsert);
     }
