@@ -144,6 +144,8 @@ public class CondroidDatabase {
         db.execSQL("DROP TABLE " + CON_TABLE);
         db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
         db.execSQL("DROP TABLE " + LINE_TABLE);
+        db.execSQL("DROP TABLE " + FAVORITE_TABLE);
+        db.execSQL("DROP TABLE " + REMINDER_TABLE);
         this.mDatabaseHelper.onCreate(db);
     }
 
