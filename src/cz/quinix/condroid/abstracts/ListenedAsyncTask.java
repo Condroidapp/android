@@ -3,6 +3,7 @@ package cz.quinix.condroid.abstracts;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.widget.Toast;
 import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
     private AsyncTaskListener listener;
     private List<?> result;
     protected ProgressDialog pd;
+    protected Exception backgroundException = null;
 
     public ListenedAsyncTask(AsyncTaskListener listener) {
         this.listener = listener;
@@ -40,6 +42,9 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
         this.result = result;
         if (pd != null) {
             pd.dismiss();
+        }
+        if(backgroundException != null) {
+            Toast.makeText(parentActivity, backgroundException.getMessage(), Toast.LENGTH_LONG).show();
         }
         if (listener != null) {
             listener.onAsyncTaskCompleted(this);

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.util.Log;
 import android.util.Xml;
+import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
@@ -15,6 +16,8 @@ import cz.quinix.condroid.ui.ProgramActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
                 public void onCancel(DialogInterface dialogInterface) {
                     dialogInterface.dismiss();
                     ConventionLoader.this.cancel(true);
-                    if(parentActivity instanceof ProgramActivity) {
+                    if (parentActivity instanceof ProgramActivity) {
                         ((ProgramActivity) parentActivity).stopAsyncTask();
                     }
                 }
@@ -50,26 +53,28 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
         List<Convention> messages = new ArrayList<Convention>();
         XmlPullParser pull = Xml.newPullParser();
         Convention con = null;
-
         try {
-            URL url = new URL(list_url);
-            URLConnection conn = url.openConnection();
-            conn.setRequestProperty("X-Device-Info",Build.MODEL+" ("+Build.PRODUCT+");"+ CondroidActivity.getUniqueDeviceIdentifier(parentActivity));
+            try {
+                URL url = new URL(list_url);
+                URLConnection conn = url.openConnection();
+                conn.setRequestProperty("X-Device-Info", Build.MODEL + " (" + Build.PRODUCT + ");" + CondroidActivity.getUniqueDeviceIdentifier(parentActivity));
 
-            pull.setInput(conn.getInputStream(), null);
-        } catch (Exception ex) {
-            throw new XMLProccessException("Stažení seznamu akcí se nezdařilo.", ex);
-        }
-        int eventType;
-        try {
-            eventType = pull.getEventType();
-        } catch (XmlPullParserException e) {
-            throw new XMLProccessException("Zpracování seznamu akcí se nezdařilo", e);
-        }
+                pull.setInput(conn.getInputStream(), null);
+            } catch (IOException e) {
+                throw new XMLProccessException("Nelze se připojit k datovému zdroji. Jste připojeni k internetu?", e);
+            } catch (Exception ex) {
+                throw new XMLProccessException("Stažení seznamu akcí se nezdařilo.", ex);
 
-        try {
+            }
+            int eventType;
+            try {
+                eventType = pull.getEventType();
+            } catch (XmlPullParserException e) {
+                throw new XMLProccessException("Zpracování seznamu akcí se nezdařilo", e);
+            }
+
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if(this.isCancelled()) {
+                if (this.isCancelled()) {
                     return null;
                 }
                 switch (eventType) {
@@ -126,10 +131,11 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
                 }
                 eventType = pull.next();
             }
+
         } catch (Exception e) {
-            Log.e("Condroid", "Exception when parsing con list XML", e);
-//            Toast.makeText(parentActivity,"Data download failed - "+e.getMessage(),Toast.LENGTH_LONG).show();
-            //throw new XMLProccessException("Zpracování zdroje se nezdařilo.", e);
+            Log.e("Condroid", "Convention list download", e);
+            backgroundException = e;
+            return null;
         }
         return messages;
     }

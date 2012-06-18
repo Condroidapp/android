@@ -53,7 +53,7 @@ public class UpdatesService extends Service {
     private void handleCommand(Intent intent) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ConnectivityManager c = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
-        if (!c.getActiveNetworkInfo().isConnected()) {
+        if (c.getActiveNetworkInfo() == null || !c.getActiveNetworkInfo().isConnected()) {
             this.stopSelf();
             return;
         }
