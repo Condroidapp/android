@@ -110,6 +110,8 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         View row = activity.getLayoutInflater().inflate(R.layout.row, null);
 
         View child = row.findViewById(R.id.throbber);
+        row.setClickable(false);
+        row.setFocusable(false);
         child.startAnimation(rotate);
 
         return (row);

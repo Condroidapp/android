@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.*;
@@ -78,7 +79,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
         provider = DataProvider.getInstance(getApplicationContext());
 
-    //    lwMain = (ListView) this.findViewById(R.id.lwMain);
+
         if (asyncTaskHandler != null) {
             asyncTaskHandler.setParent(this);
         }
@@ -108,18 +109,6 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
             this.initView();
             this.showUpdatesDialog();
         }
-
-       /* ImageButton ibFilter = (ImageButton) this.findViewById(R.id.ibFilter);
-        ibFilter.setOnClickListener(new FilterListener(this));
-
-        ImageButton ibSearch = (ImageButton) this.findViewById(R.id.ibSearch);
-        ibSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ProgramActivity.this.onSearchRequested();
-            }
-        });    */
-
 
         TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatus);
         tFilterAll.setOnClickListener(new DisableFilterListener(this));
@@ -308,8 +297,10 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         }
         //SearchProvider.getSearchQueryBuilders().clear(); why is this in here?!
 
-        refreshDataset = true;
-        this.onResume();
+        if(refreshRegistry != null) {
+            refreshRegistry.performRefresh();
+            refreshDataset = false;
+        }
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
         if(!sp.getBoolean("con_specific_message", false)) {
@@ -348,6 +339,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        try{
         if (adapterView instanceof ListView) {
             Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
             if (!selected.getTitle().startsWith("break")) {
@@ -356,6 +348,9 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
                 intent.putExtra("annotation", selected);
                 this.startActivity(intent);
             }
+        }
+        } catch (IndexOutOfBoundsException e) {
+            Log.e("Condroid","",e);
         }
     }
 
