@@ -3,8 +3,8 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/mData_reload" android:title="@string/mReload" android:icon="@drawable/ic_menu_refresh"></item>
     <item android:id="@+id/mReminderList" android:title="@string/mReminder" android:icon="@drawable/ic_menu_reminder" android:visible="true"></item>
-    <item android:id="@+id/mFilter" android:title="@string/mFilter" android:icon="@drawable/filter_small" android:showAsAction="always"></item>
-    <item android:id="@+id/mSearch" android:title="@string/mSearch" android:icon="@drawable/search_small" android:showAsAction="always"></item>
+    <item android:id="@+id/mFilter" android:title="@string/mFilter" android:icon="@drawable/filter_small" android:showAsAction="ifRoom|withText"></item>
+    <item android:id="@+id/mSearch" android:title="@string/mSearch" android:icon="@drawable/search_small" android:showAsAction="ifRoom|withText"></item>
 
 
     <item android:id="@+id/mSettings" android:title="@string/mSettings" android:icon="@android:drawable/ic_menu_preferences"></item>
