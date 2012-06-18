@@ -1,9 +1,7 @@
 package cz.quinix.condroid.ui.listeners;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.ui.CondroidFragment;
@@ -25,7 +23,7 @@ public class TabListener implements ActionBar.TabListener {
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        if(fragment.getView() != null && fragment.getView().getParent() != null) {
+        if (fragment.getView() != null && fragment.getView().getParent() != null) {
             ((ViewGroup) fragment.getView().getParent()).removeView(fragment.getView());
         }
         ft.replace(R.id.fragment_container, fragment);
@@ -34,7 +32,7 @@ public class TabListener implements ActionBar.TabListener {
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        if(fragment.getView() != null) {
+        if (fragment.getView() != null) {
             ((ViewGroup) fragment.getView().getParent()).removeView(fragment.getView());
         }
         ft.remove(fragment);

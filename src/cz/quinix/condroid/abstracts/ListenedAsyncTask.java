@@ -43,7 +43,7 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
         if (pd != null) {
             pd.dismiss();
         }
-        if(backgroundException != null) {
+        if (backgroundException != null) {
             Toast.makeText(parentActivity, backgroundException.getMessage(), Toast.LENGTH_LONG).show();
         }
         if (listener != null) {

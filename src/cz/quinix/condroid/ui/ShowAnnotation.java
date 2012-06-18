@@ -47,7 +47,7 @@ public class ShowAnnotation extends CondroidActivity {
         author.setText(this.annotation.getAuthor());
 
         TextView pid = (TextView) this.findViewById(R.id.annot_pid);
-        pid.setText(""+this.annotation.getPid());
+        pid.setText("" + this.annotation.getPid());
 
         String date = "";
         if (annotation.getStartTime() != null
@@ -176,10 +176,9 @@ public class ShowAnnotation extends CondroidActivity {
                 new SetReminderListener(this).invoke(this.annotation);
                 return true;
             case R.id.mFavorite:
-                if(new MakeFavoritedListener(this).invoke(this.annotation)) {
+                if (new MakeFavoritedListener(this).invoke(this.annotation)) {
                     item.setIcon(R.drawable.ic_action_star_active);
-                }
-                else {
+                } else {
                     item.setIcon(R.drawable.ic_action_star);
                 }
                 return true;

@@ -2,7 +2,6 @@ package cz.quinix.condroid.database;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,12 +12,9 @@ import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
-import cz.quinix.condroid.ui.ProgramActivity;
-
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
@@ -36,7 +32,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
     @Override
     protected void onPostExecute(List<?> result) {
-        if(this.fullInsert) {
+        if (this.fullInsert) {
             SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(parentActivity).edit();
             e.remove("con_specific_message");
             e.commit();
@@ -87,9 +83,9 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
             db.replace("cons", null, con.getContentValues());
 
             HashMap<String, Integer> lines = new HashMap<String, Integer>();
-            if(!fullInsert) {
+            if (!fullInsert) {
                 HashMap<Integer, String> l = DataProvider.getInstance(null).getProgramLines();
-                for (Integer i: l.keySet()) {
+                for (Integer i : l.keySet()) {
                     lines.put(l.get(i), i);
                 }
             }
@@ -105,7 +101,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
                     }
                     this.publishProgress(counter++);
                     annotation.setLid(lines.get(annotation.getProgramLine()));
-                    if(this.isCancelled()) {
+                    if (this.isCancelled()) {
                         Log.d("Condroid", "Premature end");
                         db.endTransaction();
                         return null;
@@ -117,7 +113,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
                     cv.put("cid", con.getCid());
                     db.replaceOrThrow("annotations", null, cv);
                     this.publishProgress(counter++);
-                    if(this.isCancelled()) {
+                    if (this.isCancelled()) {
                         Log.d("Condroid", "Premature end 2");
                         db.endTransaction();
                         return null;

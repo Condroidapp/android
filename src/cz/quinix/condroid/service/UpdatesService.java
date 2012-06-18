@@ -76,8 +76,8 @@ public class UpdatesService extends Service {
             SimpleDateFormat internationalFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
 
             head.setHeader("If-Modified-Since", internationalFormat.format(convention.getLastUpdate())); //if new/updates
-            head.setHeader("X-If-Count-Not-Match", ""+DataProvider.getInstance(this).getAnnotationsCount()); //if deletes
-            head.setHeader("X-Device-Info", Build.MODEL+" ("+Build.PRODUCT+");"+ CondroidActivity.getUniqueDeviceIdentifier(this));
+            head.setHeader("X-If-Count-Not-Match", "" + DataProvider.getInstance(this).getAnnotationsCount()); //if deletes
+            head.setHeader("X-Device-Info", Build.MODEL + " (" + Build.PRODUCT + ");" + CondroidActivity.getUniqueDeviceIdentifier(this));
             SharedPreferences.Editor editor = preferences.edit();
 
             try {

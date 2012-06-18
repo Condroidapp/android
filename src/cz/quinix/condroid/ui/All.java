@@ -1,14 +1,5 @@
 package cz.quinix.condroid.ui;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import com.actionbarsherlock.app.SherlockFragment;
-import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
@@ -25,7 +16,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class All extends CondroidFragment {
-        @Override
+    @Override
     protected EndlessAdapter getListViewAdapter() {
         return new EndlessAdapter(this.getActivity(), this.loadData(SearchProvider.getSearchQueryBuilder(this.getClass().getName()), 0));
     }

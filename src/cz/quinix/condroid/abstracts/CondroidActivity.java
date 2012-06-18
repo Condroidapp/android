@@ -1,13 +1,11 @@
 package cz.quinix.condroid.abstracts;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.Date;
@@ -18,10 +16,10 @@ public abstract class CondroidActivity extends SherlockFragmentActivity {
 
 
     public static String getUniqueDeviceIdentifier(Context context) {
-        if(Build.VERSION.SDK_INT < 9) {
+        if (Build.VERSION.SDK_INT < 9) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-            String ident = "pre-9-"+ Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)+"-"+(new Date().toGMTString());
-            if(sp.getString("device_id",ident) == ident) {
+            String ident = "pre-9-" + Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID) + "-" + (new Date().toGMTString());
+            if (sp.getString("device_id", ident) == ident) {
                 SharedPreferences.Editor e = sp.edit();
                 e.putString("device_id", ident);
                 e.commit();

@@ -1,17 +1,11 @@
 package cz.quinix.condroid.model;
 
 import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import cz.quinix.condroid.abstracts.DBInsertable;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 
 public class Convention implements Serializable, DBInsertable {
@@ -45,14 +39,6 @@ public class Convention implements Serializable, DBInsertable {
         return cid;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public String getIconUrl() {
-        return iconUrl;
-    }
-
     public void setLastUpdate(Date lastUpdate1) {
         lastUpdate = lastUpdate1;
     }
@@ -77,30 +63,8 @@ public class Convention implements Serializable, DBInsertable {
         this.iconUrl = iconUrl.trim();
     }
 
-
-    public Bitmap getImage() {
-        Bitmap bitmap = null;
-        if (iconUrl != null) {
-            InputStream io;
-            try {
-                io = (InputStream) new URL(this.iconUrl).getContent();
-                bitmap = BitmapFactory.decodeStream(io);
-
-
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        }
-        return bitmap;
-    }
-
     public String getDataUrl() {
-        return dataURL+this.cid;
+        return dataURL + this.cid;
     }
 
     public void setDataUrl(String url) {
@@ -127,10 +91,6 @@ public class Convention implements Serializable, DBInsertable {
 
     public void setLocationsFile(String file) {
         this.locationsFile = file;
-    }
-
-    public String getLocationsFile() {
-        return locationsFile;
     }
 
     public void setHasTimetable(boolean b) {

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -60,11 +59,11 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
     private void displayLastRun() {
         Preference lastUpdate = findPreference("last_update");
-        long time = sp.getLong("last_update", 0);;
-        if(time == 0) {
+        long time = sp.getLong("last_update", 0);
+        ;
+        if (time == 0) {
             lastUpdate.setSummary("zatím neproběhla");
-        }
-        else {
+        } else {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
             lastUpdate.setSummary(formatter.format(new Date(time)));
         }
@@ -80,17 +79,17 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         long interval;
         interval = Integer.parseInt(preferences.getString("update_check_period", "60"));
-        if(!preferences.contains("last_update")) {
+        if (!preferences.contains("last_update")) {
             SharedPreferences.Editor e = preferences.edit();
-            e.putLong("last_update", System.currentTimeMillis()-(interval-1)*60*1000);
+            e.putLong("last_update", System.currentTimeMillis() - (interval - 1) * 60 * 1000);
             e.commit();
         }
 
-        long time = interval*60 * 1000 + preferences.getLong("last_update", System.currentTimeMillis());
+        long time = interval * 60 * 1000 + preferences.getLong("last_update", System.currentTimeMillis());
 
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context, UpdatesService.class), 0);
 
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, time, interval*60*1000, pendingIntent);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, time, interval * 60 * 1000, pendingIntent);
         Log.d("Condroid", "Update service planned. It will start at " + (new Date(time)));
     }
 

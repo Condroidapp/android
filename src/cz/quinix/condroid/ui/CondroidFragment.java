@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -17,7 +16,6 @@ import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
-import cz.quinix.condroid.ui.adapters.RunningAdapter;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
@@ -53,10 +51,9 @@ public abstract class CondroidFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(view == null) {
+        if (view == null) {
             view = inflater.inflate(R.layout.list_view, container, false);
-        }
-        else {
+        } else {
 
         }
         return view;
@@ -69,11 +66,10 @@ public abstract class CondroidFragment extends SherlockFragment {
     @Override
     public void onStart() {
         super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
-        if(lwMain == null) {
+        if (lwMain == null) {
             lwMain = (ListView) this.getView().findViewById(R.id.lwMain);
             initListView();
-        }
-        else {
+        } else {
             ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
         }
         this.updateSearchField(getActivity());
@@ -85,7 +81,7 @@ public abstract class CondroidFragment extends SherlockFragment {
             //init
             this.lwMain.setAdapter(this.getListViewAdapter());
             this.lwMain.setOnItemClickListener((AdapterView.OnItemClickListener) this.getActivity());
-            if(lwMain.getAdapter().getCount() == 0) {
+            if (lwMain.getAdapter().getCount() == 0) {
                 lwMain.setVisibility(View.GONE);
                 this.getView().findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
             }
@@ -138,40 +134,33 @@ public abstract class CondroidFragment extends SherlockFragment {
 
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-    }
-
     private void updateSearchField(Activity activity) {
-        if(activity != null) {
+        if (activity != null) {
             SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
             TextView tw = (TextView) activity.findViewById(R.id.tFilterStatus);
-            if(!sb.isEmpty()) {
+            if (!sb.isEmpty()) {
                 tw.setVisibility(View.VISIBLE);
                 tw.setText(sb.getReadableCondition());
-            }
-            else {
+            } else {
                 tw.setVisibility(View.GONE);
             }
         }
     }
 
     public void applySearch() {
-        if(lwMain == null) {
+        if (lwMain == null) {
             return; //not initiated - fuck off
         }
         SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
         List<Annotation> i = this.loadData(sb, 0);
-        if(this.getActivity() != null) {
+        if (this.getActivity() != null) {
             this.updateSearchField(getActivity());
         }
 
         ((EndlessAdapter) lwMain.getAdapter()).setItems(i, true);
         lwMain.setSelection(0);
         lwMain.setVisibility(View.VISIBLE);
-        if(i.size() == 0) {
+        if (i.size() == 0) {
             lwMain.setVisibility(View.GONE);
             this.getView().findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
         } else {

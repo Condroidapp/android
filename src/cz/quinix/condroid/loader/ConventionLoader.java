@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.util.Log;
 import android.util.Xml;
-import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
@@ -17,7 +16,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;

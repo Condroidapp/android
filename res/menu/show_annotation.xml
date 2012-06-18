@@ -5,6 +5,6 @@
           android:icon="@drawable/ic_action_share"
           android:showAsAction="always|withText"
             android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider"></item>
-    <item android:id="@+id/mReminder" android:title="@string/mReminder" android:icon="@drawable/ic_menu_reminder_small" android:showAsAction="always|withText"></item>
-    <item android:id="@+id/mFavorite" android:title="@string/mFavorite" android:icon="@drawable/ic_action_star" android:showAsAction="always|withText"></item>
+    <item android:id="@+id/mReminder" android:title="@string/mReminder" android:icon="@drawable/ic_menu_reminder_small" android:showAsAction="ifRoom|withText"></item>
+    <item android:id="@+id/mFavorite" android:title="@string/mFavorite" android:icon="@drawable/ic_action_star" android:showAsAction="ifRoom|withText"></item>
 </menu>

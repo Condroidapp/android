@@ -3,7 +3,6 @@ package cz.quinix.condroid.ui.dataLoading;
 import android.app.Activity;
 import android.content.DialogInterface;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
-import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.ui.ProgramActivity;
 
 /**

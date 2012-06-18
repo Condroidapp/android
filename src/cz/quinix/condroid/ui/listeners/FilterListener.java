@@ -2,7 +2,6 @@ package cz.quinix.condroid.ui.listeners;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.View;
 import android.widget.Toast;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.ICondition;

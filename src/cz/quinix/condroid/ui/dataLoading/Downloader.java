@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
-import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
@@ -42,7 +41,7 @@ public class Downloader extends AsyncTaskDialog {
     }
 
     public void onClick(DialogInterface dialogInterface, int i) {
-        if(conventionList != null) {
+        if (conventionList != null) {
             DataProvider.getInstance(parent).setConvention(conventionList.get(i));
             convention = conventionList.get(i);
         }
@@ -73,11 +72,10 @@ public class Downloader extends AsyncTaskDialog {
 
         if (task.hasResult()) {
             List<?> list = task.getResult();
-            if(list.size() == 0 && ((DataLoader) task).getResultCode() != -1) {
+            if (list.size() == 0 && ((DataLoader) task).getResultCode() != -1) {
                 Toast.makeText(parent, "Nejsou k dispozici žádné aktualizace.", Toast.LENGTH_LONG).show();
                 ((AsyncTaskListener) parent).onAsyncTaskCompleted(task);
-            }
-            else if (list != null) {
+            } else if (list != null) {
                 task2 = DataProvider.getInstance(parent).prepareInsert(conventionList != null || (task instanceof DataLoader && ((DataLoader) task).getResultCode() == 2));
                 task2.setListener((AsyncTaskListener) parent);
                 task2.execute(list);
@@ -88,7 +86,7 @@ public class Downloader extends AsyncTaskDialog {
     public void invoke() {
         String lastUpdate = null;
 
-        if(conventionList == null) {
+        if (conventionList == null) {
             SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
             lastUpdate = format.format(convention.getLastUpdate());
         }

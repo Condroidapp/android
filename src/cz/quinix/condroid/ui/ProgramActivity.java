@@ -2,43 +2,37 @@ package cz.quinix.condroid.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
-import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
-import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.ConventionList;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
-import cz.quinix.condroid.ui.listeners.*;
+import cz.quinix.condroid.ui.listeners.DisableFilterListener;
+import cz.quinix.condroid.ui.listeners.FilterListener;
+import cz.quinix.condroid.ui.listeners.TabListener;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -49,22 +43,9 @@ import java.util.List;
  */
 public class ProgramActivity extends SherlockFragmentActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
 
-    public static final String TAG = "Condroid";
-    //public static final String SCREEN_RUNNING = "running";
-    //public static final String SCREEN_ALL = "all";
-    public static final String SCREEN_TW = "TW";
-
     protected DataProvider provider;
- //   protected ListView lwMain = null;
-    //protected ListView lwAll = null;
-    private ListenedAsyncTask task = null;
-    private boolean animateOnResult = false;
+
     private Date onResumeTime = null;
-
-    //private View openedContextMenu;
-
-
-    //private String screen = ProgramActivity.SCREEN_RUNNING;
     public static boolean refreshDataset = false;
     private static AsyncTaskDialog asyncTaskHandler;
     private static CondroidFragment.RefreshRegistry refreshRegistry;
@@ -98,9 +79,9 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         actionBar.addTab(runningTab);
         actionBar.addTab(allTab);
 
-        if(savedInstanceState != null) {
-            int tab = savedInstanceState.getInt("selected_tab",0);
-            if(tab != actionBar.getSelectedTab().getPosition()) {
+        if (savedInstanceState != null) {
+            int tab = savedInstanceState.getInt("selected_tab", 0);
+            if (tab != actionBar.getSelectedTab().getPosition()) {
                 actionBar.selectTab(actionBar.getTabAt(tab));
             }
         }
@@ -113,11 +94,10 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatus);
         tFilterAll.setOnClickListener(new DisableFilterListener(this));
 
-        if(refreshRegistry == null) {
+        if (refreshRegistry == null) {
             refreshRegistry = CondroidFragment.getRefreshRegistry();
         }
-
-
+        Preferences.planUpdateService(this);
 
 
         if (TabListener.activeFragment != null && !SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).isEmpty()) {
@@ -141,7 +121,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     }
 
     public void applySearch() {
-        if(TabListener.activeFragment != null) {
+        if (TabListener.activeFragment != null) {
             TabListener.activeFragment.applySearch();
         }
     }
@@ -149,15 +129,15 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("selected_tab",this.getSupportActionBar().getSelectedTab().getPosition());
+        outState.putInt("selected_tab", this.getSupportActionBar().getSelectedTab().getPosition());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Date now = new Date();
-        if(!refreshDataset && onResumeTime != null &&
-                (now.getHours() != onResumeTime.getHours() || now.getTime()-onResumeTime.getTime() > 5*60*1000)) {
+        if (!refreshDataset && onResumeTime != null &&
+                (now.getHours() != onResumeTime.getHours() || now.getTime() - onResumeTime.getTime() > 5 * 60 * 1000)) {
             //onPause-onResume interval was more than 5 minutes or hour changed
             refreshDataset = true;
         }
@@ -178,7 +158,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(asyncTaskHandler != null) {
+        if (asyncTaskHandler != null) {
             asyncTaskHandler.setParent(null);
         }
     }
@@ -202,7 +182,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
                     asyncTaskHandler = new Downloader(ProgramActivity.this, provider.getCon());
-                    ((Downloader)asyncTaskHandler).invoke();
+                    ((Downloader) asyncTaskHandler).invoke();
                 }
             });
             ab.setCancelable(true);
@@ -233,7 +213,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     private void loadData(boolean forceFull) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        if(provider.hasData() && !forceFull) {
+        if (provider.hasData() && !forceFull) {
             asyncTaskHandler = new Downloader(this, provider.getCon());
             builder.setMessage(R.string.updateOrFullDialog)
                     .setNegativeButton(R.string.full, new DialogInterface.OnClickListener() {
@@ -244,29 +224,28 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
                         }
                     })
                     .setPositiveButton(R.string.update, asyncTaskHandler);
-        }
-        else {
+        } else {
 
 
             asyncTaskHandler = new ConventionList(this);
             builder.setMessage(R.string.downloadDialog)
                     .setCancelable(false)
-                .setPositiveButton(R.string.yes, asyncTaskHandler)
-                .setNegativeButton(R.string.no,
-                        new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.yes, asyncTaskHandler)
+                    .setNegativeButton(R.string.no,
+                            new DialogInterface.OnClickListener() {
 
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                dialog.cancel();
-                                if (!provider.hasData()) {
-                                    Toast.makeText(
-                                            ProgramActivity.this,
-                                            "Condroid nemá data se kterými by mohl pracovat, proto se nyní ukončí.",
-                                            Toast.LENGTH_LONG).show();
-                                    ProgramActivity.this.finish();
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    dialog.cancel();
+                                    if (!provider.hasData()) {
+                                        Toast.makeText(
+                                                ProgramActivity.this,
+                                                "Condroid nemá data se kterými by mohl pracovat, proto se nyní ukončí.",
+                                                Toast.LENGTH_LONG).show();
+                                        ProgramActivity.this.finish();
+                                    }
                                 }
-                            }
-                        });
+                            });
 
 
         }
@@ -297,14 +276,14 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         }
         //SearchProvider.getSearchQueryBuilders().clear(); why is this in here?!
 
-        if(refreshRegistry != null) {
+        if (refreshRegistry != null) {
             refreshRegistry.performRefresh();
             refreshDataset = false;
         }
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
-        if(!sp.getBoolean("con_specific_message", false)) {
-            if(!provider.getCon().getMessage().equals("")) {
+        if (!sp.getBoolean("con_specific_message", false)) {
+            if (!provider.getCon().getMessage().equals("")) {
                 AlertDialog.Builder ab = new AlertDialog.Builder(this);
                 ab.setTitle(provider.getCon().getName());
                 ab.setMessage(provider.getCon().getMessage());
@@ -339,18 +318,17 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        try{
-        if (adapterView instanceof ListView) {
-            Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
-            if (!selected.getTitle().startsWith("break")) {
-                this.animateOnResult = true;
-                Intent intent = new Intent(this, ShowAnnotation.class);
-                intent.putExtra("annotation", selected);
-                this.startActivity(intent);
+        try {
+            if (adapterView instanceof ListView) {
+                Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
+                if (!selected.getTitle().startsWith("break")) {
+                    Intent intent = new Intent(this, ShowAnnotation.class);
+                    intent.putExtra("annotation", selected);
+                    this.startActivity(intent);
+                }
             }
-        }
         } catch (IndexOutOfBoundsException e) {
-            Log.e("Condroid","",e);
+            Log.e("Condroid", "", e);
         }
     }
 
@@ -393,7 +371,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     }
 
     public void stopAsyncTask() {
-        if(asyncTaskHandler != null) {
+        if (asyncTaskHandler != null) {
             asyncTaskHandler = null;
         }
     }

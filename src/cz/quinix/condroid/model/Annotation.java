@@ -20,7 +20,6 @@ public class Annotation implements Serializable, DBInsertable {
     private int pid;
     private String talker;
     private String title;
-    private String length;
     private String mainType;
     private String additonalTypes = "";
     private String programLine;
@@ -30,8 +29,6 @@ public class Annotation implements Serializable, DBInsertable {
     private String location;
     public static DateTimeFormatter dateISOFormatter = ISODateTimeFormat
             .dateTimeNoMillis();
-    public static DateTimeFormatter lameISOFormatter = DateTimeFormat
-            .forPattern("yyyy-MM-dd'T'HH:mmZZ");
     public static DateTimeFormatter dateSQLFormatter = DateTimeFormat
             .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
     private int lid;
@@ -97,10 +94,6 @@ public class Annotation implements Serializable, DBInsertable {
         return title;
     }
 
-    public String getLength() {
-        return length;
-    }
-
     public String getType() {
         return mainType;
     }
@@ -149,10 +142,6 @@ public class Annotation implements Serializable, DBInsertable {
 
     public String getAnnotation() {
         return annotation;
-    }
-
-    public void setPid(int pid) {
-        this.pid = pid;
     }
 
     public void setPid(String pid) {

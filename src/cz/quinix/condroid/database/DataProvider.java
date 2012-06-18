@@ -14,7 +14,10 @@ import org.joda.time.format.DateTimeFormatter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class DataProvider {
 
@@ -136,9 +139,6 @@ public class DataProvider {
         return map;
     }
 
-    public List<Annotation> getRunningAndNext(int page) {
-        return this.getRunningAndNext(null, page);
-    }
 
     public List<Annotation> getRunningAndNext(SearchQueryBuilder sb, int skip) {
         List<Annotation> l = new ArrayList<Annotation>();
@@ -147,17 +147,6 @@ public class DataProvider {
             condition = sb.buildCondition();
         }
 
-        if (condition != null) {
-            /*List<Integer> f = this.getFavorited();
-            if (f.size() > 0) {
-                for (Integer integer : f) {
-                    favoritedcondition += integer + ",";
-                }
-                favoritedcondition = " AND pid IN (" + favoritedcondition.substring(0, favoritedcondition.length() - 1) + ")";
-            } else {
-                throw new IllegalStateException("No favorited");
-            } */
-        }
         if (skip == 0) {
             Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime DESC", null, false);
             while (c.moveToNext()) {
