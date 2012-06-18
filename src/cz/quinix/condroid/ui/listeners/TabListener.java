@@ -42,6 +42,6 @@ public class TabListener implements ActionBar.TabListener {
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        Toast.makeText(fragment.getActivity(), "Reselected "+fragment.getClass().getName(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(fragment.getActivity(), "Reselected "+fragment.getClass().getName(), Toast.LENGTH_LONG).show();
     }
 }
