@@ -31,8 +31,8 @@
             android:focusable="true"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="3dp"
-                android:visibility="gone"/>
+            android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="5dp"
+                android:visibility="gone" android:drawableRight="@drawable/delete_icon" android:textSize="15dp"/>
 
         <LinearLayout android:id="@+id/fragment_container" android:layout_height="match_parent" android:layout_width="match_parent" />
 
