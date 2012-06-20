@@ -106,7 +106,9 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
                     conn.setRequestProperty("X-If-Count-Not-Match", params[2]);
                 }
                 InputStream is = conn.getInputStream();
-
+                if(conn.getHeaderField("Content-Type") == null || !conn.getHeaderField("Content-Type").contains("text/xml")) {
+                    throw new IOException();
+                }
                 try {
                     int s = Integer.parseInt(conn.getHeaderField("Content-Length"));
                     if (s < 150) {

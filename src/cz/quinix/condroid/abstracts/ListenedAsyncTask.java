@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import cz.quinix.condroid.XMLProccessException;
 import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
             pd.dismiss();
         }
         if (backgroundException != null) {
-            Toast.makeText(parentActivity, backgroundException.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(parentActivity, (backgroundException instanceof XMLProccessException)?backgroundException.getMessage():"Během zpracování došlo k neočekávané chybě. Zkuste akci opakovat později, pokud problém přetrvá, kontaktujte autora volbou feedback.", Toast.LENGTH_LONG).show();
         }
         if (listener != null) {
             listener.onAsyncTaskCompleted(this);
