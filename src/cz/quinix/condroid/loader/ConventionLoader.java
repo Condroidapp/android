@@ -56,7 +56,7 @@ public class ConventionLoader extends ListenedAsyncTask<Void, Void> {
             try {
                 URL url = new URL(list_url);
                 URLConnection conn = url.openConnection();
-                conn.setRequestProperty("X-Device-Info", Build.MODEL + " (" + Build.PRODUCT + ");" + CondroidActivity.getUniqueDeviceIdentifier(parentActivity));
+                conn.setRequestProperty("X-Device-Info", CondroidActivity.getDeviceInfoString(parentActivity));
                 InputStream is = conn.getInputStream();
                 if(conn.getHeaderField("Content-Type") == null || !conn.getHeaderField("Content-Type").contains("text/xml")) {
                     throw new IOException();

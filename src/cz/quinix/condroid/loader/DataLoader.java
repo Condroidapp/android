@@ -100,7 +100,7 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("X-Device-Info", Build.MODEL + " (" + Build.PRODUCT + ");" + CondroidActivity.getUniqueDeviceIdentifier(parentActivity));
+                conn.setRequestProperty("X-Device-Info:",CondroidActivity.getDeviceInfoString(parentActivity));
                 if (params.length > 1 && params[1] != null) {
                     conn.setRequestProperty("If-Modified-Since", params[1]);
                     conn.setRequestProperty("X-If-Count-Not-Match", params[2]);

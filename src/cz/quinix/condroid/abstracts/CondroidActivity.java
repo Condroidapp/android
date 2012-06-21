@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.util.Log;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ public abstract class CondroidActivity extends SherlockFragmentActivity {
     public static final String PREF_NAME = "condroid";
 
 
-    public static String getUniqueDeviceIdentifier(Context context) {
+    private static String getUniqueDeviceIdentifier(Context context) {
         if (Build.VERSION.SDK_INT < 9) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
             String ident = "pre-9-" + Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID) + "-" + (new Date().toGMTString());
@@ -28,5 +29,9 @@ public abstract class CondroidActivity extends SherlockFragmentActivity {
         } else {
             return Build.SERIAL;
         }
+    }
+
+    public static String getDeviceInfoString(Context context) {
+        return Build.MODEL + " (" + Build.PRODUCT + ");" + getUniqueDeviceIdentifier(context) + ";Android "+Build.VERSION.RELEASE+" (API"+Build.VERSION.SDK_INT+")";
     }
 }
