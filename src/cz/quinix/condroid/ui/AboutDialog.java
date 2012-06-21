@@ -7,30 +7,48 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import cz.quinix.condroid.R;
 
-public class AboutDialog extends AlertDialog {
+public class AboutDialog {
 
+    private Context context;
 
     protected AboutDialog(Context context) {
-        super(context);
+        this.context = context;
+        AlertDialog.Builder ab = null;
+        if (Build.VERSION.SDK_INT > 10) {
+            ab = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+        } else {
+            ab = new AlertDialog.Builder(context);
+        }
 
         View v = LayoutInflater.from(context).inflate(R.layout.about_dialog, null);
-        this.setTitle(R.string.appNameAbout);
-        this.setView(v);
-        this.setButton(BUTTON1, "OK", new OkListener());
-        this.setButton(BUTTON2, "Přispět", new DonateListener());
-        this.setButton(BUTTON3, "Feedback", new FeedbackListener());
+        ab.setTitle(R.string.appNameAbout);
+
+
+        ab.setPositiveButton("OK", new OkListener());
+        ab.setNeutralButton("Přispět", new DonateListener());
+        ab.setNegativeButton("Feedback", new FeedbackListener());
         ImageView follow = ((ImageView) v.findViewById(R.id.iFollow));
         follow.setOnClickListener(new FollowListener());
-        this.setIcon(R.drawable.icon);
+        ab.setIcon(R.drawable.icon);
+
+        ab.setView(v);
+
+        ab.show();
+
     }
 
-    class OkListener implements OnClickListener {
+    public Context getContext() {
+        return context;
+    }
+
+    class OkListener implements DialogInterface.OnClickListener {
 
         public void onClick(DialogInterface dialog, int which) {
             SharedPreferences pr = PreferenceManager.getDefaultSharedPreferences(AboutDialog.this.getContext());
@@ -41,7 +59,7 @@ public class AboutDialog extends AlertDialog {
 
     }
 
-    class FeedbackListener implements OnClickListener {
+    class FeedbackListener implements DialogInterface.OnClickListener {
 
         public void onClick(DialogInterface dialog, int which) {
             /* Create the Intent */
@@ -54,12 +72,12 @@ public class AboutDialog extends AlertDialog {
             //emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
 
             /* Send it off to the Activity-Chooser */
-            getContext().startActivity(Intent.createChooser(emailIntent, "Poslat e-mail"));
+            getContext().startActivity(emailIntent);
         }
 
     }
 
-    class DonateListener implements OnClickListener {
+    class DonateListener implements DialogInterface.OnClickListener {
 
         public void onClick(DialogInterface dialog, int which) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
