@@ -8,7 +8,7 @@
     <string name="loading">Načítám...</string>
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
-    <string name="tAboutName">Condroid v3.0</string>
+    <string name="tAboutName">Condroid 3.0.1</string>
     <string name="tAboutCopyright">&#169; 2011-2012\nJan &#8211;Quinix&#8211; Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
@@ -50,7 +50,7 @@
         <item>Přidat/odebrat z oblíbených</item>
         <item>Nastavit upozornění</item>
     </string-array>
-    <string name="about">- Verze: 3.0</string>
+    <string name="about">- Verze: 3.0.1</string>
     <string name="versionNews">Novinky v této verzi</string>
     <string name="versionNewsText">* upozornění na program\n* nový design\n* optimalizace pro ICS\n* automatická kontrola aktuálnosti dat\n* rozdílové aktualizace\n* sjednoceno chování zobrazení všech a aktuálních programů\n* opravy chyb</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
