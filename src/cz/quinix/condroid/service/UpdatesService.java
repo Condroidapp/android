@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -59,12 +59,25 @@ public class UpdatesService extends Service {
         }
 
         if (preferences.getBoolean("update_check", false) && !preferences.getBoolean("updates_found", false)) {
+            new ServiceAsync().execute();
+        } else {
+            Preferences.stopUpdateService(this);
+            this.stopSelf();
+            return;
+        }
+    }
+
+    private class ServiceAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
             Log.d("Condroid", "Update service active");
-            Convention convention = DataProvider.getInstance(this).getCon();
+            Convention convention = DataProvider.getInstance(UpdatesService.this).getCon();
             if (convention == null || convention.getCid() < 1) {
-                Preferences.stopUpdateService(this);
+                Preferences.stopUpdateService(UpdatesService.this);
                 stopSelf();
-                return;
+                return null;
             }
             HttpClient client = new DefaultHttpClient();
             HttpHead head = new HttpHead();
@@ -76,9 +89,9 @@ public class UpdatesService extends Service {
             SimpleDateFormat internationalFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
 
             head.setHeader("If-Modified-Since", internationalFormat.format(convention.getLastUpdate())); //if new/updates
-            head.setHeader("X-If-Count-Not-Match", "" + DataProvider.getInstance(this).getAnnotationsCount()); //if deletes
-            head.setHeader("X-Device-Info", CondroidActivity.getDeviceInfoString(this));
-            SharedPreferences.Editor editor = preferences.edit();
+            head.setHeader("X-If-Count-Not-Match", "" + DataProvider.getInstance(UpdatesService.this).getAnnotationsCount()); //if deletes
+            head.setHeader("X-Device-Info", CondroidActivity.getDeviceInfoString(UpdatesService.this));
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(UpdatesService.this).edit();
 
             try {
                 Log.d("Condroid", "Executing HEAD request");
@@ -92,7 +105,7 @@ public class UpdatesService extends Service {
                     } catch (NullPointerException e) {
                         editor.putLong("updates_found_time", new Date().getTime());
                     }
-                    Preferences.stopUpdateService(this);
+                    Preferences.stopUpdateService(UpdatesService.this);
                     Log.d("Condroid", "Found updates, stopping myself");
                 }
                 Log.d("Condroid", "HTTP Code " + response.getStatusLine().getStatusCode());
@@ -104,12 +117,9 @@ public class UpdatesService extends Service {
             } finally {
                 editor.commit();
                 Log.d("Condroid", "Execute ok");
-                this.stopSelf();
+                stopSelf();
             }
-        } else {
-            Preferences.stopUpdateService(this);
-            this.stopSelf();
-            return;
+            return null;
         }
     }
 }

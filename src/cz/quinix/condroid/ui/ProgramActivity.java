@@ -99,7 +99,6 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         }
         Preferences.planUpdateService(this);
 
-
         if (TabListener.activeFragment != null && !SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).isEmpty()) {
             applySearch(); //for applying search when screen rotates
         }
@@ -308,6 +307,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
         Preferences.planUpdateService(this);
 
+
         initView();
     }
 
@@ -344,7 +344,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mAbout:
-                new AboutDialog(this).show();
+                new AboutDialog(this);
                 return true;
             case R.id.mReminderList:
                 Intent in = new Intent(this, ReminderList.class);
