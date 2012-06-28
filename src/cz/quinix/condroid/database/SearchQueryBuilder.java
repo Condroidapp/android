@@ -2,6 +2,7 @@ package cz.quinix.condroid.database;
 
 import android.util.Log;
 import cz.quinix.condroid.abstracts.ICondition;
+import cz.quinix.condroid.model.Annotation;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,8 @@ public class SearchQueryBuilder {
             this.params.put(new String().getClass().getName(), new ICondition() {
                 @Override
                 public String getCondition() {
-                    return "pid LIKE '%" + value + "%' OR title LIKE '%" + value + "%' OR talker LIKE '%" + value + "%'";
+                    String norm = Annotation.normalize(value);
+                    return "pid LIKE '%" + value + "%' OR normalizedTitle LIKE '%" + norm + "%' OR LOWER(talker) LIKE '%" + norm + "%'";
                 }
 
                 @Override

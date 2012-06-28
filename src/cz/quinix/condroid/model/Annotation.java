@@ -9,6 +9,7 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Annotation implements Serializable, DBInsertable {
 
@@ -32,6 +33,7 @@ public class Annotation implements Serializable, DBInsertable {
     public static DateTimeFormatter dateSQLFormatter = DateTimeFormat
             .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
     private int lid;
+
 
     public Date getStartTime() {
         return startTime;
@@ -194,6 +196,7 @@ public class Annotation implements Serializable, DBInsertable {
         ret.put("title", title);
         ret.put("mainType", mainType);
         ret.put("additionalTypes", additonalTypes);
+        ret.put("normalizedTitle", normalize(title));
 
         ret.put("lid", lid);
 
@@ -208,6 +211,8 @@ public class Annotation implements Serializable, DBInsertable {
 
         return ret;
     }
+
+
 
     public void setLid(Integer integer) {
         lid = integer.intValue();
@@ -232,5 +237,47 @@ public class Annotation implements Serializable, DBInsertable {
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
+    }
+
+    @SuppressWarnings("serial")
+    private static final HashMap<Character, Character> accents  = new HashMap<Character, Character>(){
+        {
+            put('ě', 'e');
+            put('š', 's');
+            put('č', 'c');
+            put('ř', 'r');
+            put('ž', 'z');
+            put('ý', 'y');
+            put('á', 'a');
+            put('í', 'i');
+            put('é', 'e');
+
+            put('ú', 'u');
+            put('ů', 'u');
+            put('ľ', 'l');
+            put('ŕ', 'r');
+            put('ť', 't');
+            put('ü', 'u');
+            put('ä', 'a');
+            put('ï', 'i');
+            put('ë', 'e');
+            put('ó', 'o');
+            put('ś', 's');
+            put('ď', 'd');
+            put('ĺ', 'l');
+            put('ź', 'z');
+            put('ć', 'c');
+            put('ň', 'n');
+        }
+    };
+
+    public static String normalize(String title) {
+        char[] normalized = title.toLowerCase().toCharArray();
+        for(int i=0; i< normalized.length; i++) {
+            Character x = accents.get(normalized[i]);
+            if(x != null)
+                normalized[i] = x;
+        }
+        return new String(normalized);
     }
 }
