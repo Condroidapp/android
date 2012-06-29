@@ -118,9 +118,9 @@ public class CondroidDatabase {
                 db.execSQL("DROP TABLE " + CON_TABLE);
                 db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
                 db.execSQL("DROP TABLE " + LINE_TABLE);
-                if (oldVersion > 4)
+                if (oldVersion > 4 && oldVersion != 6)
                     db.execSQL("DROP TABLE " + FAVORITE_TABLE);
-                if (oldVersion > 5)
+                if (oldVersion > 5 && oldVersion != 6)
                     db.execSQL("DROP TABLE " + REMINDER_TABLE);
                 this.onCreate(db);
             }
