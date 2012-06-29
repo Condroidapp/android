@@ -140,13 +140,24 @@ public class CondroidDatabase {
         return false;
     }
 
-    public void purge() {
+    public void purge(int id) {
         SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
+
+        if(id != 0) {
+            Cursor c = this.query("SELECT id FROM "+CON_TABLE + "WHERE id="+id);
+            if(c.getCount() > 0) {
+                int id_now = c.getInt(c.getColumnIndex("id"));
+                if(id_now != id) {
+                    db.execSQL("DROP TABLE " + FAVORITE_TABLE);
+                    db.execSQL("DROP TABLE " + REMINDER_TABLE);
+                }
+            }
+        }
+
         db.execSQL("DROP TABLE " + CON_TABLE);
         db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
         db.execSQL("DROP TABLE " + LINE_TABLE);
-        db.execSQL("DROP TABLE " + FAVORITE_TABLE);
-        db.execSQL("DROP TABLE " + REMINDER_TABLE);
+
         this.mDatabaseHelper.onCreate(db);
     }
 

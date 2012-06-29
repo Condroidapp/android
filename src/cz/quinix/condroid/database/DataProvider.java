@@ -58,7 +58,7 @@ public class DataProvider {
 
     public DatabaseLoader prepareInsert(boolean fullInsert) {
         if (fullInsert && !mDatabase.isEmpty()) {
-            mDatabase.purge();
+            mDatabase.purge(con.getCid());
         }
         programLines = null;
         favorited = null;
