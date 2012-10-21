@@ -144,7 +144,7 @@ public class CondroidDatabase {
         SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
 
         if(id != 0) {
-            Cursor c = this.query("SELECT id FROM "+CON_TABLE + "WHERE id="+id);
+            Cursor c = this.query("SELECT id FROM "+CON_TABLE);
             if(c.getCount() > 0) {
                 int id_now = c.getInt(c.getColumnIndex("id"));
                 if(id_now != id) {
