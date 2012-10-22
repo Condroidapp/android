@@ -25,7 +25,7 @@ public class MakeFavoritedListener implements OnClickListener {
         boolean favorited = DataProvider.getInstance(
                 activity.getApplicationContext()).doFavorite(
                 annotation.getPid());
-        ProgramActivity.refreshDataset = true;
+        //ProgramActivity.notifyDataSetChanged = true;
         return favorited;
     }
 
