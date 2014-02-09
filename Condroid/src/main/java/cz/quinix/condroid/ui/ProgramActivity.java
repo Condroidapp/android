@@ -342,7 +342,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       /* switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.mAbout:
                 new AboutDialog(this);
                 return true;
@@ -367,8 +367,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }*/
-        return false;
+        }
     }
 
     public void stopAsyncTask() {
