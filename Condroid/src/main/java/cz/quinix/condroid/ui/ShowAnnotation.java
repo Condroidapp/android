@@ -166,7 +166,7 @@ public class ShowAnnotation extends CondroidActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, ProgramActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -184,7 +184,7 @@ public class ShowAnnotation extends CondroidActivity {
                 return true;
             default:
                 break;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 }

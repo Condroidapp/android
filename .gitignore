@@ -1,6 +1,7 @@
-Thumbs.db
-/bin
-/gen
+.gradle
+/local.properties
+/.idea/workspace.xml
+.DS_Store
+
 /.idea
-/out
-/Condroid.iml
+*.iml

@@ -31,5 +31,5 @@
         </receiver>
       </application>
 
-    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="14"></uses-sdk>
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"></uses-sdk>
 </manifest>
