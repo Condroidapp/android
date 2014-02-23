@@ -4,9 +4,19 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.Toast;
-import cz.quinix.condroid.XMLProccessException;
-import cz.quinix.condroid.ui.ProgramActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import cz.quinix.condroid.CondroidApi;
+import cz.quinix.condroid.XMLProccessException;
+import cz.quinix.condroid.loader.ConventionLoader;
+import cz.quinix.condroid.loader.DateTypeAdapter;
+import cz.quinix.condroid.ui.ProgramActivity;
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
+
+import java.util.Date;
 import java.util.List;
 
 public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Params, Progress, List<?>> {
@@ -16,6 +26,8 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
     private List<?> result;
     protected ProgressDialog pd;
     protected Exception backgroundException = null;
+
+    public static final String API_ENDPOINT = "http://condroid.fan-project.com/api/3/";
 
     public ListenedAsyncTask(AsyncTaskListener listener) {
         this.listener = listener;
@@ -86,4 +98,12 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
         this.parentActivity = null;
     }
 
+    protected CondroidApi getCondroidService() {
+        Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateTypeAdapter()).create();
+        RestAdapter adapter = new RestAdapter.Builder()
+                .setEndpoint(ConventionLoader.API_ENDPOINT)
+                .setConverter(new GsonConverter(gson))
+                .build();
+        return adapter.create(CondroidApi.class);
+    }
 }

@@ -14,17 +14,17 @@ public class Convention implements Serializable, DBInsertable {
      */
     private static final long serialVersionUID = -2754843728933013769L;
     private String name = "";
-    private String iconUrl = "";
+    private String image = "";
     private String date = "";
-    private int cid = 0;
-    private String dataUrl;
+    private Date start;
+    private Date end;
+    private int id = 0;
     private String message = "";
-    private String locationsFile = "";
-    private boolean providesTimetable = false;
-    private boolean providesAnnotations = false;
+    private boolean timetable = false;
+    private boolean annotations = false;
     private Date lastUpdate = new Date();
 
-    private static String dataURL = "http://condroid.fan-project.com/api/2/annotations/";
+    private static String dataURL = "http://condroid.loc/api/2/annotations/";
 
 
     public String getMessage() {
@@ -35,8 +35,8 @@ public class Convention implements Serializable, DBInsertable {
         this.message = message.trim();
     }
 
-    public int getCid() {
-        return cid;
+    public int getId() {
+        return id;
     }
 
     public void setLastUpdate(Date lastUpdate1) {
@@ -47,8 +47,8 @@ public class Convention implements Serializable, DBInsertable {
         return name;
     }
 
-    public void setCid(int cid) {
-        this.cid = cid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setDate(String date) {
@@ -59,29 +59,23 @@ public class Convention implements Serializable, DBInsertable {
         this.name = name.trim();
     }
 
-    public void setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl.trim();
+    public void setImage(String image) {
+        this.image = image.trim();
     }
 
-    public String getDataUrl() {
-        return dataURL + this.cid;
-    }
-
-    public void setDataUrl(String url) {
-        this.dataUrl = url;
+    public String getDatasource() {
+        return dataURL + this.id;
     }
 
     public ContentValues getContentValues() {
         ContentValues ret = new ContentValues();
-        ret.put("id", this.cid);
+        ret.put("id", this.id);
         ret.put("date", date);
-        ret.put("iconUrl", iconUrl);
+        ret.put("image", image);
         ret.put("name", name);
-        ret.put("dataUrl", dataUrl);
         ret.put("message", message);
-        ret.put("locationsFile", locationsFile);
-        ret.put("has_annotations", providesAnnotations);
-        ret.put("has_timetable", providesTimetable);
+        ret.put("has_annotations", annotations);
+        ret.put("has_timetable", timetable);
         DateTimeFormatter dateSQLFormatter = DateTimeFormat
                 .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
         ret.put("lastUpdate", dateSQLFormatter.print(lastUpdate.getTime()));
@@ -89,16 +83,12 @@ public class Convention implements Serializable, DBInsertable {
         return ret;
     }
 
-    public void setLocationsFile(String file) {
-        this.locationsFile = file;
-    }
-
     public void setHasTimetable(boolean b) {
-        this.providesTimetable = b;
+        this.timetable = b;
     }
 
     public void setHasAnnotations(boolean b) {
-        this.providesAnnotations = b;
+        this.annotations = b;
     }
 
     public Date getLastUpdate() {

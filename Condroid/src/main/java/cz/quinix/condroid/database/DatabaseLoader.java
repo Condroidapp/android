@@ -95,7 +95,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
                     if (!lines.containsKey(annotation.getProgramLine())) {
                         ContentValues cv = new ContentValues();
                         cv.put("title", annotation.getProgramLine());
-                        cv.put("cid", con.getCid());
+                        cv.put("cid", con.getId());
                         int key = (int) db.replace("lines", null, cv);
                         lines.put(annotation.getProgramLine(), key);
                     }
@@ -110,7 +110,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
                 for (Annotation annotation : items) {
                     ContentValues cv = annotation.getContentValues();
-                    cv.put("cid", con.getCid());
+                    cv.put("cid", con.getId());
                     db.replaceOrThrow("annotations", null, cv);
                     this.publishProgress(counter++);
                     if (this.isCancelled()) {

@@ -92,6 +92,6 @@ public class Downloader extends AsyncTaskDialog {
         }
         task1 = new DataLoader(this);
 
-        task1.execute(convention.getDataUrl(), lastUpdate, String.valueOf(DataProvider.getInstance(parent).getAnnotationsCount()));
+        task1.execute(convention.getDatasource(), lastUpdate, String.valueOf(DataProvider.getInstance(parent).getAnnotationsCount()));
     }
 }

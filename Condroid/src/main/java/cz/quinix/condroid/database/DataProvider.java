@@ -58,7 +58,7 @@ public class DataProvider {
 
     public DatabaseLoader prepareInsert(boolean fullInsert) {
         if (fullInsert && !mDatabase.isEmpty()) {
-            mDatabase.purge(con.getCid());
+            mDatabase.purge(con.getId());
         }
         programLines = null;
         favorited = null;
@@ -193,13 +193,13 @@ public class DataProvider {
         Cursor c = this.mDatabase.query(CondroidDatabase.CON_TABLE, null, null, null, null, null);
         Convention co = new Convention();
         while (c.moveToNext()) {
-            co.setCid(c.getInt(c.getColumnIndex("id")));
-            co.setDataUrl(c.getString(c.getColumnIndex("dataUrl")));
+            co.setId(c.getInt(c.getColumnIndex("id")));
+            //co.setDatasource(c.getString(c.getColumnIndex("dataUrl")));
             co.setDate(c.getString(c.getColumnIndex("date")));
-            co.setIconUrl(c.getString(c.getColumnIndex("iconUrl")));
+            co.setImage(c.getString(c.getColumnIndex("iconUrl")));
             co.setName(c.getString(c.getColumnIndex("name")));
             co.setMessage(c.getString(c.getColumnIndex("message")));
-            co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));
+           // co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));
             DateTimeFormatter format = DateTimeFormat
                     .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
             try {

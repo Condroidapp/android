@@ -74,7 +74,7 @@ public class UpdatesService extends Service {
 
             Log.d("Condroid", "Update service active");
             Convention convention = DataProvider.getInstance(UpdatesService.this).getCon();
-            if (convention == null || convention.getCid() < 1) {
+            if (convention == null || convention.getId() < 1) {
                 Preferences.stopUpdateService(UpdatesService.this);
                 stopSelf();
                 return null;
@@ -82,7 +82,7 @@ public class UpdatesService extends Service {
             HttpClient client = new DefaultHttpClient();
             HttpHead head = new HttpHead();
             try {
-                head.setURI(new URI(convention.getDataUrl()));
+                head.setURI(new URI(convention.getDatasource()));
             } catch (URISyntaxException e) {
                 Log.e("Condroid", "URL parsing", e);
             }
