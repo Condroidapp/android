@@ -18,6 +18,9 @@
         <item name="background">@drawable/actionbar_tab_bg</item>
         <item name="android:background">@drawable/actionbar_tab_bg</item>
     </style>
+    <style name="Theme.Condroid.NoBar" parent="Theme.Sherlock.Light.NoActionBar">
+
+    </style>
     <style name="Theme.Condroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@drawable/gradient_second_line</item>
         <item name="android:background">@drawable/gradient_second_line</item>
