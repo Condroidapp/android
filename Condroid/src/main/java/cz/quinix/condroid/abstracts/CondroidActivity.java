@@ -14,6 +14,8 @@ import java.util.Date;
 public abstract class CondroidActivity extends SherlockFragmentActivity {
 
     public static final String PREF_NAME = "condroid";
+    public static final String API_ENDPOINT = "http://condroid.fan-project.com/api/3/";
+
 
 
     private static String getUniqueDeviceIdentifier(Context context) {

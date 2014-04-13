@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ConventionList extends AsyncTaskDialog {
 
-    private ConventionLoader task;
+    private ListenedAsyncTask task;
 
     public ConventionList(ProgramActivity parent) {
         this.parent = parent;
@@ -32,8 +32,8 @@ public class ConventionList extends AsyncTaskDialog {
 
         dialog.cancel();
         try {
-            task = new ConventionLoader(this);
-            task.execute();
+           /* task = new ConventionLoader(this);
+            task.execute();*/
         } catch (Exception e) {
             Log.e("Condroid", "Exception during XML con-data recieve.", e);
             return;

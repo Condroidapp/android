@@ -84,10 +84,10 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
 
             HashMap<String, Integer> lines = new HashMap<String, Integer>();
             if (!fullInsert) {
-                HashMap<Integer, String> l = DataProvider.getInstance(null).getProgramLines();
+                /*HashMap<Integer, String> l = DataProvider.getInstance(null).getProgramLines();
                 for (Integer i : l.keySet()) {
                     lines.put(l.get(i), i);
-                }
+                }*/
             }
             try {
                 db.beginTransaction();

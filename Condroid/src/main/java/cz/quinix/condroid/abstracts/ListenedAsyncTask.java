@@ -18,7 +18,7 @@ import retrofit.converter.GsonConverter;
 
 import java.util.Date;
 import java.util.List;
-
+/** @deprecated */
 public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Params, Progress, List<?>> {
 
     protected Activity parentActivity;
@@ -101,7 +101,7 @@ public abstract class ListenedAsyncTask<Params, Progress> extends AsyncTask<Para
     protected CondroidApi getCondroidService() {
         Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateTypeAdapter()).create();
         RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint(ConventionLoader.API_ENDPOINT)
+                .setEndpoint(ListenedAsyncTask.API_ENDPOINT)
                 .setConverter(new GsonConverter(gson))
                 .build();
         return adapter.create(CondroidApi.class);

@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
 public class CondroidDatabase {
     public static final String TAG = "Condroid database";
 
@@ -17,14 +20,16 @@ public class CondroidDatabase {
     public static final String REMINDER_TABLE = "reminder";
 
     private CondroidOpenHelper mDatabaseHelper;
+    @Inject
+    private Provider<Context> contextProvider;
 
 
-    public CondroidDatabase(Context context) {
-        mDatabaseHelper = new CondroidOpenHelper(context);
+    public CondroidDatabase() {
+
     }
 
     public Cursor query(String sql, String[] args) {
-        Cursor cursor = mDatabaseHelper.getReadableDatabase().rawQuery(sql, args);
+        Cursor cursor = this.getConnection().getReadableDatabase().rawQuery(sql, args);
 
         if (cursor == null) {
             return null;
@@ -44,7 +49,18 @@ public class CondroidDatabase {
     }
 
     public Cursor query(String table, String[] columns, String condition, String[] conditionArgs, String orderBy, String limit, boolean distinct) {
-        return this.mDatabaseHelper.getReadableDatabase().query(distinct, table, columns, condition, conditionArgs, null, null, orderBy, limit);
+        return this.getConnection().getReadableDatabase().query(distinct, table, columns, condition, conditionArgs, null, null, orderBy, limit);
+    }
+
+    private CondroidOpenHelper getConnection() {
+        if(this.mDatabaseHelper != null) {
+            return this.mDatabaseHelper;
+        } else {
+            synchronized (CondroidDatabase.class) {
+                this.mDatabaseHelper = new CondroidOpenHelper(this.contextProvider.get());
+            }
+            return this.mDatabaseHelper;
+        }
     }
 
 

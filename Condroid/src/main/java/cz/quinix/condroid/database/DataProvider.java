@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
@@ -19,13 +23,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+@Singleton
 public class DataProvider {
 
     public static String AUTHORITY = "cz.quinix.condroid.database.DataProvider";
     public static Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/database");
     public static int ITEMS_PER_PAGE = 40;
 
-
+    @Inject
     private CondroidDatabase mDatabase;
     private Convention con;
     private List<Integer> favorited;
@@ -33,15 +38,15 @@ public class DataProvider {
 
     private static HashMap<Integer, String> programLines = null;
 
-    private DataProvider(Context context) {
-        mDatabase = new CondroidDatabase(context);
+    public DataProvider() {
+
     }
 
     public static DataProvider getInstance(Context context) {
         if (instance == null) {
             synchronized (CondroidDatabase.class) {
                 if (instance == null) {
-                    instance = new DataProvider(context);
+                    instance = new DataProvider();
                 }
             }
         }
