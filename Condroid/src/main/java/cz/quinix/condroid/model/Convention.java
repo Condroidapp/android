@@ -95,5 +95,23 @@ public class Convention implements Serializable, DBInsertable {
         return lastUpdate;
     }
 
+    public String getDate() {
+        return date;
+    }
 
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
 }

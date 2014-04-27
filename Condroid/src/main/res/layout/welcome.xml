@@ -7,6 +7,7 @@
     android:background="@drawable/gradient_second_line"
     tools:context=".ui.WelcomeActivity">
 
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +33,6 @@
             android:visibility="gone">
 
             <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/pbEvents"
@@ -53,14 +53,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dostupné akce:"
+                android:text="Vyberte akci:"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:id="@+id/textView" android:textSize="18sp"
                 android:layout_marginBottom="20dp" />
 
             <ListView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:id="@+id/lEventSelector"
                 android:layout_gravity="center_vertical"
@@ -82,10 +82,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/tCopyright"
             android:layout_gravity="center"
-            android:text="(c) 2011 - 2014 Jan Langer"
+            android:text="© 2011 - 2014 Jan Langer"
             android:layout_margin="10dp"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
 </LinearLayout>

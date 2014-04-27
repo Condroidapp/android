@@ -26,6 +26,7 @@ import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.loader.ConventionLoader;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.adapters.EventAdapter;
 import roboguice.inject.InjectView;
 
 public class WelcomeActivity extends RoboSherlockActivity implements ITaskListener {
@@ -65,13 +66,10 @@ public class WelcomeActivity extends RoboSherlockActivity implements ITaskListen
     @Override
     public void onTaskCompleted(AListenedAsyncTask<?, ?> task, List<?> results) {
         final List<Convention> data = (List<Convention>) results;
-        ArrayAdapter<String> a = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        EventAdapter adapter = new EventAdapter(this, R.layout.event_item_layout, data);
 
-        for (Convention c : data) {
-            a.add(c.getName());
-        }
-
-        listView.setAdapter(a);
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
