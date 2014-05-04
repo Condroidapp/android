@@ -2,12 +2,14 @@ package cz.quinix.condroid.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -152,9 +154,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         viewHolder.place = (TextView) convertView.findViewById(R.id.alPlace);
         viewHolder.time = (TextView) convertView.findViewById(R.id.alTime);
         viewHolder.favorited = (ImageView) convertView.findViewById(R.id.iFavorited);
-        viewHolder.programType = (ImageView) convertView.findViewById(R.id.iProgramType);
-        viewHolder.place.setVisibility(View.GONE);
-        viewHolder.time.setVisibility(View.VISIBLE);
+        viewHolder.itemLayout = (FrameLayout) convertView.findViewById(R.id.lItemLayout);
         return viewHolder;
     }
 
@@ -199,6 +199,9 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         } else {
             vh.place.setVisibility(View.GONE);
         }
+
+        vh.itemLayout.setBackgroundResource(annotation.getType().getTypeColor());
+
         return v;
     }
 
@@ -245,8 +248,8 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         TextView line;
         TextView time;
         TextView place;
-        ImageView programType;
         RelativeLayout firstRow;
+        FrameLayout itemLayout;
     }
 
 }

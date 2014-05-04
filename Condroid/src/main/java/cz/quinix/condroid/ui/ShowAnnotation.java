@@ -10,6 +10,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.ShareActionProvider;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivity;
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
@@ -24,12 +27,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ShowAnnotation extends CondroidActivity {
+public class ShowAnnotation extends RoboSherlockActivity {
 
     private Annotation annotation;
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
     private static DateFormat dayFormat = new SimpleDateFormat(
             "EE dd.MM. HH:mm", new Locale("cs", "CZ"));
+
+    @Inject private DataProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +62,7 @@ public class ShowAnnotation extends CondroidActivity {
         }
 
         TextView line = (TextView) this.findViewById(R.id.annot_line);
-        line.setText(", " + DataProvider.getInstance(getApplicationContext())
-                .getProgramLine(this.annotation.getLid()).getName());
+        line.setText(", " + this.provider.getProgramLine(this.annotation.getLid()).getName());
         if (this.annotation.getLocation() != null && !this.annotation.getLocation().trim().equals("")) {
             TextView location = (TextView) this.findViewById(R.id.annot_location);
             location.setText(this.annotation.getLocation());
@@ -156,7 +160,7 @@ public class ShowAnnotation extends CondroidActivity {
         ShareActionProvider mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.mShare).getActionProvider();
         mShareActionProvider.setShareIntent(new ShareProgramListener(this).getShareActionIntent(this.annotation));
 
-        if (DataProvider.getInstance(this).getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
+        if (provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
             menu.findItem(R.id.mFavorite).setIcon(R.drawable.ic_action_star_active);
         }
 

@@ -7,4 +7,15 @@
     <color name="cblue">#1E75B8</color>
     <color name="black">#000000</color>
     <color name="lightlighgray">#f0f0f0</color>
+    <color name="condroidGreen">#ff0d740d</color>
+    <color name="unknownType">#808080</color>
+    <color name="discussion">#ffDC3545</color>
+    <color name="ceremony">#ffE47F37</color>
+    <color name="documentary">#ff238F80</color>
+    <color name="projection">#ff238F80</color>
+    <color name="tournament">#ff2F5896</color>
+    <color name="music">#ffB02B81</color>
+    <color name="lecture">#ff46be2e</color>
+    <color name="competition">#ffE4E137</color>
+    <color name="workshop">#ff972592</color>
 </resources>
