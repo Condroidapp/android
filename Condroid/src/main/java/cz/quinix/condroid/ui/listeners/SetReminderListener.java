@@ -29,7 +29,7 @@ public class SetReminderListener implements OnClickListener {
     }
 
     public void invoke(final Annotation annotation) {
-        if (annotation.getStartTime() == null) {
+        if (annotation.getStart() == null) {
             Toast.makeText(activity, "Program nemá zadaný čas - nelze nastavit připomenutí!", Toast.LENGTH_LONG).show();
             return;
         }

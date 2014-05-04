@@ -32,13 +32,13 @@ public class ReminderManager {
                 Toast.makeText(context, "Systémová chyba, vymažte data programu.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (closest.annotation.getStartTime() == null) {
+            if (closest.annotation.getStart() == null) {
                 dp.removeReminder(closest.annotation.getPid());
                 return;
             }
 
             PendingIntent pi = PendingIntent.getService(context, 0, new Intent(context, ReminderTask.class), 0);
-            long time = closest.annotation.getStartTime().getTime() - (closest.reminder * 60 * 1000);
+            long time = closest.annotation.getStart().getTime() - (closest.reminder * 60 * 1000);
 
             am.set(AlarmManager.RTC_WAKEUP, time, pi);
             Log.d("Condroid", "Alarm will run in " + new Date(time));

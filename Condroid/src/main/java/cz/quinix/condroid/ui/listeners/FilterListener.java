@@ -56,12 +56,12 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle(R.string.dPickLine);
 
-            HashMap<Integer, String> pl = DataProvider.getInstance(activity).getProgramLines();
+            Map<Integer, ProgramLine> pl = DataProvider.getInstance(activity).getProgramLines();
             int i = 0;
             final String[] pls = new String[pl.size()];
 
-            for (String p : pl.values()) {
-                pls[i++] = p;
+            for (ProgramLine p : pl.values()) {
+                pls[i++] = p.getName();
             }
             Arrays.sort(pls);
             builder.setItems(pls, new ProgramLineFilter(activity, search, pls));
@@ -144,10 +144,10 @@ class ProgramLineFilter implements DialogInterface.OnClickListener {
             search
                     .removeParam(new ProgramLine());
         } else {
-            for (Map.Entry<Integer, String> entry : DataProvider.getInstance(activity)
-                    .getProgramLines().entrySet()) {
-                if (entry.getValue().equals(value)) {
-                    lid = entry.getKey();
+            for (ProgramLine item : DataProvider.getInstance(activity)
+                    .getProgramLines().values()) {
+                if (item.getName().equals(value)) {
+                    lid = item.getLid();
                     break;
                 }
             }

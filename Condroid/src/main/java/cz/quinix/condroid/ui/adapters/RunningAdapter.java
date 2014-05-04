@@ -54,7 +54,7 @@ public class RunningAdapter extends EndlessAdapter {
 
     @Override
     protected List<Annotation> getPrecachedData(int page) {
-        return DataProvider.getInstance(getActivity()).getRunningAndNext(SearchProvider.getSearchQueryBuilder(Running.class.getName()), page);
+        return this.provider.getRunningAndNext(SearchProvider.getSearchQueryBuilder(Running.class.getName()), page);
 
     }
 
@@ -64,13 +64,13 @@ public class RunningAdapter extends EndlessAdapter {
         this.setLayout(v, annotation);
         if (annotation.getTitle() == "break" || annotation.getTitle().equals("break-now")) {
             ViewHolder vh = (ViewHolder) v.getTag(R.id.listItem);
-            if (annotation.getStartTime().before(new Date())) {
+            if (annotation.getStart().before(new Date())) {
                 vh.runningTitle.setText(R.string.runningNow);
             } else {
-                if (isDateToday(annotation.getStartTime())) {
-                    vh.runningTitle.setText(getActivity().getString(R.string.today) + ", " + todayFormat.format(annotation.getStartTime()));
+                if (isDateToday(annotation.getStart())) {
+                    vh.runningTitle.setText(getActivity().getString(R.string.today) + ", " + todayFormat.format(annotation.getStart()));
                 } else {
-                    vh.runningTitle.setText(generalFormat.format(annotation.getStartTime()));
+                    vh.runningTitle.setText(generalFormat.format(annotation.getStart()));
                 }
             }
             v.setFocusable(false);
@@ -133,16 +133,16 @@ public class RunningAdapter extends EndlessAdapter {
                 if (i == 0) {
                     if (lastItem == null) {
                         formatted.add(getTimeHeader(a));
-                        previous = a.getStartTime();
+                        previous = a.getStart();
                     } else {
-                        if (!lastItem.getStartTime().equals(a.getStartTime())) {
+                        if (!lastItem.getStart().equals(a.getStart())) {
                             formatted.add(getTimeHeader(a));
                         }
-                        previous = a.getStartTime();
+                        previous = a.getStart();
                     }
-                } else if (a.getStartTime().after(previous)) {
+                } else if (a.getStart().after(previous)) {
                     formatted.add(getTimeHeader(a));
-                    previous = a.getStartTime();
+                    previous = a.getStart();
                 }
                 formatted.add(a);
             }
@@ -151,7 +151,7 @@ public class RunningAdapter extends EndlessAdapter {
 
         private static Annotation getTimeHeader(Annotation x) {
             Annotation a = new Annotation();
-            a.setStartTime(x.getStartTime());
+            a.setStartTime(x.getStart());
             a.setTitle("break");
             return a;
         }

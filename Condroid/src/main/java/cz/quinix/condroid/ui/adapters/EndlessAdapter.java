@@ -9,12 +9,17 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.All;
+import roboguice.RoboGuice;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +37,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     protected List<Annotation> itemsToAdd;
     protected int totalItems = 0;
     private Activity activity;
-    protected DataProvider provider;
+    @Inject protected DataProvider provider;
 
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
     private static DateFormat dayFormat = new SimpleDateFormat(
@@ -42,13 +47,13 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     public EndlessAdapter(Activity activity, List<Annotation> items) {
         super(new ArrayAdapter<Annotation>(activity,
                 R.layout.annotation_list_item, android.R.id.text1, items));
+        RoboGuice.getInjector(activity).injectMembers(this);
         this.activity = activity;
         rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(1000);
         rotate.setRepeatMode(Animation.RESTART);
         rotate.setRepeatCount(Animation.INFINITE);
-        this.provider = DataProvider.getInstance(activity);
         totalItems = items.size();
         this.keepOnAppending.set(!(items.size() < DataProvider.ITEMS_PER_PAGE));
 
@@ -87,7 +92,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     }
 
     protected List<Annotation> getPrecachedData(int skip) {
-        return DataProvider.getInstance(activity).getAnnotations(SearchProvider.getSearchQueryBuilder(All.class.getName()), skip);
+        return this.provider.getAnnotations(SearchProvider.getSearchQueryBuilder(All.class.getName()), skip);
     }
 
     @Override
@@ -140,6 +145,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
     protected ViewHolder initializeItemLayout(View convertView) {
         ViewHolder viewHolder = new ViewHolder();
+        viewHolder.firstRow = (RelativeLayout) convertView.findViewById(R.id.lFirstRow);
         viewHolder.author = (TextView) convertView.findViewById(R.id.alAuthor);
         viewHolder.title = (TextView) convertView.findViewById(R.id.alTitle);
         viewHolder.line = (TextView) convertView.findViewById(R.id.alLine);
@@ -164,32 +170,34 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
             vh.title.setText(annotation.getTitle());
         }
         if (vh.author != null) {
-            vh.author.setText(annotation.getAuthor());
+            if(annotation.getAuthor() != null && !annotation.getAuthor().trim().equals("")) {
+                vh.author.setText(annotation.getAuthor());
+                vh.author.setVisibility(View.VISIBLE);
+            } else {
+                vh.author.setVisibility(View.GONE);
+            }
         }
 
         if (vh.line != null) {
-            vh.line.setText(provider.getProgramLine(annotation.getLid()).getName());
-        }
-        if (vh.time.getVisibility() == View.VISIBLE &&
-                annotation.getStartTime() != null && annotation.getEndTime() != null) {
-            vh.time.setText(formatDate(annotation.getStartTime()) + " - "
-                    + todayFormat.format(annotation.getEndTime()));
-            if (annotation.getLid() > 0) {
-                vh.line.setText(vh.line.getText() + ",");
+            if(annotation.getLid() > 0) {
+                vh.line.setText(provider.getProgramLine(annotation.getLid()).getName());
+                vh.line.setVisibility(View.VISIBLE);
+            } else {
+                vh.line.setVisibility(View.GONE);
             }
-        } else {
-            vh.time.setText("");
         }
-        if (vh.place.getVisibility() == View.VISIBLE && annotation.getLocation() != null && !annotation.getLocation().trim().equals("")) {
+        if (annotation.getStart() != null && annotation.getEnd() != null) {
+            vh.time.setText(formatDate(annotation.getStart()) + " - "
+                    + todayFormat.format(annotation.getEnd()));
+            vh.time.setVisibility(View.VISIBLE);
+        } else {
+            vh.time.setVisibility(View.GONE);
+        }
+        if (annotation.getLocation() != null && !annotation.getLocation().trim().equals("")) {
             vh.place.setText(annotation.getLocation());
-            if (annotation.getLid() > 0) {
-                vh.line.setText(vh.line.getText() + ",");
-            }
+            vh.place.setVisibility(View.VISIBLE);
         } else {
-            vh.place.setText("");
-        }
-        if (vh.programType != null) {
-            vh.programType.setImageResource(annotation.getProgramIcon());
+            vh.place.setVisibility(View.GONE);
         }
         return v;
     }
@@ -238,6 +246,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         TextView time;
         TextView place;
         ImageView programType;
+        RelativeLayout firstRow;
     }
 
 }

@@ -165,10 +165,10 @@ public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annota
                                 annotation.setAnnotation(Html.fromHtml(pull.nextText().trim()).toString());
                             }
                             if (name.equalsIgnoreCase("start-time")) {
-                                annotation.setStartTime(pull.nextText().trim());
+                                annotation.setStart(pull.nextText().trim());
                             }
                             if (name.equalsIgnoreCase("end-time")) {
-                                annotation.setEndTime(pull.nextText().trim());
+                                annotation.setEnd(pull.nextText().trim());
                             }
                         }
                         break;

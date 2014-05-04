@@ -11,7 +11,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
+import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
@@ -19,6 +23,7 @@ import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
+import roboguice.inject.InjectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +35,7 @@ import java.util.List;
  * Time: 19:24
  * To change this template use File | Settings | File Templates.
  */
-public abstract class CondroidFragment extends SherlockFragment {
+public abstract class CondroidFragment extends RoboSherlockFragment {
 
     private View view;
     protected ListView lwMain;
@@ -40,6 +45,8 @@ public abstract class CondroidFragment extends SherlockFragment {
     static {
         refreshRegistry = new RefreshRegistry();
     }
+
+    @Inject protected DataProvider dataProvider;
 
     protected CondroidFragment() {
         refreshRegistry.registerInstance(this);
@@ -53,8 +60,6 @@ public abstract class CondroidFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.list_view, container, false);
-        } else {
-
         }
         return view;
     }

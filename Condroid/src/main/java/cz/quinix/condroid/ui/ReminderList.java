@@ -95,12 +95,12 @@ public class ReminderList extends ListActivity {
                         "EE dd.MM. HH:mm", new Locale("cs", "CZ"));
                 title.setText(r.annotation.getTitle());
                 Date today = new Date();
-                Date st = r.annotation.getStartTime();
+                Date st = r.annotation.getStart();
                 try {
                     if ((st.getYear() == today.getYear() && st.getMonth() == today.getMonth() && st.getDate() == today.getDate())) {
-                        date.setText("dnes, " + todayFormat.format(r.annotation.getStartTime()));
+                        date.setText("dnes, " + todayFormat.format(r.annotation.getStart()));
                     } else {
-                        date.setText(dayFormat.format(r.annotation.getStartTime()));
+                        date.setText(dayFormat.format(r.annotation.getStart()));
                     }
                 } catch (NullPointerException e) {
 

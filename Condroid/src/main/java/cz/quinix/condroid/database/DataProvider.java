@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class DataProvider {
@@ -36,21 +38,10 @@ public class DataProvider {
     private List<Integer> favorited;
     private static volatile DataProvider instance;
 
-    private static HashMap<Integer, String> programLines = null;
-
-    public DataProvider() {
-
-    }
+    private Map<Integer, ProgramLine> programLines = null;
 
     public static DataProvider getInstance(Context context) {
-        if (instance == null) {
-            synchronized (CondroidDatabase.class) {
-                if (instance == null) {
-                    instance = new DataProvider();
-                }
-            }
-        }
-        return instance;
+        return null;
     }
 
     public boolean hasData() {
@@ -79,22 +70,19 @@ public class DataProvider {
     }
 
     public ProgramLine getProgramLine(int lid) {
-        ProgramLine pl = new ProgramLine();
-
         if (programLines == null) {
             this.loadProgramLines();
         }
         if (programLines != null) {
             if (programLines.containsKey(lid)) {
-                pl.setLid(lid);
-                pl.setName(programLines.get(lid));
+                return programLines.get(lid);
             }
         }
 
-        return pl;
+        return new ProgramLine();
     }
 
-    public HashMap<Integer, String> getProgramLines() {
+    public Map<Integer, ProgramLine> getProgramLines() {
         if (programLines == null) {
             this.loadProgramLines();
         }
@@ -102,11 +90,14 @@ public class DataProvider {
     }
 
     private void loadProgramLines() {
-        programLines = new HashMap<Integer, String>();
+        programLines = new HashMap<Integer,ProgramLine>();
 
         Cursor c = this.mDatabase.query(CondroidDatabase.LINE_TABLE, null, null, null, "title ASC", null);
         while (c.moveToNext()) {
-            programLines.put(c.getInt(c.getColumnIndex("id")), c.getString(c.getColumnIndex("title")));
+            ProgramLine p = new ProgramLine();
+            p.setLid(c.getInt(c.getColumnIndex("id")));
+            p.setName(c.getString(c.getColumnIndex("title")));
+            programLines.put(p.getLid(), p);
         }
         c.close();
     }

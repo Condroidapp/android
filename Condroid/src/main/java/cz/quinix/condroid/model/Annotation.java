@@ -10,7 +10,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,13 +22,13 @@ public class Annotation implements Serializable, DBInsertable {
     private static final long serialVersionUID = 29890241539328629L;
 
     private int pid;
-    private String talker;
+    private String author;
     private String title;
     private AnnotationType type = new AnnotationType();
     private String programLine;
     private String annotation = "";
-    private Date startTime;
-    private Date endTime;
+    private Date start;
+    private Date end;
     private String location;
     public static DateTimeFormatter dateISOFormatter = ISODateTimeFormat
             .dateTimeNoMillis();
@@ -38,28 +37,28 @@ public class Annotation implements Serializable, DBInsertable {
     private int lid;
 
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getStart() {
+        return start;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = parseDate(startTime, dateISOFormatter);
+    public void setStart(String start) {
+        this.start = parseDate(start, dateISOFormatter);
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = parseDate(endTime, dateISOFormatter);
+    public void setEnd(String end) {
+        this.end = parseDate(end, dateISOFormatter);
     }
 
     public void setSQLStartTime(String startTime) {
-        this.startTime = parseDate(startTime, dateSQLFormatter);
+        this.start = parseDate(startTime, dateSQLFormatter);
     }
 
     public void setSQLEndTime(String endTime) {
-        this.endTime = parseDate(endTime, dateSQLFormatter);
+        this.end = parseDate(endTime, dateSQLFormatter);
     }
 
     private Date parseDate(String date, DateTimeFormatter formatter) {
@@ -89,7 +88,7 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
     public String getAuthor() {
-        return talker;
+        return author;
     }
 
     public String getTitle() {
@@ -156,7 +155,9 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
     public void setAuthor(String talker) {
-        this.talker = talker.trim();
+        if(talker != null) {
+            this.author = talker.trim();
+        }
     }
 
     public void setTitle(String title) {
@@ -172,17 +173,19 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
     public void setAnnotation(String annotation) {
-        this.annotation = annotation.trim();
+        if(annotation != null) {
+            this.annotation = annotation.trim();
+        }
     }
 
     public ContentValues getContentValues() {
 
-        if (startTime != null && endTime != null && startTime.after(endTime)) {
-            endTime.setDate(endTime.getDate() + 1);
+        if (start != null && end != null && start.after(end)) {
+            end.setDate(end.getDate() + 1);
         }
         ContentValues ret = new ContentValues();
         ret.put("pid", this.pid);
-        ret.put("talker", talker);
+        ret.put("talker", author);
         ret.put("title", title);
         ret.put("mainType", this.type.mainType);
         ret.put("additionalTypes", TextUtils.join("+", this.type.secondaryTypes));
@@ -192,11 +195,11 @@ public class Annotation implements Serializable, DBInsertable {
 
         ret.put("location", location);
         ret.put("annotation", annotation);
-        if (startTime != null) {
-            ret.put("startTime", dateSQLFormatter.print(startTime.getTime()));
+        if (start != null) {
+            ret.put("startTime", dateSQLFormatter.print(start.getTime()));
         }
-        if (endTime != null) {
-            ret.put("endTime", dateSQLFormatter.print(endTime.getTime()));
+        if (end != null) {
+            ret.put("endTime", dateSQLFormatter.print(end.getTime()));
         }
 
         return ret;
@@ -226,7 +229,7 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
     public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+        this.start = startTime;
     }
 
     private static final HashMap<Character, Character> accents  = new HashMap<Character, Character>(){

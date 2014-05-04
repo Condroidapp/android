@@ -3,8 +3,8 @@
     <item>
       <shape 
         android:shape="rectangle">
-            <stroke android:width="1dp" android:color="#2fbc2d" />
-            <solid android:color="#eeeeee" />
+            <stroke android:width="1dp" android:color="#0d740d" />
+            <solid android:color="#ffffff" />
 
         </shape>
    </item>
@@ -12,8 +12,8 @@
    <item android:top="0dp" android:bottom="0dp"> 
       <shape 
         android:shape="rectangle">
-            <stroke android:width="1dp" android:color="#2fbc2d" />
-            <solid android:color="#f0f0f0" />
+            <stroke android:width="1dp" android:color="#0d740d" />
+            <solid android:color="#ffffff" />
         </shape>
    </item>
 

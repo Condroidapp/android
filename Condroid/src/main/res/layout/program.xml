@@ -30,11 +30,14 @@
             android:clickable="true"
             android:focusable="true"
             android:text="Small Text"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="5dp"
-                android:visibility="gone" android:drawableRight="@drawable/delete_icon" android:textSize="15dp"/>
+                android:visibility="visible" android:drawableRight="@drawable/delete_icon"
+            android:textSize="16dp" />
 
-        <LinearLayout android:id="@+id/fragment_container" android:layout_height="match_parent" android:layout_width="match_parent" />
+        <LinearLayout android:id="@+id/fragment_container" android:layout_height="match_parent" android:layout_width="match_parent"
+            android:orientation="horizontal"
+             />
 
     </LinearLayout>
 

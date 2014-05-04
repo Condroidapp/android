@@ -61,7 +61,7 @@ public class ReminderTask extends Service {
             i.putExtra("annotation", annotation);
             PendingIntent pi = PendingIntent.getActivity(this, annotation.getPid(), i, PendingIntent.FLAG_ONE_SHOT);
             try {
-                n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v " + df.format(annotation.getStartTime()), pi);
+                n.setLatestEventInfo(this, annotation.getTitle(), "Začátek v " + df.format(annotation.getStart()), pi);
 
                 n.flags |= Notification.FLAG_AUTO_CANCEL;
 

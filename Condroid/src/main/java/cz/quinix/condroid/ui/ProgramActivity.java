@@ -19,6 +19,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
@@ -40,9 +43,9 @@ import java.util.Date;
  * Time: 23:30
  * To change this template use File | Settings | File Templates.
  */
-public class ProgramActivity extends SherlockFragmentActivity implements AsyncTaskListener, AdapterView.OnItemClickListener {
+public class ProgramActivity extends RoboSherlockFragmentActivity implements AdapterView.OnItemClickListener {
 
-    protected DataProvider provider;
+    @Inject private DataProvider provider;
 
     private Date onResumeTime = null;
     public static boolean refreshDataset = false;
@@ -185,61 +188,11 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     private boolean dataAvailable() {
         if (provider.hasData()) {
             return true;
-        } else {
-            if (asyncTaskHandler == null) {
-                this.loadData(true);
-                return true;
-            }
         }
         return false;
     }
 
-    private void loadData() {
-        this.loadData(false);
-    }
 
-    private void loadData(boolean forceFull) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        if (provider.hasData() && !forceFull) {
-            asyncTaskHandler = new Downloader(this, provider.getCon());
-            /*builder.setMessage(R.string.updateOrFullDialog)
-                    .setNegativeButton(R.string.full, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                           /* asyncTaskHandler = new ConventionList(ProgramActivity.this);
-                            asyncTaskHandler.onClick(dialogInterface, i);
-                        }
-                    })
-                    .setPositiveButton(R.string.update, asyncTaskHandler);*/
-        } else {
-
-
-            /*asyncTaskHandler = new ConventionList(this);
-            builder.setMessage(R.string.downloadDialog)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes, asyncTaskHandler)
-                    .setNegativeButton(R.string.no,
-                            new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    dialog.cancel();
-                                    if (!provider.hasData()) {
-                                        Toast.makeText(
-                                                ProgramActivity.this,
-                                                "Condroid nemá data se kterými by mohl pracovat, proto se nyní ukončí.",
-                                                Toast.LENGTH_LONG).show();
-                                        ProgramActivity.this.finish();
-                                    }
-                                }
-                            });*/
-
-
-        }
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     private void initView() {
         this.initListView();
@@ -301,11 +254,6 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     }
 
     @Override
-    public Activity getActivity() {
-        return this;
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
             if (adapterView instanceof ListView) {
@@ -341,7 +289,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
 
                 return true;
             case R.id.mData_reload:
-                this.loadData();
+               // this.loadData();
                 return true;
 
             case R.id.mSettings:
@@ -356,12 +304,6 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void stopAsyncTask() {
-        if (asyncTaskHandler != null) {
-            asyncTaskHandler = null;
         }
     }
 }

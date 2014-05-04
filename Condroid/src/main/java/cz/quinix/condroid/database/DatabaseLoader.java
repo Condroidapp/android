@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.google.inject.Inject;
 
@@ -16,6 +17,7 @@ import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.loader.AProgressedTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.model.ProgramLine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,9 +92,9 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
 
             HashMap<String, Integer> lines = new HashMap<String, Integer>();
             if (!fullInsert) {
-                HashMap<Integer, String> l = dataProvider.getProgramLines();
-                for (Integer i : l.keySet()) {
-                    lines.put(l.get(i), i);
+                Map<Integer, ProgramLine> l = dataProvider.getProgramLines();
+                for (ProgramLine i : l.values()) {
+                    lines.put(i.getName(), i.getLid());
                 }
             }
             String[] keys = {"add", "change"};

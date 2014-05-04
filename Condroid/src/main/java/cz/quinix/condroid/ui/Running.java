@@ -24,6 +24,6 @@ public class Running extends CondroidFragment {
     }
 
     protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
-        return DataProvider.getInstance(this.getActivity()).getRunningAndNext(sb, page);
+        return this.dataProvider.getRunningAndNext(sb, page);
     }
 }

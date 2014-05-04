@@ -21,24 +21,8 @@ public class All extends CondroidFragment {
         return new EndlessAdapter(this.getActivity(), this.loadData(SearchProvider.getSearchQueryBuilder(this.getClass().getName()), 0));
     }
 
-    /*public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportActionBar().selectTab(getSupportActionBar().getTabAt(1));
-    }
-
-    @Override
-    protected void initListView() {
-        if (this.lwMain.getAdapter() == null) {
-            //init
-            this.lwMain.setAdapter();
-        } else {
-            ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
-        }
-        super.initListView();    //To change body of overridden methods use File | Settings | File Templates.
-    }
-*/
     protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
-        return DataProvider.getInstance(this.getActivity()).getAnnotations(sb, page);
+        return this.dataProvider.getAnnotations(sb, page);
     }
 
 

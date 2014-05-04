@@ -50,10 +50,10 @@ public class ShowAnnotation extends CondroidActivity {
         pid.setText("" + this.annotation.getPid());
 
         String date = "";
-        if (annotation.getStartTime() != null
-                && annotation.getEndTime() != null) {
-            date = formatDate(annotation.getStartTime()) + " - "
-                    + todayFormat.format(annotation.getEndTime());
+        if (annotation.getStart() != null
+                && annotation.getEnd() != null) {
+            date = formatDate(annotation.getStart()) + " - "
+                    + todayFormat.format(annotation.getEnd());
         }
 
         TextView line = (TextView) this.findViewById(R.id.annot_line);
