@@ -6,13 +6,20 @@ import android.os.Build;
 import android.text.Html;
 import android.util.Log;
 import android.util.Xml;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+import cz.quinix.condroid.CondroidApi;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.XMLProccessException;
+import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.CondroidActivity;
+import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.ProgramActivity;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -25,75 +32,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class DataLoader extends ListenedAsyncTask<String, Integer> {
+public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annotation>>> {
 
     //private ProgressDialog pd;
-    private String pdString;
-    private int pdMax;
+
     private int resultCode = 0;
+    private Convention convention;
+    private String lastUpdate;
     //private int pdActual;
 
-    public DataLoader(AsyncTaskListener listener) {
-        super(listener);
-        pdString = parentActivity.getString(R.string.loading);
+    public DataLoader(ITaskListener listener, SherlockFragmentActivity parent, Convention convention, String lastUpdate) {
+        super(listener, parent);
+        this.convention = convention;
+        this.lastUpdate = lastUpdate;
+        pdString = parent.getString(R.string.loading);
         this.showDialog();
-    }
-
-    @Override
-    protected void onPostExecute(List<?> result) {
-        pd.dismiss();
-        super.onPostExecute(result);
     }
 
     public int getResultCode() {
         return this.resultCode;
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        int value = values[0];
-        if (values.length == 2) {
-            this.pd.dismiss();
-            pdString = parentActivity.getString(R.string.downloading);
-            this.pdMax = values[1];
-            this.showDialog();
-        } else if (pd.getMax() > 0) {
-            pd.setProgress(value);
-        }
-    }
-
-    @Override
-    protected void showDialog() {
-        if (this.pd != null && this.pd.isShowing()) {
-            pd.dismiss();
-        }
-        if (parentActivity != null) {
-            this.pd = new ProgressDialog(parentActivity);
-            this.pd.setMessage(pdString);
-            if (this.pdMax > 0) {
-                this.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                pd.setMax(pdMax);
-            }
-            pd.setCancelable(true);
-            pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    dialogInterface.dismiss();
-                    DataLoader.this.cancel(true);
-                    if (parentActivity instanceof ProgramActivity) {
-                        ((ProgramActivity) parentActivity).stopAsyncTask();
-                    }
-                }
-            });
-            pd.show();
-        }
-    }
-
-    @Override
     protected List<?> doInBackground(String... params) {
-        List<Annotation> messages = new ArrayList<Annotation>();
+        /*List<Annotation> messages = new ArrayList<Annotation>();
         XmlPullParser pull = Xml.newPullParser();
         Annotation annotation = null;
         try {
@@ -234,9 +197,15 @@ public class DataLoader extends ListenedAsyncTask<String, Integer> {
         }
 
 
-        return messages;
+        return messages;*/
+        return null;
 
     }
 
 
+    @Override
+    public Map<String, List<Annotation>> call() throws Exception {
+        CondroidApi service = getCondroidService();
+        return service.listAnnotations(this.convention.getId(), lastUpdate);
+    }
 }

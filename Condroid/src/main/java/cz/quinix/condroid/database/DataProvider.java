@@ -61,16 +61,6 @@ public class DataProvider {
         con = convention;
     }
 
-    public DatabaseLoader prepareInsert(boolean fullInsert) {
-        if (fullInsert && !mDatabase.isEmpty()) {
-            mDatabase.purge(con.getId());
-        }
-        programLines = null;
-        favorited = null;
-
-        return new DatabaseLoader(null, mDatabase, con, fullInsert);
-    }
-
     public List<Annotation> getAnnotations(SearchQueryBuilder con, int skip) {
         List<Annotation> ret = new ArrayList<Annotation>();
         String condition = null;
@@ -186,8 +176,7 @@ public class DataProvider {
         annotation.setLocation(c.getString(c.getColumnIndex("location")));
         annotation.setLid(c.getInt(c.getColumnIndex("lid")));
         annotation.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
-        annotation.setType(c.getString(c.getColumnIndex("mainType")));
-        annotation.setAdditonalTypes(c.getString(c.getColumnIndex("additionalTypes")));
+        annotation.setType(c.getString(c.getColumnIndex("mainType")), c.getString(c.getColumnIndex("additionalTypes")));
         return annotation;
     }
 
@@ -199,12 +188,10 @@ public class DataProvider {
         Convention co = new Convention();
         while (c.moveToNext()) {
             co.setId(c.getInt(c.getColumnIndex("id")));
-            //co.setDatasource(c.getString(c.getColumnIndex("dataUrl")));
             co.setDate(c.getString(c.getColumnIndex("date")));
-            co.setImage(c.getString(c.getColumnIndex("iconUrl")));
+            co.setImage(c.getString(c.getColumnIndex("image")));
             co.setName(c.getString(c.getColumnIndex("name")));
             co.setMessage(c.getString(c.getColumnIndex("message")));
-           // co.setLocationsFile(c.getString(c.getColumnIndex("locationsFile")));
             DateTimeFormatter format = DateTimeFormat
                     .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
             try {
@@ -319,5 +306,9 @@ public class DataProvider {
         }
         c.close();
         return count;
+    }
+
+    public CondroidDatabase getDatabase() {
+        return mDatabase;
     }
 }

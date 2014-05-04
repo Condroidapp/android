@@ -12,7 +12,7 @@ public class CondroidDatabase {
     public static final String TAG = "Condroid database";
 
     private static final String DATABASE_NAME = "condroid.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 10;
     public static final String CON_TABLE = "cons";
     public static final String ANNOTATION_TABLE = "annotations";
     public static final String LINE_TABLE = "lines";
@@ -71,25 +71,25 @@ public class CondroidDatabase {
                 "CREATE TABLE \"" + CON_TABLE + "\" ( " +
                         "\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                         "\"name\"  TEXT(255)NOT NULL," +
-                        "\"date\"  TEXT(255) NOT NULL," +
-                        "\"iconUrl\"  TEXT(255) NOT NULL," +
+                        "\"date\"  TEXT(255)," +
                         "\"dataUrl\"  TEXT(255)," +
                         "\"message\" TEXT," +
                         "\"has_annotations\" INTEGER," +
                         "\"has_timetable\" INTEGER," +
                         "\"lastUpdate\" TEXT," +
-                        "\"locationsFile\" TEXT" +
+                        "\"locationsFile\" TEXT," +
+                        "\"image\" TEXT" +
                         ");";
         private static final String DATABASE_CREATE_ANNOTATIONS = "CREATE TABLE \"" + ANNOTATION_TABLE + "\" ( " +
                 "\"cid\"  INTEGER NOT NULL," +
                 "\"pid\"  INTEGER NOT NULL," +
-                "\"talker\"  TEXT(255) NOT NULL," +
+                "\"talker\"  TEXT(255)," +
                 "\"title\"  TEXT(255) NOT NULL," +
                 "\"annotation\"  TEXT," +
-                "\"lid\"  INTEGER NOT NULL," +
-                "\"location\"  TEXT(100) NULL," +
+                "\"lid\"  INTEGER," +
+                "\"location\"  TEXT(100)," +
                 "\"mainType\"  TEXT(1) NOT NULL," +
-                "\"additionalTypes\"  TEXT(20) NOT NULL," +
+                "\"additionalTypes\"  TEXT(20) NULL," +
                 "\"startTime\"  TEXT NULL," +
                 "\"endTime\"  TEXT NULL," +
                 "\"normalizedTitle\" TEXT NULL, " +
@@ -158,23 +158,25 @@ public class CondroidDatabase {
 
     public void purge(int id) {
         SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
+        if(db != null) {
 
-        if(id != 0) {
-            Cursor c = this.query("SELECT id FROM "+CON_TABLE);
-            if(c.getCount() > 0) {
-                int id_now = c.getInt(c.getColumnIndex("id"));
-                if(id_now != id) {
-                    db.execSQL("DROP TABLE " + FAVORITE_TABLE);
-                    db.execSQL("DROP TABLE " + REMINDER_TABLE);
+            if (id != 0) {
+                Cursor c = this.query("SELECT id FROM " + CON_TABLE);
+                if (c.getCount() > 0) {
+                    int id_now = c.getInt(c.getColumnIndex("id"));
+                    if (id_now != id) {
+                        db.execSQL("DROP TABLE " + FAVORITE_TABLE);
+                        db.execSQL("DROP TABLE " + REMINDER_TABLE);
+                    }
                 }
             }
+
+            db.execSQL("DROP TABLE " + CON_TABLE);
+            db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
+            db.execSQL("DROP TABLE " + LINE_TABLE);
+            this.mDatabaseHelper.onCreate(db);
         }
 
-        db.execSQL("DROP TABLE " + CON_TABLE);
-        db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
-        db.execSQL("DROP TABLE " + LINE_TABLE);
-
-        this.mDatabaseHelper.onCreate(db);
     }
 
     SQLiteDatabase getWritableDatabase() {

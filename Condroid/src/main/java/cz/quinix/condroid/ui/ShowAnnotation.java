@@ -86,7 +86,7 @@ public class ShowAnnotation extends CondroidActivity {
     }
 
     private CharSequence getTextualTypes() {
-        String ret = getTextualType(annotation.getType());
+        String ret = getTextualType(annotation.getType().mainType);
         String[] aT = annotation.getAdditionalTypes();
         for (int i = 0; i < aT.length; i++) {
             if (aT[i].length() > 0)

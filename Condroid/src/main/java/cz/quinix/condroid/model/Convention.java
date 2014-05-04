@@ -32,7 +32,9 @@ public class Convention implements Serializable, DBInsertable {
     }
 
     public void setMessage(String message) {
-        this.message = message.trim();
+        if(message != null) {
+            this.message = message.trim();
+        }
     }
 
     public int getId() {
@@ -60,7 +62,9 @@ public class Convention implements Serializable, DBInsertable {
     }
 
     public void setImage(String image) {
-        this.image = image.trim();
+        if(image != null ) {
+            this.image = image.trim();
+        }
     }
 
     public String getDatasource() {

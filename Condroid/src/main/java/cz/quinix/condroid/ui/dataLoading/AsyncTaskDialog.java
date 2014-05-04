@@ -2,7 +2,11 @@ package cz.quinix.condroid.ui.dataLoading;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import cz.quinix.condroid.abstracts.AsyncTaskListener;
+import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.ui.ProgramActivity;
 
 /**
@@ -12,20 +16,15 @@ import cz.quinix.condroid.ui.ProgramActivity;
  * Time: 18:45
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AsyncTaskDialog implements DialogInterface.OnClickListener, AsyncTaskListener {
-    protected ProgramActivity parent;
-    protected AsyncTaskDialog subDialog = null;
+public abstract class AsyncTaskDialog implements ITaskListener {
+    protected SherlockFragmentActivity parent;
 
-    public void setParent(ProgramActivity parent) {
+    public void setParent(SherlockFragmentActivity parent) {
         this.parent = parent;
-        if (subDialog != null) {
-            subDialog.setParent(parent);
-        }
-
     }
 
     @Override
-    public Activity getActivity() {
+    public SherlockFragmentActivity getActivity() {
         return parent;
     }
 }

@@ -26,7 +26,6 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
-import cz.quinix.condroid.ui.dataLoading.ConventionList;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.listeners.DisableFilterListener;
 import cz.quinix.condroid.ui.listeners.FilterListener;
@@ -54,16 +53,6 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.program);
-        System.setProperty("org.joda.time.DateTimeZone.Provider",
-                "cz.quinix.condroid.FastJodaTimeZoneProvider");
-
-
-        provider = DataProvider.getInstance(getApplicationContext());
-
-
-        if (asyncTaskHandler != null) {
-            asyncTaskHandler.setParent(this);
-        }
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -214,19 +203,19 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
         builder.setCancelable(true);
         if (provider.hasData() && !forceFull) {
             asyncTaskHandler = new Downloader(this, provider.getCon());
-            builder.setMessage(R.string.updateOrFullDialog)
+            /*builder.setMessage(R.string.updateOrFullDialog)
                     .setNegativeButton(R.string.full, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            asyncTaskHandler = new ConventionList(ProgramActivity.this);
+                           /* asyncTaskHandler = new ConventionList(ProgramActivity.this);
                             asyncTaskHandler.onClick(dialogInterface, i);
                         }
                     })
-                    .setPositiveButton(R.string.update, asyncTaskHandler);
+                    .setPositiveButton(R.string.update, asyncTaskHandler);*/
         } else {
 
 
-            asyncTaskHandler = new ConventionList(this);
+            /*asyncTaskHandler = new ConventionList(this);
             builder.setMessage(R.string.downloadDialog)
                     .setCancelable(false)
                     .setPositiveButton(R.string.yes, asyncTaskHandler)
@@ -244,7 +233,7 @@ public class ProgramActivity extends SherlockFragmentActivity implements AsyncTa
                                         ProgramActivity.this.finish();
                                     }
                                 }
-                            });
+                            });*/
 
 
         }

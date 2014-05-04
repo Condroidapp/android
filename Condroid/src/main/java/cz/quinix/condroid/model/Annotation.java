@@ -1,6 +1,8 @@
 package cz.quinix.condroid.model;
 
 import android.content.ContentValues;
+import android.text.TextUtils;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.DBInsertable;
 import org.joda.time.format.DateTimeFormat;
@@ -8,6 +10,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -21,8 +25,7 @@ public class Annotation implements Serializable, DBInsertable {
     private int pid;
     private String talker;
     private String title;
-    private String mainType;
-    private String additonalTypes = "";
+    private AnnotationType type = new AnnotationType();
     private String programLine;
     private String annotation = "";
     private Date startTime;
@@ -80,9 +83,6 @@ public class Annotation implements Serializable, DBInsertable {
 
     }
 
-    public void setAdditonalTypes(String additonalTypes) {
-        this.additonalTypes = additonalTypes;
-    }
 
     public int getPid() {
         return pid;
@@ -96,12 +96,13 @@ public class Annotation implements Serializable, DBInsertable {
         return title;
     }
 
-    public String getType() {
-        return mainType;
+    public AnnotationType getType() {
+        return this.type;
     }
 
+
     public int getProgramIcon() {
-        String type = this.mainType;
+        String type = this.type.mainType;
         if (type.equalsIgnoreCase("P")) {
             return R.drawable.lecture;
         }
@@ -150,7 +151,7 @@ public class Annotation implements Serializable, DBInsertable {
         try {
             this.pid = Integer.parseInt(pid.trim());
         } catch (NumberFormatException e) {
-
+            //intentionally
         }
     }
 
@@ -162,19 +163,8 @@ public class Annotation implements Serializable, DBInsertable {
         this.title = title.trim();
     }
 
-    public void setType(String type) {
-        String[] types = type.trim().split("\\+");
-        if (types.length > 0) {
-            mainType = types[0].trim();
-        }
-        if (types.length > 1) {
-            for (int i = 1; i < types.length; i++) {
-                additonalTypes += types[i] + "+";
-            }
-            additonalTypes = (String) additonalTypes.subSequence(0,
-                    additonalTypes.length() - 1); // removes last +
-        }
-
+    public void setType(AnnotationType type) {
+        this.type = type;
     }
 
     public void setProgramLine(String programLine) {
@@ -194,8 +184,8 @@ public class Annotation implements Serializable, DBInsertable {
         ret.put("pid", this.pid);
         ret.put("talker", talker);
         ret.put("title", title);
-        ret.put("mainType", mainType);
-        ret.put("additionalTypes", additonalTypes);
+        ret.put("mainType", this.type.mainType);
+        ret.put("additionalTypes", TextUtils.join("+", this.type.secondaryTypes));
         ret.put("normalizedTitle", normalize(title));
 
         ret.put("lid", lid);
@@ -215,7 +205,7 @@ public class Annotation implements Serializable, DBInsertable {
 
 
     public void setLid(Integer integer) {
-        lid = integer.intValue();
+        lid = integer;
 
     }
 
@@ -232,14 +222,13 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
     public String[] getAdditionalTypes() {
-        return additonalTypes.split("\\+");
+        return (String[]) type.secondaryTypes.toArray();
     }
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    @SuppressWarnings("serial")
     private static final HashMap<Character, Character> accents  = new HashMap<Character, Character>(){
         {
             put('ě', 'e');
@@ -279,5 +268,11 @@ public class Annotation implements Serializable, DBInsertable {
                 normalized[i] = x;
         }
         return new String(normalized);
+    }
+
+    public void setType(String mainType, String additionalTypes) {
+        this.type = new AnnotationType();
+        this.type.mainType = mainType;
+        this.type.secondaryTypes = Arrays.asList(additionalTypes.split("\\+"));
     }
 }

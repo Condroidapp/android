@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ITaskListener {
 
-    public void onTaskCompleted(AListenedAsyncTask<?,?> task, List<?> results);
+    public void onTaskCompleted(AListenedAsyncTask<?,?> task);
 
     Activity getActivity();
 }

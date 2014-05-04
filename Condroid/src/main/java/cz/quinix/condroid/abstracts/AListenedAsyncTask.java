@@ -12,7 +12,9 @@ import java.util.Date;
 import java.util.List;
 
 import cz.quinix.condroid.CondroidApi;
+import cz.quinix.condroid.loader.AnnotationTypeAdapter;
 import cz.quinix.condroid.loader.DateTypeAdapter;
+import cz.quinix.condroid.model.AnnotationType;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import roboguice.util.RoboAsyncTask;
@@ -20,10 +22,11 @@ import roboguice.util.RoboAsyncTask;
 /**
  * Created by Jan on 13. 4. 2014.
  */
-public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask<List<Result>> {
+public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask<Result> {
 
     @Inject private Provider<Context> contextProvider;
     private ITaskListener listener;
+    private Result results;
 
 
 
@@ -33,7 +36,10 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
     }
 
     protected CondroidApi getCondroidService() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateTypeAdapter()).create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                .registerTypeAdapter(AnnotationType.class, new AnnotationTypeAdapter())
+                .create();
         RestAdapter adapter = new RestAdapter.Builder()
                 .setEndpoint(CondroidActivity.API_ENDPOINT)
                 .setConverter(new GsonConverter(gson))
@@ -41,8 +47,12 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
         return adapter.create(CondroidApi.class);
     }
 
-    @Override
-    protected void onSuccess(List<Result> results) throws Exception {
-        this.listener.onTaskCompleted(this, results);
+    protected void onSuccess(Result results) throws Exception {
+        this.results = results;
+        this.listener.onTaskCompleted(this);
+    }
+
+    public Result getResults() {
+        return this.results;
     }
 }

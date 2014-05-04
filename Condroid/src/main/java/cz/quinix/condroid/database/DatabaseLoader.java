@@ -7,117 +7,132 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.AsyncTaskListener;
-import cz.quinix.condroid.abstracts.ListenedAsyncTask;
+import cz.quinix.condroid.abstracts.AListenedAsyncTask;
+import cz.quinix.condroid.abstracts.ITaskListener;
+import cz.quinix.condroid.loader.AProgressedTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
+public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
 
-    private CondroidDatabase db;
-    private Convention con;
-    private int pdMax;
+    @Inject private DataProvider dataProvider;
     private boolean fullInsert;
+    private Map<String, List<Annotation>> parameters;
+    private Convention event;
 
-    public DatabaseLoader(AsyncTaskListener listener, CondroidDatabase db, Convention con, boolean fullInsert) {
-        super(listener);
-        this.db = db;
-        this.con = con;
-        this.fullInsert = fullInsert;
+    public DatabaseLoader(ITaskListener listener) {
+        super(listener, (com.actionbarsherlock.app.SherlockFragmentActivity) listener.getActivity());
     }
 
     @Override
-    protected void onPostExecute(List<?> result) {
+    protected void onSuccess(List<Annotation> annotations) throws Exception {
         if (this.fullInsert) {
-            SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(parentActivity).edit();
+            SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(this.context).edit();
             e.remove("con_specific_message");
             e.commit();
         }
-        super.onPostExecute(result);
+        super.onSuccess(annotations);
     }
 
     @Override
-    protected void onPreExecute() {
-        //intentionally
+    protected void onPreExecute() throws Exception {
+        if(this.parameters == null) {
+            throw new IllegalStateException("Parameters to insert pre not set.");
+        }
+        this.showDialog(this.getItemsSize());
     }
 
-    @Override
-    protected void showDialog() {
+    private boolean fullInsert() {
+        return this.dataProvider.getCon() == null || this.dataProvider.getCon().getId() != this.event.getId();
+    }
+
+    protected void showDialog(int max) {
         if (pd != null) {
             pd.dismiss();
         }
-        pd = new ProgressDialog(parentActivity);
-        pd.setMessage(parentActivity.getString(R.string.processing));
+        pd = new ProgressDialog(context);
+        pd.setMessage(context.getString(R.string.processing));
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setMax(pdMax);
+        pd.setMax(max);
         pd.setCancelable(false);
         pd.show();
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        int value = values[0];
-
-        super.onProgressUpdate(values);
-        if (pd == null || !pd.isShowing()) {
-            pdMax = value;
-            showDialog();
-            return;
-        }
-        float progress = (float) value / 2;
+    protected void updateProgress(int value) {
+        float progress = (float) value;
         pd.setProgress((int) (progress));
     }
 
+    public void setData(Map<String, List<Annotation>> parameters, Convention event) {
+        this.parameters = parameters;
+        this.event = event;
+    }
+
     @Override
-    protected List<?> doInBackground(List<?>... params) {
-        @SuppressWarnings("unchecked")
-        List<Annotation> items = ((List<Annotation>) params[0]);
-        this.publishProgress(items.size());
+    public List<Annotation> call() throws Exception {
+        CondroidDatabase database = this.dataProvider.getDatabase();
         int counter = 0;
-        if (items.size() > 0) {
-            SQLiteDatabase db = this.db.getWritableDatabase();
-            db.replace("cons", null, con.getContentValues());
+        if(this.fullInsert() && !database.isEmpty()) {
+            database.purge(event.getId());
+        }
+        if (this.getItemsSize() > 0) {
+            SQLiteDatabase db = database.getWritableDatabase();
+            db.replace("cons", null, event.getContentValues());
 
             HashMap<String, Integer> lines = new HashMap<String, Integer>();
             if (!fullInsert) {
-                /*HashMap<Integer, String> l = DataProvider.getInstance(null).getProgramLines();
+                HashMap<Integer, String> l = dataProvider.getProgramLines();
                 for (Integer i : l.keySet()) {
                     lines.put(l.get(i), i);
-                }*/
+                }
             }
+            String[] keys = {"add", "change"};
             try {
                 db.beginTransaction();
-                for (Annotation annotation : items) {
-                    if (!lines.containsKey(annotation.getProgramLine())) {
-                        ContentValues cv = new ContentValues();
-                        cv.put("title", annotation.getProgramLine());
-                        cv.put("cid", con.getId());
-                        int key = (int) db.replace("lines", null, cv);
-                        lines.put(annotation.getProgramLine(), key);
-                    }
-                    this.publishProgress(counter++);
-                    annotation.setLid(lines.get(annotation.getProgramLine()));
-                    if (this.isCancelled()) {
+                for(String key : keys) {
+                    List<Annotation> items = this.parameters.get(key);
+                    for (Annotation annotation : items) {
+                        if (!lines.containsKey(annotation.getProgramLine())) {
+                            ContentValues cv = new ContentValues();
+                            cv.put("title", annotation.getProgramLine());
+                            cv.put("cid", event.getId());
+                            int programKey = (int) db.replace("lines", null, cv);
+                            lines.put(annotation.getProgramLine(), programKey);
+                        }
+                        this.updateProgress(counter++);
+                        annotation.setLid(lines.get(annotation.getProgramLine()));
+                    /*if (this.isCancelled()) {
                         Log.d("Condroid", "Premature end");
                         db.endTransaction();
                         return null;
+                    }*/
                     }
-                }
 
-                for (Annotation annotation : items) {
-                    ContentValues cv = annotation.getContentValues();
-                    cv.put("cid", con.getId());
-                    db.replaceOrThrow("annotations", null, cv);
-                    this.publishProgress(counter++);
-                    if (this.isCancelled()) {
+                    for (Annotation annotation : items) {
+                        ContentValues cv = annotation.getContentValues();
+                        cv.put("cid", event.getId());
+                        db.replaceOrThrow("annotations", null, cv);
+                        this.updateProgress(counter++);
+                    /*if (this.isCancelled()) {
                         Log.d("Condroid", "Premature end 2");
                         db.endTransaction();
                         return null;
+                    }*/
                     }
+                }
+                for(Annotation a :this.parameters.get("delete")) {
+                    String[] where = {String.valueOf(event.getId()), String.valueOf(a.getPid())};
+                    db.delete("annotations", "cid = ? AND pid = ?", where);
+                    this.updateProgress(counter++);
                 }
                 db.setTransactionSuccessful();
             } catch (SQLException e) {
@@ -128,5 +143,7 @@ public class DatabaseLoader extends ListenedAsyncTask<List<?>, Integer> {
         return null;
     }
 
-
+    private int getItemsSize() {
+        return this.parameters.get("add").size() + this.parameters.get("change").size() + this.parameters.get("delete").size();
+    }
 }

@@ -29,7 +29,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConventionLoader extends AListenedAsyncTask<Void, Convention> {
+public class ConventionLoader extends AListenedAsyncTask<Void, List<Convention>> {
 
     public ConventionLoader(ITaskListener listener) {
         super(listener);
