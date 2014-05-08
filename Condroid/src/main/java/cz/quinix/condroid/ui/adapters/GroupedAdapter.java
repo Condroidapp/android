@@ -168,7 +168,7 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
     }
 
 
-    class Entry {
+    public static  class Entry {
 
         public Annotation annotation;
         public Date header;

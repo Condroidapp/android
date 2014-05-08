@@ -28,6 +28,7 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.AboutDialog;
 import cz.quinix.condroid.ui.Preferences;
 import cz.quinix.condroid.ui.ReminderList;
+import cz.quinix.condroid.ui.adapters.GroupedAdapter;
 import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.fragments.AllAnnotations;
@@ -261,8 +262,15 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
             if (adapterView instanceof ListView) {
-                Annotation selected = (Annotation) adapterView.getItemAtPosition(i);
-                if (!selected.getTitle().startsWith("break")) {
+                Object item = adapterView.getAdapter().getItem(i);
+                Annotation selected;
+                if(item instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) item).isSeparator()) {
+                    selected = ((GroupedAdapter.Entry) item).annotation;
+                } else {
+                    selected = (Annotation) item;
+                }
+
+                if (selected != null) {
                     Intent intent = new Intent(this, ShowAnnotation.class);
                     intent.putExtra("annotation", selected);
                     this.startActivity(intent);
