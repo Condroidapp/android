@@ -3,6 +3,9 @@ package cz.quinix.condroid.ui.listeners;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Toast;
+
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.ICondition;
 import cz.quinix.condroid.database.DataProvider;
@@ -10,6 +13,7 @@ import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.ProgramLine;
 import cz.quinix.condroid.ui.activities.ProgramActivity;
+import roboguice.RoboGuice;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,16 +29,18 @@ import java.util.*;
  */
 public class FilterListener {
     private ProgramActivity activity;
+    private DataProvider provider;
 
-    public FilterListener(ProgramActivity activity) {
+    public FilterListener(ProgramActivity activity, DataProvider provider) {
         this.activity = activity;
 
+        this.provider = provider;
     }
 
     public void invoke() {
         AlertDialog.Builder ab = new AlertDialog.Builder(activity);
         ab.setTitle(R.string.chooseFilter);
-        ab.setItems(R.array.filterBy, new FilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName())));
+        ab.setItems(R.array.filterBy, new FilterTypeSelected(activity, provider, SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName())));
 
         ab.create().show();
     }
@@ -43,10 +49,12 @@ public class FilterListener {
 class FilterTypeSelected implements DialogInterface.OnClickListener {
 
     private ProgramActivity activity;
+    private DataProvider provider;
     private SearchQueryBuilder search;
 
-    public FilterTypeSelected(ProgramActivity activity, SearchQueryBuilder search) {
+    public FilterTypeSelected(ProgramActivity activity, DataProvider provider, SearchQueryBuilder search) {
         this.activity = activity;
+        this.provider = provider;
         this.search = search;
     }
 
@@ -56,7 +64,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle(R.string.dPickLine);
 
-            Map<Integer, ProgramLine> pl = DataProvider.getInstance(activity).getProgramLines();
+            Map<Integer, ProgramLine> pl = provider.getProgramLines();
             int i = 0;
             final String[] pls = new String[pl.size()];
 
@@ -64,7 +72,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                 pls[i++] = p.getName();
             }
             Arrays.sort(pls);
-            builder.setItems(pls, new ProgramLineFilter(activity, search, pls));
+            builder.setItems(pls, new ProgramLineFilter(activity, provider, search, pls));
 
             builder.create().show();
         }
@@ -72,7 +80,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
         if (which == 0) {
             AlertDialog.Builder build = new AlertDialog.Builder(activity);
             build.setTitle(R.string.dPickDate);
-            List<Date> dates = DataProvider.getInstance(activity).getDates();
+            List<Date> dates = provider.getDates();
             if (dates.size() == 0) {
                 Toast.makeText(activity, R.string.noDatesAvailable, Toast.LENGTH_LONG).show();
                 return;
@@ -98,7 +106,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                 @Override
                 public String getCondition() {
                     String condition = "";
-                    List<Integer> f = DataProvider.getInstance(activity).getFavorited();
+                    List<Integer> f = provider.getFavorited();
                     if (f.size() > 0) {
                         for (Integer integer : f) {
                             if (!condition.equals("")) {
@@ -127,11 +135,13 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
 class ProgramLineFilter implements DialogInterface.OnClickListener {
 
     private ProgramActivity activity;
+    private DataProvider provider;
     private SearchQueryBuilder search;
     private String[] items;
 
-    public ProgramLineFilter(ProgramActivity activity, SearchQueryBuilder search, String[] items) {
+    public ProgramLineFilter(ProgramActivity activity, DataProvider provider, SearchQueryBuilder search, String[] items) {
         this.activity = activity;
+        this.provider = provider;
         this.search = search;
         this.items = items;
     }
@@ -144,8 +154,7 @@ class ProgramLineFilter implements DialogInterface.OnClickListener {
             search
                     .removeParam(new ProgramLine());
         } else {
-            for (ProgramLine item : DataProvider.getInstance(activity)
-                    .getProgramLines().values()) {
+            for (ProgramLine item : provider.getProgramLines().values()) {
                 if (item.getName().equals(value)) {
                     lid = item.getLid();
                     break;
@@ -165,10 +174,11 @@ class ProgramLineFilter implements DialogInterface.OnClickListener {
 class DateFilter implements DialogInterface.OnClickListener {
 
     private ProgramActivity activity;
+    private DataProvider provider;
     private SearchQueryBuilder search;
     private String[] items;
 
-    public DateFilter(ProgramActivity activity, SearchQueryBuilder search, String[] items) {
+    public DateFilter(ProgramActivity activity,  SearchQueryBuilder search, String[] items) {
         this.activity = activity;
         this.search = search;
         this.items = items;

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Reminder;
+import roboguice.RoboGuice;
 
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class ReminderManager {
     public static void updateAlarmManager(Context context) {
         Log.d("Condroid", "Setting up alarm service");
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        DataProvider dp = DataProvider.getInstance(context);
+        DataProvider dp = RoboGuice.getInjector(context).getInstance(DataProvider.class);
 
         //find closest event
         Reminder closest = dp.getNextReminder();

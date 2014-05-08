@@ -177,10 +177,10 @@ public class ShowAnnotation extends RoboSherlockActivity {
                 startActivity(intent);
                 return true;
             case R.id.mReminder:
-                new SetReminderListener(this).invoke(this.annotation);
+                new SetReminderListener(this, provider).invoke(this.annotation);
                 return true;
             case R.id.mFavorite:
-                if (new MakeFavoritedListener(this).invoke(this.annotation)) {
+                if (new MakeFavoritedListener(this, provider).invoke(this.annotation)) {
                     item.setIcon(R.drawable.ic_action_star_active);
                 } else {
                     item.setIcon(R.drawable.ic_action_star);

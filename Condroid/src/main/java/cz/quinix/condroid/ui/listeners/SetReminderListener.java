@@ -16,11 +16,13 @@ public class SetReminderListener implements OnClickListener {
 
     Activity activity;
     int[] minutes = {0, 2, 5, 10, 15, 20, 30};
+    private DataProvider provider;
 
 
-    public SetReminderListener(Activity activity) {
+    public SetReminderListener(Activity activity, DataProvider provider) {
         super();
         this.activity = activity;
+        this.provider = provider;
     }
 
 
@@ -35,7 +37,7 @@ public class SetReminderListener implements OnClickListener {
         }
         AlertDialog.Builder ab = new AlertDialog.Builder(activity);
         ab.setTitle(R.string.remind);
-        Integer exReminder = DataProvider.getInstance(activity).getReminder(annotation.getPid());
+        Integer exReminder = provider.getReminder(annotation.getPid());
         int selected = -1;
         if (exReminder != null) {
             for (int i = 0; i < minutes.length; i++) {
@@ -49,7 +51,6 @@ public class SetReminderListener implements OnClickListener {
 
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                DataProvider provider = DataProvider.getInstance(activity);
                 if (provider.setReminder(annotation, minutes[which])) {
                     ReminderManager.updateAlarmManager(activity);
                     Toast.makeText(activity, "Upozornění bylo nastaveno.", Toast.LENGTH_SHORT).show();

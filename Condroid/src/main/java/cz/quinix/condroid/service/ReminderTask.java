@@ -10,11 +10,15 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Reminder;
 import cz.quinix.condroid.ui.activities.ShowAnnotation;
+import roboguice.service.RoboService;
 
 import java.text.SimpleDateFormat;
 
@@ -25,7 +29,9 @@ import java.text.SimpleDateFormat;
  * Time: 23:21
  * To change this template use File | Settings | File Templates.
  */
-public class ReminderTask extends Service {
+public class ReminderTask extends RoboService {
+
+    @Inject DataProvider provider;
 
 
     public IBinder onBind(Intent intent) {
@@ -49,7 +55,7 @@ public class ReminderTask extends Service {
     public static SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 
     private void handleCommand(Intent intent) {
-        Reminder r = DataProvider.getInstance(getApplicationContext()).getNextReminder();
+        Reminder r = provider.getNextReminder();
 
         if (r != null) {
             Annotation annotation = r.annotation;
@@ -87,7 +93,7 @@ public class ReminderTask extends Service {
                 Log.d("Condroid", "Null pointer in service", e);
             } finally {
                 if (annotation != null) {
-                    DataProvider.getInstance(getApplicationContext()).removeReminder(annotation.getPid());
+                    provider.removeReminder(annotation.getPid());
                 }
 
             }

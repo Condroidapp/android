@@ -9,6 +9,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockListActivity;
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Reminder;
@@ -27,13 +31,14 @@ import java.util.Locale;
  * Time: 21:06
  * To change this template use File | Settings | File Templates.
  */
-public class ReminderList extends ListActivity {
+public class ReminderList extends RoboSherlockListActivity {
     List<Reminder> data;
+    @Inject DataProvider provider;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        data = DataProvider.getInstance(this).getReminderList();
+        data = provider.getReminderList();
         this.setListAdapter(new CustomAdapter(this, data));
         this.registerForContextMenu(this.getListView());
     }
@@ -59,10 +64,10 @@ public class ReminderList extends ListActivity {
         Reminder an = (Reminder) this.getListView().getItemAtPosition(info.position);
         switch (menuItemIndex) {
             case 0:
-                DataProvider.getInstance(this).removeReminder(an.annotation.getPid());
+                provider.removeReminder(an.annotation.getPid());
                 ReminderManager.updateAlarmManager(this);
                 this.data.clear();
-                this.data.addAll(DataProvider.getInstance(this).getReminderList());
+                this.data.addAll(provider.getReminderList());
                 ((CustomAdapter) this.getListView().getAdapter()).notifyDataSetChanged();
                 break;
             default:

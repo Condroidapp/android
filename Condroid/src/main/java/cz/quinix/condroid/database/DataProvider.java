@@ -28,8 +28,6 @@ import java.util.Map;
 @Singleton
 public class DataProvider {
 
-    public static String AUTHORITY = "cz.quinix.condroid.database.DataProvider";
-    public static Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/database");
     public static int ITEMS_PER_PAGE = 40;
 
     @Inject
@@ -40,16 +38,9 @@ public class DataProvider {
 
     private Map<Integer, ProgramLine> programLines = null;
 
-    public static DataProvider getInstance(Context context) {
-        return null;
-    }
 
     public boolean hasData() {
         return !mDatabase.isEmpty();
-    }
-
-    public void setConvention(Convention convention) {
-        con = convention;
     }
 
     public List<Annotation> getAnnotations(SearchQueryBuilder con, int skip) {

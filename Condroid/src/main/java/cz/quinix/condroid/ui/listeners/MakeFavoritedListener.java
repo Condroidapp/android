@@ -10,10 +10,12 @@ import cz.quinix.condroid.ui.activities.ShowAnnotation;
 public class MakeFavoritedListener implements OnClickListener {
 
     private Activity activity;
+    private DataProvider provider;
 
-    public MakeFavoritedListener(Activity activity) {
+    public MakeFavoritedListener(Activity activity, DataProvider provider) {
         super();
         this.activity = activity;
+        this.provider = provider;
     }
 
     public void onClick(View v) {
@@ -21,8 +23,7 @@ public class MakeFavoritedListener implements OnClickListener {
     }
 
     public boolean invoke(Annotation annotation) {
-        boolean favorited = DataProvider.getInstance(
-                activity.getApplicationContext()).doFavorite(
+        boolean favorited = provider.doFavorite(
                 annotation.getPid());
         //ProgramActivity.notifyDataSetChanged = true;
         return favorited;

@@ -20,6 +20,7 @@ import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
+import cz.quinix.condroid.ui.adapters.GroupedAdapter;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
@@ -108,11 +109,11 @@ public abstract class CondroidFragment extends RoboSherlockFragment {
                 new ShareProgramListener(this.getActivity()).invoke(an);
                 break;
             case 1:
-                new MakeFavoritedListener(this.getActivity()).invoke(an);
+                new MakeFavoritedListener(this.getActivity(), dataProvider).invoke(an);
                 ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
                 break;
             case 2:
-                new SetReminderListener(this.getActivity()).invoke(an);
+                new SetReminderListener(this.getActivity(), dataProvider).invoke(an);
             default:
                 break;
         }
@@ -125,9 +126,15 @@ public abstract class CondroidFragment extends RoboSherlockFragment {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         if (v instanceof ListView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            Annotation an = (Annotation) ((ListView) v).getItemAtPosition(info.position);
-            if (an.getTitle() != "break") {
-                menu.setHeaderTitle(an.getTitle());
+            Object an = ((ListView) v).getItemAtPosition(info.position);
+            Annotation selected;
+            if(an instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) an).isSeparator()) {
+                selected = ((GroupedAdapter.Entry) an).annotation;
+            } else {
+                selected = (Annotation) an;
+            }
+            if (selected != null) {
+                menu.setHeaderTitle(selected.getTitle());
                 String[] menuItems = getResources().getStringArray(R.array.annotationContext);
                 for (int i = 0; i < menuItems.length; i++) {
                     menu.add(Menu.NONE, i, i, menuItems[i]);

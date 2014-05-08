@@ -1,6 +1,7 @@
 package cz.quinix.condroid.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -8,10 +9,16 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.inject.Inject;
+
 import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.Preferences;
+import roboguice.service.RoboService;
+import roboguice.util.RoboAsyncTask;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpHead;
@@ -31,7 +38,7 @@ import java.util.Locale;
  * Time: 0:09
  * To change this template use File | Settings | File Templates.
  */
-public class UpdatesService extends Service {
+public class UpdatesService extends RoboService {
     public IBinder onBind(Intent intent) {
         return null;
     }
@@ -59,7 +66,7 @@ public class UpdatesService extends Service {
         }
 
         if (preferences.getBoolean("update_check", false) && !preferences.getBoolean("updates_found", false)) {
-            new ServiceAsync().execute();
+            new ServiceAsync(this).execute();
         } else {
             Preferences.stopUpdateService(this);
             this.stopSelf();
@@ -67,13 +74,19 @@ public class UpdatesService extends Service {
         }
     }
 
-    private class ServiceAsync extends AsyncTask<Void, Void, Void> {
+    private class ServiceAsync extends RoboAsyncTask<Void> {
+
+        @Inject private DataProvider provider;
+
+        public ServiceAsync(Context context) {
+            super(context);
+        }
+
 
         @Override
-        protected Void doInBackground(Void... voids) {
-
+        public Void call() throws Exception {
             Log.d("Condroid", "Update service active");
-            Convention convention = DataProvider.getInstance(UpdatesService.this).getCon();
+            Convention convention = provider.getCon();
             if (convention == null || convention.getId() < 1) {
                 Preferences.stopUpdateService(UpdatesService.this);
                 stopSelf();
@@ -89,7 +102,7 @@ public class UpdatesService extends Service {
             SimpleDateFormat internationalFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
 
             head.setHeader("If-Modified-Since", internationalFormat.format(convention.getLastUpdate())); //if new/updates
-            head.setHeader("X-If-Count-Not-Match", "" + DataProvider.getInstance(UpdatesService.this).getAnnotationsCount()); //if deletes
+            head.setHeader("X-If-Count-Not-Match", "" + provider.getAnnotationsCount()); //if deletes
             head.setHeader("X-Device-Info", CondroidActivity.getDeviceInfoString(UpdatesService.this));
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(UpdatesService.this).edit();
 
@@ -120,6 +133,7 @@ public class UpdatesService extends Service {
                 stopSelf();
             }
             return null;
+
         }
     }
 }

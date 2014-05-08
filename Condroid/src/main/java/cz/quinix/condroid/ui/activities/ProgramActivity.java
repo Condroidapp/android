@@ -211,14 +211,6 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
 
 
     public void onAsyncTaskCompleted() {
-        asyncTaskHandler = null;
-        if (!provider.hasData()) {
-            Toast.makeText(this,
-                    "Chyba při stahování, zkuste to prosím později.",
-                    Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
         //SearchProvider.getSearchQueryBuilders().clear(); why is this in here?!
 
         if (refreshRegistry != null) {
@@ -308,7 +300,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
                 this.startActivity(i);
                 return true;
             case R.id.mFilter:
-                new FilterListener(this).invoke();
+                new FilterListener(this, this.provider).invoke();
                 return true;
             case R.id.mSearch:
                 onSearchRequested();
