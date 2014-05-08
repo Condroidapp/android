@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
@@ -66,6 +67,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setMax(max);
         pd.setCancelable(false);
+
         pd.show();
     }
 
@@ -110,7 +112,6 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
                             int programKey = (int) db.replace("lines", null, cv);
                             lines.put(annotation.getProgramLine(), programKey);
                         }
-                        this.updateProgress(counter++);
                         annotation.setLid(lines.get(annotation.getProgramLine()));
                     /*if (this.isCancelled()) {
                         Log.d("Condroid", "Premature end");
@@ -123,7 +124,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
                         ContentValues cv = annotation.getContentValues();
                         cv.put("cid", event.getId());
                         db.replaceOrThrow("annotations", null, cv);
-                        this.updateProgress(counter++);
+                        this.updateProgress(++counter);
                     /*if (this.isCancelled()) {
                         Log.d("Condroid", "Premature end 2");
                         db.endTransaction();
@@ -134,7 +135,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
                 for(Annotation a :this.parameters.get("delete")) {
                     String[] where = {String.valueOf(event.getId()), String.valueOf(a.getPid())};
                     db.delete("annotations", "cid = ? AND pid = ?", where);
-                    this.updateProgress(counter++);
+                    this.updateProgress(++counter);
                 }
                 db.setTransactionSuccessful();
             } catch (SQLException e) {
