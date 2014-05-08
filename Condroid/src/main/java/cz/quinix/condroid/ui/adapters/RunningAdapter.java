@@ -10,7 +10,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.Running;
+import cz.quinix.condroid.ui.fragments.RunningAnnotations;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,9 +33,7 @@ public class RunningAdapter extends EndlessAdapter {
     private static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
 
     public RunningAdapter(List<Annotation> map, Activity caller) {
-        super(caller, AddBreaks.addBreaks(map, null));
-        this.totalItems = map.size();
-        this.keepOnAppending.set(!(map.size() < DataProvider.ITEMS_PER_PAGE));
+        super(caller, new GroupedAdapter(map));
     }
 
     @Override
@@ -54,14 +52,14 @@ public class RunningAdapter extends EndlessAdapter {
 
     @Override
     protected List<Annotation> getPrecachedData(int page) {
-        return this.provider.getRunningAndNext(SearchProvider.getSearchQueryBuilder(Running.class.getName()), page);
+        return this.provider.getRunningAndNext(SearchProvider.getSearchQueryBuilder(RunningAnnotations.class.getName()), page);
 
     }
 
 
     @Override
     public View inflateAnnotation(View v, Annotation annotation) {
-        this.setLayout(v, annotation);
+        /*this.setLayout(v, annotation);
         if (annotation.getTitle() == "break" || annotation.getTitle().equals("break-now")) {
             ViewHolder vh = (ViewHolder) v.getTag(R.id.listItem);
             if (annotation.getStart().before(new Date())) {
@@ -76,7 +74,7 @@ public class RunningAdapter extends EndlessAdapter {
             v.setFocusable(false);
             v.setClickable(false);
             return v;
-        }
+        }*/
         return super.inflateAnnotation(v, annotation);
     }
 
@@ -88,7 +86,6 @@ public class RunningAdapter extends EndlessAdapter {
         vh.favorited = evh.favorited;
         vh.line = evh.line;
         vh.place = evh.place;
-        vh.programType = evh.programType;
         vh.time = evh.time;
         vh.title = evh.title;
         vh.runningTitle = (TextView) convertView.findViewById(R.id.tRunningTitle);

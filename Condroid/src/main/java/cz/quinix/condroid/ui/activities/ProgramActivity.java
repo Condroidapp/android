@@ -1,6 +1,5 @@
-package cz.quinix.condroid.ui;
+package cz.quinix.condroid.ui.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
@@ -15,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -23,13 +21,19 @@ import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmen
 import com.google.inject.Inject;
 
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.AboutDialog;
+import cz.quinix.condroid.ui.Preferences;
+import cz.quinix.condroid.ui.ReminderList;
 import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
+import cz.quinix.condroid.ui.fragments.AllAnnotations;
+import cz.quinix.condroid.ui.fragments.CondroidFragment;
+import cz.quinix.condroid.ui.fragments.RefreshRegistry;
+import cz.quinix.condroid.ui.fragments.RunningAnnotations;
 import cz.quinix.condroid.ui.listeners.DisableFilterListener;
 import cz.quinix.condroid.ui.listeners.FilterListener;
 import cz.quinix.condroid.ui.listeners.TabListener;
@@ -50,7 +54,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
     private Date onResumeTime = null;
     public static boolean refreshDataset = false;
     private static AsyncTaskDialog asyncTaskHandler;
-    private static CondroidFragment.RefreshRegistry refreshRegistry;
+    private static RefreshRegistry refreshRegistry;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -62,8 +66,8 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
         ActionBar.Tab runningTab = actionBar.newTab().setText(R.string.tRunning);
         ActionBar.Tab allTab = actionBar.newTab().setText(R.string.tAll);
 
-        CondroidFragment runningFragment = new Running();
-        CondroidFragment allFragment = new All();
+        CondroidFragment runningFragment = new RunningAnnotations();
+        CondroidFragment allFragment = new AllAnnotations();
 
         runningTab.setTabListener(new TabListener(runningFragment));
         allTab.setTabListener(new TabListener(allFragment));

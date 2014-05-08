@@ -4,7 +4,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 import com.actionbarsherlock.app.ActionBar;
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.ui.CondroidFragment;
+import cz.quinix.condroid.ui.fragments.CondroidFragment;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,4 +1,4 @@
-package cz.quinix.condroid.ui;
+package cz.quinix.condroid.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockFragment;
+
 import com.actionbarsherlock.view.Menu;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
 import com.google.inject.Inject;
@@ -23,9 +23,7 @@ import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
-import roboguice.inject.InjectView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -176,17 +174,4 @@ public abstract class CondroidFragment extends RoboSherlockFragment {
 
     protected abstract List<Annotation> loadData(SearchQueryBuilder sb, int i);
 
-    static class RefreshRegistry {
-        private List<CondroidFragment> list = new ArrayList<CondroidFragment>();
-
-        void registerInstance(CondroidFragment p) {
-            list.add(p);
-        }
-
-        void performRefresh() {
-            for (CondroidFragment p : list) {
-                p.applySearch();
-            }
-        }
-    }
 }

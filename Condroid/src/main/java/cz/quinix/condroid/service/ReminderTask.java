@@ -14,7 +14,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Reminder;
-import cz.quinix.condroid.ui.ShowAnnotation;
+import cz.quinix.condroid.ui.activities.ShowAnnotation;
 
 import java.text.SimpleDateFormat;
 

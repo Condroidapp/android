@@ -1,4 +1,4 @@
-package cz.quinix.condroid.ui;
+package cz.quinix.condroid.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;

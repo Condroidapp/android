@@ -1,22 +1,14 @@
 package cz.quinix.condroid.ui.dataLoading;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.os.AsyncTask;
-import android.widget.Toast;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
-import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.abstracts.ListenedAsyncTask;
-import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
-import cz.quinix.condroid.ui.ProgramActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

@@ -1,11 +1,9 @@
-package cz.quinix.condroid.ui;
+package cz.quinix.condroid.ui.fragments;
 
-import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
-import cz.quinix.condroid.ui.adapters.RunningAdapter;
 
 import java.util.List;
 
@@ -16,14 +14,15 @@ import java.util.List;
  * Time: 22:35
  * To change this template use File | Settings | File Templates.
  */
-public class Running extends CondroidFragment {
-
+public class AllAnnotations extends CondroidFragment {
     @Override
     protected EndlessAdapter getListViewAdapter() {
-        return new RunningAdapter(this.loadData(SearchProvider.getSearchQueryBuilder(this.getClass().getName()), 0), this.getActivity());
+        return new EndlessAdapter(this.getActivity(), this.loadData(SearchProvider.getSearchQueryBuilder(this.getClass().getName()), 0));
     }
 
     protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
-        return this.dataProvider.getRunningAndNext(sb, page);
+        return this.dataProvider.getAnnotations(sb, page);
     }
+
+
 }

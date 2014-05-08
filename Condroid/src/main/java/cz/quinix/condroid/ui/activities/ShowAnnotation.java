@@ -1,4 +1,4 @@
-package cz.quinix.condroid.ui;
+package cz.quinix.condroid.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivit
 import com.google.inject.Inject;
 
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.activities.ProgramActivity;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;

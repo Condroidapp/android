@@ -2,7 +2,6 @@ package cz.quinix.condroid.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,7 +20,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.All;
+import cz.quinix.condroid.ui.fragments.AllAnnotations;
 import roboguice.RoboGuice;
 
 import java.text.DateFormat;
@@ -34,9 +34,9 @@ import java.util.*;
  * Time: 14:04
  * To change this template use File | Settings | File Templates.
  */
-public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter {
+public class EndlessAdapter<Type> extends com.commonsware.cwac.endless.EndlessAdapter {
     private RotateAnimation rotate;
-    protected List<Annotation> itemsToAdd;
+    protected List<Type> itemsToAdd;
     protected int totalItems = 0;
     private Activity activity;
     @Inject protected DataProvider provider;
@@ -46,9 +46,14 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
             "EE dd.MM. HH:mm", new Locale("cs", "CZ"));
 
 
-    public EndlessAdapter(Activity activity, List<Annotation> items) {
-        super(new ArrayAdapter<Annotation>(activity,
+    public EndlessAdapter(Activity activity, List<Type> items) {
+        this(activity, new ArrayAdapter<Type>(activity,
                 R.layout.annotation_list_item, android.R.id.text1, items));
+    }
+
+    public EndlessAdapter(Activity activity, ListAdapter wrapped) {
+        super(wrapped);
+
         RoboGuice.getInjector(activity).injectMembers(this);
         this.activity = activity;
         rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
@@ -56,18 +61,18 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         rotate.setDuration(1000);
         rotate.setRepeatMode(Animation.RESTART);
         rotate.setRepeatCount(Animation.INFINITE);
-        totalItems = items.size();
-        this.keepOnAppending.set(!(items.size() < DataProvider.ITEMS_PER_PAGE));
-
+        totalItems = wrapped.getCount();
+        this.keepOnAppending.set(!(totalItems < DataProvider.ITEMS_PER_PAGE));
     }
+
 
     /*  @Override
     public Object getItem(int position) {
         return items.get(position);
     }*/
 
-    public void setItems(List<Annotation> items, boolean refresh) {
-        ArrayAdapter<Annotation> a = (ArrayAdapter<Annotation>) this.getWrappedAdapter();
+    public void setItems(List<Type> items, boolean refresh) {
+        ArrayAdapter<Type> a = (ArrayAdapter<Type>) this.getWrappedAdapter();
         a.clear();
         this.insertSettedList(items, a);
         this.totalItems = items.size();
@@ -77,7 +82,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         }
     }
 
-    protected void insertSettedList(List<Annotation> items, ArrayAdapter<Annotation> a) {
+    protected void insertSettedList(List<Type> items, ArrayAdapter<Type> a) {
         for (int i = 0; i < items.size(); i++) {
             a.add(items.get(i));
         }
@@ -94,7 +99,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     }
 
     protected List<Annotation> getPrecachedData(int skip) {
-        return this.provider.getAnnotations(SearchProvider.getSearchQueryBuilder(All.class.getName()), skip);
+        return this.provider.getAnnotations(SearchProvider.getSearchQueryBuilder(AllAnnotations.class.getName()), skip);
     }
 
     @Override

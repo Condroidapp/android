@@ -8,7 +8,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.ui.ProgramActivity;
+import cz.quinix.condroid.ui.activities.ProgramActivity;
 
 import java.util.Date;
 

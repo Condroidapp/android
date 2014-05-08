@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.ShowAnnotation;
+import cz.quinix.condroid.ui.activities.ShowAnnotation;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

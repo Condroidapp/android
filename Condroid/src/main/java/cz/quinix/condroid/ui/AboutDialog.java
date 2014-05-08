@@ -18,7 +18,7 @@ public class AboutDialog {
 
     private Context context;
 
-    protected AboutDialog(Context context) {
+    public AboutDialog(Context context) {
         this.context = context;
         AlertDialog.Builder ab = null;
         if (Build.VERSION.SDK_INT > 10) {

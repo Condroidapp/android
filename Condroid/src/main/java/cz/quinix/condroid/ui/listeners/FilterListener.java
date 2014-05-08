@@ -9,7 +9,7 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.ui.ProgramActivity;
+import cz.quinix.condroid.ui.activities.ProgramActivity;
 
 import java.text.DateFormat;
 import java.text.ParseException;

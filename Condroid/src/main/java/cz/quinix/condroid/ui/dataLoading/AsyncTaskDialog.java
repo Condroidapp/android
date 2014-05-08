@@ -1,13 +1,8 @@
 package cz.quinix.condroid.ui.dataLoading;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-import cz.quinix.condroid.abstracts.AsyncTaskListener;
 import cz.quinix.condroid.abstracts.ITaskListener;
-import cz.quinix.condroid.ui.ProgramActivity;
 
 /**
  * Created with IntelliJ IDEA.

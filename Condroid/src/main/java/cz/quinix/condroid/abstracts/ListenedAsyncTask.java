@@ -10,9 +10,8 @@ import com.google.gson.GsonBuilder;
 
 import cz.quinix.condroid.CondroidApi;
 import cz.quinix.condroid.XMLProccessException;
-import cz.quinix.condroid.loader.ConventionLoader;
 import cz.quinix.condroid.loader.DateTypeAdapter;
-import cz.quinix.condroid.ui.ProgramActivity;
+import cz.quinix.condroid.ui.activities.ProgramActivity;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
