@@ -292,7 +292,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
 
                 return true;
             case R.id.mData_reload:
-               // this.loadData();
+                this.loadData();
                 return true;
 
             case R.id.mSettings:
@@ -308,5 +308,29 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void loadData() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            asyncTaskHandler = new Downloader(this, provider.getCon());
+            builder.setMessage(R.string.updateOrFullDialog)
+                    .setNegativeButton(R.string.full, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(ProgramActivity.this, WelcomeActivity.class);
+                            intent.putExtra("force", true);
+                            startActivity(intent);
+                        }
+                    })
+                    .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

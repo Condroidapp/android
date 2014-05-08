@@ -54,7 +54,8 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
         layEventSelector.setVisibility(View.GONE);
         layProgressEvents.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
-        if(database.hasData()) {
+        boolean force = this.getIntent().getBooleanExtra("force", false);
+        if(database.hasData() && !force) {
             Log.d(this.getClass().getName(), "Screen goto: Annotation list");
             this.startProgramActivity();
             return;

@@ -40,6 +40,9 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
     }
 
     private void addAnnotations(List<Annotation> items) {
+        if(items.size() == 0) {
+            return;
+        }
 
         Collections.sort(items, new Comparator<Annotation>() {
             @Override
