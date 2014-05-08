@@ -21,6 +21,8 @@ android {
         compile 'com.github.rtyley:roboguice-sherlock:1.5+'
         compile 'com.android.support:support-v4:19.1.+'
         compile 'com.squareup.retrofit:retrofit:1.4.+'
+        compile 'joda-time:joda-time:2.3'
+        compile 'com.commonsware.cwac:endless:1.2.3'
     }
 }
 
