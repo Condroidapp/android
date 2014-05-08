@@ -160,7 +160,7 @@ public abstract class CondroidFragment extends RoboSherlockFragment {
             this.updateSearchField(getActivity());
         }
 
-        ((EndlessAdapter) lwMain.getAdapter()).setItems(i, true);
+        ((EndlessAdapter) lwMain.getAdapter()).setItems(i);
         lwMain.setSelection(0);
         lwMain.setVisibility(View.VISIBLE);
         if (i.size() == 0) {

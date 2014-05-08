@@ -3,8 +3,9 @@ package cz.quinix.condroid.ui.fragments;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.adapters.IAdapterDataProvider;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
-import cz.quinix.condroid.ui.adapters.RunningAdapter;
+import cz.quinix.condroid.ui.adapters.GroupedAdapter;
 
 import java.util.List;
 
@@ -19,7 +20,17 @@ public class RunningAnnotations extends CondroidFragment {
 
     @Override
     protected EndlessAdapter getListViewAdapter() {
-        return new RunningAdapter(this.loadData(SearchProvider.getSearchQueryBuilder(this.getClass().getName()), 0), this.getActivity());
+
+        final SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
+        List<Annotation> annotations = this.loadData(sb, 0);
+
+        return new EndlessAdapter(this.getActivity(), new GroupedAdapter(this.getActivity(), annotations), new IAdapterDataProvider() {
+            @Override
+            public List getData(int page) {
+                return loadData(sb, page);
+            }
+        });
+
     }
 
     protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
