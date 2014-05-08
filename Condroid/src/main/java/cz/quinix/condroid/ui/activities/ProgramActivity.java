@@ -21,7 +21,6 @@ import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmen
 import com.google.inject.Inject;
 
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
@@ -211,7 +210,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
     }
 
 
-    public void onAsyncTaskCompleted(ListenedAsyncTask<?, ?> task) {
+    public void onAsyncTaskCompleted() {
         asyncTaskHandler = null;
         if (!provider.hasData()) {
             Toast.makeText(this,

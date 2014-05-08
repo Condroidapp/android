@@ -4,7 +4,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
-import cz.quinix.condroid.abstracts.ListenedAsyncTask;
 import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Annotation;
@@ -46,7 +45,7 @@ public class Downloader extends AsyncTaskDialog {
         }*/
     }
 
-    public void onAsyncTaskCompleted(ListenedAsyncTask<?, ?> task) {
+    public void onAsyncTaskCompleted() {
 
 
         /*if (task.hasResult()) {
