@@ -113,11 +113,6 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
                             lines.put(annotation.getProgramLine(), programKey);
                         }
                         annotation.setLid(lines.get(annotation.getProgramLine()));
-                    /*if (this.isCancelled()) {
-                        Log.d("Condroid", "Premature end");
-                        db.endTransaction();
-                        return null;
-                    }*/
                     }
 
                     for (Annotation annotation : items) {
@@ -125,11 +120,6 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
                         cv.put("cid", event.getId());
                         db.replaceOrThrow("annotations", null, cv);
                         this.updateProgress(++counter);
-                    /*if (this.isCancelled()) {
-                        Log.d("Condroid", "Premature end 2");
-                        db.endTransaction();
-                        return null;
-                    }*/
                     }
                 }
                 for(Annotation a :this.parameters.get("delete")) {

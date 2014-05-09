@@ -19,7 +19,7 @@ import roboguice.RoboGuice;
 /**
  * Created by Jan on 8. 5. 2014.
  */
-public class AnnotationAdapter extends ArrayAdapter<Annotation> implements IAppendable {
+public class AnnotationAdapter extends ArrayAdapter<Annotation> implements IAppendable, IReplaceable {
 
     @Inject ViewHelper viewHelper;
 
@@ -56,5 +56,11 @@ public class AnnotationAdapter extends ArrayAdapter<Annotation> implements IAppe
             this.add(annotation);
         }
         this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void replace(List<Annotation> items) {
+        this.clear();
+        this.append(items);
     }
 }

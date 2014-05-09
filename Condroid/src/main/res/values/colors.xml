@@ -18,4 +18,5 @@
     <color name="lecture">#ff46be2e</color>
     <color name="competition">#ffE4E137</color>
     <color name="workshop">#ff972592</color>
+    <color name="darkgray">#FF404040</color>
 </resources>

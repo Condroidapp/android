@@ -131,4 +131,5 @@
     <string name="mSearch">Hledat</string>
     <string name="mShare">Sdílet</string>
     <string name="mFavorite">Oblíbené</string>
+    <string name="annotation">Anotace</string>
 </resources>
