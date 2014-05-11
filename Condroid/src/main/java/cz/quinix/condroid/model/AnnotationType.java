@@ -52,4 +52,35 @@ public class AnnotationType implements Serializable {
         }
     }
 
+    public static int getTextualType(String x) {
+        if (x.equalsIgnoreCase("P"))
+            return (R.string.lecture);
+
+        if (x.equalsIgnoreCase("B"))
+            return (R.string.discussion);
+
+        if (x.equalsIgnoreCase("C"))
+            return (R.string.theatre);
+
+        if (x.equalsIgnoreCase("D"))
+            return (R.string.document);
+
+        if (x.equalsIgnoreCase("F"))
+            return (R.string.projection);
+
+        if (x.equalsIgnoreCase("G"))
+            return (R.string.game);
+
+        if (x.equalsIgnoreCase("H"))
+            return (R.string.music);
+
+        if (x.equalsIgnoreCase("Q"))
+            return (R.string.quiz);
+
+        if (x.equalsIgnoreCase("W"))
+            return (R.string.workshop);
+
+        return 0;
+    }
+
 }

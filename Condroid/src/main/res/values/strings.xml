@@ -132,4 +132,6 @@
     <string name="mShare">Sdílet</string>
     <string name="mFavorite">Oblíbené</string>
     <string name="annotation">Anotace</string>
+    <string name="justRunning">Pořad právě běží</string>
+    <string name="startsInXMinutes">Pořad začíná za </string>
 </resources>

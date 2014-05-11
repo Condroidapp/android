@@ -1,216 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/lightgray"
-    android:padding="10dp">
+    android:background="@color/lightgray">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:background="#FFFE781F"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/lStartsInMinutes">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startsInXMinutes"
+            android:id="@+id/tStartsShortly"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/lRunningNow"
+        android:background="#FFFE781F">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/justRunning"
+            android:id="@+id/textView2"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:textColor="#ffffffff" />
+    </LinearLayout>
 
     <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content"
         android:layout_width="fill_parent" android:text="Title"
         android:textSize="19dp"
         android:textColor="@color/condroidGreen"
-        android:layout_marginBottom="10dp"></TextView>
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"></TextView>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="100"
-        android:baselineAligned="false">
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:weightSum="6"
-            android:layout_marginRight="15dp"
-            android:id="@+id/lTimeLayout">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent">
-
-                <View
-                    android:layout_width="1dip"
-                    android:layout_height="fill_parent"
-                    android:background="#ff5c5c5c"
-                    android:layout_gravity="center" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/textView2"
-                        android:layout_alignParentTop="true"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:text="00:00" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tStart"
-                        android:textSize="25dp"
-                        android:textAlignment="center"
-                        android:background="@color/lightgray"
-                        android:layout_alignParentTop="false"
-                        android:layout_below="@+id/textView2"></TextView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="01:00"
-                        android:id="@+id/tEnd"
-                        android:textAlignment="center"
-                        android:gravity="center_horizontal|bottom"
-                        android:background="@color/lightgray"
-                        android:layout_alignParentBottom="true"
-                        android:textSize="25dp" />
-                </RelativeLayout>
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="25">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent">
+                android:layout_height="wrap_content"
+                android:weightSum="100"
+                android:baselineAligned="false"
+                android:minHeight="100dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:weightSum="6"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/lTimeLayout"
+                    android:measureWithLargestChild="false">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:minHeight="60dp">
+
+                        <View
+                            android:layout_width="1dip"
+                            android:layout_height="fill_parent"
+                            android:background="#ff5c5c5c"
+                            android:layout_gravity="center"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="pá 20.12."
+                            android:id="@+id/tDay"
+                            android:layout_alignParentTop="true"
+                            android:visibility="visible" android:textAlignment="center"
+                            android:background="@color/lightgray"
+                            android:layout_centerHorizontal="true"
+                            android:textStyle="italic"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:text="00:00" android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/tStart"
+                            android:textSize="25dp"
+                            android:textAlignment="center"
+                            android:background="@color/lightgray"
+                            android:layout_below="@+id/tDay"
+                            android:layout_centerHorizontal="true"></TextView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="01:00"
+                            android:id="@+id/tEnd"
+                            android:textAlignment="center"
+                            android:gravity="center_horizontal|bottom"
+                            android:background="@color/lightgray"
+                            android:layout_alignParentBottom="true"
+                            android:textSize="25dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignParentEnd="false"
+                            android:layout_alignParentTop="false" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"  android:id="@+id/lPrimary">
+
+                        <cz.quinix.condroid.ui.IconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="X"
+                            android:id="@+id/iAuthor"
+                            android:background="@drawable/large_circle"
+                            android:layout_marginRight="10dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textColor="@color/darkgray"
+                            android:padding="6dp"
+                            android:textSize="22dp" />
+
+                        <TextView android:text="Lorem ipsum dolor" android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:id="@+id/annot_author"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="18dp"
+                            android:ellipsize="none" android:scrollHorizontally="false"
+                            android:singleLine="false"
+                            android:layout_weight="1"></TextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="horizontal" android:id="@+id/lSecond"
+                        android:layout_below="@+id/lPrimary">
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="5dp">
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/lLine"
+                                android:layout_alignParentStart="false"
+                                android:layout_alignParentEnd="false"
+                                android:layout_alignParentLeft="false"
+                                android:layout_below="@+id/lLocation"
+                                android:visibility="visible"
+                                android:layout_marginTop="8dp"
+                                android:paddingBottom="3dp">
+
+                                <cz.quinix.condroid.ui.IconView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="X"
+                                    android:id="@+id/iLine"
+                                    android:background="@drawable/large_circle"
+                                    android:layout_marginRight="10dp"
+                                    android:padding="4dp"
+                                    android:gravity="center"
+                                    android:textColor="@color/darkgray"
+                                    android:textSize="16dp"
+                                    android:layout_gravity="center" />
+
+                                <TextView android:text="Program line" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tLine"
+                                    android:textSize="15dp" android:layout_gravity="center_vertical" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/lLocation"
+                                android:layout_marginRight="10dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentTop="true"
+                                android:visibility="gone"
+                                android:layout_marginTop="8dp">
+
+                                <cz.quinix.condroid.ui.IconView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="X"
+                                    android:id="@+id/iLocation"
+                                    android:background="@drawable/large_circle"
+                                    android:layout_marginRight="10dp"
+                                    android:padding="4dp"
+                                    android:gravity="center"
+                                    android:textColor="@color/darkgray"
+                                    android:textSize="16dp"
+                                    android:layout_gravity="center" />
+
+                                <TextView android:text="Location " android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/annot_location"
+                                    android:layout_gravity="center_vertical"
+                                    android:textIsSelectable="false"
+                                    android:textSize="15dp" />
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scrollView2" >
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="30dp">
+                    android:layout_marginTop="10dp">
 
-                    <cz.quinix.condroid.ui.IconView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="X"
-                        android:id="@+id/iAuthor"
-                        android:background="@drawable/large_circle"
+                    <TextView android:text="id" android:id="@+id/annot_pid" android:textColor="@color/lightlighgray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"
+                        android:background="@color/condroidGreen"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="5dp"
                         android:layout_marginRight="10dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textColor="@color/darkgray"
-                        android:padding="6dp"
-                        android:textSize="22dp" />
+                        android:layout_marginBottom="0dp" />
 
-                    <TextView android:text="Author" android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/annot_author"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="18dp"></TextView>
+                    <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/lightlighgray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip" android:maxLines="1"
+                        android:background="@color/condroidGreen"
+                        android:layout_marginRight="10dp"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="5dp" />
+
                 </LinearLayout>
+            </HorizontalScrollView>
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginBottom="3dp">
+            <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout6" android:orientation="vertical" android:layout_height="0dp" android:layout_weight="8">
+                <LinearLayout android:layout_width="fill_parent" android:padding="8dp" android:id="@+id/linearLayout2" android:layout_height="match_parent" android:orientation="vertical"
+                    android:background="@color/white"
+                    android:layout_marginTop="20dp">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/lLocation"
-                        android:layout_marginRight="10dp">
+                        android:text="@string/annotation"
+                        android:id="@+id/textView"
+                        android:textSize="22dp"
+                        android:textColor="@color/condroidGreen"
+                        android:layout_marginBottom="10dp" />
 
-                        <cz.quinix.condroid.ui.IconView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="X"
-                            android:id="@+id/iLocation"
-                            android:background="@drawable/large_circle"
-                            android:layout_marginRight="10dp"
-                            android:padding="4dp"
-                            android:gravity="center"
-                            android:textColor="@color/darkgray"
-                            android:textSize="16dp" />
-
-                        <TextView android:text="Location" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/annot_location"
-                            android:layout_gravity="center_vertical"
-                            android:textIsSelectable="false"
-                            android:textSize="15dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/lLine">
-
-                        <cz.quinix.condroid.ui.IconView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="X"
-                            android:id="@+id/iLine"
-                            android:background="@drawable/large_circle"
-                            android:layout_marginRight="10dp"
-                            android:padding="4dp"
-                            android:gravity="center"
-                            android:textColor="@color/darkgray"
-                            android:textSize="16dp" />
-
-                        <TextView android:text="Program line" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tLine"
-                            android:textSize="15dp" android:layout_gravity="center_vertical" />
-                    </LinearLayout>
+                    <TextView android:id="@+id/annot_text" android:layout_height="fill_parent" android:textSize="15dp" android:layout_width="fill_parent" android:text="TextView" android:lineSpacingExtra="7dp" android:scrollbars="vertical"></TextView>
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView android:text="id" android:id="@+id/annot_pid" android:textColor="@color/lightlighgray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"
-            android:background="@color/condroidGreen"
-            android:paddingLeft="8dp"
-            android:paddingTop="5dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="0dp" />
-
-        <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/lightlighgray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip" android:maxLines="1"
-            android:background="@color/condroidGreen"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="0dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="5dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="5dp" />
-
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout6" android:orientation="vertical" android:layout_height="0dp" android:layout_weight="8">
-        <LinearLayout android:layout_width="fill_parent" android:padding="8dp" android:id="@+id/linearLayout2" android:layout_height="fill_parent" android:orientation="vertical"
-            android:background="@color/white"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/annotation"
-                android:id="@+id/textView"
-                android:textSize="22dp"
-                android:textColor="@color/condroidGreen"
-                android:layout_marginBottom="10dp" />
-
-            <TextView android:id="@+id/annot_text" android:layout_height="fill_parent" android:textSize="15dp" android:layout_width="fill_parent" android:text="TextView" android:lineSpacingExtra="7dp" android:scrollbars="vertical"></TextView>
-        </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
