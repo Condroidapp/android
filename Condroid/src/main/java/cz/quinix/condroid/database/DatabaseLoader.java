@@ -132,6 +132,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
                 Log.e("Condroid", "DB Insert", e);
             }
             db.endTransaction();
+            dataProvider.clear();
         }
         return null;
     }

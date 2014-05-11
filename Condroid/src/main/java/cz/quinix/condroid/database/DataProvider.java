@@ -34,7 +34,6 @@ public class DataProvider {
     private CondroidDatabase mDatabase;
     private Convention con;
     private List<Integer> favorited;
-    private static volatile DataProvider instance;
 
     private Map<Integer, ProgramLine> programLines = null;
 
@@ -292,5 +291,11 @@ public class DataProvider {
 
     public CondroidDatabase getDatabase() {
         return mDatabase;
+    }
+
+    public void clear() {
+        this.programLines = null;
+        this.con = null;
+        this.favorited = null;
     }
 }
