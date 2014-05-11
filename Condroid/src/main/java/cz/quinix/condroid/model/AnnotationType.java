@@ -80,7 +80,7 @@ public class AnnotationType implements Serializable {
         if (x.equalsIgnoreCase("W"))
             return (R.string.workshop);
 
-        return 0;
+        throw new IllegalStateException("Invalid type");
     }
 
 }

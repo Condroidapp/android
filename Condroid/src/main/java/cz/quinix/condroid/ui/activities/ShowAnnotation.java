@@ -204,7 +204,11 @@ public class ShowAnnotation extends RoboSherlockActivity {
     private void addTypes() {
         TextView typeField = (TextView) this.findViewById(R.id.annot_type);
         ViewGroup parent = (ViewGroup) typeField.getParent();
-        typeField.setText(this.getString(AnnotationType.getTextualType(annotation.getType().mainType)));
+        try {
+            typeField.setText(this.getString(AnnotationType.getTextualType(annotation.getType().mainType)));
+        } catch (IllegalStateException e) {
+            typeField.setVisibility(View.GONE);
+        }
 
         String[] aT = annotation.getAdditionalTypes();
 
@@ -212,7 +216,11 @@ public class ShowAnnotation extends RoboSherlockActivity {
             for (String anAT : aT) {
                 if (anAT.length() > 0) {
                     TextView newField = new TextView(this.getApplicationContext());
-                    newField.setText(this.getString(AnnotationType.getTextualType(anAT)));
+                    try {
+                        newField.setText(this.getString(AnnotationType.getTextualType(anAT)));
+                    } catch (IllegalStateException e) {
+                        continue;
+                    }
 
                     newField.setBackgroundResource(R.color.condroidGreen);
                     newField.setTextColor(getResources().getColor(R.color.white));
