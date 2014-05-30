@@ -52,27 +52,6 @@ public class ShowAnnotation extends RoboSherlockActivity {
         this.annotation = (Annotation) this.getIntent().getSerializableExtra(
                 "annotation");
 
-       /* this.annotation.setTitle("Aenean blandit felis non elit molestie, eget venenatis lectus dignissim");
-
-        this.annotation.setAuthor("Lorem ipsum dolor sit amet consectetur");
-        this.annotation.setAnnotation("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel risus urna. Suspendisse potenti. Nam tincidunt vestibulum justo sed dapibus. Morbi commodo orci ante, a dignissim magna tristique sit amet. Mauris nec consequat ligula. Ut sed venenatis mauris. Quisque consectetur ipsum quis tristique consequat. Nam sodales, est at hendrerit varius, lacus tellus feugiat arcu, vitae rhoncus mauris elit ut odio. Phasellus venenatis urna et congue lacinia.\n" +
-                "\n" +
-                "Suspendisse vel eros ut velit condimentum mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque purus metus, consequat id porta blandit, faucibus sed sapien. Aenean pulvinar a tortor et sagittis. Donec non mi bibendum, commodo justo a, egestas odio. Fusce tristique euismod neque ac iaculis. Morbi interdum neque sit amet enim venenatis lobortis. Nulla tincidunt sit amet nisi sit amet aliquet. Phasellus vitae massa diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam interdum metus ac fermentum dictum. Sed varius tincidunt lorem sed sollicitudin. Suspendisse aliquam bibendum nulla sed elementum. Vivamus sem ligula, aliquet et risus eget, sagittis placerat felis.");
-        this.annotation.setSQLStartTime("2014-05-11 21:15:00");
-        this.annotation.setSQLEndTime("2014-05-11 22:00:00");
-
-        this.annotation.setPid("1100");
-        ProgramLine p = new ProgramLine();
-        p.setName("Interdum et malesuada fames");
-        p.setLid(9999);
-        this.provider.getProgramLines().put(9999, p);
-        this.annotation.setLid(p.getLid());
-
-        this.annotation.setLocation("Quisque purus metus consequat");
-
-        this.annotation.setType("P", "B+C+F");*/
-
-
         this.setContentView(R.layout.annotation);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,10 +62,15 @@ public class ShowAnnotation extends RoboSherlockActivity {
         TextView title = (TextView) this.findViewById(R.id.annot_title);
         title.setText(this.annotation.getTitle());
 
-        TextView author = (TextView) this.findViewById(R.id.annot_author);
-        author.setText(this.annotation.getAuthor());
 
 
+        if(this.annotation.getAuthor() != null && !this.annotation.getLocation().trim().equals("")) {
+            TextView author = (TextView) this.findViewById(R.id.annot_author);
+            author.setText(this.annotation.getAuthor());
+        } else {
+            this.findViewById(R.id.iAuthor).setVisibility(View.GONE);
+            this.findViewById(R.id.annot_author).setVisibility(View.GONE);
+        }
         TextView pid = (TextView) this.findViewById(R.id.annot_pid);
         pid.setText("#" + this.annotation.getPid());
 
@@ -258,7 +242,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
         mShareActionProvider.setShareIntent(new ShareProgramListener(this).getShareActionIntent(this.annotation));
 
         if (provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
-            menu.findItem(R.id.mFavorite).setIcon(R.drawable.ic_action_star_active);
+            menu.findItem(R.id.mFavorite).setIcon(R.drawable.star_yellow);
         }
 
         super.onCreateOptionsMenu(menu);
@@ -278,9 +262,9 @@ public class ShowAnnotation extends RoboSherlockActivity {
                 return true;
             case R.id.mFavorite:
                 if (new MakeFavoritedListener(this, provider).invoke(this.annotation)) {
-                    item.setIcon(R.drawable.ic_action_star_active);
+                    item.setIcon(R.drawable.star_yellow);
                 } else {
-                    item.setIcon(R.drawable.ic_action_star);
+                    item.setIcon(R.drawable.star_white);
                 }
                 return true;
             default:
