@@ -42,6 +42,8 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
             SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(this.context).edit();
             e.remove("con_specific_message");
             e.commit();
+
+            SearchProvider.clear();
         }
         super.onSuccess(annotations);
     }

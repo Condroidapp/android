@@ -8,7 +8,7 @@
     <application android:icon="@drawable/icon" android:label="@string/appName" android:theme="@style/Theme.Condroid">
         <activity android:name=".ui.activities.ShowAnnotation" android:uiOptions="splitActionBarWhenNarrow"/>
         <activity android:name=".ui.Preferences"/>
-        <activity android:name=".ui.activities.WelcomeActivity" android:theme="@style/Theme.Condroid.NoBar">
+        <activity android:name=".ui.activities.WelcomeActivity" android:theme="@style/Theme.Condroid.NoBar" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

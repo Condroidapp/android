@@ -29,4 +29,13 @@ public class SearchProvider {
     public static Map<String, SearchQueryBuilder> getSearchQueryBuilders() {
         return map;
     }
+
+    public static void clear() {
+
+        for(SearchQueryBuilder sb : map.values()) {
+            sb.clear();
+        }
+
+        map = new HashMap<String, SearchQueryBuilder>();
+    }
 }
