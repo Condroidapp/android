@@ -1,6 +1,8 @@
 package cz.quinix.condroid.ui.dataLoading;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.app.Activity;
+
+import com.actionbarsherlock.app.SherlockActivity;
 
 import cz.quinix.condroid.abstracts.ITaskListener;
 
@@ -12,14 +14,14 @@ import cz.quinix.condroid.abstracts.ITaskListener;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class AsyncTaskDialog implements ITaskListener {
-    protected SherlockFragmentActivity parent;
+    protected Activity parent;
 
-    public void setParent(SherlockFragmentActivity parent) {
+    public void setParent(Activity parent) {
         this.parent = parent;
     }
 
     @Override
-    public SherlockFragmentActivity getActivity() {
+    public Activity getActivity() {
         return parent;
     }
 }

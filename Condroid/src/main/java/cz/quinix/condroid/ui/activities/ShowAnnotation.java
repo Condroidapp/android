@@ -64,7 +64,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
 
 
 
-        if(this.annotation.getAuthor() != null && !this.annotation.getLocation().trim().equals("")) {
+        if(this.annotation.getAuthor() != null && !this.annotation.getAuthor().trim().equals("")) {
             TextView author = (TextView) this.findViewById(R.id.annot_author);
             author.setText(this.annotation.getAuthor());
         } else {

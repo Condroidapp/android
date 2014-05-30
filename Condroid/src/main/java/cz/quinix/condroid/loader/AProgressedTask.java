@@ -1,8 +1,10 @@
 package cz.quinix.condroid.loader;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
@@ -14,10 +16,10 @@ import cz.quinix.condroid.abstracts.ITaskListener;
 public abstract class AProgressedTask<Progress, Result> extends AListenedAsyncTask<Progress, Result> {
 
     protected ProgressDialog pd;
-    private SherlockFragmentActivity parent;
+    private Activity parent;
     protected String pdString;
 
-    public AProgressedTask(ITaskListener listener, SherlockFragmentActivity parent) {
+    public AProgressedTask(ITaskListener listener, Activity parent) {
         super(listener);
 
         this.parent = parent;

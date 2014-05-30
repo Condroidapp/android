@@ -18,6 +18,5 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("Condroid", "BootReciever called");
         ReminderManager.updateAlarmManager(context);
-        Preferences.planUpdateService(context);
     }
 }

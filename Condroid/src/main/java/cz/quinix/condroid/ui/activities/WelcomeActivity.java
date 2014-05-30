@@ -1,8 +1,12 @@
 package cz.quinix.condroid.ui.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -71,9 +75,28 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
         if (task instanceof ConventionLoader) {
             this.onEventsLoaded(((ConventionLoader) task).getResults());
         } else if (task instanceof DatabaseLoader) {
+            this.showMessage();
             this.startProgramActivity();
         } else {
             throw new IllegalArgumentException("Instance of " + task.getClass().getName() + " is not supported in this handler.");
+        }
+    }
+
+    private void showMessage() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (!database.getCon().getMessage().equals("")) {
+            AlertDialog.Builder ab = new AlertDialog.Builder(this);
+            ab.setTitle(database.getCon().getName());
+            ab.setMessage(database.getCon().getMessage());
+            ab.setCancelable(true);
+            ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            ab.create().show();
         }
     }
 

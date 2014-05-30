@@ -24,8 +24,6 @@ public class Convention implements Serializable, DBInsertable {
     private boolean annotations = false;
     private Date lastUpdate = new Date();
 
-    private static String dataURL = "http://condroid.loc/api/2/annotations/";
-
 
     public String getMessage() {
         return message;
@@ -68,7 +66,7 @@ public class Convention implements Serializable, DBInsertable {
     }
 
     public String getDatasource() {
-        return dataURL + this.id;
+        return "";
     }
 
     public ContentValues getContentValues() {

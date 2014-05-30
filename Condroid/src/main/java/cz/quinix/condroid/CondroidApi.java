@@ -18,5 +18,8 @@ public interface CondroidApi {
     List<Convention> listEvents();
 
     @GET("/program/{id}")
+    Map<String, List<Annotation>> listAnnotations(@Path("id") int id);
+
+    @GET("/program/{id}")
     Map<String, List<Annotation>> listAnnotations(@Path("id") int id, @Header("If-Modified-Since") String ifModifiedSince);
 }

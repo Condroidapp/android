@@ -21,6 +21,7 @@ import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,16 +34,12 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
     private Convention event;
 
     public DatabaseLoader(ITaskListener listener) {
-        super(listener, (com.actionbarsherlock.app.SherlockFragmentActivity) listener.getActivity());
+        super(listener, listener.getActivity());
     }
 
     @Override
     protected void onSuccess(List<Annotation> annotations) throws Exception {
         if (this.fullInsert) {
-            SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(this.context).edit();
-            e.remove("con_specific_message");
-            e.commit();
-
             SearchProvider.clear();
         }
         super.onSuccess(annotations);
@@ -91,6 +88,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
             database.purge(event.getId());
         }
         if (this.getItemsSize() > 0) {
+            event.setLastUpdate(new Date());
             SQLiteDatabase db = database.getWritableDatabase();
             db.replace("cons", null, event.getContentValues());
 

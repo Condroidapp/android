@@ -12,10 +12,12 @@ import java.util.Date;
 import java.util.List;
 
 import cz.quinix.condroid.CondroidApi;
+import cz.quinix.condroid.R;
 import cz.quinix.condroid.loader.AnnotationTypeAdapter;
 import cz.quinix.condroid.loader.DateTypeAdapter;
 import cz.quinix.condroid.model.AnnotationType;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 import roboguice.util.RoboAsyncTask;
 
@@ -54,5 +56,20 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
 
     public Result getResults() {
         return this.results;
+    }
+
+    @Override
+    protected void onException(Exception e) throws RuntimeException {
+        if (e instanceof RetrofitError) {
+            if (((RetrofitError) e).isNetworkError()) {
+                Toast.makeText(listener.getActivity(), R.string.networkError, Toast.LENGTH_LONG).show();
+                return;
+            } else if (((RetrofitError) e).getResponse().getStatus() >= 500) {
+                Toast.makeText(listener.getActivity(), R.string.serverError, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+        }
+        super.onException(e);
     }
 }

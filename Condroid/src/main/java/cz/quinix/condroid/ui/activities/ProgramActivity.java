@@ -1,5 +1,6 @@
 package cz.quinix.condroid.ui.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
@@ -12,7 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -21,7 +22,10 @@ import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmen
 import com.google.inject.Inject;
 
 import cz.quinix.condroid.R;
+import cz.quinix.condroid.abstracts.AListenedAsyncTask;
+import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.AboutDialog;
@@ -47,7 +51,7 @@ import java.util.Date;
  * Time: 23:30
  * To change this template use File | Settings | File Templates.
  */
-public class ProgramActivity extends RoboSherlockFragmentActivity implements AdapterView.OnItemClickListener {
+public class ProgramActivity extends RoboSherlockFragmentActivity implements AdapterView.OnItemClickListener, ITaskListener {
 
     @Inject private DataProvider provider;
 
@@ -82,7 +86,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
             }
         }
 
-        if (this.dataAvailable()) {
+        if (this.provider.hasData()) {
             this.initView();
             this.showUpdatesDialog();
         }
@@ -189,14 +193,6 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
         }
     }
 
-    private boolean dataAvailable() {
-        if (provider.hasData()) {
-            return true;
-        }
-        return false;
-    }
-
-
 
     private void initView() {
         this.initListView();
@@ -207,46 +203,6 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
         findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
         if (TabListener.activeFragment != null && !SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).isEmpty())
             findViewById(R.id.tFilterStatus).setVisibility(View.VISIBLE);
-    }
-
-
-    public void onAsyncTaskCompleted() {
-        //SearchProvider.getSearchQueryBuilders().clear(); why is this in here?!
-
-        if (refreshRegistry != null) {
-            refreshRegistry.performRefresh();
-            refreshDataset = false;
-        }
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sp.edit();
-        if (!sp.getBoolean("con_specific_message", false)) {
-            if (!provider.getCon().getMessage().equals("")) {
-                AlertDialog.Builder ab = new AlertDialog.Builder(this);
-                ab.setTitle(provider.getCon().getName());
-                ab.setMessage(provider.getCon().getMessage());
-                ab.setCancelable(true);
-                ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                ab.create().show();
-            }
-            editor.putBoolean("con_specific_message", true);
-
-        }
-
-        editor.remove("updates_found");
-        editor.remove("updates_found_message");
-        editor.remove("updates_found_time");
-
-        editor.commit();
-
-        Preferences.planUpdateService(this);
-
-
-        initView();
     }
 
     @Override
@@ -326,11 +282,31 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
                     .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            Downloader d = new Downloader(ProgramActivity.this, provider.getCon(), true);
+                            d.invoke();
                         }
                     });
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
+        if (task instanceof DatabaseLoader) {
+            if (refreshRegistry != null) {
+                refreshRegistry.performRefresh();
+                refreshDataset = false;
+            }
+
+            initView();
+        } else {
+            throw new IllegalArgumentException("Instance of " + task.getClass().getName() + " is not supported in this handler.");
+        }
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }
