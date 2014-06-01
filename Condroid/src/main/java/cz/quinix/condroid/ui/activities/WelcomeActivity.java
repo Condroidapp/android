@@ -5,11 +5,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -49,6 +51,7 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
                 "cz.quinix.condroid.FastJodaTimeZoneProvider");
 
         this.setContentView(R.layout.welcome);
+
 
         this.load();
 
@@ -121,7 +124,7 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
 
     private void startProgramActivity() {
         if(this.database.hasData()) {
-            Intent intent = new Intent(this, ProgramActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
         } else {
             Toast.makeText(this, "Nebyly nalezeny žádná data pro tuto událost.", Toast.LENGTH_LONG).show();

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/mData_reload" android:title="@string/mReload" android:icon="@drawable/ic_menu_refresh"></item>
-    <item android:id="@+id/mReminderList" android:title="@string/mReminder" android:icon="@drawable/bell" android:visible="true"></item>
-    <item android:id="@+id/mFilter" android:title="@string/mFilter" android:icon="@drawable/filter" android:showAsAction="ifRoom|withText"></item>
-    <item android:id="@+id/mSearch" android:title="@string/mSearch" android:icon="@drawable/search" android:showAsAction="ifRoom|withText"></item>
+    <item android:id="@+id/mData_reload" android:title="@string/mReload" android:icon="@drawable/refresh" android:showAsAction="always"></item>
+    <item android:id="@+id/mFilter" android:title="@string/mFilter" android:icon="@drawable/filter" android:showAsAction="always"></item>
+    <item android:id="@+id/mSearch" android:title="@string/mSearch" android:icon="@drawable/search" android:showAsAction="always"></item>
+    <!--item android:id="@+id/mReminderList" android:title="@string/mReminder" android:icon="@drawable/bell" android:visible="true" android:showAsAction="never"></item>
 
 
-    <item android:id="@+id/mSettings" android:title="@string/mSettings" android:icon="@android:drawable/ic_menu_preferences"></item>
-    <item android:title="@string/mAbout" android:id="@+id/mAbout"></item>
+    <item android:id="@+id/mSettings" android:title="@string/mSettings" android:icon="@android:drawable/ic_menu_preferences" android:showAsAction="never"></item>
+    <item android:title="@string/mAbout" android:id="@+id/mAbout" android:showAsAction="never"></item-->
 </menu>

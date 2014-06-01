@@ -1,37 +1,22 @@
 package cz.quinix.condroid.ui.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 
+import java.util.Date;
+
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.AListenedAsyncTask;
-import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.database.DataProvider;
-import cz.quinix.condroid.database.DatabaseLoader;
-import cz.quinix.condroid.database.SearchProvider;
-import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.AboutDialog;
 import cz.quinix.condroid.ui.Preferences;
-import cz.quinix.condroid.ui.ReminderList;
-import cz.quinix.condroid.ui.adapters.GroupedAdapter;
 import cz.quinix.condroid.ui.dataLoading.AsyncTaskDialog;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.fragments.AllAnnotations;
@@ -39,10 +24,6 @@ import cz.quinix.condroid.ui.fragments.CondroidFragment;
 import cz.quinix.condroid.ui.fragments.RefreshRegistry;
 import cz.quinix.condroid.ui.fragments.RunningAnnotations;
 import cz.quinix.condroid.ui.listeners.DisableFilterListener;
-import cz.quinix.condroid.ui.listeners.FilterListener;
-import cz.quinix.condroid.ui.listeners.TabListener;
-
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -51,7 +32,7 @@ import java.util.Date;
  * Time: 23:30
  * To change this template use File | Settings | File Templates.
  */
-public class ProgramActivity extends RoboSherlockFragmentActivity implements AdapterView.OnItemClickListener, ITaskListener {
+public class ProgramActivity extends RoboSherlockFragmentActivity {
 
     @Inject private DataProvider provider;
 
@@ -63,7 +44,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.program);
+        this.setContentView(R.layout.welcome);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -72,9 +53,9 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
 
         CondroidFragment runningFragment = new RunningAnnotations();
         CondroidFragment allFragment = new AllAnnotations();
-
+/*
         runningTab.setTabListener(new TabListener(runningFragment));
-        allTab.setTabListener(new TabListener(allFragment));
+        allTab.setTabListener(new TabListener(allFragment));*/
 
         actionBar.addTab(runningTab);
         actionBar.addTab(allTab);
@@ -87,49 +68,20 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
         }
 
         if (this.provider.hasData()) {
-            this.initView();
+            //this.initView();
             this.showUpdatesDialog();
         }
 
-        TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatus);
-        tFilterAll.setOnClickListener(new DisableFilterListener(this));
+       /* TextView tFilterAll = (TextView) this.findViewById(R.id.tFilterStatus);
+        tFilterAll.setOnClickListener(new DisableFilterListener(this));*/
 
         if (refreshRegistry == null) {
             refreshRegistry = CondroidFragment.getRefreshRegistry();
         }
         Preferences.planUpdateService(this);
 
-        if (TabListener.activeFragment != null && !SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).isEmpty()) {
-            applySearch(); //for applying search when screen rotates
-        }
-    }
+           }
 
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        this.setIntent(intent);
-        this.handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction()) && TabListener.activeFragment != null) {
-            SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).addParam(intent.getStringExtra(SearchManager.QUERY));
-            intent.removeExtra(SearchManager.QUERY);
-            this.applySearch();
-        }
-    }
-
-    public void applySearch() {
-        if (TabListener.activeFragment != null) {
-            TabListener.activeFragment.applySearch();
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("selected_tab", this.getSupportActionBar().getSelectedTab().getPosition());
-    }
 
     @Override
     protected void onResume() {
@@ -154,15 +106,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
         onResumeTime = new Date();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (asyncTaskHandler != null) {
-            asyncTaskHandler.setParent(null);
-        }
-    }
-
-    private void showUpdatesDialog() {
+        private void showUpdatesDialog() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         if (sp.getBoolean("updates_found", false) && !sp.getBoolean("updates_found_message", false)) {
             AlertDialog.Builder ab = new AlertDialog.Builder(this);
@@ -194,49 +138,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
     }
 
 
-    private void initView() {
-        this.initListView();
-        this.handleIntent(this.getIntent());
-    }
-
-    protected void initListView() {
-        findViewById(R.id.tFilterStatus).setVisibility(View.GONE);
-        if (TabListener.activeFragment != null && !SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName()).isEmpty())
-            findViewById(R.id.tFilterStatus).setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        try {
-            if (adapterView instanceof ListView) {
-                Object item = adapterView.getAdapter().getItem(i);
-                Annotation selected;
-                if(item instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) item).isSeparator()) {
-                    selected = ((GroupedAdapter.Entry) item).annotation;
-                } else {
-                    selected = (Annotation) item;
-                }
-
-                if (selected != null) {
-                    Intent intent = new Intent(this, ShowAnnotation.class);
-                    intent.putExtra("annotation", selected);
-                    this.startActivity(intent);
-                }
-            }
-        } catch (IndexOutOfBoundsException e) {
-            Log.e("Condroid", "", e);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater mi = this.getSupportMenuInflater();
-        mi.inflate(R.menu.program, menu);
-        super.onCreateOptionsMenu(menu);
-        return true;
-    }
-
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mAbout:
@@ -264,7 +166,7 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     private void loadData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -291,22 +193,5 @@ public class ProgramActivity extends RoboSherlockFragmentActivity implements Ada
         dialog.show();
     }
 
-    @Override
-    public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
-        if (task instanceof DatabaseLoader) {
-            if (refreshRegistry != null) {
-                refreshRegistry.performRefresh();
-                refreshDataset = false;
-            }
 
-            initView();
-        } else {
-            throw new IllegalArgumentException("Instance of " + task.getClass().getName() + " is not supported in this handler.");
-        }
-    }
-
-    @Override
-    public Activity getActivity() {
-        return this;
-    }
 }

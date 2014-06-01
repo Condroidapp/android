@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="appName">Condroid</string>
     <string name="appNameAbout">Condroid - o programu</string>
     <string name="mAbout">O programu</string>
     <string name="mRefresh">Obnovit</string>
-     <string name="sSearchHint">Zadejte autora, název pořadu nebo ID</string>
+    <string name="sSearchHint">Zadejte autora, název pořadu nebo ID</string>
     <string name="loading">Načítám...</string>
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
     <string name="tAboutName">Condroid 3.0.5</string>
-    <string name="tAboutCopyright">&#169; 2011-2012\nJan &#8211;Quinix&#8211; Langer, Fan-Project</string>
+    <string name="tAboutCopyright">© 2011-2012\nJan –Quinix– Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
@@ -31,12 +32,12 @@
     <string name="theatre">Ceremoniál/Divadlo</string>
     <string name="music">Hudba</string>
     <string name="chooseFilter">Filtrovat podle</string>
+
     <string-array name="filterBy">
         <item>Data</item>
         <item>Linie</item>
         <item>Pouze oblíbené</item>
     </string-array>
-
     <string-array name="disableFilterBy">
         <item>Fulltext</item>
         <item>Data</item>
@@ -44,12 +45,15 @@
         <item>Oblíbené</item>
         <item>Všechny filtry</item>
     </string-array>
+
     <string name="disableFilter">Vyberte filtry které chcete zrušit</string>
+
     <string-array name="annotationContext">
         <item>Sdílet</item>
         <item>Přidat/odebrat z oblíbených</item>
         <item>Nastavit upozornění</item>
     </string-array>
+
     <string name="about">- Verze: 3.0.5</string>
     <string name="versionNews">Novinky v této verzi</string>
     <string name="versionNewsText">* opravy chyb</string>
@@ -57,6 +61,7 @@
     <string name="licenced">This software is licenced\nunder NewBSD licence.</string>
     <string name="mFavoriteOnly">Pouze oblíbené</string>
     <string name="remind">Nastavit připomenutí</string>
+
     <string-array name="remindBefore">
         <item>v čase začátku</item>
         <item>2 minuty</item>
@@ -66,25 +71,27 @@
         <item>20 minut</item>
         <item>30 minut</item>
     </string-array>
+
     <string name="today">Dnes</string>
     <string name="runningNow">Právě běží</string>
     <string name="tRunning">Aktuální</string>
     <string name="tAll">Vše</string>
     <string name="tTwitter">Twitter</string>
 
-<style name="ButtonText">
-    <item name="android:layout_width">fill_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textColor">#ffffff</item>
-    <item name="android:gravity">center</item>
-    <item name="android:layout_margin">3dp</item>
-    <item name="android:textSize">30dp</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:shadowColor">#000000</item>
-    <item name="android:shadowDx">1</item>
-    <item name="android:shadowDy">1</item>
-    <item name="android:shadowRadius">2</item>
-</style>
+    <style name="ButtonText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
     <string name="tNoData">Nejsou k dispozici žádná data</string>
     <string name="noDatesAvailable">Nejsou k dispozici žádné časy začátků pořadů, nelze filtrovat podle data.</string>
     <string name="mReload">Načíst data</string>
@@ -100,6 +107,7 @@
     <string name="pReminderVibrate">Vibrovat</string>
     <string name="mReminder">Připomenutí</string>
     <string name="planedReminders">Plánované připomenutí (kliknutím odstraňte)</string>
+
     <string-array name="pAutoUpdatePeriods">
         <item>15 minut</item>
         <item>30 minut</item>
@@ -121,6 +129,7 @@
     <string-array name="reminderContext">
         <item>Zrušit připomenutí</item>
     </string-array>
+
     <string name="dUpdatesFoundTitle">Aktualizace programu</string>
     <string name="dUpdatesFoundMsg">Na serveru je k dispozici novější verze programu akce. \n\nChcete nyní provést aktualizaci? \nAktualizaci lze později stáhnout prostřednictvím menu.</string>
     <string name="dNotNow">Nyní ne</string>
@@ -137,4 +146,16 @@
     <string name="networkError">Nedaří se spojit se serverem. Jste připojení k internetu?</string>
     <string name="serverError">Vypadá to že server má nějaké potíže. Zkuste to prosím za chvilku.</string>
     <string name="noUpdates">Žádné aktualizace nejsou k dispozici.</string>
+
+    <string-array name="drawer">
+        <item>Načíst jinou akci</item>
+        <item>Připomenutí</item>
+        <item>Nastavení</item>
+        <item>O aplikaci</item>
+    </string-array>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

@@ -4,16 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-import com.google.inject.Inject;
-
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.ICondition;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.ui.activities.ProgramActivity;
-import roboguice.RoboGuice;
+import cz.quinix.condroid.ui.fragments.NewCondroidFragment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,19 +25,19 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class FilterListener {
-    private ProgramActivity activity;
+    private NewCondroidFragment parent;
     private DataProvider provider;
 
-    public FilterListener(ProgramActivity activity, DataProvider provider) {
-        this.activity = activity;
+    public FilterListener(NewCondroidFragment parent, DataProvider provider) {
+        this.parent = parent;
 
         this.provider = provider;
     }
 
     public void invoke() {
-        AlertDialog.Builder ab = new AlertDialog.Builder(activity);
+        AlertDialog.Builder ab = new AlertDialog.Builder(parent.getActivity());
         ab.setTitle(R.string.chooseFilter);
-        ab.setItems(R.array.filterBy, new FilterTypeSelected(activity, provider, SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName())));
+        ab.setItems(R.array.filterBy, new FilterTypeSelected(parent, provider, SearchProvider.getSearchQueryBuilder(parent.getClass().getName())));
 
         ab.create().show();
     }
@@ -48,12 +45,12 @@ public class FilterListener {
 
 class FilterTypeSelected implements DialogInterface.OnClickListener {
 
-    private ProgramActivity activity;
+    private NewCondroidFragment parent;
     private DataProvider provider;
     private SearchQueryBuilder search;
 
-    public FilterTypeSelected(ProgramActivity activity, DataProvider provider, SearchQueryBuilder search) {
-        this.activity = activity;
+    public FilterTypeSelected(NewCondroidFragment parent, DataProvider provider, SearchQueryBuilder search) {
+        this.parent = parent;
         this.provider = provider;
         this.search = search;
     }
@@ -61,7 +58,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
     @Override
     public void onClick(DialogInterface dialogInterface, int which) {
         if (which == 1) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
             builder.setTitle(R.string.dPickLine);
 
             Map<Integer, ProgramLine> pl = provider.getProgramLines();
@@ -72,17 +69,17 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                 pls[i++] = p.getName();
             }
             Arrays.sort(pls);
-            builder.setItems(pls, new ProgramLineFilter(activity, provider, search, pls));
+            builder.setItems(pls, new ProgramLineFilter(parent, provider, search, pls));
 
             builder.create().show();
         }
 
         if (which == 0) {
-            AlertDialog.Builder build = new AlertDialog.Builder(activity);
+            AlertDialog.Builder build = new AlertDialog.Builder(parent.getActivity());
             build.setTitle(R.string.dPickDate);
             List<Date> dates = provider.getDates();
             if (dates.size() == 0) {
-                Toast.makeText(activity, R.string.noDatesAvailable, Toast.LENGTH_LONG).show();
+                Toast.makeText(parent.getActivity(), R.string.noDatesAvailable, Toast.LENGTH_LONG).show();
                 return;
             }
             String[] ds = new String[dates.size()];
@@ -98,7 +95,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                 c[0] = Character.toUpperCase(c[0]);
                 ds[j++] = new String(c);
             }
-            build.setItems(ds, new DateFilter(activity, search, ds));
+            build.setItems(ds, new DateFilter(parent, search, ds));
             build.create().show();
         }
         if (which == 2) {
@@ -126,7 +123,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                     return "Oblíbené";
                 }
             }, new Object().getClass().getName());
-            activity.applySearch();
+            parent.refresh();
         }
     }
 }
@@ -134,13 +131,13 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
 
 class ProgramLineFilter implements DialogInterface.OnClickListener {
 
-    private ProgramActivity activity;
+    private NewCondroidFragment parent;
     private DataProvider provider;
     private SearchQueryBuilder search;
     private String[] items;
 
-    public ProgramLineFilter(ProgramActivity activity, DataProvider provider, SearchQueryBuilder search, String[] items) {
-        this.activity = activity;
+    public ProgramLineFilter(NewCondroidFragment parent, DataProvider provider, SearchQueryBuilder search, String[] items) {
+        this.parent = parent;
         this.provider = provider;
         this.search = search;
         this.items = items;
@@ -166,20 +163,20 @@ class ProgramLineFilter implements DialogInterface.OnClickListener {
             pl.setName(value);
             search.addParam(pl);
         }
-        activity.applySearch();
+        parent.refresh();
     }
 
 }
 
 class DateFilter implements DialogInterface.OnClickListener {
 
-    private ProgramActivity activity;
+    private NewCondroidFragment parent;
     private DataProvider provider;
     private SearchQueryBuilder search;
     private String[] items;
 
-    public DateFilter(ProgramActivity activity,  SearchQueryBuilder search, String[] items) {
-        this.activity = activity;
+    public DateFilter(NewCondroidFragment parent,  SearchQueryBuilder search, String[] items) {
+        this.parent = parent;
         this.search = search;
         this.items = items;
     }
@@ -193,11 +190,11 @@ class DateFilter implements DialogInterface.OnClickListener {
             try {
                 Date d = df.parse(items[which]);
                 search.addParam(d);
-            } catch (ParseException e) {
+            } catch (ParseException ignored) {
             }
         }
 
-        activity.applySearch();
+        parent.refresh();
 
     }
 }

@@ -23,10 +23,9 @@ public class MakeFavoritedListener implements OnClickListener {
     }
 
     public boolean invoke(Annotation annotation) {
-        boolean favorited = provider.doFavorite(
+
+        return provider.doFavorite(
                 annotation.getPid());
-        //ProgramActivity.notifyDataSetChanged = true;
-        return favorited;
     }
 
 }

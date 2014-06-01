@@ -8,7 +8,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.ui.activities.ProgramActivity;
+import cz.quinix.condroid.ui.fragments.NewCondroidFragment;
 
 import java.util.Date;
 
@@ -20,17 +20,17 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class DisableFilterListener implements View.OnClickListener {
-    private ProgramActivity activity;
+    private NewCondroidFragment parent;
 
-    public DisableFilterListener(ProgramActivity activity) {
-        this.activity = activity;
+    public DisableFilterListener(NewCondroidFragment activity) {
+        this.parent = activity;
     }
 
     @Override
     public void onClick(View view) {
-        AlertDialog.Builder ab = new AlertDialog.Builder(activity);
+        AlertDialog.Builder ab = new AlertDialog.Builder(parent.getActivity());
         ab.setTitle(R.string.disableFilter);
-        ab.setItems(R.array.disableFilterBy, new DisableFilterTypeSelected(activity, SearchProvider.getSearchQueryBuilder(TabListener.activeFragment.getClass().getName())));
+        ab.setItems(R.array.disableFilterBy, new DisableFilterTypeSelected(parent, SearchProvider.getSearchQueryBuilder(parent.getClass().getName())));
 
         ab.create().show();
     }
@@ -39,11 +39,11 @@ public class DisableFilterListener implements View.OnClickListener {
 class DisableFilterTypeSelected implements Dialog.OnClickListener {
 
 
-    private ProgramActivity activity;
+    private NewCondroidFragment parent;
     private SearchQueryBuilder search;
 
-    public DisableFilterTypeSelected(ProgramActivity activity, SearchQueryBuilder searchQueryBuilder) {
-        this.activity = activity;
+    public DisableFilterTypeSelected(NewCondroidFragment activity, SearchQueryBuilder searchQueryBuilder) {
+        this.parent = activity;
         this.search = searchQueryBuilder;
     }
 
@@ -52,7 +52,7 @@ class DisableFilterTypeSelected implements Dialog.OnClickListener {
         switch (i) {
             case 0:
                 //fulltext
-                search.removeParam(new String());
+                search.removeParam("");
                 break;
             case 1:
                 //date
@@ -71,6 +71,6 @@ class DisableFilterTypeSelected implements Dialog.OnClickListener {
                 //all
                 break;
         }
-        activity.applySearch();
+        parent.refresh();
     }
 }
