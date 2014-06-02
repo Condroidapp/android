@@ -69,7 +69,7 @@ public class TabsFragment extends RoboSherlockFragment {
     }
 
     public NewCondroidFragment getActiveFragment() {
-        return (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag("android:switcher:"+R.id.pager+":"+pager.getCurrentItem());
+        return (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + pager.getCurrentItem());
     }
 
     public int getActiveTab() {
@@ -83,14 +83,14 @@ public class TabsFragment extends RoboSherlockFragment {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-       // private SparseArray<NewCondroidFragment> pageReferenceMap;
+        // private SparseArray<NewCondroidFragment> pageReferenceMap;
 
         public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
-           // pageReferenceMap = new SparseArray<NewCondroidFragment>();
+            // pageReferenceMap = new SparseArray<NewCondroidFragment>();
         }
 
-        private final int[] TITLES = { R.string.tRunning, R.string.tAll };
+        private final int[] TITLES = {R.string.tRunning, R.string.tAll};
 
         @Override
         public CharSequence getPageTitle(int position) {
@@ -123,9 +123,9 @@ public class TabsFragment extends RoboSherlockFragment {
             return this.pageReferenceMap.get(position);
         }*/
 
-      //  public SparseArray<NewCondroidFragment> getFragments() {
-           // return pageReferenceMap;
-      //  }
+        //  public SparseArray<NewCondroidFragment> getFragments() {
+        // return pageReferenceMap;
+        //  }
     }
 
 }

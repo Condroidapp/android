@@ -39,8 +39,8 @@ public class ShareProgramListener implements View.OnClickListener {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, annotation.getTitle() +
-                ((annotation.getLocation() != null && !annotation.getLocation().equals("")) ? ", @" + annotation.getLocation() : "") +
-                ((annotation.getStart() != null && annotation.getEnd() != null) ? ", " + dayFormat.format(annotation.getStart()) + " - " + hourFormat.format(annotation.getEnd()) : "")
+                        ((annotation.getLocation() != null && !annotation.getLocation().equals("")) ? ", @" + annotation.getLocation() : "") +
+                        ((annotation.getStart() != null && annotation.getEnd() != null) ? ", " + dayFormat.format(annotation.getStart()) + " - " + hourFormat.format(annotation.getEnd()) : "")
         );
         //intent.putExtra(Intent.EXTRA_SUBJECT, "Právě jsem na pořadu ");
         return intent;

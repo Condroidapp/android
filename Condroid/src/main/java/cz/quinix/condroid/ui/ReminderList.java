@@ -37,7 +37,8 @@ import cz.quinix.condroid.service.ReminderManager;
  */
 public class ReminderList extends RoboSherlockListActivity {
     List<Reminder> data;
-    @Inject DataProvider provider;
+    @Inject
+    DataProvider provider;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

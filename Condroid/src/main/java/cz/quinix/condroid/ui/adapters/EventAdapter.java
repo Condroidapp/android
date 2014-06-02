@@ -19,8 +19,7 @@ import cz.quinix.condroid.model.Convention;
 /**
  * Created by Jan on 27. 4. 2014.
  */
-public class EventAdapter extends ArrayAdapter<Convention>
-{
+public class EventAdapter extends ArrayAdapter<Convention> {
 
     private int layout;
     private List<Convention> data;
@@ -39,27 +38,24 @@ public class EventAdapter extends ArrayAdapter<Convention>
         View row = convertView;
         EventViewHolder holder = null;
 
-        if(row == null)
-        {
+        if (row == null) {
             LayoutInflater inflater = ((Activity) this.getContext()).getLayoutInflater();
             row = inflater.inflate(layout, parent, false);
 
             holder = new EventViewHolder();
-            holder.title = (TextView)row.findViewById(R.id.tEventTitle);
-            holder.subtitle = (TextView)row.findViewById(R.id.tEventSubtitle);
+            holder.title = (TextView) row.findViewById(R.id.tEventTitle);
+            holder.subtitle = (TextView) row.findViewById(R.id.tEventSubtitle);
 
             row.setTag(holder);
-        }
-        else
-        {
-            holder = (EventViewHolder)row.getTag();
+        } else {
+            holder = (EventViewHolder) row.getTag();
         }
 
         Convention event = data.get(position);
         holder.title.setText(event.getName());
 
         String date = "";
-        if(event.getDate() != null) {
+        if (event.getDate() != null) {
             date = event.getDate();
         }
         holder.subtitle.setText(date);
@@ -67,8 +63,7 @@ public class EventAdapter extends ArrayAdapter<Convention>
         return row;
     }
 
-    static class EventViewHolder
-    {
+    static class EventViewHolder {
         TextView title;
         TextView subtitle;
     }

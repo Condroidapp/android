@@ -32,7 +32,8 @@ import cz.quinix.condroid.ui.listeners.FilterListener;
 public class MainActivity extends RoboSherlockFragmentActivity implements ITaskListener {
 
     private DrawerLayout mDrawerLayout;
-    @Inject private DataProvider provider;
+    @Inject
+    private DataProvider provider;
     private TabsFragment tabsFragment;
     private ViewGroup mDrawerContent;
 

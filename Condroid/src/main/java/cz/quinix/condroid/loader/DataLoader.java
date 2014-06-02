@@ -32,14 +32,14 @@ public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annota
     @Override
     public Map<String, List<Annotation>> call() throws Exception {
         CondroidApi service = getCondroidService();
-        if(this.lastUpdate != null) {
+        if (this.lastUpdate != null) {
             try {
                 return service.listAnnotations(this.convention.getId(), lastUpdate);
             } catch (RetrofitError e) {
-                if(e.getResponse() != null && e.getResponse().getStatus() == 304) {
+                if (e.getResponse() != null && e.getResponse().getStatus() == 304) {
                     return null;
                 }
-                throw  e;
+                throw e;
             }
         }
         return service.listAnnotations(this.convention.getId());

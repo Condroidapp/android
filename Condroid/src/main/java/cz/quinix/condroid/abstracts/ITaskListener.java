@@ -7,7 +7,7 @@ import android.app.Activity;
  */
 public interface ITaskListener {
 
-    public void onTaskCompleted(AListenedAsyncTask<?,?> task);
+    public void onTaskCompleted(AListenedAsyncTask<?, ?> task);
 
     Activity getActivity();
 }

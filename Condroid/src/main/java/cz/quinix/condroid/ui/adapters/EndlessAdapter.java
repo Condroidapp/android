@@ -25,10 +25,8 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
     private IAdapterDataProvider dataLoader;
     private RotateAnimation rotate;
     protected List<Annotation> itemsToAdd;
-   // protected int totalItems = 0;
+    // protected int totalItems = 0;
     private Activity activity;
-
-
 
 
     public EndlessAdapter(Activity activity, BaseAdapter wrapped, IAdapterDataProvider<Annotation> dataLoader) {
@@ -40,7 +38,7 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
         rotate.setDuration(1000);
         rotate.setRepeatMode(Animation.RESTART);
         rotate.setRepeatCount(Animation.INFINITE);
-        if(wrapped.getCount() < DataProvider.ITEMS_PER_PAGE) {
+        if (wrapped.getCount() < DataProvider.ITEMS_PER_PAGE) {
             this.stopAppending();
         }
         this.dataLoader = dataLoader;
@@ -63,10 +61,9 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 
         a.replace(items);
 
-        if(items.size() < DataProvider.ITEMS_PER_PAGE) {
+        if (items.size() < DataProvider.ITEMS_PER_PAGE) {
             this.stopAppending();
-        }
-        else {
+        } else {
             this.restartAppending();
         }
 

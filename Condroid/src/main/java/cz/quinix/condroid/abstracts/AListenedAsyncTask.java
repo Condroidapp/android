@@ -25,10 +25,10 @@ import roboguice.util.RoboAsyncTask;
  */
 public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask<Result> {
 
-    @Inject private Provider<Context> contextProvider;
+    @Inject
+    private Provider<Context> contextProvider;
     private ITaskListener listener;
     private Result results;
-
 
 
     public AListenedAsyncTask(ITaskListener listener) {

@@ -32,7 +32,7 @@ public class SearchProvider {
 
     public static void clear() {
 
-        for(SearchQueryBuilder sb : map.values()) {
+        for (SearchQueryBuilder sb : map.values()) {
             sb.clear();
         }
 

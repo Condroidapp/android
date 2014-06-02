@@ -39,7 +39,7 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
     }
 
     private void addAnnotations(List<Annotation> items) {
-        if(items.size() == 0) {
+        if (items.size() == 0) {
             return;
         }
 
@@ -96,7 +96,7 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
             LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
             convertView = inflater.inflate(R.layout.annotation_list_item, parent, false);
 
-            if(convertView == null) {
+            if (convertView == null) {
                 return null;
             }
             ViewHolder holder = new ViewHolder();
@@ -170,7 +170,7 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
     }
 
 
-    public static  class Entry {
+    public static class Entry {
 
         public Annotation annotation;
         public Date header;

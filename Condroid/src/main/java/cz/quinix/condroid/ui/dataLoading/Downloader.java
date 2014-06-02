@@ -35,7 +35,7 @@ public class Downloader extends AsyncTaskDialog {
 
     public void invoke() {
         String lastUpdate = null;
-        if(this.update) {
+        if (this.update) {
             SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
             lastUpdate = format.format(convention.getLastUpdate());
         }
@@ -48,11 +48,11 @@ public class Downloader extends AsyncTaskDialog {
     @Override
     public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
         Map<String, List<Annotation>> annotations = (Map<String, List<Annotation>>) task.getResults();
-        if(annotations == null) {
+        if (annotations == null) {
             Toast.makeText(this.getActivity(), R.string.noUpdates, Toast.LENGTH_LONG).show();
             return;
         }
-        if(annotations.size() > 0) {
+        if (annotations.size() > 0) {
             DatabaseLoader task2 = new DatabaseLoader((ITaskListener) parent);
             task2.setData(annotations, convention);
             task2.execute();

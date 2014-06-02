@@ -31,7 +31,7 @@ public abstract class AProgressedTask<Progress, Result> extends AListenedAsyncTa
     @Override
     protected void onFinally() throws RuntimeException {
         super.onFinally();
-        if(this.pd != null && this.pd.isShowing()) {
+        if (this.pd != null && this.pd.isShowing()) {
             this.pd.dismiss();
         }
     }

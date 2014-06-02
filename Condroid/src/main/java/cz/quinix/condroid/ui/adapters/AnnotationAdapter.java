@@ -21,7 +21,8 @@ import roboguice.RoboGuice;
  */
 public class AnnotationAdapter extends ArrayAdapter<Annotation> implements IAppendable, IReplaceable {
 
-    @Inject ViewHelper viewHelper;
+    @Inject
+    ViewHelper viewHelper;
 
     public AnnotationAdapter(Context context, List<Annotation> objects) {
         super(context, R.layout.annotation_list_item, objects);
@@ -34,7 +35,7 @@ public class AnnotationAdapter extends ArrayAdapter<Annotation> implements IAppe
             LayoutInflater inflater = ((Activity) this.getContext()).getLayoutInflater();
             convertView = inflater.inflate(R.layout.annotation_list_item, parent, false);
         }
-        if(convertView == null) {
+        if (convertView == null) {
             return null;
         }
 
@@ -52,7 +53,7 @@ public class AnnotationAdapter extends ArrayAdapter<Annotation> implements IAppe
 
     @Override
     public void append(List<Annotation> items) {
-        for(Annotation annotation: items) {
+        for (Annotation annotation : items) {
             this.add(annotation);
         }
         this.notifyDataSetChanged();

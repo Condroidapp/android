@@ -31,7 +31,8 @@ import roboguice.service.RoboService;
  */
 public class ReminderTask extends RoboService {
 
-    @Inject DataProvider provider;
+    @Inject
+    DataProvider provider;
 
 
     public IBinder onBind(Intent intent) {

@@ -78,7 +78,7 @@ public class DataProvider {
     }
 
     private void loadProgramLines() {
-        programLines = new HashMap<Integer,ProgramLine>();
+        programLines = new HashMap<Integer, ProgramLine>();
 
         Cursor c = this.mDatabase.query(CondroidDatabase.LINE_TABLE, null, null, null, "title ASC", null);
         while (c.moveToNext()) {

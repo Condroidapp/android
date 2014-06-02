@@ -22,7 +22,8 @@ import cz.quinix.condroid.model.ProgramLine;
 
 public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
 
-    @Inject private DataProvider dataProvider;
+    @Inject
+    private DataProvider dataProvider;
     private boolean fullInsert;
     private Map<String, List<Annotation>> parameters;
     private Convention event;
@@ -41,7 +42,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
 
     @Override
     protected void onPreExecute() throws Exception {
-        if(this.parameters == null) {
+        if (this.parameters == null) {
             throw new IllegalStateException("Parameters to insert pre not set.");
         }
         this.showDialog(this.getItemsSize());
@@ -78,7 +79,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
     public List<Annotation> call() throws Exception {
         CondroidDatabase database = this.dataProvider.getDatabase();
         int counter = 0;
-        if(this.fullInsert() && !database.isEmpty()) {
+        if (this.fullInsert() && !database.isEmpty()) {
             database.purge(event.getId());
         }
         if (this.getItemsSize() > 0) {
@@ -96,7 +97,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
             String[] keys = {"add", "change"};
             try {
                 db.beginTransaction();
-                for(String key : keys) {
+                for (String key : keys) {
                     List<Annotation> items = this.parameters.get(key);
                     for (Annotation annotation : items) {
                         if (!lines.containsKey(annotation.getProgramLine())) {
@@ -116,7 +117,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
                         this.updateProgress(++counter);
                     }
                 }
-                for(Annotation a :this.parameters.get("delete")) {
+                for (Annotation a : this.parameters.get("delete")) {
                     String[] where = {String.valueOf(event.getId()), String.valueOf(a.getPid())};
                     db.delete("annotations", "cid = ? AND pid = ?", where);
                     this.updateProgress(++counter);

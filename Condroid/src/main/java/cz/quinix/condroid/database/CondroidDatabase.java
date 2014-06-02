@@ -53,7 +53,7 @@ public class CondroidDatabase {
     }
 
     private CondroidOpenHelper getConnection() {
-        if(this.mDatabaseHelper != null) {
+        if (this.mDatabaseHelper != null) {
             return this.mDatabaseHelper;
         } else {
             synchronized (CondroidDatabase.class) {
@@ -158,7 +158,7 @@ public class CondroidDatabase {
 
     public void purge(int id) {
         SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
-        if(db != null) {
+        if (db != null) {
 
             if (id != 0) {
                 Cursor c = this.query("SELECT id FROM " + CON_TABLE);

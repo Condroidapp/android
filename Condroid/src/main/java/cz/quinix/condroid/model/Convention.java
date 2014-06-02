@@ -32,7 +32,7 @@ public class Convention implements Serializable, DBInsertable {
     }
 
     public void setMessage(String message) {
-        if(message != null) {
+        if (message != null) {
             this.message = message.trim();
         }
     }
@@ -62,7 +62,7 @@ public class Convention implements Serializable, DBInsertable {
     }
 
     public void setImage(String image) {
-        if(image != null ) {
+        if (image != null) {
             this.image = image.trim();
         }
     }

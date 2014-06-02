@@ -39,7 +39,8 @@ public class ShowAnnotation extends RoboSherlockActivity {
     private static DateFormat dayFormat = new SimpleDateFormat(
             "EE dd.MM.", new Locale("cs", "CZ"));
 
-    @Inject private DataProvider provider;
+    @Inject
+    private DataProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
         title.setText(this.annotation.getTitle());
 
 
-
-        if(this.annotation.getAuthor() != null && !this.annotation.getAuthor().trim().equals("")) {
+        if (this.annotation.getAuthor() != null && !this.annotation.getAuthor().trim().equals("")) {
             TextView author = (TextView) this.findViewById(R.id.annot_author);
             author.setText(this.annotation.getAuthor());
         } else {
@@ -81,7 +81,6 @@ public class ShowAnnotation extends RoboSherlockActivity {
         }
 
 
-
         TextView text = (TextView) this.findViewById(R.id.annot_text);
         text.setText(this.annotation.getAnnotation());
 
@@ -100,7 +99,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
             tStart.setText(hourFormat.format(annotation.getStart()));
             tEnd.setText(hourFormat.format(annotation.getEnd()));
 
-            if(!this.isDateToday(annotation.getStart())) {
+            if (!this.isDateToday(annotation.getStart())) {
                 TextView day = (TextView) findViewById(R.id.tDay);
                 day.setText(dayFormat.format(annotation.getStart()));
                 day.setVisibility(View.VISIBLE);
@@ -109,8 +108,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
             }
 
 
-
-            if(isRunning()) {
+            if (isRunning()) {
                 findViewById(R.id.lRunningNow).setVisibility(View.VISIBLE);
                 findViewById(R.id.lStartsInMinutes).setVisibility(View.GONE);
             } else if (isStartingShortly(60)) {
@@ -125,7 +123,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
                 int minutes = this.getMinutesToStart();
 
                 String text = getString(R.string.startsInXMinutes);
-                text += " "+ this.getResources().getQuantityString(R.plurals.minutes, minutes, minutes);
+                text += " " + this.getResources().getQuantityString(R.plurals.minutes, minutes, minutes);
 
                 info.setText(text);
             } else {

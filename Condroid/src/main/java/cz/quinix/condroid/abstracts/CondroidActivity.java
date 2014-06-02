@@ -17,7 +17,6 @@ public abstract class CondroidActivity extends SherlockFragmentActivity {
     public static final String API_ENDPOINT = "http://condroid.loc/api/3/";
 
 
-
     private static String getUniqueDeviceIdentifier(Context context) {
         if (Build.VERSION.SDK_INT < 9) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -34,6 +33,6 @@ public abstract class CondroidActivity extends SherlockFragmentActivity {
     }
 
     public static String getDeviceInfoString(Context context) {
-        return Build.MODEL + " (" + Build.PRODUCT + ");" + getUniqueDeviceIdentifier(context) + ";Android "+Build.VERSION.RELEASE+" (API"+Build.VERSION.SDK_INT+")";
+        return Build.MODEL + " (" + Build.PRODUCT + ");" + getUniqueDeviceIdentifier(context) + ";Android " + Build.VERSION.RELEASE + " (API" + Build.VERSION.SDK_INT + ")";
     }
 }

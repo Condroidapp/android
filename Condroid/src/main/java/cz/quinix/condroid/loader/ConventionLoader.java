@@ -20,6 +20,4 @@ public class ConventionLoader extends AListenedAsyncTask<Void, List<Convention>>
     }
 
 
-
-
 }

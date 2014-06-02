@@ -27,10 +27,9 @@ public class IconView extends TextView {
 
         int width = right - left;
         int height = bottom - top;
-        if(width < height) {
+        if (width < height) {
             this.setWidth(height);
-        }
-        else {
+        } else {
             this.setHeight(bottom);
         }
     }

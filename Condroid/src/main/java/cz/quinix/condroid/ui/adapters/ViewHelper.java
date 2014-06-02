@@ -24,7 +24,8 @@ import cz.quinix.condroid.model.Annotation;
  */
 class ViewHelper {
 
-    @Inject DataProvider provider;
+    @Inject
+    DataProvider provider;
 
     public final static DateFormat todayFormat = new SimpleDateFormat("HH:mm");
     public final static DateFormat dayFormat = new SimpleDateFormat(
@@ -47,7 +48,7 @@ class ViewHelper {
             vh.title.setText(annotation.getTitle());
         }
         if (vh.author != null) {
-            if(annotation.getAuthor() != null && !annotation.getAuthor().trim().equals("")) {
+            if (annotation.getAuthor() != null && !annotation.getAuthor().trim().equals("")) {
                 vh.author.setText(annotation.getAuthor());
                 vh.author.setVisibility(View.VISIBLE);
             } else {
@@ -56,7 +57,7 @@ class ViewHelper {
         }
 
         if (vh.line != null) {
-            if(annotation.getLid() > 0) {
+            if (annotation.getLid() > 0) {
                 vh.line.setText(provider.getProgramLine(annotation.getLid()).getName());
                 vh.line.setVisibility(View.VISIBLE);
             } else {

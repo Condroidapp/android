@@ -36,10 +36,14 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
     @Inject
     private DataProvider database;
 
-    @InjectView(R.id.pbEvents) private ProgressBar progressBar;
-    @InjectView(R.id.lEventSelector) private ListView listView;
-    @InjectView(R.id.layProgressEvents) private LinearLayout layProgressEvents;
-    @InjectView(R.id.layEventSelector) private LinearLayout layEventSelector;
+    @InjectView(R.id.pbEvents)
+    private ProgressBar progressBar;
+    @InjectView(R.id.lEventSelector)
+    private ListView listView;
+    @InjectView(R.id.layProgressEvents)
+    private LinearLayout layProgressEvents;
+    @InjectView(R.id.layEventSelector)
+    private LinearLayout layEventSelector;
 
 
     @Override
@@ -60,7 +64,7 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
         layProgressEvents.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
         boolean force = this.getIntent().getBooleanExtra("force", false);
-        if(database.hasData() && !force) {
+        if (database.hasData() && !force) {
             Log.d(this.getClass().getName(), "Screen goto: Annotation list");
             this.startProgramActivity();
             return;
@@ -121,7 +125,7 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
     }
 
     private void startProgramActivity() {
-        if(this.database.hasData()) {
+        if (this.database.hasData()) {
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
         } else {

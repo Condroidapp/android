@@ -74,7 +74,8 @@ public class UpdatesService extends RoboService {
 
     private class ServiceAsync extends RoboAsyncTask<Void> {
 
-        @Inject private DataProvider provider;
+        @Inject
+        private DataProvider provider;
 
         public ServiceAsync(Context context) {
             super(context);

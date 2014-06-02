@@ -39,7 +39,8 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
     @Inject
     protected DataProvider dataProvider;
-    @InjectView(R.id.lwMain) private ListView lwMain;
+    @InjectView(R.id.lwMain)
+    private ListView lwMain;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
         initListView();
         this.updateSearchField();
     }
-
 
 
     protected void initListView() {
@@ -116,7 +116,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             Object an = ((ListView) v).getItemAtPosition(info.position);
             Annotation selected;
-            if(an instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) an).isSeparator()) {
+            if (an instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) an).isSeparator()) {
                 selected = ((GroupedAdapter.Entry) an).annotation;
             } else {
                 selected = (Annotation) an;
@@ -133,15 +133,15 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
     }
 
     private void updateSearchField() {
-            SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
-            TextView tw = (TextView) this.getView().findViewById(R.id.tFilterStatus);
-            if (!sb.isEmpty()) {
-                tw.setVisibility(View.VISIBLE);
-                tw.setText(sb.getReadableCondition());
-                tw.setOnClickListener(new DisableFilterListener(this));
-            } else {
-                tw.setVisibility(View.GONE);
-            }
+        SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
+        TextView tw = (TextView) this.getView().findViewById(R.id.tFilterStatus);
+        if (!sb.isEmpty()) {
+            tw.setVisibility(View.VISIBLE);
+            tw.setText(sb.getReadableCondition());
+            tw.setOnClickListener(new DisableFilterListener(this));
+        } else {
+            tw.setVisibility(View.GONE);
+        }
 
     }
 
@@ -150,7 +150,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
             if (lwMain != null) {
                 Object item = lwMain.getAdapter().getItem(position);
                 Annotation selected;
-                if(item instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) item).isSeparator()) {
+                if (item instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) item).isSeparator()) {
                     selected = ((GroupedAdapter.Entry) item).annotation;
                 } else {
                     selected = (Annotation) item;
@@ -178,7 +178,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
     protected abstract List<Annotation> loadData(SearchQueryBuilder sb, int page);
 
     public void refresh() {
-        if(this.getView() == null) {
+        if (this.getView() == null) {
             return;
         }
         SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());

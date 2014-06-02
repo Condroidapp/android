@@ -156,7 +156,7 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
     public void setAuthor(String talker) {
-        if(talker != null) {
+        if (talker != null) {
             this.author = talker.trim();
         }
     }
@@ -174,7 +174,7 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
     public void setAnnotation(String annotation) {
-        if(annotation != null) {
+        if (annotation != null) {
             this.annotation = annotation.trim();
         }
     }
@@ -207,7 +207,6 @@ public class Annotation implements Serializable, DBInsertable {
     }
 
 
-
     public void setLid(Integer integer) {
         lid = integer;
 
@@ -233,7 +232,7 @@ public class Annotation implements Serializable, DBInsertable {
         this.start = startTime;
     }
 
-    private static final HashMap<Character, Character> accents  = new HashMap<Character, Character>(){
+    private static final HashMap<Character, Character> accents = new HashMap<Character, Character>() {
         {
             put('ě', 'e');
             put('š', 's');
@@ -266,9 +265,9 @@ public class Annotation implements Serializable, DBInsertable {
 
     public static String normalize(String title) {
         char[] normalized = title.toLowerCase().toCharArray();
-        for(int i=0; i< normalized.length; i++) {
+        for (int i = 0; i < normalized.length; i++) {
             Character x = accents.get(normalized[i]);
-            if(x != null)
+            if (x != null)
                 normalized[i] = x;
         }
         return new String(normalized);

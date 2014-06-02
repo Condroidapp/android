@@ -92,7 +92,8 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
 
             DateFormat df = new SimpleDateFormat(
                     "EEEE d. M. yyyy", new Locale("cs",
-                    "CZ"));
+                    "CZ")
+            );
 
             for (Date date : dates) {
                 char[] c = df.format(date).toCharArray();
@@ -179,7 +180,7 @@ class DateFilter implements DialogInterface.OnClickListener {
     private SearchQueryBuilder search;
     private String[] items;
 
-    public DateFilter(NewCondroidFragment parent,  SearchQueryBuilder search, String[] items) {
+    public DateFilter(NewCondroidFragment parent, SearchQueryBuilder search, String[] items) {
         this.parent = parent;
         this.search = search;
         this.items = items;
