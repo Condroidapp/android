@@ -22,7 +22,7 @@ public abstract class CondroidActivity extends SherlockFragmentActivity {
         if (Build.VERSION.SDK_INT < 9) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
             String ident = "pre-9-" + Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID) + "-" + (new Date().toGMTString());
-            if (sp.getString("device_id", ident) == ident) {
+            if (sp.getString("device_id", ident).equals(ident)) {
                 SharedPreferences.Editor e = sp.edit();
                 e.putString("device_id", ident);
                 e.commit();

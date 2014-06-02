@@ -28,9 +28,9 @@ public class EventAdapter extends ArrayAdapter<Convention>
     private DateFormat generalFormat = new SimpleDateFormat("EE dd.MM.",
             new Locale("cs", "CZ"));
 
-    public EventAdapter(Context context, int resource, List<Convention> data) {
-        super(context, resource, data);
-        this.layout = resource;
+    public EventAdapter(Context context, List<Convention> data) {
+        super(context, R.layout.event_item_layout, data);
+        this.layout = R.layout.event_item_layout;
         this.data = data;
     }
 

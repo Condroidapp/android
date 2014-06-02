@@ -94,12 +94,6 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-      //  outState.putInt("selected_tab", this.tabsFragment.getActiveTab());
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater mi = this.getSupportMenuInflater();
         mi.inflate(R.menu.program, menu);

@@ -64,7 +64,6 @@
                     android:layout_height="wrap_content"
                 android:text="Time"
                     android:textColor="@color/gray"
-                android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/alPlace"
                 android:paddingTop="2dp"
                 android:textSize="14dp" />
 

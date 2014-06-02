@@ -10,7 +10,7 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/appName"
-        android:theme="@style/Theme.Condroid" >
+        android:theme="@style/Theme.Condroid" android:allowBackup="true" >
         <activity
             android:name="cz.quinix.condroid.ui.activities.ShowAnnotation"
             android:uiOptions="splitActionBarWhenNarrow" />

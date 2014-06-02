@@ -5,13 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -104,7 +102,7 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
     }
 
     private void onEventsLoaded(final List<Convention> results) {
-        EventAdapter adapter = new EventAdapter(this, R.layout.event_item_layout, results);
+        EventAdapter adapter = new EventAdapter(this, results);
 
         listView.setAdapter(adapter);
         listView.setClickable(true);

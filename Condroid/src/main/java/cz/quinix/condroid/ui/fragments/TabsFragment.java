@@ -124,13 +124,7 @@ public class TabsFragment extends RoboSherlockFragment {
             return fragment;
         }
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            super.destroyItem(container, position, object);
-         //   pageReferenceMap.remove(position);
-        }
-
-       /* public NewCondroidFragment getFragment(int position) {
+        /* public NewCondroidFragment getFragment(int position) {
             return this.pageReferenceMap.get(position);
         }*/
 

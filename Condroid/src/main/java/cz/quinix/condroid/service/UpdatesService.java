@@ -70,7 +70,6 @@ public class UpdatesService extends RoboService {
         } else {
             Preferences.stopUpdateService(this);
             this.stopSelf();
-            return;
         }
     }
 

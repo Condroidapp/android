@@ -21,7 +21,7 @@ public class SearchQueryBuilder {
 
     public SearchQueryBuilder addParam(final String value) {
         if (value != null) {
-            this.params.put(new String().getClass().getName(), new ICondition() {
+            this.params.put(String.class.getName(), new ICondition() {
                 @Override
                 public String getCondition() {
                     String norm = Annotation.normalize(value);
@@ -72,7 +72,7 @@ public class SearchQueryBuilder {
             public String getReadable() {
                 return new SimpleDateFormat("dd.MM.yy").format(d);
             }
-        }, new Date().getClass().getName());
+        }, Date.class.getName());
     }
 
     public String buildCondition() {

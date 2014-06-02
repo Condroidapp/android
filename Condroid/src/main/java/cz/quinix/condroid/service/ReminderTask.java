@@ -101,7 +101,6 @@ public class ReminderTask extends RoboService {
         ReminderManager.updateAlarmManager(this);
 
         this.stopSelf();
-        return;
     }
 
 }

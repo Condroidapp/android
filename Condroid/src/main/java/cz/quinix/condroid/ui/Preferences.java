@@ -60,7 +60,7 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
     private void displayLastRun() {
         Preference lastUpdate = findPreference("last_update");
         long time = sp.getLong("last_update", 0);
-        ;
+
         if (time == 0) {
             lastUpdate.setSummary("zatím neproběhla");
         } else {

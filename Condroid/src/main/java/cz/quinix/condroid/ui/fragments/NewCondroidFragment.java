@@ -132,13 +132,6 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-
-    }
-
     private void updateSearchField() {
             SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
             TextView tw = (TextView) this.getView().findViewById(R.id.tFilterStatus);

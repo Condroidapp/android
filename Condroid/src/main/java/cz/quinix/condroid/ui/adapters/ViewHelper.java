@@ -113,14 +113,10 @@ class ViewHelper {
         Calendar compared = Calendar.getInstance();
         compared.setTime(date);
 
-        if (compared.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+        //its today
+        return compared.get(Calendar.YEAR) == today.get(Calendar.YEAR)
                 && compared.get(Calendar.MONTH) == today.get(Calendar.MONTH)
-                && compared.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)) {
-            //its today
-            return true;
-        } else {
-            return false;
-        }
+                && compared.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH);
     }
 
     private String formatDate(Date date) {

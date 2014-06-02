@@ -122,7 +122,7 @@ class FilterTypeSelected implements DialogInterface.OnClickListener {
                 public String getReadable() {
                     return "Oblíbené";
                 }
-            }, new Object().getClass().getName());
+            }, Object.class.getName());
             parent.refresh();
         }
     }
