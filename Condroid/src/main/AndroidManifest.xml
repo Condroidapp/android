@@ -29,12 +29,7 @@
             android:name="cz.quinix.condroid.ui.ReminderList"
             android:label="Přehled připomenutí"
             android:theme="@android:style/Theme.Dialog" />
-        <activity
-            android:name="cz.quinix.condroid.ui.activities.ProgramActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.Condroid" >
 
-        </activity>
 
         <service android:name="cz.quinix.condroid.service.ReminderTask" />
         <service android:name="cz.quinix.condroid.service.UpdatesService" />
@@ -49,7 +44,7 @@
 
         <activity
             android:name="cz.quinix.condroid.ui.activities.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main" android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

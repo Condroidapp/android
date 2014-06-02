@@ -60,11 +60,11 @@ public class TabsFragment extends RoboSherlockFragment {
     }
 
     public void refreshFragments() {
-        SparseArray<NewCondroidFragment> fragments = this.adapter.getFragments();
+       /* SparseArray<NewCondroidFragment> fragments = this.adapter.getFragments();
 
         for(int i = 0; i<fragments.size(); i++) {
             fragments.get(fragments.keyAt(i)).refresh();
-        }
+        }*/
     }
 
     public void handleSearch(String query) {
@@ -74,8 +74,7 @@ public class TabsFragment extends RoboSherlockFragment {
     }
 
     public NewCondroidFragment getActiveFragment() {
-        int position = pager.getCurrentItem();
-        return adapter.getFragment(position);
+        return (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag("android:switcher:"+R.id.pager+":"+pager.getCurrentItem());
     }
 
     public int getActiveTab() {
@@ -89,11 +88,11 @@ public class TabsFragment extends RoboSherlockFragment {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private SparseArray<NewCondroidFragment> pageReferenceMap;
+       // private SparseArray<NewCondroidFragment> pageReferenceMap;
 
         public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
-            pageReferenceMap = new SparseArray<NewCondroidFragment>();
+           // pageReferenceMap = new SparseArray<NewCondroidFragment>();
         }
 
         private final int[] TITLES = { R.string.tRunning, R.string.tAll };
@@ -119,25 +118,25 @@ public class TabsFragment extends RoboSherlockFragment {
                     fragment = FullListFragment.newInstance();
                     break;
             }
-            if(fragment != null) {
+            /*if(fragment != null) {
                 this.pageReferenceMap.put(position, fragment);
-            }
+            }*/
             return fragment;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             super.destroyItem(container, position, object);
-            pageReferenceMap.remove(position);
+         //   pageReferenceMap.remove(position);
         }
 
-        public NewCondroidFragment getFragment(int position) {
+       /* public NewCondroidFragment getFragment(int position) {
             return this.pageReferenceMap.get(position);
-        }
+        }*/
 
-        public SparseArray<NewCondroidFragment> getFragments() {
-            return pageReferenceMap;
-        }
+      //  public SparseArray<NewCondroidFragment> getFragments() {
+           // return pageReferenceMap;
+      //  }
     }
 
 }

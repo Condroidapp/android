@@ -38,6 +38,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     private TabsFragment tabsFragment;
     private ViewGroup mDrawerContent;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,15 +69,13 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         );
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        if (tabsFragment == null) {
+        if (savedInstanceState == null) {
             tabsFragment = TabsFragment.newInstance();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.content, tabsFragment).commit();
-        }
-
-        if (savedInstanceState != null) {
-            tabsFragment.setActiveTab(savedInstanceState.getInt("selected_tab", 0));
+                    .add(R.id.content, tabsFragment, TabsFragment.TAG).commit();
+        } else {
+            tabsFragment = (TabsFragment) getSupportFragmentManager().findFragmentByTag(TabsFragment.TAG);
         }
 
         handleIntent(getIntent());
@@ -97,7 +96,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("selected_tab", this.tabsFragment.getActiveTab());
+      //  outState.putInt("selected_tab", this.tabsFragment.getActiveTab());
     }
 
     @Override
