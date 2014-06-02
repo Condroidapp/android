@@ -5,19 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.inject.Inject;
-
-import cz.quinix.condroid.abstracts.CondroidActivity;
-import cz.quinix.condroid.database.DataProvider;
-import cz.quinix.condroid.model.Convention;
-import cz.quinix.condroid.ui.Preferences;
-import roboguice.service.RoboService;
-import roboguice.util.RoboAsyncTask;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -30,6 +22,13 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import cz.quinix.condroid.abstracts.CondroidActivity;
+import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.Preferences;
+import roboguice.service.RoboService;
+import roboguice.util.RoboAsyncTask;
 
 /**
  * Created with IntelliJ IDEA.

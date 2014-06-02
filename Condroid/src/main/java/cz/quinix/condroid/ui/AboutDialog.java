@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+
 import cz.quinix.condroid.R;
 
 public class AboutDialog {

@@ -1,14 +1,9 @@
 package cz.quinix.condroid.ui.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.model.Annotation;
 
 /**
  * Created by Jan on 1. 6. 2014.

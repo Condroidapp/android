@@ -1,6 +1,5 @@
 package cz.quinix.condroid.ui.listeners;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;

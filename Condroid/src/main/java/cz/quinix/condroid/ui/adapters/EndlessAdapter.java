@@ -8,11 +8,11 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 
+import java.util.List;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
-
-import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.

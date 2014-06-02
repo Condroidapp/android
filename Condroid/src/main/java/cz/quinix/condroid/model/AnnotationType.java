@@ -1,7 +1,5 @@
 package cz.quinix.condroid.model;
 
-import android.graphics.drawable.Drawable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

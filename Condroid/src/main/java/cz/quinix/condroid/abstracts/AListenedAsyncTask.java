@@ -9,7 +9,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Date;
-import java.util.List;
 
 import cz.quinix.condroid.CondroidApi;
 import cz.quinix.condroid.R;

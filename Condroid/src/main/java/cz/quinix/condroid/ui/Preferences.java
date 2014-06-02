@@ -11,11 +11,12 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import cz.quinix.condroid.R;
-import cz.quinix.condroid.service.UpdatesService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.service.UpdatesService;
 
 /**
  * Created with IntelliJ IDEA.

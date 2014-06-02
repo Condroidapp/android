@@ -1,18 +1,11 @@
 package cz.quinix.condroid.database;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.model.Convention;
-import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.model.Reminder;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -24,6 +17,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.model.ProgramLine;
+import cz.quinix.condroid.model.Reminder;
 
 @Singleton
 public class DataProvider {

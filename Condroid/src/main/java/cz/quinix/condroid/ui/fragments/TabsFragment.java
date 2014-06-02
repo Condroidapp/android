@@ -1,10 +1,8 @@
 package cz.quinix.condroid.ui.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +10,6 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.astuetz.PagerSlidingTabStrip;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import cz.quinix.condroid.R;
 

@@ -6,11 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.Date;
+
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Reminder;
 import roboguice.RoboGuice;
-
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.

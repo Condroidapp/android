@@ -1,11 +1,11 @@
 package cz.quinix.condroid.loader;
 
+import java.util.List;
+
 import cz.quinix.condroid.CondroidApi;
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.model.Convention;
-
-import java.util.List;
 
 public class ConventionLoader extends AListenedAsyncTask<Void, List<Convention>> {
 

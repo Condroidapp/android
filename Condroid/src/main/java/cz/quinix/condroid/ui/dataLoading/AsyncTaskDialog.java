@@ -2,8 +2,6 @@ package cz.quinix.condroid.ui.dataLoading;
 
 import android.app.Activity;
 
-import com.actionbarsherlock.app.SherlockActivity;
-
 import cz.quinix.condroid.abstracts.ITaskListener;
 
 /**

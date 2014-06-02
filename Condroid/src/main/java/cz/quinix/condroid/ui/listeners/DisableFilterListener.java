@@ -4,13 +4,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.view.View;
+
+import java.util.Date;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.ProgramLine;
 import cz.quinix.condroid.ui.fragments.NewCondroidFragment;
-
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.

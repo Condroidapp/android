@@ -3,12 +3,10 @@ package cz.quinix.condroid.ui.activities;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -18,17 +16,6 @@ import com.google.inject.Inject;
 
 import org.joda.time.Duration;
 import org.joda.time.Instant;
-import org.joda.time.Interval;
-import org.w3c.dom.Text;
-
-import cz.quinix.condroid.R;
-import cz.quinix.condroid.database.DataProvider;
-import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.model.AnnotationType;
-import cz.quinix.condroid.model.ProgramLine;
-import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
-import cz.quinix.condroid.ui.listeners.SetReminderListener;
-import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,6 +23,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.model.AnnotationType;
+import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
+import cz.quinix.condroid.ui.listeners.SetReminderListener;
+import cz.quinix.condroid.ui.listeners.ShareProgramListener;
 
 public class ShowAnnotation extends RoboSherlockActivity {
 

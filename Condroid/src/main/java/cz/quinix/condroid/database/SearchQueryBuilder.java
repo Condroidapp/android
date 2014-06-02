@@ -1,14 +1,15 @@
 package cz.quinix.condroid.database;
 
 import android.util.Log;
-import cz.quinix.condroid.abstracts.ICondition;
-import cz.quinix.condroid.model.Annotation;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import cz.quinix.condroid.abstracts.ICondition;
+import cz.quinix.condroid.model.Annotation;
 
 public class SearchQueryBuilder {
 

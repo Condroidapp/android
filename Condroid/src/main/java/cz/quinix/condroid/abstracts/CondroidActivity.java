@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.util.Log;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.Date;

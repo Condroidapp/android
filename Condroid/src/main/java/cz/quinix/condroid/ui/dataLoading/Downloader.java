@@ -3,8 +3,10 @@ package cz.quinix.condroid.ui.dataLoading;
 import android.app.Activity;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
@@ -13,11 +15,6 @@ import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
-
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 public class Downloader extends AsyncTaskDialog {
 

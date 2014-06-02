@@ -3,8 +3,6 @@ package cz.quinix.condroid.model;
 import android.content.ContentValues;
 import android.text.TextUtils;
 
-import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.DBInsertable;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -13,6 +11,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.abstracts.DBInsertable;
 
 public class Annotation implements Serializable, DBInsertable {
 

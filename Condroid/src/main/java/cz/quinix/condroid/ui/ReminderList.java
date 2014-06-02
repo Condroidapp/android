@@ -1,10 +1,14 @@
 package cz.quinix.condroid.ui;
 
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -13,16 +17,16 @@ import android.widget.TextView;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockListActivity;
 import com.google.inject.Inject;
 
-import cz.quinix.condroid.R;
-import cz.quinix.condroid.database.DataProvider;
-import cz.quinix.condroid.model.Reminder;
-import cz.quinix.condroid.service.ReminderManager;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import cz.quinix.condroid.R;
+import cz.quinix.condroid.database.DataProvider;
+import cz.quinix.condroid.model.Reminder;
+import cz.quinix.condroid.service.ReminderManager;
 
 /**
  * Created with IntelliJ IDEA.

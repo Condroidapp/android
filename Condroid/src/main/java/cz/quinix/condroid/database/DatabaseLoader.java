@@ -2,29 +2,23 @@ package cz.quinix.condroid.database;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.google.inject.Inject;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.loader.AProgressedTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
 

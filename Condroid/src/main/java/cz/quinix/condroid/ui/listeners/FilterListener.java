@@ -4,6 +4,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.ICondition;
 import cz.quinix.condroid.database.DataProvider;
@@ -11,11 +20,6 @@ import cz.quinix.condroid.database.SearchProvider;
 import cz.quinix.condroid.database.SearchQueryBuilder;
 import cz.quinix.condroid.model.ProgramLine;
 import cz.quinix.condroid.ui.fragments.NewCondroidFragment;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.

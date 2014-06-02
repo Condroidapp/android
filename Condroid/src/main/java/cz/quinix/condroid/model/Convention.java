@@ -1,12 +1,14 @@
 package cz.quinix.condroid.model;
 
 import android.content.ContentValues;
-import cz.quinix.condroid.abstracts.DBInsertable;
+
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import cz.quinix.condroid.abstracts.DBInsertable;
 
 public class Convention implements Serializable, DBInsertable {
     /**

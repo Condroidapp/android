@@ -3,7 +3,11 @@ package cz.quinix.condroid;
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.Provider;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TimeZone;
 
 
 public class FastJodaTimeZoneProvider implements Provider {

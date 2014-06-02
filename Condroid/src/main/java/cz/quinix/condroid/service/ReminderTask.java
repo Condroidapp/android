@@ -13,14 +13,14 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 
+import java.text.SimpleDateFormat;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Reminder;
 import cz.quinix.condroid.ui.activities.ShowAnnotation;
 import roboguice.service.RoboService;
-
-import java.text.SimpleDateFormat;
 
 /**
  * Created with IntelliJ IDEA.

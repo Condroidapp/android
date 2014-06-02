@@ -2,8 +2,8 @@ package cz.quinix.condroid.loader;
 
 import android.app.Activity;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import java.util.List;
+import java.util.Map;
 
 import cz.quinix.condroid.CondroidApi;
 import cz.quinix.condroid.R;
@@ -11,9 +11,6 @@ import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import retrofit.RetrofitError;
-
-import java.util.List;
-import java.util.Map;
 
 public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annotation>>> {
 

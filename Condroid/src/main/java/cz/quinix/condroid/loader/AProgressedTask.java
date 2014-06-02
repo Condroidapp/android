@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
 
