@@ -25,6 +25,7 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.activities.ShowAnnotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.GroupedAdapter;
+import cz.quinix.condroid.ui.listeners.DisableFilterListener;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
@@ -71,6 +72,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
         View filterStatus = getView().findViewById(R.id.tFilterStatus);
         if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
             filterStatus.setVisibility(View.VISIBLE);
+
         } else {
             filterStatus.setVisibility(View.GONE);
         }
@@ -130,12 +132,20 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
+
     private void updateSearchField() {
             SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
             TextView tw = (TextView) this.getView().findViewById(R.id.tFilterStatus);
             if (!sb.isEmpty()) {
                 tw.setVisibility(View.VISIBLE);
                 tw.setText(sb.getReadableCondition());
+                tw.setOnClickListener(new DisableFilterListener(this));
             } else {
                 tw.setVisibility(View.GONE);
             }
@@ -175,6 +185,9 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
     protected abstract List<Annotation> loadData(SearchQueryBuilder sb, int page);
 
     public void refresh() {
+        if(this.getView() == null) {
+            return;
+        }
         SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
         List<Annotation> i = this.loadData(sb, 0);
         this.updateSearchField();
