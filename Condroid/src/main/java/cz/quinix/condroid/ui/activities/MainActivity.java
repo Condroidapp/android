@@ -9,14 +9,18 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
+
+import java.util.List;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
@@ -36,6 +40,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     private DataProvider provider;
     private TabsFragment tabsFragment;
     private ViewGroup mDrawerContent;
+    private Menu optionsMenu;
 
 
     @Override
@@ -94,6 +99,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.optionsMenu = menu;
         MenuInflater mi = this.getSupportMenuInflater();
         mi.inflate(R.menu.program, menu);
         super.onCreateOptionsMenu(menu);
@@ -111,22 +117,10 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
                 }
                 return true;
             }
-            /*case R.id.mAbout:
-                new AboutDialog(this);
-                return true;
-            case R.id.mReminderList:
-                Intent in = new Intent(this, ReminderList.class);
-                this.startActivityForResult(in, 0);
-
-                return true;*/
             case R.id.mData_reload:
                 this.loadData();
                 return true;
 
-            /*case R.id.mSettings:
-                Intent i = new Intent(this, Preferences.class);
-                this.startActivity(i);
-                return true;*/
             case R.id.mFilter:
                 new FilterListener(this.tabsFragment.getActiveFragment(), this.provider).invoke();
                 return true;
@@ -139,38 +133,23 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     }
 
     private void loadData() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(R.string.updateOrFullDialog)
-                .setNegativeButton(R.string.full, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-                        intent.putExtra("force", true);
-                        startActivity(intent);
-                    }
-                })
-                .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Downloader d = new Downloader(MainActivity.this, provider.getCon(), true);
-                        d.invoke();
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        this.setRefreshActionButtonState(true);
+        Downloader d = new Downloader(MainActivity.this, provider.getCon(), true, false);
+        d.invoke();
     }
 
     @Override
     public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
         if (task instanceof DatabaseLoader) {
+            int results = ((DatabaseLoader) task).getResults();
+            Toast.makeText(this, this.getResources().getQuantityString(R.plurals.found_updates, results, results), Toast.LENGTH_LONG).show();
             if (tabsFragment != null) {
                 tabsFragment.refreshFragments();
             }
         } else {
-            throw new IllegalArgumentException("Instance of " + task.getClass().getName() + " is not supported in this handler.");
+            Log.w(this.getClass().getName(), "Instance of " + task.getClass().getName() + " is not supported in this handler.");
         }
+        this.setRefreshActionButtonState(false);
     }
 
     @Override
@@ -181,6 +160,20 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     public void closeDrawer() {
         if (mDrawerLayout.isDrawerOpen(mDrawerContent)) {
             mDrawerLayout.closeDrawer(mDrawerContent);
+        }
+    }
+
+    public void setRefreshActionButtonState(final boolean refreshing) {
+        if (optionsMenu != null) {
+            final MenuItem refreshItem = optionsMenu
+                    .findItem(R.id.mData_reload);
+            if (refreshItem != null) {
+                if (refreshing) {
+                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.ProgramLine;
 
-public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
+public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 
     @Inject
     private DataProvider dataProvider;
@@ -33,11 +34,11 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
     }
 
     @Override
-    protected void onSuccess(List<Annotation> annotations) throws Exception {
+    protected void onSuccess(Integer result) throws Exception {
         if (this.fullInsert) {
             SearchProvider.clear();
         }
-        super.onSuccess(annotations);
+        super.onSuccess(result);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
     }
 
     @Override
-    public List<Annotation> call() throws Exception {
+    public Integer call() throws Exception {
         CondroidDatabase database = this.dataProvider.getDatabase();
         int counter = 0;
         if (this.fullInsert() && !database.isEmpty()) {
@@ -129,7 +130,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, List<Annotation>> {
             db.endTransaction();
             dataProvider.clear();
         }
-        return null;
+        return this.getItemsSize();
     }
 
     private int getItemsSize() {

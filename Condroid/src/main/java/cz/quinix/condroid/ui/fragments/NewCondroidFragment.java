@@ -69,13 +69,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
             ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
         }
 
-        View filterStatus = getView().findViewById(R.id.tFilterStatus);
-        if (!SearchProvider.getSearchQueryBuilder(this.getClass().getName()).isEmpty()) {
-            filterStatus.setVisibility(View.VISIBLE);
-
-        } else {
-            filterStatus.setVisibility(View.GONE);
-        }
+        this.updateSearchField();
     }
 
 
@@ -172,12 +166,16 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
         sb.addParam(query);
 
-        this.refresh();
+        this.refresh(true);
     }
 
     protected abstract List<Annotation> loadData(SearchQueryBuilder sb, int page);
 
     public void refresh() {
+        this.refresh(false);
+    }
+
+    public void refresh(boolean resetPosition) {
         if (this.getView() == null) {
             return;
         }
@@ -187,7 +185,11 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
 
         ((EndlessAdapter) lwMain.getAdapter()).setItems(i);
-        lwMain.setSelection(0);
+
+        if(resetPosition) {
+            lwMain.setSelection(0);
+        }
+
         lwMain.setVisibility(View.VISIBLE);
         if (i.size() == 0) {
             lwMain.setVisibility(View.GONE);

@@ -20,14 +20,16 @@ public class Downloader extends AsyncTaskDialog {
 
     private Convention convention;
     private boolean update;
+    private boolean progressBar;
 
 
     public Downloader(Activity activity, Convention convention) {
-        this(activity, convention, false);
+        this(activity, convention, false, true);
     }
 
-    public Downloader(Activity programActivity, Convention convention, boolean update) {
+    public Downloader(Activity programActivity, Convention convention, boolean update, boolean progressBar) {
         this.update = update;
+        this.progressBar = progressBar;
         this.parent = programActivity;
         this.convention = convention;
     }
@@ -40,7 +42,7 @@ public class Downloader extends AsyncTaskDialog {
             lastUpdate = format.format(convention.getLastUpdate());
         }
 
-        DataLoader task1 = new DataLoader(this, parent, convention, lastUpdate);
+        DataLoader task1 = new DataLoader(this, parent, convention, lastUpdate, progressBar);
 
         task1.execute();
     }
@@ -50,6 +52,7 @@ public class Downloader extends AsyncTaskDialog {
         Map<String, List<Annotation>> annotations = (Map<String, List<Annotation>>) task.getResults();
         if (annotations == null) {
             Toast.makeText(this.getActivity(), R.string.noUpdates, Toast.LENGTH_LONG).show();
+            ((ITaskListener) parent).onTaskCompleted(task);
             return;
         }
         if (annotations.size() > 0) {

@@ -13,6 +13,7 @@ import cz.quinix.condroid.model.Convention;
 import retrofit.RetrofitError;
 
 public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annotation>>> {
+    private final boolean showProgress;
 
     //private ProgressDialog pd;
 
@@ -21,12 +22,20 @@ public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annota
     private String lastUpdate;
     //private int pdActual;
 
-    public DataLoader(ITaskListener listener, Activity parent, Convention convention, String lastUpdate) {
+    public DataLoader(ITaskListener listener, Activity parent, Convention convention, String lastUpdate, boolean showProgress) {
         super(listener, parent);
         this.convention = convention;
         this.lastUpdate = lastUpdate;
+        this.showProgress = showProgress;
         pdString = parent.getString(R.string.loading);
         this.showDialog();
+    }
+
+    @Override
+    protected void showDialog() {
+        if (this.showProgress) {
+            super.showDialog();
+        }
     }
 
     @Override

@@ -55,11 +55,13 @@ public class TabsFragment extends RoboSherlockFragment {
     }
 
     public void refreshFragments() {
-       /* SparseArray<NewCondroidFragment> fragments = this.adapter.getFragments();
+        for(int i = 0; i<2; i++) {
+            NewCondroidFragment fragment = (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag(this.getFragmentTag(i));
+            if(fragment != null) {
+                fragment.refresh();
+            }
 
-        for(int i = 0; i<fragments.size(); i++) {
-            fragments.get(fragments.keyAt(i)).refresh();
-        }*/
+        }
     }
 
     public void handleSearch(String query) {
@@ -69,17 +71,12 @@ public class TabsFragment extends RoboSherlockFragment {
     }
 
     public NewCondroidFragment getActiveFragment() {
-        return (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + pager.getCurrentItem());
+        return (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag(getFragmentTag(pager.getCurrentItem()));
     }
 
-    public int getActiveTab() {
-        return pager.getCurrentItem();
+    private String getFragmentTag(int item) {
+        return "android:switcher:" + R.id.pager + ":"+item;
     }
-
-    public void setActiveTab(int selected_tab) {
-        pager.setCurrentItem(selected_tab);
-    }
-
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 

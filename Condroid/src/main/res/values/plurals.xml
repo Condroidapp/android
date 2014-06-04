@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="minutes">
-        <item quantity="zero">méně než minutu </item>
+        <item quantity="zero">méně než minutu</item>
         <item quantity="one">minutu</item>
         <item quantity="few">%d minuty</item>
         <item quantity="other">%d minut</item>
     </plurals>
+
+    <plurals name="found_updates">
+        <item quantity="zero">Condroid již obsahuje aktuální data.</item>
+        <item quantity="one">Nalezena aktualizace jednoho pořadu.</item>
+        <item quantity="few">Nalezena aktualizace pro %d pořady.</item>
+        <item quantity="other">Nalezena aktualizace pro %d pořadů.</item>
+    </plurals>
+
 </resources>
