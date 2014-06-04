@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -41,6 +42,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     private TabsFragment tabsFragment;
     private ViewGroup mDrawerContent;
     private Menu optionsMenu;
+    private ActionBarDrawerToggle mDrawerToggle;
 
 
     @Override
@@ -65,7 +67,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+        mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
                 mDrawerLayout, /* DrawerLayout object */
                 R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
                 R.string.fa_folder_open, /* "open drawer" description for accessibility */
@@ -89,6 +91,21 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     protected void onNewIntent(Intent intent) {
         this.setIntent(intent);
         this.handleIntent(intent);
+    }
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void handleIntent(Intent intent) {

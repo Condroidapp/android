@@ -50,8 +50,8 @@ public class TabsFragment extends RoboSherlockFragment {
         pager.setAdapter(adapter);
         tabs.setViewPager(pager);
         pager.getCurrentItem();
-        //tabs.setIndicatorColorResource(R.color.ab_action_green);
 
+        //TODO on tab click
     }
 
     public void refreshFragments() {

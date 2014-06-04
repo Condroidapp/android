@@ -187,7 +187,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
         ((EndlessAdapter) lwMain.getAdapter()).setItems(i);
 
         if(resetPosition) {
-            lwMain.setSelection(0);
+
         }
 
         lwMain.setVisibility(View.VISIBLE);
@@ -196,6 +196,12 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
             this.getView().findViewById(R.id.tNoData).setVisibility(View.VISIBLE);
         } else {
             this.getView().findViewById(R.id.tNoData).setVisibility(View.GONE);
+        }
+    }
+
+    public void resetList() {
+        if(lwMain != null) {
+            lwMain.setSelection(0);
         }
     }
 }
