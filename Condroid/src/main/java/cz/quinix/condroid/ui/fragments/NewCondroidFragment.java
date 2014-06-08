@@ -84,18 +84,24 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         int menuItemIndex = item.getItemId();
-        Annotation an = (Annotation) this.lwMain.getItemAtPosition(info.position);
+        Object object = this.lwMain.getItemAtPosition(info.position);
+        Annotation selected;
+        if (object instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) object).isSeparator()) {
+            selected = ((GroupedAdapter.Entry) object).annotation;
+        } else {
+            selected = (Annotation) object;
+        }
 
         switch (menuItemIndex) {
             case 0:
-                new ShareProgramListener(this.getActivity()).invoke(an);
+                new ShareProgramListener(this.getActivity()).invoke(selected);
                 break;
             case 1:
-                new MakeFavoritedListener(this.getActivity(), dataProvider).invoke(an);
+                new MakeFavoritedListener(this.getActivity(), dataProvider).invoke(selected);
                 ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
                 break;
             case 2:
-                new SetReminderListener(this.getActivity(), dataProvider).invoke(an);
+                new SetReminderListener(this.getActivity(), dataProvider).invoke(selected);
             default:
                 break;
         }
