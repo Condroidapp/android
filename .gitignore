@@ -7,3 +7,5 @@
 *.iml
 
 /Condroid/src/main/res/drawable-xhdpi/Thumbs.db
+
+/build

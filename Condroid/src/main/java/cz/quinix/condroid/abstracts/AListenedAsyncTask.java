@@ -15,6 +15,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.loader.AnnotationTypeAdapter;
 import cz.quinix.condroid.loader.DateTypeAdapter;
 import cz.quinix.condroid.model.AnnotationType;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
@@ -44,6 +45,12 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
         RestAdapter adapter = new RestAdapter.Builder()
                 .setEndpoint(CondroidActivity.API_ENDPOINT)
                 .setConverter(new GsonConverter(gson))
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addHeader("X-Device-Info", CondroidActivity.getDeviceInfoString(listener.getActivity()));
+                    }
+                })
                 .build();
         return adapter.create(CondroidApi.class);
     }
@@ -63,7 +70,7 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
             if (((RetrofitError) e).isNetworkError()) {
                 Toast.makeText(listener.getActivity(), R.string.networkError, Toast.LENGTH_LONG).show();
                 return;
-            } else if (((RetrofitError) e).getResponse().getStatus() >= 500) {
+            } else if (((RetrofitError) e).getResponse() != null && ((RetrofitError) e).getResponse().getStatus() >= 500) {
                 Toast.makeText(listener.getActivity(), R.string.serverError, Toast.LENGTH_LONG).show();
                 return;
             }

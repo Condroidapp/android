@@ -12,11 +12,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.service.UpdatesService;
+import cz.quinix.condroid.ui.activities.MainActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,7 +28,7 @@ import cz.quinix.condroid.service.UpdatesService;
  * Time: 22:29
  * To change this template use File | Settings | File Templates.
  */
-public class Preferences extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class Preferences extends SherlockPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private SharedPreferences sp;
 
@@ -33,9 +36,10 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addPreferencesFromResource(R.xml.preference);
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        ListPreference lp = (ListPreference) findPreference("update_check_period");
+        ListPreference lp = (ListPreference) findPreference("auto_updates_interval");
         CharSequence entry = lp.getEntry();
         if (entry == null) {
             lp.setValueIndex(2);
@@ -70,44 +74,14 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
         }
     }
 
-    public static void planUpdateService(Context context) {
-        stopUpdateService(context); //stop already planed
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!(preferences.getBoolean("update_check", false) && !preferences.getBoolean("updates_found", false))) {
-            stopUpdateService(context);
-            return;
-        }
-        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        long interval;
-        interval = Integer.parseInt(preferences.getString("update_check_period", "60"));
-        if (!preferences.contains("last_update")) {
-            SharedPreferences.Editor e = preferences.edit();
-            e.putLong("last_update", System.currentTimeMillis() - (interval - 1) * 60 * 1000);
-            e.commit();
-        }
-
-        long time = interval * 60 * 1000 + preferences.getLong("last_update", System.currentTimeMillis());
-
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context, UpdatesService.class), 0);
-
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, time, interval * 60 * 1000, pendingIntent);
-        Log.d("Condroid", "Update service planned. It will start at " + (new Date(time)));
-    }
-
-    public static void stopUpdateService(Context context) {
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context, UpdatesService.class), 0);
-        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        am.cancel(pendingIntent);
-    }
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (s.equals("update_check") || s.equals("update_check_period")) {
-            if (sp.getBoolean("update_check", false)) {
+            /*if (sp.getBoolean("update_check", false)) {
                 planUpdateService(this);
             } else {
                 stopUpdateService(this);
-            }
+            }*/
 
 
         }
@@ -115,5 +89,19 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
             ListPreference lp = (ListPreference) findPreference("update_check_period");
             lp.setSummary(lp.getEntry());
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,6 +32,7 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.ui.adapters.DrawerAdapter;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
+import cz.quinix.condroid.ui.dataLoading.UpdateChecker;
 import cz.quinix.condroid.ui.fragments.TabsFragment;
 import cz.quinix.condroid.ui.listeners.DrawerItemClickListener;
 import cz.quinix.condroid.ui.listeners.FilterListener;
@@ -43,6 +46,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     private ViewGroup mDrawerContent;
     private Menu optionsMenu;
     private ActionBarDrawerToggle mDrawerToggle;
+    private UpdateChecker updateChecker;
 
 
     @Override
@@ -88,6 +92,12 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+
+    @Override
     protected void onNewIntent(Intent intent) {
         this.setIntent(intent);
         this.handleIntent(intent);
@@ -120,7 +130,17 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         MenuInflater mi = this.getSupportMenuInflater();
         mi.inflate(R.menu.program, menu);
         super.onCreateOptionsMenu(menu);
+
         return true;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if(hasFocus) {
+            new UpdateChecker(this, provider.getCon()).execute();
+        }
     }
 
     @Override

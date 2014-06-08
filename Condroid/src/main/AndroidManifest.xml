@@ -27,12 +27,11 @@
         </activity>
         <activity
             android:name="cz.quinix.condroid.ui.ReminderList"
-            android:label="Přehled připomenutí"
+            android:label="Prehled pripomenuti"
             android:theme="@android:style/Theme.Dialog" />
 
 
         <service android:name="cz.quinix.condroid.service.ReminderTask" />
-        <service android:name="cz.quinix.condroid.service.UpdatesService" />
 
         <receiver android:name="cz.quinix.condroid.service.BootReceiver" >
             <intent-filter>
