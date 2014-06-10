@@ -3,6 +3,7 @@ package cz.quinix.condroid.ui.activities;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.TimerTask;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
@@ -41,6 +43,8 @@ public class ShowAnnotation extends RoboSherlockActivity {
 
     @Inject
     private DataProvider provider;
+
+    private Thread updateThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,6 @@ public class ShowAnnotation extends RoboSherlockActivity {
         TextView pid = (TextView) this.findViewById(R.id.annot_pid);
         pid.setText("#" + this.annotation.getPid());
 
-        this.setupDates();
-
         TextView line = (TextView) this.findViewById(R.id.tLine);
         line.setText(this.provider.getProgramLine(this.annotation.getLid()).getName());
         if (this.annotation.getLocation() != null && !this.annotation.getLocation().trim().equals("")) {
@@ -84,7 +86,19 @@ public class ShowAnnotation extends RoboSherlockActivity {
         TextView text = (TextView) this.findViewById(R.id.annot_text);
         text.setText(this.annotation.getAnnotation());
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.setupDates();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updateThread.interrupt();
+        updateThread = null;
     }
 
     private void setupDates() {
@@ -123,12 +137,51 @@ public class ShowAnnotation extends RoboSherlockActivity {
                 int minutes = this.getMinutesToStart();
 
                 String text = getString(R.string.startsInXMinutes);
-                text += " " + this.getResources().getQuantityString(R.plurals.minutes, minutes, minutes);
+                if (minutes < 1) {
+                    text += " "+getString(R.string.lessThanMinute);
+                } else {
+                    text += " " + this.getResources().getQuantityString(R.plurals.minutes, minutes, minutes);
+                }
 
                 info.setText(text);
             } else {
                 findViewById(R.id.lRunningNow).setVisibility(View.GONE);
                 findViewById(R.id.lStartsInMinutes).setVisibility(View.GONE);
+            }
+            if(new Date().after(annotation.getEnd())) {
+                findViewById(R.id.lMisssed).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.lMisssed).setVisibility(View.GONE);
+            }
+
+
+            if(isRunning() || isStartingShortly(60)) {
+                if(updateThread == null) {
+                    Log.d(this.getClass().getName(), "Starting thread.");
+                    updateThread = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                while (!isInterrupted()) {
+                                    Thread.sleep(30 * 1000);
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Log.d(this.getClass().getName(), "Updating");
+                                            ShowAnnotation.this.setupDates();
+                                        }
+                                    });
+                                }
+                            } catch (InterruptedException ignored) {
+
+                            }
+                            Log.d(this.getClass().getName(), "Thread interrupted");
+                        }
+                    };
+                    updateThread.start();
+                }
+
             }
 
         } else {
@@ -145,7 +198,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
 
         int toStart = getMinutesToStart();
 
-        return toStart < minutes && toStart > 0;
+        return toStart < minutes && toStart >= 0;
     }
 
     private int getMinutesToStart() {
@@ -265,4 +318,5 @@ public class ShowAnnotation extends RoboSherlockActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -8,6 +8,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/lMisssed"
+        android:background="#ffffb20e" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alreadyRun"
+            android:id="@+id/textView3"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:textColor="#ffffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:background="#FFFE781F"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"

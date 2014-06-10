@@ -157,5 +157,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="alreadyRun">Tento pořad již skončil.</string>
+    <string name="lessThanMinute">méně než minutu</string>
 
 </resources>
