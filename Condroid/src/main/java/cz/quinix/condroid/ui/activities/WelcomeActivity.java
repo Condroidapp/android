@@ -137,4 +137,9 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
     public Activity getActivity() {
         return this;
     }
+
+    @Override
+    public void onTaskErrored(AListenedAsyncTask task) {
+
+    }
 }

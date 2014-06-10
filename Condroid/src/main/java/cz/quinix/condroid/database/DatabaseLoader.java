@@ -23,14 +23,16 @@ import cz.quinix.condroid.model.ProgramLine;
 
 public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 
+    private final boolean progressBar;
     @Inject
     private DataProvider dataProvider;
     private boolean fullInsert;
     private Map<String, List<Annotation>> parameters;
     private Convention event;
 
-    public DatabaseLoader(ITaskListener listener) {
+    public DatabaseLoader(ITaskListener listener, boolean progressBar) {
         super(listener, listener.getActivity());
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -46,7 +48,9 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
         if (this.parameters == null) {
             throw new IllegalStateException("Parameters to insert pre not set.");
         }
-        this.showDialog(this.getItemsSize());
+        if(progressBar) {
+            this.showDialog(this.getItemsSize());
+        }
     }
 
     private boolean fullInsert() {
@@ -68,7 +72,9 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 
     protected void updateProgress(int value) {
         float progress = (float) value;
-        pd.setProgress((int) (progress));
+        if(pd != null) {
+            pd.setProgress((int) (progress));
+        }
     }
 
     public void setData(Map<String, List<Annotation>> parameters, Convention event) {

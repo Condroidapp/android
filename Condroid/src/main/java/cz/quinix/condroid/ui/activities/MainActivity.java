@@ -194,6 +194,11 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         return this;
     }
 
+    @Override
+    public void onTaskErrored(AListenedAsyncTask task) {
+        this.setRefreshActionButtonState(false);
+    }
+
     public void closeDrawer() {
         if (mDrawerLayout.isDrawerOpen(mDrawerContent)) {
             mDrawerLayout.closeDrawer(mDrawerContent);

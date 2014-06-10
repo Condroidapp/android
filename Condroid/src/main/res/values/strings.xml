@@ -145,7 +145,7 @@
     <string name="startsInXMinutes">Pořad začíná za </string>
     <string name="networkError">Nedaří se spojit se serverem. Jste připojení k internetu?</string>
     <string name="serverError">Vypadá to že server má nějaké potíže. Zkuste to prosím za chvilku.</string>
-    <string name="noUpdates">Žádné aktualizace nejsou k dispozici.</string>
+    <string name="noUpdates">Žádná data nejsou k dispozici.</string>
 
     <string-array name="drawer">
         <item>Načíst jinou akci</item>

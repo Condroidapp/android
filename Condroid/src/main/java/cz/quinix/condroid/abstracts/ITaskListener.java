@@ -10,4 +10,6 @@ public interface ITaskListener {
     public void onTaskCompleted(AListenedAsyncTask<?, ?> task);
 
     Activity getActivity();
+
+    void onTaskErrored(AListenedAsyncTask task);
 }

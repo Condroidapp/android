@@ -15,6 +15,7 @@ import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.activities.MainActivity;
 
 public class Downloader extends AsyncTaskDialog {
 
@@ -50,15 +51,24 @@ public class Downloader extends AsyncTaskDialog {
     @Override
     public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
         Map<String, List<Annotation>> annotations = (Map<String, List<Annotation>>) task.getResults();
-        if (annotations == null) {
+        if (annotations == null && !this.update) {
             Toast.makeText(this.getActivity(), R.string.noUpdates, Toast.LENGTH_LONG).show();
+        }
+        if (annotations == null) {
             ((ITaskListener) parent).onTaskCompleted(task);
             return;
         }
         if (annotations.size() > 0) {
-            DatabaseLoader task2 = new DatabaseLoader((ITaskListener) parent);
+            DatabaseLoader task2 = new DatabaseLoader((ITaskListener) parent, progressBar);
             task2.setData(annotations, convention);
             task2.execute();
+        }
+    }
+
+    @Override
+    public void onTaskErrored(AListenedAsyncTask task) {
+        if(this.parent instanceof ITaskListener) {
+            ((ITaskListener) parent).onTaskErrored(task);
         }
     }
 }

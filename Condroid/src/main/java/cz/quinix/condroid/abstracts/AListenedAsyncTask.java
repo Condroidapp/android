@@ -77,5 +77,6 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
 
         }
         super.onException(e);
+        listener.onTaskErrored(this);
     }
 }
