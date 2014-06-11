@@ -3,10 +3,12 @@ package cz.quinix.condroid.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.google.inject.Inject;
 
@@ -34,10 +36,13 @@ public class AnnotationAdapter extends ArrayAdapter<Annotation> implements IAppe
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) this.getContext()).getLayoutInflater();
             convertView = inflater.inflate(R.layout.annotation_list_item, parent, false);
+            if (convertView == null) {
+                return null;
+            }
+
+            viewHelper.setFavoritedIcon(this.getContext().getAssets(), convertView);
         }
-        if (convertView == null) {
-            return null;
-        }
+
 
         Annotation it;
         try {

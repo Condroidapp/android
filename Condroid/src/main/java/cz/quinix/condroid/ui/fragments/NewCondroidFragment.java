@@ -52,8 +52,27 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
         super.onStart();
         initListView();
         this.updateSearchField();
+
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            if(this.lwMain != null && this.lwMain.getAdapter() != null) {
+                ((EndlessAdapter) this.lwMain.getAdapter()).notifyDataSetChanged();
+            }
+        }
+
+    }
 
     protected void initListView() {
         if (this.lwMain.getAdapter() == null) {
@@ -97,7 +116,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
                 new ShareProgramListener(this.getActivity()).invoke(selected);
                 break;
             case 1:
-                new MakeFavoritedListener(this.getActivity(), dataProvider).invoke(selected);
+                new MakeFavoritedListener(this.getActivity()).invoke(selected);
                 ((EndlessAdapter) lwMain.getAdapter()).notifyDataSetChanged();
                 break;
             case 2:
@@ -150,9 +169,13 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
             if (lwMain != null) {
                 Object item = lwMain.getAdapter().getItem(position);
                 Annotation selected;
-                if (item instanceof GroupedAdapter.Entry && !((GroupedAdapter.Entry) item).isSeparator()) {
-                    selected = ((GroupedAdapter.Entry) item).annotation;
-                } else {
+                if (item instanceof GroupedAdapter.Entry)
+                    if (!((GroupedAdapter.Entry) item).isSeparator()) {
+                        selected = ((GroupedAdapter.Entry) item).annotation;
+                    } else {
+                        return;
+                    }
+                else {
                     selected = (Annotation) item;
                 }
 

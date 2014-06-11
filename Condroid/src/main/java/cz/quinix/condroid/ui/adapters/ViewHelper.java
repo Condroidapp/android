@@ -1,5 +1,7 @@
 package cz.quinix.condroid.ui.adapters;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,10 +20,12 @@ import java.util.TimeZone;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 
 /**
  * Created by Jan on 8. 5. 2014.
  */
+@SuppressWarnings("ConstantConditions")
 class ViewHelper {
 
     @Inject
@@ -36,13 +40,17 @@ class ViewHelper {
     }
 
 
-    public View inflateAnnotation(View v, Annotation annotation, ViewHolder vh) {
+    public View inflateAnnotation(View v, final Annotation annotation, final ViewHolder vh) {
 
-        if (provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
-            vh.favorited.setVisibility(View.VISIBLE);
-        } else {
-            vh.favorited.setVisibility(View.GONE);
-        }
+        setFavoriteState(v, annotation, vh);
+
+        vh.favorited.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MakeFavoritedListener(v.getContext()).invoke(annotation.getPid());
+                setFavoriteState(v, annotation, vh);
+            }
+        });
 
         if (vh.title != null) {
             vh.title.setText(annotation.getTitle());
@@ -83,6 +91,14 @@ class ViewHelper {
         return v;
     }
 
+    private void setFavoriteState(View v, Annotation annotation, ViewHolder vh) {
+        if (provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
+            vh.favorited.setTextColor(v.getResources().getColor(R.color.lightyellow));
+        } else {
+            vh.favorited.setTextColor(v.getResources().getColor(R.color.lightgray));
+        }
+    }
+
     public ViewHolder getViewHolder(View v) {
         if (v.getTag(R.id.listItem) == null) {
             ViewHolder vh = new ViewHolder();
@@ -101,9 +117,20 @@ class ViewHelper {
         viewHolder.line = (TextView) convertView.findViewById(R.id.alLine);
         viewHolder.place = (TextView) convertView.findViewById(R.id.alPlace);
         viewHolder.time = (TextView) convertView.findViewById(R.id.alTime);
-        viewHolder.favorited = (ImageView) convertView.findViewById(R.id.iFavorited);
+
+        viewHolder.favorited = (TextView) convertView.findViewById(R.id.lFavorited);
+
         viewHolder.itemLayout = (FrameLayout) convertView.findViewById(R.id.lItemLayout);
         return viewHolder;
+    }
+
+    public void setFavoritedIcon(AssetManager assets, View view) {
+        Typeface type = Typeface.createFromAsset(assets, "fonts/fontawesome-webfont.ttf");
+
+        TextView lFavorited = (TextView) view.findViewById(R.id.lFavorited);
+        lFavorited.setText(R.string.fa_star);
+        lFavorited.setTypeface(type);
+
     }
 
 
@@ -132,7 +159,7 @@ class ViewHelper {
     }
 
     static class ViewHolder {
-        ImageView favorited;
+        TextView favorited;
         TextView title;
         TextView author;
         TextView line;

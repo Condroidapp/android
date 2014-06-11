@@ -97,8 +97,10 @@ public class ShowAnnotation extends RoboSherlockActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        updateThread.interrupt();
-        updateThread = null;
+        if(updateThread != null) {
+            updateThread.interrupt();
+            updateThread = null;
+        }
     }
 
     private void setupDates() {
@@ -307,7 +309,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
                 new SetReminderListener(this, provider).invoke(this.annotation);
                 return true;
             case R.id.mFavorite:
-                if (new MakeFavoritedListener(this, provider).invoke(this.annotation)) {
+                if (new MakeFavoritedListener(this).invoke(this.annotation)) {
                     item.setIcon(R.drawable.star_yellow);
                 } else {
                     item.setIcon(R.drawable.star_white);

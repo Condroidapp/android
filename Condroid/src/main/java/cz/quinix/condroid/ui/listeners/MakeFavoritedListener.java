@@ -1,32 +1,31 @@
 package cz.quinix.condroid.ui.listeners;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import com.google.inject.Inject;
 
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.activities.ShowAnnotation;
+import roboguice.RoboGuice;
 
-public class MakeFavoritedListener implements OnClickListener {
+public class MakeFavoritedListener {
 
-    private Activity activity;
-    private DataProvider provider;
+    @Inject private DataProvider provider;
 
-    public MakeFavoritedListener(Activity activity, DataProvider provider) {
-        super();
-        this.activity = activity;
-        this.provider = provider;
-    }
-
-    public void onClick(View v) {
-        this.invoke(((ShowAnnotation) activity).getAnnotation());
+    public MakeFavoritedListener(Context context) {
+        RoboGuice.getInjector(context).injectMembers(this);
     }
 
     public boolean invoke(Annotation annotation) {
+        return this.invoke(annotation.getPid());
+    }
 
-        return provider.doFavorite(
-                annotation.getPid());
+    public boolean invoke(int pid) {
+        return provider.doFavorite(pid);
     }
 
 }

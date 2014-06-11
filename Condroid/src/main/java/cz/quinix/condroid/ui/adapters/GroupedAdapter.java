@@ -99,6 +99,7 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
             if (convertView == null) {
                 return null;
             }
+            viewHelper.setFavoritedIcon(this.context.getAssets(), convertView);
             ViewHolder holder = new ViewHolder();
             this.viewHelper.initializeItemLayout(convertView, holder);
             holder.runningTitle = (TextView) convertView.findViewById(R.id.tRunningTitle);
