@@ -54,8 +54,8 @@ public class SearchQueryBuilder {
         return this;
     }
 
-    public boolean hasParam(Object value) {
-        return this.params.containsKey(value.getClass().getName());
+    public boolean hasParam(String name) {
+        return this.params.containsKey(name);
 
     }
 
