@@ -69,10 +69,10 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
         if (e instanceof RetrofitError) {
             if (((RetrofitError) e).isNetworkError()) {
                 Toast.makeText(listener.getActivity(), R.string.networkError, Toast.LENGTH_LONG).show();
-                return;
+                //return;
             } else if (((RetrofitError) e).getResponse() != null && ((RetrofitError) e).getResponse().getStatus() >= 500) {
                 Toast.makeText(listener.getActivity(), R.string.serverError, Toast.LENGTH_LONG).show();
-                return;
+                //return;
             }
 
         }
