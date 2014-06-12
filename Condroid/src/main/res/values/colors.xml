@@ -1,5 +1,6 @@
 <resources>
     <color name="ab_action_green">#ff46be2e</color>
+    <color name="list_selected">#ffacf8a4</color>
     <color name="yellow">#ff0000</color>
     <color name="gray">#808080</color>
     <color name="lightgray">#d0d0d0</color>
@@ -20,4 +21,5 @@
     <color name="workshop">#ff972592</color>
     <color name="darkgray">#FF404040</color>
     <color name="lightyellow">#ffebc10b</color>
+    <color name="almost_black">#151515</color>
 </resources>

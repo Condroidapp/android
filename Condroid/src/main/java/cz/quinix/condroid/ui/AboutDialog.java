@@ -23,7 +23,7 @@ public class AboutDialog {
         this.context = context;
         AlertDialog.Builder ab;
         if (Build.VERSION.SDK_INT > 10) {
-            ab = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+            ab = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         } else {
             ab = new AlertDialog.Builder(context);
         }

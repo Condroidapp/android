@@ -2,103 +2,99 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:orientation="vertical">
-    <FrameLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/lItemLayout"
-        android:background="@color/lightgray">
+        android:layout_height="fill_parent" android:orientation="vertical" android:clickable="false">
 
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <LinearLayout android:layout_height="wrap_content" android:orientation="vertical"
-                          android:layout_width="fill_parent" android:id="@+id/lItemLayout2"
-                android:background="#ffffffff"
-                android:padding="10dp"
-                android:layout_marginLeft="8dp">
-
-                <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/lFirstRow">
-
-                    <TextView
-                            android:id="@+id/alLine"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                        android:text="Line"
-                            android:textColor="@color/gray"
-                        android:layout_alignParentTop="false"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignLeft="@+id/alPlace"
-                        android:textStyle="italic" />
-
-                    <TextView
-                            android:id="@+id/alPlace"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                        android:text="Location"
-                            android:textColor="@color/gray"
-                        android:layout_alignParentRight="true"
-                        android:textStyle="italic" />
-
-                </RelativeLayout>
-
-                <TextView android:id="@+id/alTitle" android:text="Title" android:textStyle="bold"
-                          android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textIsSelectable="false"
-                    android:textSize="19dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"></TextView>
-
-                <TextView
-                        android:id="@+id/alAuthor"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                    android:text="Author"
-                    android:textSize="16dp">
-                </TextView>
-
-                <TextView
-                        android:id="@+id/alTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                    android:text="Time"
-                        android:textColor="@color/gray"
-                    android:paddingTop="2dp"
-                    android:textSize="14dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="M"
-                android:id="@+id/lFavorited"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="bottom|right"
-                android:layout_marginRight="-18dp"
-                android:padding="8dp"
-                android:textColor="@color/lightgray"
-                android:textSize="30dp"
-                android:clickable="true"
-                android:layout_marginBottom="-18dp" />
-
-        </FrameLayout>
-
-    </FrameLayout>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:gravity="center_horizontal"
-            android:background="@color/lightlighgray" android:id="@+id/ldateLayout" android:visibility="gone">
+            android:layout_height="wrap_content" android:gravity="center_horizontal"
+            android:background="@color/lightgray" android:id="@+id/ldateLayout" android:visibility="gone">
 
         <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView"
                   android:id="@+id/tRunningTitle" android:padding="10dp" android:textSize="16dp"
                   android:textStyle="bold"></TextView>
 
     </LinearLayout>
+
+    <FrameLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/lItemLayout"
+        android:background="@color/lightgray">
+
+        <LinearLayout android:layout_height="wrap_content" android:orientation="vertical"
+                      android:layout_width="fill_parent" android:id="@+id/lItemLayout2"
+            android:background="@drawable/list_item_selected"
+            android:padding="10dp"
+            android:layout_marginLeft="8dp">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/lFirstRow">
+
+                <TextView
+                        android:id="@+id/alLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                    android:text="Line"
+                        android:textColor="@color/gray"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignLeft="@+id/alPlace"
+                    android:textStyle="italic" />
+
+                <TextView
+                        android:id="@+id/alPlace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                    android:text="Location"
+                        android:textColor="@color/gray"
+                    android:layout_alignParentRight="true"
+                    android:textStyle="italic" />
+
+            </RelativeLayout>
+
+            <TextView android:id="@+id/alTitle" android:text="Title" android:textStyle="bold"
+                      android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textIsSelectable="false"
+                android:textSize="19dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"></TextView>
+
+            <TextView
+                    android:id="@+id/alAuthor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                android:text="Author"
+                android:textSize="16dp">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/alTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                android:text="Time"
+                    android:textColor="@color/gray"
+                android:paddingTop="2dp"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            android:id="@+id/lFavorited"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="-18dp"
+            android:padding="8dp"
+            android:textColor="@color/lightgray"
+            android:textSize="30dp"
+            android:clickable="true"
+            android:layout_marginBottom="-18dp" />
+
+    </FrameLayout>
 
 </LinearLayout>
 
