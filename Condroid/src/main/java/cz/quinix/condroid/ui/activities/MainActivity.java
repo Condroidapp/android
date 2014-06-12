@@ -13,7 +13,10 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,8 +67,19 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         // set up the drawer's list view with items and click listener
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
-        mDrawerList.setAdapter(new DrawerAdapter(this, drawerContent));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_item, R.id.drawerText, drawerContent));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(this));
+
+        String[] drawerContent2 = getResources().getStringArray(R.array.drawerEvent);
+        ListView mDrawerListTop = (ListView) findViewById(R.id.event_drawer);
+
+        mDrawerListTop.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_item, R.id.drawerText, drawerContent2));
+        mDrawerListTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "V přípravě", Toast.LENGTH_LONG).show();
+            }
+        });
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -21,62 +21,106 @@ android:orientation="vertical"
     android:layout_height="match_parent" android:background="@color/drawer"
     android:layout_gravity="start">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_height="fill_parent">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true" android:id="@+id/ll12">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_alignParentBottom="false" />
-
-            <LinearLayout
-                android:orientation="vertical"
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="fill_parent">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Festival fantazie 2014"
-                    android:id="@+id/tEventName"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:layout_alignLeft="@+id/imageView" />
+                    android:id="@+id/imageView"
+                    android:layout_alignParentBottom="false" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="21.6.-25.6.2014"
-                    android:id="@+id/tEventDate"
-                    android:textColor="@color/gray"
-                    android:layout_alignBottom="@+id/tEventName" />
-            </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
 
-        </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Festival fantazie 2014"
+                        android:id="@+id/tEventName"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:layout_alignLeft="@+id/imageView" />
 
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="?android:attr/listDivider" />
-    <ListView
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21.6.-25.6.2014"
+                        android:id="@+id/tEventDate"
+                        android:textColor="@color/gray"
+                        android:layout_alignBottom="@+id/tEventName" />
+                </LinearLayout>
 
-        android:choiceMode="singleChoice"
+            </RelativeLayout>
 
-        android:id="@+id/left_drawer_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawSelectorOnTop="true" /></LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="?android:attr/listDivider"
+            android:id="@+id/cv1"
+            android:layout_below="@+id/ll12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"></LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/event_drawer"
+            android:choiceMode="singleChoice"
+            android:layout_below="@+id/cv1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lsettings"
+            android:id="@+id/textView"
+            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:layout_below="@+id/event_drawer" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" android:id="@+id/cv2"
+            android:layout_below="@+id/textView" />
+
+        <ListView
+
+            android:choiceMode="singleChoice"
+
+            android:id="@+id/left_drawer_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawSelectorOnTop="true"
+            android:layout_below="@+id/cv2" />
+    </RelativeLayout>
+
+</LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
