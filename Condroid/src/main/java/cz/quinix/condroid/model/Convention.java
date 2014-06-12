@@ -18,6 +18,15 @@ public class Convention implements Serializable, DBInsertable {
     private String name = "";
     private String image = "";
     private String date = "";
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     private String url = "";
 
     private Date start;
@@ -79,6 +88,7 @@ public class Convention implements Serializable, DBInsertable {
         ret.put("date", date);
         ret.put("image", image);
         ret.put("name", name);
+        ret.put("url", url);
         ret.put("message", message);
         ret.put("has_annotations", annotations);
         ret.put("has_timetable", timetable);

@@ -170,6 +170,7 @@ public class DataProvider {
             co.setDate(c.getString(c.getColumnIndex("date")));
             co.setImage(c.getString(c.getColumnIndex("image")));
             co.setName(c.getString(c.getColumnIndex("name")));
+            co.setUrl(c.getString(c.getColumnIndex("url")));
             co.setMessage(c.getString(c.getColumnIndex("message")));
             DateTimeFormatter format = DateTimeFormat
                     .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();

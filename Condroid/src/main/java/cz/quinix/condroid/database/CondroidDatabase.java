@@ -12,7 +12,7 @@ public class CondroidDatabase {
     public static final String TAG = "Condroid database";
 
     private static final String DATABASE_NAME = "condroid.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     public static final String CON_TABLE = "cons";
     public static final String ANNOTATION_TABLE = "annotations";
     public static final String LINE_TABLE = "lines";
@@ -78,6 +78,7 @@ public class CondroidDatabase {
                         "\"has_timetable\" INTEGER," +
                         "\"lastUpdate\" TEXT," +
                         "\"locationsFile\" TEXT," +
+                        "\"url\" TEXT," +
                         "\"image\" TEXT" +
                         ");";
         private static final String DATABASE_CREATE_ANNOTATIONS = "CREATE TABLE \"" + ANNOTATION_TABLE + "\" ( " +

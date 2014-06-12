@@ -16,7 +16,7 @@
         android:id="@+id/drawerText"
         android:layout_gravity="center_vertical"
         android:textColor="@color/black"
-        android:textSize="19dp"
+        android:textSize="16dp"
         android:clickable="false"
         android:enabled="false"
         android:focusable="false" />

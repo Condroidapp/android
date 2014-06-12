@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -77,6 +78,11 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         mDrawerListTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 2) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(provider.getCon().getUrl()));
+                    startActivity(browserIntent);
+                    return;
+                }
                 Toast.makeText(MainActivity.this, "V přípravě", Toast.LENGTH_LONG).show();
             }
         });
