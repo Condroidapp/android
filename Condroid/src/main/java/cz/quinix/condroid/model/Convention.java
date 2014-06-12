@@ -18,6 +18,8 @@ public class Convention implements Serializable, DBInsertable {
     private String name = "";
     private String image = "";
     private String date = "";
+    private String url = "";
+
     private Date start;
     private Date end;
     private int id = 0;

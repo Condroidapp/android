@@ -191,6 +191,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
 
             findViewById(R.id.lRunningNow).setVisibility(View.GONE);
             findViewById(R.id.lStartsInMinutes).setVisibility(View.GONE);
+            findViewById(R.id.lMisssed).setVisibility(View.GONE);
         }
 
 

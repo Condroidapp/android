@@ -24,6 +24,7 @@ public class Annotation implements Serializable, DBInsertable {
 
     private int pid;
     private String author;
+    private String imdb;
     private String title;
     private AnnotationType type = new AnnotationType();
     private String programLine;
