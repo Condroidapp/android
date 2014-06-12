@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
@@ -30,6 +31,7 @@ import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
+import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.adapters.DrawerAdapter;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.dataLoading.UpdateChecker;
@@ -87,6 +89,14 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         } else {
             tabsFragment = (TabsFragment) getSupportFragmentManager().findFragmentByTag(TabsFragment.TAG);
         }
+
+        Convention con = provider.getCon();
+
+        TextView t = (TextView) findViewById(R.id.tEventName);
+        t.setText(con.getName());
+
+        TextView t2 = (TextView) findViewById(R.id.tEventDate);
+        t2.setText(con.getDate());
 
         handleIntent(getIntent());
     }
