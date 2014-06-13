@@ -23,7 +23,8 @@
                       android:layout_width="fill_parent" android:id="@+id/lItemLayout2"
             android:background="@drawable/list_item_selected"
             android:padding="10dp"
-            android:layout_marginLeft="8dp">
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="right">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
