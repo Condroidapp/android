@@ -3,12 +3,15 @@ package cz.quinix.condroid.ui.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -42,7 +45,6 @@ import cz.quinix.condroid.ui.dataLoading.UpdateChecker;
 import cz.quinix.condroid.ui.fragments.TabsFragment;
 import cz.quinix.condroid.ui.listeners.DrawerItemClickListener;
 import cz.quinix.condroid.ui.listeners.FilterListener;
-
 public class MainActivity extends RoboSherlockFragmentActivity implements ITaskListener {
 
     private DrawerLayout mDrawerLayout;
@@ -53,6 +55,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     private Menu optionsMenu;
     private ActionBarDrawerToggle mDrawerToggle;
     private UpdateChecker updateChecker;
+    private ServiceConnection mPlayService;
 
 
     @Override
@@ -118,12 +121,11 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         TextView t2 = (TextView) findViewById(R.id.tEventDate);
         t2.setText(con.getDate());
 
-        handleIntent(getIntent());
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        handleIntent(getIntent());
+
+
+
     }
 
 
