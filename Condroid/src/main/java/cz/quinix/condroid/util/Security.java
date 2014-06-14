@@ -31,6 +31,8 @@ import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
+import cz.quinix.condroid.BuildConfig;
+
 /**
  * Security-related methods. For a secure implementation, all of this code
  * should be implemented on a server that communicates with the
@@ -59,7 +61,11 @@ public class Security {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
                 TextUtils.isEmpty(signature)) {
             Log.e(TAG, "Purchase verification failed: missing data.");
-            return false;
+            if(!BuildConfig.DEBUG) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
         PublicKey key = Security.generatePublicKey(base64PublicKey);

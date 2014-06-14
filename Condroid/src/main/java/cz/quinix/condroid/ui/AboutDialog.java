@@ -18,13 +18,17 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.internal.widget.IcsToast;
 
+import org.json.JSONException;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.util.IabHelper;
 import cz.quinix.condroid.util.IabResult;
+import cz.quinix.condroid.util.Inventory;
 import cz.quinix.condroid.util.Purchase;
 
 public class AboutDialog {
-
+    private static final String sku = "large_beer";
+    //private static final String sku = "android.test.purchased";
     private AlertDialog dialog;
     private Activity context;
     String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAigAoSVGbSqLE2Dt7BjghiEZp4q8TR0m1Et3EGU6Z6h06/SBbN1w4I661Xp6JKSOB9Wy5VG/H1WtBgfA+91LQl5utnphAVxQPUhAsbjHnzAta804d5Bn6wb3FvKvby4HkdyyisjSf/vcKY4dfCD3GQEHSqGdF+JYBepJqX5xg7CVYP05TMXPjpHJvcNo6S0a2eCtLC5AFjxYp1nuP/p8vunkW5YswdIvsc9M40LeAGInR9zilgCd3xECN/KsPxyKMNLVKK26QAmTKESpyhXRFXdO9k+JEtGGcK7faeVvlCNinozhugwnKQEgk2DdfiuyXr77PQdhq2+TX5sIb16TQCQIDAQAB";
@@ -62,9 +66,52 @@ public class AboutDialog {
                     // Oh noes, there was a problem.
                     Log.d("condroid", "Problem setting up In-app Billing: " + result);
                 }
-                // Hooray, IAB is fully set up!
+                /*Purchase purchase = null;
+                try {
+                    purchase = new Purchase("inapp", "{\"packageName\":\"cz.quinix.condroid\",\"orderId\":\"transactionId.android.test.purchased\",\"productId\":\"android.test.purchased\",\"developerPayload\":\"\",\"purchaseTime\":0,\"purchaseState\":0,\"purchaseToken\":\"inapp:cz.quinix.condroid:android.test.purchased\"}", "");
+
+                mHelper.consumeAsync(purchase, new IabHelper.OnConsumeFinishedListener() {
+                    @Override
+                    public void onConsumeFinished(Purchase purchase, IabResult result) {
+                        Log.d("TAG", "Result: " + result);
+                    }
+                });
+                } catch (JSONException e) {
+
+                }*/
+                mHelper.queryInventoryAsync(new IabHelper.QueryInventoryFinishedListener() {
+                    @Override
+                    public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+                        Log.d("Condroid", "Query inventory finished.");
+
+                        // Have we been disposed of in the meantime? If so, quit.
+                        if (mHelper == null) return;
+
+                        // Is it a failure?
+                        if (result.isFailure()) {
+                            return;
+                        }
+
+                        Log.d("Condroid", "Query inventory was successful.");
+
+            /*
+             * Check for items we own. Notice that for each purchase, we check
+             * the developer payload to see if it's correct! See
+             * verifyDeveloperPayload().
+             */
+
+                        // Check for gas delivery -- if we own gas, we should fill up the tank immediately
+                        Purchase gasPurchase = inventory.getPurchase(sku);
+                        if (gasPurchase != null) {
+                            Log.d("Condroid", "Consuming beer.");
+                            mHelper.consumeAsync(inventory.getPurchase(sku), null);
+                            return;
+                        }
+                    }
+                });
             }
         });
+        mHelper.enableDebugLogging(true);
 
     }
 
@@ -78,6 +125,10 @@ public class AboutDialog {
             mHelper.dispose();
         }
         mHelper = null;
+    }
+
+    public IabHelper getIabHelper() {
+        return mHelper;
     }
 
     class OkListener implements DialogInterface.OnClickListener {
@@ -119,22 +170,36 @@ public class AboutDialog {
             ab.setTitle("Přispějte na vývoj");
             ab.setMessage("Condroid vyvíjím již 5 let. Aby vám zpříjmňoval pobyt na conech. A je k dispozici zdarma.\n\nPodpořte prosím další vývoj aplikace zaslání příspěvku. Nejjedodušší je to přímo tady - prostě koupit pivo! Přes PayPal můžete pak zaslat libovolnou částku.");
             ab.setCancelable(true);
+
+
             ab.setPositiveButton("Koupit pivo!", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    mHelper.launchPurchaseFlow(AboutDialog.this.context, "large_beer", 10001,
+                    mHelper.launchPurchaseFlow(AboutDialog.this.context, sku, 10001,
                             new IabHelper.OnIabPurchaseFinishedListener() {
                                 @Override
                                 public void onIabPurchaseFinished(IabResult result, Purchase info) {
-                                    if (result.isSuccess()) {
-                                        IcsToast.makeText(context, "Díky!", Toast.LENGTH_LONG).show();
+                                    if (result.isFailure() && result.getResponse() != 7) {
+                                        IcsToast.makeText(context, "Transakce se nezdařila :(", Toast.LENGTH_LONG).show();
+                                        onDispose();
+                                        return;
                                     }
-                                    if (result.isFailure()) {
-                                        IcsToast.makeText(context, "Příspěvek můžete zaslat kdykoli přes dialog O aplikaci.", Toast.LENGTH_LONG).show();
+                                    else if (info.getSku().equals(sku)) {
+
+                                        // remove query inventory method from here and put consumeAsync() directly
+                                        mHelper.consumeAsync(info, new IabHelper.OnConsumeFinishedListener() {
+                                            @Override
+                                            public void onConsumeFinished(Purchase purchase, IabResult result) {
+                                                IcsToast.makeText(context, "Díky!", Toast.LENGTH_LONG).show();
+                                                Log.d("condroid", "consume finished " + purchase.getSku());
+                                                onDispose();
+                                            }
+                                        });
+
                                     }
-                                    onDispose();
+
                                 }
-                            }, ""
+                            }, "sdfsdfsdgge5g$%^@##4tfsdf33"
                     );
                 }
             });

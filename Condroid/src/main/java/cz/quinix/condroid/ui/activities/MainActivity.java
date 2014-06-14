@@ -39,6 +39,7 @@ import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.ui.AboutDialog;
 import cz.quinix.condroid.ui.adapters.DrawerAdapter;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.dataLoading.UpdateChecker;
@@ -56,6 +57,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     private ActionBarDrawerToggle mDrawerToggle;
     private UpdateChecker updateChecker;
     private ServiceConnection mPlayService;
+    private AboutDialog aboutDialog; //for inapp handle - needs refactoring
 
 
     @Override
@@ -81,7 +83,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         mDrawerListTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 2) {
+                if(position == 0) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(provider.getCon().getUrl()));
                     startActivity(browserIntent);
                     return;
@@ -129,13 +131,28 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     }
 
 
+
     @Override
     protected void onNewIntent(Intent intent) {
         this.setIntent(intent);
         this.handleIntent(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("Condroid", "onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
+        // Pass on the activity result to the helper for handling
+        if (!aboutDialog.getIabHelper().handleActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves (here's where you'd
+            // perform any handling of activity results not related to in-app
+            // billing...
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        else {
+            Log.d("Condroid", "onActivityResult handled by IABUtil.");
+        }
+    }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -249,5 +266,10 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
                 }
             }
         }
+    }
+
+    public void setActivityResultListener(AboutDialog aboutDialog) {
+
+        this.aboutDialog = aboutDialog;
     }
 }

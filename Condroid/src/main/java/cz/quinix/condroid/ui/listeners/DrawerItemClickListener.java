@@ -41,7 +41,8 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
                 parentActivity.startActivity(i);
                 break;
             case 3:
-                new AboutDialog(parentActivity);
+                parentActivity.setActivityResultListener(new AboutDialog(parentActivity));
+
                 break;
         }
         this.parentActivity.closeDrawer();
