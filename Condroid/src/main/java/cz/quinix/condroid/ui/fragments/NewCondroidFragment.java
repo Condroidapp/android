@@ -100,6 +100,9 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
     public boolean onContextItemSelected(android.view.MenuItem item) {
 
+        if (!getUserVisibleHint()) {
+            return false;
+        }
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         int menuItemIndex = item.getItemId();

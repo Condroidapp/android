@@ -43,7 +43,7 @@ public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask
                 .registerTypeAdapter(AnnotationType.class, new AnnotationTypeAdapter())
                 .create();
         RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint(CondroidActivity.API_ENDPOINT)
+                .setEndpoint(CondroidApi.API_ENDPOINT)
                 .setConverter(new GsonConverter(gson))
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override

@@ -2,6 +2,7 @@ package cz.quinix.condroid.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -27,6 +28,9 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Reminder;
 import cz.quinix.condroid.service.ReminderManager;
+import cz.quinix.condroid.ui.activities.MainActivity;
+import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
+import cz.quinix.condroid.ui.listeners.SetReminderListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,6 +50,7 @@ public class ReminderList extends RoboSherlockListActivity {
         data = provider.getReminderList();
         this.setListAdapter(new CustomAdapter(this, data));
         this.registerForContextMenu(this.getListView());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -59,6 +64,19 @@ public class ReminderList extends RoboSherlockListActivity {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
         }
+    }
+
+    public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

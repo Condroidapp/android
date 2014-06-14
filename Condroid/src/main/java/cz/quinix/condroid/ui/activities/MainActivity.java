@@ -143,7 +143,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         Log.d("Condroid", "onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
         // Pass on the activity result to the helper for handling
-        if (!aboutDialog.getIabHelper().handleActivityResult(requestCode, resultCode, data)) {
+        if (aboutDialog != null && !aboutDialog.getIabHelper().handleActivityResult(requestCode, resultCode, data)) {
             // not handled, so handle it ourselves (here's where you'd
             // perform any handling of activity results not related to in-app
             // billing...

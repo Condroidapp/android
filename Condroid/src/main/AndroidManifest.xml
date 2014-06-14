@@ -27,9 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cz.quinix.condroid.ui.ReminderList"
-            android:label="Prehled pripomenuti"
-            android:theme="@android:style/Theme.Dialog" />
+            android:name="cz.quinix.condroid.ui.ReminderList" />
 
 
         <service android:name="cz.quinix.condroid.service.ReminderTask" />
