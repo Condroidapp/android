@@ -155,8 +155,8 @@
     </string-array>
 
     <string-array name="drawerEvent">
-        <item>Restaurace a obchody</item>
-        <item>Mapa okolí</item>
+        <!--item>Restaurace a obchody</item>
+        <item>Mapa okolí</item-->
         <item>Web akce</item>
     </string-array>
 
