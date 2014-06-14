@@ -1,14 +1,15 @@
 apply plugin: 'android'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 19
-    buildToolsVersion "19.1.0"
-
+    buildToolsVersion '19.1.0'
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
-        versionCode 18
-        versionName "3.0.5"
+        versionCode 19
+        versionName '3.1'
     }
     buildTypes {
         release {
@@ -25,9 +26,14 @@ android {
         compile 'joda-time:joda-time:2.3'
         compile 'com.commonsware.cwac:endless:1.2.3'
     }
+    productFlavors {
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+    }
 }
 
 dependencies {
- //   compile 'com.android.support:appcompat-v7:+'
+    //   compile 'com.android.support:appcompat-v7:+'
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }

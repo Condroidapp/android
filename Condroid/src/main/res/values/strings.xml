@@ -9,8 +9,8 @@
     <string name="loading">Načítám...</string>
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
-    <string name="tAboutName">Condroid 3.0.5</string>
-    <string name="tAboutCopyright">© 2011-2012\nJan –Quinix– Langer, Fan-Project</string>
+    <string name="tAboutName">Condroid 3.1</string>
+    <string name="tAboutCopyright">© 2011-2014\nJan Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
@@ -54,11 +54,11 @@
         <item>Nastavit upozornění</item>
     </string-array>
 
-    <string name="about">- Verze: 3.0.5</string>
+    <string name="about">- Verze: 3.1</string>
     <string name="versionNews">Novinky v této verzi</string>
-    <string name="versionNewsText">* opravy chyb</string>
+    <string name="versionNewsText">- nový design, nové už. rozhraní\n- automatické aktualizace\n- proklik na IMDB u filmů\n- informace o akci\n- možnost přispět na vývoj přímo přes Google Play\n- opravy chyb</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
-    <string name="licenced">This software is licenced\nunder NewBSD licence.</string>
+    <string name="licenced">Licensed under New BSD license.</string>
     <string name="mFavoriteOnly">Pouze oblíbené</string>
     <string name="remind">Nastavit připomenutí</string>
 
@@ -166,5 +166,6 @@
     <string name="alreadyRun">Tento pořad již skončil.</string>
     <string name="lessThanMinute">méně než minutu</string>
     <string name="lsettings">Nastavení</string>
+    <string name="imdbNotInstalled">Nainstalujte si IMDB aplikaci pro lepší přístup k filmům a trailerům.</string>
 
 </resources>
