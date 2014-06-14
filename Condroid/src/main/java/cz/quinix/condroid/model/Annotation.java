@@ -189,6 +189,7 @@ public class Annotation implements Serializable, DBInsertable {
         ret.put("pid", this.pid);
         ret.put("talker", author);
         ret.put("title", title);
+        ret.put("imdb", imdb);
         ret.put("mainType", this.type.mainType);
         ret.put("additionalTypes", TextUtils.join("+", this.type.secondaryTypes));
         ret.put("normalizedTitle", normalize(title));
@@ -278,5 +279,13 @@ public class Annotation implements Serializable, DBInsertable {
         this.type = new AnnotationType();
         this.type.mainType = mainType;
         this.type.secondaryTypes = Arrays.asList(additionalTypes.split("\\+"));
+    }
+
+    public void setImdb(String imdb) {
+        this.imdb = imdb;
+    }
+
+    public String getImdb() {
+        return imdb;
     }
 }

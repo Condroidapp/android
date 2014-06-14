@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
@@ -30,6 +31,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.AnnotationType;
+import cz.quinix.condroid.ui.listeners.ImdbClickListener;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
 import cz.quinix.condroid.ui.listeners.SetReminderListener;
 import cz.quinix.condroid.ui.listeners.ShareProgramListener;
@@ -85,6 +87,14 @@ public class ShowAnnotation extends RoboSherlockActivity {
 
         TextView text = (TextView) this.findViewById(R.id.annot_text);
         text.setText(this.annotation.getAnnotation());
+
+        if(this.annotation.getImdb() != null && !this.annotation.getImdb().trim().equals("")) {
+            ImageView i = (ImageView) findViewById(R.id.iImdb);
+            i.setVisibility(View.VISIBLE);
+            i.setOnClickListener(new ImdbClickListener(this, this.annotation));
+        } else {
+            findViewById(R.id.iImdb).setVisibility(View.GONE);
+        }
 
     }
 

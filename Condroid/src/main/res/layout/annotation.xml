@@ -274,11 +274,28 @@
                 android:layout_height="match_parent"
                 android:id="@+id/scrollView2" >
 
+            </HorizontalScrollView>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iImdb"
+                    android:src="@drawable/imdb"
+                    android:clickable="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/lTypes">
 
                     <TextView android:text="id" android:id="@+id/annot_pid" android:textColor="@color/lightlighgray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"
                         android:background="@color/condroidGreen"
@@ -298,7 +315,8 @@
                         android:paddingBottom="5dp" />
 
                 </LinearLayout>
-            </HorizontalScrollView>
+
+            </RelativeLayout>
 
             <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout6" android:orientation="vertical" android:layout_height="0dp" android:layout_weight="8">
                 <LinearLayout android:layout_width="fill_parent" android:padding="8dp" android:id="@+id/linearLayout2" android:layout_height="match_parent" android:orientation="vertical"

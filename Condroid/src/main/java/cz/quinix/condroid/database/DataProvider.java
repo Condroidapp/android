@@ -153,6 +153,7 @@ public class DataProvider {
         annotation.setSQLEndTime(c.getString(c.getColumnIndex("endTime")));
         //annotation.setLength(c.getString(c.getColumnIndex("length")));
         annotation.setLocation(c.getString(c.getColumnIndex("location")));
+        annotation.setImdb(c.getString(c.getColumnIndex("imdb")));
         annotation.setLid(c.getInt(c.getColumnIndex("lid")));
         annotation.setSQLStartTime(c.getString(c.getColumnIndex("startTime")));
         annotation.setType(c.getString(c.getColumnIndex("mainType")), c.getString(c.getColumnIndex("additionalTypes")));
