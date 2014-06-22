@@ -15,6 +15,7 @@ import cz.quinix.condroid.ui.AboutDialog;
 import cz.quinix.condroid.ui.Preferences;
 import cz.quinix.condroid.ui.ReminderList;
 import cz.quinix.condroid.ui.activities.MainActivity;
+import cz.quinix.condroid.ui.activities.NeighbourhoodListActivity;
 import cz.quinix.condroid.ui.activities.WelcomeActivity;
 
 /**
@@ -35,6 +36,8 @@ public class DrawerItemClickListener implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tdRestaurants:
+                Intent in2 = new Intent(parentActivity, NeighbourhoodListActivity.class);
+                parentActivity.startActivity(in2);
                 break;
             case R.id.tdMap:
                 Convention event = provider.getCon();

@@ -20,6 +20,11 @@ import cz.quinix.condroid.abstracts.DBInsertable;
  * Created by Jan on 21. 6. 2014.
  */
 public class Place implements Serializable, DBInsertable {
+
+    public static final int STATE_OPEN = 1;
+    public static final int STATE_CLOSED = 0;
+    public static final int STATE_UNKNOWN = -1;
+
     private int id;
     private String name;
     private String description;
@@ -152,5 +157,13 @@ public class Place implements Serializable, DBInsertable {
             gps.lat = Float.parseFloat(x[0]);
             gps.lon = Float.parseFloat(x[1]);
         }
+    }
+
+    public int isOpen() {
+        if(hours == null) {
+            return STATE_UNKNOWN;
+        }
+
+        return hours.isOpen();
     }
 }

@@ -28,6 +28,8 @@
         </activity>
         <activity
             android:name="cz.quinix.condroid.ui.ReminderList" />
+        <activity android:name=".ui.activities.NeighbourhoodActivity"/>
+        <activity android:name=".ui.activities.NeighbourhoodListActivity"/>
 
 
         <service android:name="cz.quinix.condroid.service.ReminderTask" />

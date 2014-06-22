@@ -23,4 +23,5 @@
     <color name="lightyellow">#ffebc10b</color>
     <color name="almost_black">#ff151515</color>
     <color name="drawer">#FFE1E1E3</color>
+    <color name="red">#ffd00000</color>
 </resources>
