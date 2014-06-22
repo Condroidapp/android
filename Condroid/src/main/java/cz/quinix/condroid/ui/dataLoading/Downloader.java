@@ -13,6 +13,7 @@ import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.loader.DataLoader;
+import cz.quinix.condroid.loader.EventTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.activities.MainActivity;
@@ -50,7 +51,7 @@ public class Downloader extends AsyncTaskDialog {
 
     @Override
     public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
-        Map<String, List<Annotation>> annotations = (Map<String, List<Annotation>>) task.getResults();
+        final Map<String, List<Annotation>> annotations = (Map<String, List<Annotation>>) task.getResults();
         if (annotations == null && !this.update) {
             Toast.makeText(this.getActivity(), R.string.noUpdates, Toast.LENGTH_LONG).show();
         }
@@ -59,9 +60,27 @@ public class Downloader extends AsyncTaskDialog {
             return;
         }
         if (annotations.size() > 0) {
-            DatabaseLoader task2 = new DatabaseLoader((ITaskListener) parent, progressBar);
-            task2.setData(annotations, convention);
+            EventTask task2 = new EventTask(new ITaskListener() {
+                @Override
+                public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
+                    DatabaseLoader task2 = new DatabaseLoader((ITaskListener) parent, progressBar);
+                    task2.setData(annotations, (Convention) task.getResults());
+                    task2.execute();
+                }
+
+                @Override
+                public Activity getActivity() {
+                    return parent;
+                }
+
+                @Override
+                public void onTaskErrored(AListenedAsyncTask task) {
+                    Downloader.this.onTaskErrored(task);
+                }
+            }, convention.getId());
             task2.execute();
+
+
         }
     }
 

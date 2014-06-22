@@ -25,11 +25,16 @@ android {
         compile 'com.squareup.retrofit:retrofit:1.4.+'
         compile 'joda-time:joda-time:2.3'
         compile 'com.commonsware.cwac:endless:1.2.3'
+        compile 'org.apache.commons:commons-lang3:3.3.2'
     }
     productFlavors {
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
 }
 

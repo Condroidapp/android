@@ -20,6 +20,7 @@ import java.util.Map;
 
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.model.Place;
 import cz.quinix.condroid.model.ProgramLine;
 import cz.quinix.condroid.model.Reminder;
 
@@ -298,4 +299,29 @@ public class DataProvider {
         this.con = null;
         this.favorited = null;
     }
+
+    public List<Place> getPlaces()
+    {
+        List<Place> ret = new ArrayList<Place>();
+
+        Cursor c = this.mDatabase.query(CondroidDatabase.PLACES_TABLE, null, null, null, "category_sort ASC, sort ASC, name ASC", null);
+
+        while (c.moveToNext()) {
+            Place place = new Place();
+            place.setId(c.getInt(c.getColumnIndex("id")));
+            place.setName(c.getString(c.getColumnIndex("name")));
+            place.setUrl(c.getString(c.getColumnIndex("url")));
+            place.setCategory(c.getString(c.getColumnIndex("category")));
+            place.setAddress(c.getString(c.getColumnIndex("address")));
+            place.setCategorySort(c.getInt(c.getColumnIndex("category_sort")));
+            place.setDescription(c.getString(c.getColumnIndex("description")));
+            place.setHours(c.getString(c.getColumnIndex("hours")));
+            place.setGps(c.getString(c.getColumnIndex("startTime")));
+
+            ret.add(place);
+        }
+        c.close();
+        return ret;
+    }
+
 }

@@ -7,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import cz.quinix.condroid.abstracts.DBInsertable;
 
@@ -18,6 +19,7 @@ public class Convention implements Serializable, DBInsertable {
     private String name = "";
     private String image = "";
     private String date = "";
+    private List<Place> places;
 
     public String getUrl() {
         return url;
@@ -129,5 +131,13 @@ public class Convention implements Serializable, DBInsertable {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public void setPlaces(List<Place> o) {
+        this.places = o;
+    }
+
+    public List<Place> getPlaces() {
+        return places;
     }
 }

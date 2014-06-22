@@ -19,6 +19,7 @@ import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.loader.AProgressedTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
+import cz.quinix.condroid.model.Place;
 import cz.quinix.condroid.model.ProgramLine;
 
 public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
@@ -93,6 +94,16 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
             event.setLastUpdate(new Date());
             SQLiteDatabase db = database.getWritableDatabase();
             db.replace("cons", null, event.getContentValues());
+
+            database.truncatePlaces();
+
+            if(event.getPlaces() != null) {
+                for(Place place: event.getPlaces()) {
+                    ContentValues cv = place.getContentValues();
+                    cv.put("event_id", event.getId());
+                    db.replaceOrThrow(CondroidDatabase.PLACES_TABLE, null, cv);
+                }
+            }
 
             HashMap<String, Integer> lines = new HashMap<String, Integer>();
             if (!fullInsert) {

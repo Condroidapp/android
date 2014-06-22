@@ -12,12 +12,13 @@ public class CondroidDatabase {
     public static final String TAG = "Condroid database";
 
     private static final String DATABASE_NAME = "condroid.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     public static final String CON_TABLE = "cons";
     public static final String ANNOTATION_TABLE = "annotations";
     public static final String LINE_TABLE = "lines";
     public static final String FAVORITE_TABLE = "favorite_program";
     public static final String REMINDER_TABLE = "reminder";
+    public static final String PLACES_TABLE = "place";
 
     private CondroidOpenHelper mDatabaseHelper;
     @Inject
@@ -61,6 +62,14 @@ public class CondroidDatabase {
             }
             return this.mDatabaseHelper;
         }
+    }
+
+    public void truncatePlaces() {
+        SQLiteDatabase db = this.mDatabaseHelper.getWritableDatabase();
+        if (db != null) {
+            db.execSQL("DELETE FROM " + PLACES_TABLE);
+        }
+
     }
 
 
@@ -112,6 +121,19 @@ public class CondroidDatabase {
                 "\"pid\"  INTEGER NOT NULL," +
                 "\"minutes\"  INTEGER NOT NULL" +
                 ");";
+        private static final String DATABASE_CREATE_PLACE = "CREATE TABLE IF NOT EXISTS '" + PLACES_TABLE + "' (" +
+                "'id'  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                "`event_id` INTEGER NULL," +
+                "`name` TEXT(255) NOT NULL," +
+                "`description` TEXT(255) NULL," +
+                "`address` TEXT(255) NULL," +
+                "`gps` TEXT(255) NULL," +
+                "`hours` TEXT NULL," +
+                "`sort` INTEGER NULL," +
+                "`category` TEXT(255) NULL," +
+                "`category_sort` INTEGER NULL," +
+                "`url` TEXT(255) NULL" +
+                ");";
 
 
         public CondroidOpenHelper(Context context) {
@@ -126,6 +148,7 @@ public class CondroidDatabase {
             db.execSQL(DATABASE_CREATE_LINES);
             db.execSQL(DATABASE_CREATE_FAVORITE);
             db.execSQL(DATABASE_CREATE_REMINDER);
+            db.execSQL(DATABASE_CREATE_PLACE);
         }
 
 
@@ -133,14 +156,18 @@ public class CondroidDatabase {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
             if (oldVersion < DATABASE_VERSION) {
-                db.execSQL("DROP TABLE " + CON_TABLE);
-                db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
-                db.execSQL("DROP TABLE " + LINE_TABLE);
-                if (oldVersion > 4 && oldVersion != 6)
-                    db.execSQL("DROP TABLE " + FAVORITE_TABLE);
-                if (oldVersion > 5 && oldVersion != 6)
-                    db.execSQL("DROP TABLE " + REMINDER_TABLE);
-                this.onCreate(db);
+                if(oldVersion > 11 && oldVersion < 13) {
+                    db.execSQL(DATABASE_CREATE_PLACE);
+                } else {
+                    db.execSQL("DROP TABLE " + CON_TABLE);
+                    db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
+                    db.execSQL("DROP TABLE " + LINE_TABLE);
+                    if (oldVersion > 4 && oldVersion != 6)
+                        db.execSQL("DROP TABLE " + FAVORITE_TABLE);
+                    if (oldVersion > 5 && oldVersion != 6)
+                        db.execSQL("DROP TABLE " + REMINDER_TABLE);
+                    this.onCreate(db);
+                }
             }
         }
 
@@ -176,6 +203,7 @@ public class CondroidDatabase {
             db.execSQL("DROP TABLE " + CON_TABLE);
             db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
             db.execSQL("DROP TABLE " + LINE_TABLE);
+            db.execSQL("DROP TABLE " + PLACES_TABLE);
             this.mDatabaseHelper.onCreate(db);
         }
 

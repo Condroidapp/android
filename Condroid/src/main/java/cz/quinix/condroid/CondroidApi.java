@@ -11,10 +11,13 @@ import retrofit.http.Path;
 
 public interface CondroidApi {
 
-    public static final String API_ENDPOINT = "http://condroid.fan-project.com/api/3/";
+    public static final String API_ENDPOINT = "http://condroid.loc/api/3/";
 
     @GET("/event")
     List<Convention> listEvents();
+
+    @GET("/event/{id}")
+    Convention getEvent(@Path("id") int id);
 
     @GET("/program/{id}")
     Map<String, List<Annotation>> listAnnotations(@Path("id") int id);
