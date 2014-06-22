@@ -57,8 +57,7 @@ android:orientation="vertical"
                         android:text="Festival fantazie 2014"
                         android:id="@+id/tEventName"
                         android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:layout_alignLeft="@+id/imageView" />
+                        android:textSize="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -73,52 +72,91 @@ android:orientation="vertical"
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="?android:attr/listDivider"
-            android:id="@+id/cv1"
-            android:layout_below="@+id/ll12" />
-
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></LinearLayout>
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/ll12">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/event_drawer"
-            android:choiceMode="singleChoice"
-            android:layout_below="@+id/cv1" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drawer_restaurant"
+                android:id="@+id/tdRestaurants"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/border_bottom"
+                android:clickable="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lsettings"
-            android:id="@+id/textView"
-            android:textSize="16dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="15dp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:layout_below="@+id/event_drawer" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drawer_map"
+                android:id="@+id/tdMap"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/border_bottom" android:clickable="true"  />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" android:id="@+id/cv2"
-            android:layout_below="@+id/textView" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drawer_web"
+                android:id="@+id/tdWeb"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/border_bottom" android:clickable="true"  />
 
-        <ListView
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lsettings"
+                android:id="@+id/textView"
+                android:textSize="16dp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:background="@drawable/border_bottom"
+                android:paddingLeft="5dp"
+                android:paddingTop="15dp"
+                android:clickable="false" />
 
-            android:choiceMode="singleChoice"
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drawer_anotherAction"
+                android:id="@+id/tdAnother"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/border_bottom" android:clickable="true"  />
 
-            android:id="@+id/left_drawer_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="true"
-            android:layout_below="@+id/cv2" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drawer_reminder"
+                android:id="@+id/tdReminders"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/border_bottom" android:clickable="true"  />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drawer_settings"
+                android:id="@+id/tdSettings"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/border_bottom" android:clickable="true"  />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drawer_about"
+                android:id="@+id/tdAbout"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:background="@drawable/border_bottom" android:clickable="true"  />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

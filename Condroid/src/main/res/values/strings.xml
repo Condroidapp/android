@@ -147,18 +147,14 @@
     <string name="serverError">Vypadá to že server má nějaké potíže. Zkuste to prosím za chvilku.</string>
     <string name="noUpdates">Žádná data nejsou k dispozici.</string>
 
-    <string-array name="drawer">
-        <item>Načíst jinou akci</item>
-        <item>Připomenutí</item>
-        <item>Nastavení</item>
-        <item>O aplikaci</item>
-    </string-array>
+    <string name="drawer_anotherAction">Načíst jinou akci</string>
+    <string name="drawer_reminder">Připomenutí</string>
+    <string name="drawer_settings">Nastavení</string>
+    <string name="drawer_about">O aplikaci</string>
 
-    <string-array name="drawerEvent">
-        <!--item>Restaurace a obchody</item>
-        <item>Mapa okolí</item-->
-        <item>Web akce</item>
-    </string-array>
+    <string name="drawer_restaurant">Občerstvení a obchody</string>
+    <string name="drawer_map">Mapa okolí</string>
+    <string name="drawer_web">Web akce</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
@@ -167,5 +163,7 @@
     <string name="lessThanMinute">méně než minutu</string>
     <string name="lsettings">Nastavení</string>
     <string name="imdbNotInstalled">Nainstalujte si IMDB aplikaci pro lepší přístup k filmům a trailerům.</string>
+    <string name="drawerClose">Drawer closed</string>
+    <string name="drawerOpen">Drawer open</string>
 
 </resources>

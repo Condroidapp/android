@@ -31,7 +31,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
@@ -65,32 +67,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        String[] drawerContent = getResources().getStringArray(R.array.drawer);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerContent = (ViewGroup) findViewById(R.id.left_drawer);
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
-
-        // set up the drawer's list view with items and click listener
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-                GravityCompat.START);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_item, R.id.drawerText, drawerContent));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(this));
-
-        String[] drawerContent2 = getResources().getStringArray(R.array.drawerEvent);
-        ListView mDrawerListTop = (ListView) findViewById(R.id.event_drawer);
-
-        mDrawerListTop.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_item, R.id.drawerText, drawerContent2));
-        mDrawerListTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(provider.getCon().getUrl()));
-                    startActivity(browserIntent);
-                    return;
-                }
-                Toast.makeText(MainActivity.this, "V přípravě", Toast.LENGTH_LONG).show();
-            }
-        });
+        setupDrawer();
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -98,13 +75,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
-        mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-                mDrawerLayout, /* DrawerLayout object */
-                R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-                R.string.fa_folder_open, /* "open drawer" description for accessibility */
-                R.string.fa_sort_numeric_desc/* "close drawer" description for accessibility */
-        );
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
 
         if (savedInstanceState == null) {
             tabsFragment = TabsFragment.newInstance();
@@ -130,6 +101,35 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
 
     }
 
+    private void setupDrawer() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerContent = (ViewGroup) findViewById(R.id.left_drawer);
+
+        // set up the drawer's list view with items and click listener
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer,
+                R.string.drawerOpen, R.string.drawerClose
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        int[] views = {R.id.tdRestaurants, R.id.tdMap, R.id.tdWeb, R.id.tdAnother, R.id.tdReminders, R.id.tdSettings, R.id.tdAbout};
+
+        for(int id : views) {
+            TextView view = (TextView) findViewById(id);
+            view.setOnClickListener(new DrawerItemClickListener(this, provider));
+        }
+
+        if(provider.getCon().getGps() == null) {
+            findViewById(R.id.tdMap).setVisibility(View.GONE);
+        }
+        if(provider.getPlaces() == null || provider.getPlaces().size() == 0) {
+            findViewById(R.id.tdMap).setVisibility(View.GONE);
+        }
+
+
+
+    }
 
 
     @Override
@@ -143,7 +143,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         Log.d("Condroid", "onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
         // Pass on the activity result to the helper for handling
-        if (aboutDialog != null && !aboutDialog.getIabHelper().handleActivityResult(requestCode, resultCode, data)) {
+        if (aboutDialog != null && aboutDialog.getIabHelper() != null && !aboutDialog.getIabHelper().handleActivityResult(requestCode, resultCode, data)) {
             // not handled, so handle it ourselves (here's where you'd
             // perform any handling of activity results not related to in-app
             // billing...

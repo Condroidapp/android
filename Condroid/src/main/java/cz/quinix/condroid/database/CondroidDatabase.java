@@ -12,7 +12,7 @@ public class CondroidDatabase {
     public static final String TAG = "Condroid database";
 
     private static final String DATABASE_NAME = "condroid.db";
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
     public static final String CON_TABLE = "cons";
     public static final String ANNOTATION_TABLE = "annotations";
     public static final String LINE_TABLE = "lines";
@@ -87,7 +87,8 @@ public class CondroidDatabase {
                         "\"has_timetable\" INTEGER," +
                         "\"lastUpdate\" TEXT," +
                         "\"locationsFile\" TEXT," +
-                        "\"url\" TEXT," +
+                        "\"url\" TEXT NULL," +
+                        "\"gps\" TEXT NULL," +
                         "\"image\" TEXT" +
                         ");";
         private static final String DATABASE_CREATE_ANNOTATIONS = "CREATE TABLE \"" + ANNOTATION_TABLE + "\" ( " +
@@ -119,7 +120,8 @@ public class CondroidDatabase {
         private static final String DATABASE_CREATE_REMINDER = "CREATE TABLE IF NOT EXISTS \"" + REMINDER_TABLE + "\" (" +
                 "\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "\"pid\"  INTEGER NOT NULL," +
-                "\"minutes\"  INTEGER NOT NULL" +
+                "\"minutes\"  INTEGER NULL" +
+                "\"custom\"  TEXT NULL" +
                 ");";
         private static final String DATABASE_CREATE_PLACE = "CREATE TABLE IF NOT EXISTS '" + PLACES_TABLE + "' (" +
                 "'id'  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
@@ -158,6 +160,9 @@ public class CondroidDatabase {
             if (oldVersion < DATABASE_VERSION) {
                 if(oldVersion > 11 && oldVersion < 13) {
                     db.execSQL(DATABASE_CREATE_PLACE);
+                } else if (oldVersion < 14) {
+                    db.execSQL("ALTER TABLE "+CON_TABLE+" ADD gps TEXT(255) NULL");
+                    db.execSQL("ALTER TABLE "+REMINDER_TABLE+" ADD custom TEXT(255) NULL");
                 } else {
                     db.execSQL("DROP TABLE " + CON_TABLE);
                     db.execSQL("DROP TABLE " + ANNOTATION_TABLE);
