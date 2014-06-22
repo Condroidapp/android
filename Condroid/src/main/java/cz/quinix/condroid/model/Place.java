@@ -138,13 +138,14 @@ public class Place implements Serializable, DBInsertable {
     }
 
     public void setHours(String hours) {
-        Type listType = new TypeToken<ArrayList<PlaceHours>>() {
-        }.getType();
-        this.hours = new Gson().fromJson(hours, listType);
+        this.hours = new Gson().fromJson(hours, PlaceHours.class);
     }
 
     public void setGps(String string) {
 
+        if(string == null) {
+            return;
+        }
         String[] x = string.split(";");
         if(x.length > 0) {
             this.gps = new Gps();

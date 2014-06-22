@@ -35,6 +35,7 @@ public class DataProvider {
     private List<Integer> favorited;
 
     private Map<Integer, ProgramLine> programLines = null;
+    private List<Place> places;
 
 
     public boolean hasData() {
@@ -174,6 +175,7 @@ public class DataProvider {
             co.setName(c.getString(c.getColumnIndex("name")));
             co.setUrl(c.getString(c.getColumnIndex("url")));
             co.setMessage(c.getString(c.getColumnIndex("message")));
+            co.setGps(c.getString(c.getColumnIndex("gps")));
             DateTimeFormatter format = DateTimeFormat
                     .forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC();
             try {
@@ -298,10 +300,14 @@ public class DataProvider {
         this.programLines = null;
         this.con = null;
         this.favorited = null;
+        this.places = null;
     }
 
     public List<Place> getPlaces()
     {
+        if(this.places != null) {
+            return this.places;
+        }
         List<Place> ret = new ArrayList<Place>();
 
         Cursor c = this.mDatabase.query(CondroidDatabase.PLACES_TABLE, null, null, null, "category_sort ASC, sort ASC, name ASC", null);
@@ -316,12 +322,12 @@ public class DataProvider {
             place.setCategorySort(c.getInt(c.getColumnIndex("category_sort")));
             place.setDescription(c.getString(c.getColumnIndex("description")));
             place.setHours(c.getString(c.getColumnIndex("hours")));
-            place.setGps(c.getString(c.getColumnIndex("startTime")));
+            place.setGps(c.getString(c.getColumnIndex("gps")));
 
             ret.add(place);
         }
         c.close();
-        return ret;
+        return this.places = ret;
     }
 
 }

@@ -120,7 +120,7 @@ public class CondroidDatabase {
         private static final String DATABASE_CREATE_REMINDER = "CREATE TABLE IF NOT EXISTS \"" + REMINDER_TABLE + "\" (" +
                 "\"id\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "\"pid\"  INTEGER NOT NULL," +
-                "\"minutes\"  INTEGER NULL" +
+                "\"minutes\"  INTEGER NULL," +
                 "\"custom\"  TEXT NULL" +
                 ");";
         private static final String DATABASE_CREATE_PLACE = "CREATE TABLE IF NOT EXISTS '" + PLACES_TABLE + "' (" +

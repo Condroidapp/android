@@ -124,7 +124,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
             findViewById(R.id.tdMap).setVisibility(View.GONE);
         }
         if(provider.getPlaces() == null || provider.getPlaces().size() == 0) {
-            findViewById(R.id.tdMap).setVisibility(View.GONE);
+            findViewById(R.id.tdRestaurants).setVisibility(View.GONE);
         }
 
 
