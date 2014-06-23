@@ -1,7 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/lightgray">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:id="@+id/lRunningNow"
+                android:background="@color/ab_action_green"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open"
+                    android:id="@+id/textView2"
+                    android:textStyle="bold"
+                    android:textSize="17dp"
+                    android:textColor="#ffffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Zavírá za..."
+                    android:id="@+id/tClosingIn"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:id="@+id/lPlaceHeader">
+
+                <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content"
+                    android:layout_width="fill_parent" android:text="Title"
+                    android:textSize="19dp"
+                    android:textColor="@color/condroidGreen"></TextView>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tyrrsova XXX\nChot2bo5"
+                        android:id="@+id/tAddress"
+                        android:textColor="@color/darkgray"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/tUrl"
+                        android:layout_below="@+id/tAddress"
+                        android:autoLink="web" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tDescription"
+                android:id="@+id/tDescription"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textStyle="italic"
+                android:textSize="15dp" />
+
+            <LinearLayout android:layout_width="fill_parent"
+                android:id="@+id/lOpeningHours" android:layout_height="wrap_content" android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/openingHours"
+                    android:id="@+id/textView"
+                    android:textSize="22dp"
+                    android:textColor="@color/condroidGreen"
+                    android:layout_marginBottom="10dp"
+                    android:layout_margin="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Bohužel chybí informace :-("
+                    android:id="@+id/lMissing"
+                    android:padding="30dp"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Otevírací doba bez záruky"
+                android:id="@+id/textView3"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/gray"
+                android:textSize="12dp" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

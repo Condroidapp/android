@@ -3,14 +3,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="8dp">
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tTitle"
-            android:textSize="15dp" />
+            android:textSize="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -19,6 +19,7 @@
             android:id="@+id/tOpenIcon"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/condroidGreen" />
+            android:textColor="@color/condroidGreen"
+            android:textSize="12dp" />
 
 </RelativeLayout>

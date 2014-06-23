@@ -165,5 +165,8 @@
     <string name="imdbNotInstalled">Nainstalujte si IMDB aplikaci pro lepší přístup k filmům a trailerům.</string>
     <string name="drawerClose">Drawer closed</string>
     <string name="drawerOpen">Drawer open</string>
+    <string name="openingHours">Otevírací doba</string>
+    <string name="open">Otevřeno</string>
+    <string name="lClosed">ZAVŘENO</string>
 
 </resources>
