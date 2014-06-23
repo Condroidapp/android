@@ -127,7 +127,9 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
     private void startProgramActivity() {
         if (this.database.hasData()) {
             Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             this.startActivity(intent);
+            this.finish();
         } else {
             Toast.makeText(this, "Nebyly nalezeny žádná data pro tuto událost.", Toast.LENGTH_LONG).show();
         }
