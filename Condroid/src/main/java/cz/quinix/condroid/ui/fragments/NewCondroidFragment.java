@@ -56,22 +56,11 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-
-
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
-            if(this.lwMain != null && this.lwMain.getAdapter() != null) {
-                ((EndlessAdapter) this.lwMain.getAdapter()).notifyDataSetChanged();
-            }
+    public void onResume() {
+        super.onResume();
+        if (this.lwMain != null && this.lwMain.getAdapter() != null) {
+            ((EndlessAdapter) this.lwMain.getAdapter()).notifyDataSetChanged();
         }
-
     }
 
     protected void initListView() {
@@ -90,6 +79,8 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
         this.updateSearchField();
     }
+
+
 
 
     protected abstract EndlessAdapter createListViewAdapter();
@@ -218,7 +209,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
 
         ((EndlessAdapter) lwMain.getAdapter()).setItems(i);
 
-        if(resetPosition) {
+        if (resetPosition) {
 
         }
 
@@ -232,7 +223,7 @@ public abstract class NewCondroidFragment extends RoboSherlockFragment implement
     }
 
     public void resetList() {
-        if(lwMain != null) {
+        if (lwMain != null) {
             lwMain.setSelection(0);
         }
     }
