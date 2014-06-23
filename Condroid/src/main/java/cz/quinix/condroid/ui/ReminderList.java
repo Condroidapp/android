@@ -29,8 +29,6 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Reminder;
 import cz.quinix.condroid.service.ReminderManager;
 import cz.quinix.condroid.ui.activities.MainActivity;
-import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
-import cz.quinix.condroid.ui.listeners.SetReminderListener;
 
 /**
  * Created with IntelliJ IDEA.

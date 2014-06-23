@@ -170,6 +170,15 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
         this.notifyDataSetChanged();
     }
 
+    public Annotation getTopItem() {
+        for(Entry e: this.entries) {
+            if(!e.isSeparator()) {
+                return e.annotation;
+            }
+        }
+        return null;
+    }
+
 
     public static class Entry {
 

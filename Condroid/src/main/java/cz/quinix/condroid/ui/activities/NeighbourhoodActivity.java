@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivity;
@@ -16,11 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Locale;
 
 import cz.quinix.condroid.R;
-import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.Place;
 import cz.quinix.condroid.model.PlaceHours;
-import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
-import cz.quinix.condroid.ui.listeners.SetReminderListener;
 
 /**
  * Created by Jan on 22. 6. 2014.
@@ -45,38 +41,35 @@ public class NeighbourhoodActivity extends RoboSherlockActivity {
 
         TextView tAddress = (TextView) findViewById(R.id.tAddress);
 
-        if(place.getAddress() != null) {
+        if (place.getAddress() != null) {
             tAddress.setText(StringUtils.join(place.getAddress(), "\n"));
-        }
-        else {
+        } else {
             tAddress.setVisibility(View.GONE);
         }
 
         TextView tDescription = (TextView) findViewById(R.id.tDescription);
 
-        if(place.getDescription() != null) {
+        if (place.getDescription() != null) {
             tDescription.setText(place.getDescription());
-        }
-        else {
+        } else {
             tDescription.setVisibility(View.GONE);
         }
 
         TextView tUrl = (TextView) findViewById(R.id.tUrl);
-        if(place.getUrl() != null) {
+        if (place.getUrl() != null) {
             tUrl.setText(place.getUrl());
-        }
-        else {
+        } else {
             tUrl.setVisibility(View.GONE);
         }
 
-        if(place.getGps() != null) {
+        if (place.getGps() != null) {
             LinearLayout header = (LinearLayout) findViewById(R.id.lPlaceHeader);
             header.setClickable(true);
 
             header.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(place.getGps() != null) {
+                    if (place.getGps() != null) {
                         String uri = String.format(Locale.ENGLISH, "geo:0,0?q=%f,%f(%s)&z=19", place.getGps().lat, place.getGps().lon, place.getName());
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                         startActivity(intent);
@@ -90,11 +83,11 @@ public class NeighbourhoodActivity extends RoboSherlockActivity {
     }
 
     private void setupOpening() {
-        if(place.getHours() != null) {
+        if (place.getHours() != null) {
             findViewById(R.id.lMissing).setVisibility(View.GONE);
             LinearLayout parent = (LinearLayout) findViewById(R.id.lOpeningHours);
             PlaceHours hours = place.getHours();
-            for(int key: hours.getKeys()) {
+            for (int key : hours.getKeys()) {
 
 
                 View child = getLayoutInflater().inflate(R.layout.neighbourhood_activity_item, null);
@@ -104,12 +97,12 @@ public class NeighbourhoodActivity extends RoboSherlockActivity {
 
                 TextView item2 = (TextView) child.findViewById(R.id.tTitle);
                 String[] items = hours.getHoursFor(key);
-                if(items == null) {
+                if (items == null) {
                     item2.setText(getString(R.string.lClosed));
                 } else {
                     item2.setText(items[0] + " - " + items[1]);
                 }
-                if(hours.isToday(key)) {
+                if (hours.isToday(key)) {
                     child.setBackgroundResource(R.color.mediumgray);
                 }
 

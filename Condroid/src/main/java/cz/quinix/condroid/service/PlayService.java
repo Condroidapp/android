@@ -10,7 +10,7 @@ import android.os.IBinder;
 public class PlayService implements ServiceConnection {
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-        
+
     }
 
     @Override

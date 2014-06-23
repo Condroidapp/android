@@ -25,7 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.TimerTask;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
@@ -88,7 +87,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
         TextView text = (TextView) this.findViewById(R.id.annot_text);
         text.setText(this.annotation.getAnnotation());
 
-        if(this.annotation.getImdb() != null && !this.annotation.getImdb().trim().equals("")) {
+        if (this.annotation.getImdb() != null && !this.annotation.getImdb().trim().equals("")) {
             ImageView i = (ImageView) findViewById(R.id.iImdb);
             i.setVisibility(View.VISIBLE);
             i.setOnClickListener(new ImdbClickListener(this, this.annotation));
@@ -107,7 +106,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(updateThread != null) {
+        if (updateThread != null) {
             updateThread.interrupt();
             updateThread = null;
         }
@@ -150,7 +149,7 @@ public class ShowAnnotation extends RoboSherlockActivity {
 
                 String text = getString(R.string.startsInXMinutes);
                 if (minutes < 1) {
-                    text += " "+getString(R.string.lessThanMinute);
+                    text += " " + getString(R.string.lessThanMinute);
                 } else {
                     text += " " + this.getResources().getQuantityString(R.plurals.minutes, minutes, minutes);
                 }
@@ -160,15 +159,15 @@ public class ShowAnnotation extends RoboSherlockActivity {
                 findViewById(R.id.lRunningNow).setVisibility(View.GONE);
                 findViewById(R.id.lStartsInMinutes).setVisibility(View.GONE);
             }
-            if(new Date().after(annotation.getEnd())) {
+            if (new Date().after(annotation.getEnd())) {
                 findViewById(R.id.lMisssed).setVisibility(View.VISIBLE);
             } else {
                 findViewById(R.id.lMisssed).setVisibility(View.GONE);
             }
 
 
-            if(isRunning() || isStartingShortly(60)) {
-                if(updateThread == null) {
+            if (isRunning() || isStartingShortly(60)) {
+                if (updateThread == null) {
                     Log.d(this.getClass().getName(), "Starting thread.");
                     updateThread = new Thread() {
                         @Override

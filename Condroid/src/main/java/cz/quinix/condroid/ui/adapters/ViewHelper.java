@@ -4,7 +4,6 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 

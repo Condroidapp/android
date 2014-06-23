@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +48,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
         if (this.parameters == null) {
             throw new IllegalStateException("Parameters to insert pre not set.");
         }
-        if(progressBar) {
+        if (progressBar) {
             this.showDialog(this.getItemsSize());
         }
     }
@@ -73,7 +72,7 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 
     protected void updateProgress(int value) {
         float progress = (float) value;
-        if(pd != null) {
+        if (pd != null) {
             pd.setProgress((int) (progress));
         }
     }
@@ -97,8 +96,8 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 
             database.truncatePlaces();
 
-            if(event.getPlaces() != null) {
-                for(Place place: event.getPlaces()) {
+            if (event.getPlaces() != null) {
+                for (Place place : event.getPlaces()) {
                     ContentValues cv = place.getContentValues();
                     cv.put("event_id", event.getId());
                     db.replaceOrThrow(CondroidDatabase.PLACES_TABLE, null, cv);

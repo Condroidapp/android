@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.internal.widget.IcsToast;
 
-import org.json.JSONException;
-
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.util.IabHelper;
 import cz.quinix.condroid.util.IabResult;
@@ -119,9 +117,8 @@ public class AboutDialog {
         return context;
     }
 
-    private void onDispose()
-    {
-        if(this.mHelper != null) {
+    private void onDispose() {
+        if (this.mHelper != null) {
             mHelper.dispose();
         }
         mHelper = null;
@@ -183,8 +180,7 @@ public class AboutDialog {
                                         IcsToast.makeText(context, "Transakce se nezdařila :(", Toast.LENGTH_LONG).show();
                                         onDispose();
                                         return;
-                                    }
-                                    else if (info.getSku().equals(sku)) {
+                                    } else if (info.getSku().equals(sku)) {
 
                                         // remove query inventory method from here and put consumeAsync() directly
                                         mHelper.consumeAsync(info, new IabHelper.OnConsumeFinishedListener() {

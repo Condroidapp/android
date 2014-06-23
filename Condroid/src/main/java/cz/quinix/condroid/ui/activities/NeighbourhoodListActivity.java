@@ -1,6 +1,5 @@
 package cz.quinix.condroid.ui.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,33 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.MenuItem;
-import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivity;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockListActivity;
 import com.google.inject.Inject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Place;
-import cz.quinix.condroid.model.Reminder;
 
 /**
  * Created by Jan on 22. 6. 2014.
  */
 public class NeighbourhoodListActivity extends RoboSherlockListActivity {
 
-    @Inject private DataProvider provider;
+    @Inject
+    private DataProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +48,9 @@ public class NeighbourhoodListActivity extends RoboSherlockListActivity {
         List<PlaceGroup> list = new ArrayList<PlaceGroup>();
         PlaceGroup actual = null;
 
-        for(Place place: places) {
+        for (Place place : places) {
 
-            if(actual == null || !actual.category.equals(place.getCategory())) {
+            if (actual == null || !actual.category.equals(place.getCategory())) {
                 actual = new PlaceGroup();
                 actual.category = place.getCategory();
                 list.add(actual);
@@ -114,7 +107,7 @@ public class NeighbourhoodListActivity extends RoboSherlockListActivity {
         }
 
         private void createInnerContent(LinearLayout listView, List<Place> places) {
-            for(final Place place: places) {
+            for (final Place place : places) {
                 View child = getLayoutInflater().inflate(R.layout.neighbourhood_list_item_item, null);
 
                 TextView item = (TextView) child.findViewById(R.id.tTitle);

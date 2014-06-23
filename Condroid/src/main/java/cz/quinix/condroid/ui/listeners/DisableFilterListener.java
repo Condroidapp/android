@@ -40,27 +40,27 @@ public class DisableFilterListener implements View.OnClickListener {
 
         SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(parent.getClass().getName());
 
-        if(sb.hasParam(String.class.getName())) {
+        if (sb.hasParam(String.class.getName())) {
             values.add(data[0]);
-            selected.put(values.size() -1, "");
+            selected.put(values.size() - 1, "");
         }
-        if(sb.hasParam(Date.class.getName())) {
+        if (sb.hasParam(Date.class.getName())) {
             values.add(data[1]);
-            selected.put(values.size() -1, new Date());
+            selected.put(values.size() - 1, new Date());
         }
-        if(sb.hasParam(ProgramLine.class.getName())) {
+        if (sb.hasParam(ProgramLine.class.getName())) {
             values.add(data[2]);
-            selected.put(values.size() -1, new ProgramLine());
+            selected.put(values.size() - 1, new ProgramLine());
         }
-        if(sb.hasParam(Object.class.getName())) {
+        if (sb.hasParam(Object.class.getName())) {
             values.add(data[3]);
-            selected.put(values.size() -1, new Object());
+            selected.put(values.size() - 1, new Object());
         }
         values.add(data[4]);
-        selected.put(values.size() -1, -1);
+        selected.put(values.size() - 1, -1);
         DisableFilterTypeSelected listener = new DisableFilterTypeSelected(parent, sb, selected);
 
-        if(selected.size() <= 2) {
+        if (selected.size() <= 2) {
             listener.onClick(null, -1);
             return;
         }
@@ -88,11 +88,11 @@ class DisableFilterTypeSelected implements Dialog.OnClickListener {
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        if (i == -1 ) {
+        if (i == -1) {
             search.clear();
-        } else if(this.selected.containsKey(i)) {
+        } else if (this.selected.containsKey(i)) {
             Object value = selected.get(i);
-            if(value instanceof Integer && ((Integer) value).intValue() == -1) {
+            if (value instanceof Integer && ((Integer) value).intValue() == -1) {
                 search.clear();
             } else {
                 search.removeParam(value);

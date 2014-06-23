@@ -1,27 +1,17 @@
 package cz.quinix.condroid.ui.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +21,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
@@ -42,12 +28,12 @@ import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
 import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.ui.AboutDialog;
-import cz.quinix.condroid.ui.adapters.DrawerAdapter;
 import cz.quinix.condroid.ui.dataLoading.Downloader;
 import cz.quinix.condroid.ui.dataLoading.UpdateChecker;
 import cz.quinix.condroid.ui.fragments.TabsFragment;
 import cz.quinix.condroid.ui.listeners.DrawerItemClickListener;
 import cz.quinix.condroid.ui.listeners.FilterListener;
+
 public class MainActivity extends RoboSherlockFragmentActivity implements ITaskListener {
 
     private DrawerLayout mDrawerLayout;
@@ -98,7 +84,6 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         handleIntent(getIntent());
 
 
-
     }
 
     private void setupDrawer() {
@@ -115,18 +100,17 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
 
         int[] views = {R.id.tdRestaurants, R.id.tdMap, R.id.tdWeb, R.id.tdAnother, R.id.tdReminders, R.id.tdSettings, R.id.tdAbout};
 
-        for(int id : views) {
+        for (int id : views) {
             TextView view = (TextView) findViewById(id);
             view.setOnClickListener(new DrawerItemClickListener(this, provider));
         }
 
-        if(provider.getCon().getGps() == null) {
+        if (provider.getCon().getGps() == null) {
             findViewById(R.id.tdMap).setVisibility(View.GONE);
         }
-        if(provider.getPlaces() == null || provider.getPlaces().size() == 0) {
+        if (provider.getPlaces() == null || provider.getPlaces().size() == 0) {
             findViewById(R.id.tdRestaurants).setVisibility(View.GONE);
         }
-
 
 
     }
@@ -148,11 +132,11 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
             // perform any handling of activity results not related to in-app
             // billing...
             super.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
+        } else {
             Log.d("Condroid", "onActivityResult handled by IABUtil.");
         }
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -187,7 +171,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-        if(hasFocus) {
+        if (hasFocus) {
             new UpdateChecker(this, provider.getCon()).execute();
         }
     }

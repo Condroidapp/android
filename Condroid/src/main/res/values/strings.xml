@@ -10,7 +10,7 @@
     <string name="downloading">Stahuji...</string>
     <string name="processing">Zpracovávám...</string>
     <string name="tAboutName">Condroid 3.1</string>
-    <string name="tAboutCopyright">© 2011-2014\nJan Langer, Fan-Project</string>
+    <string name="tAboutCopyright">© 2011–2014\nJan Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
     <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>

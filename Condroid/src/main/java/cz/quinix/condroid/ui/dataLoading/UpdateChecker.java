@@ -1,19 +1,14 @@
 package cz.quinix.condroid.ui.dataLoading;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.joda.time.Interval;
-
 import java.util.Date;
 
-import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.model.Convention;
-import cz.quinix.condroid.ui.Preferences;
 import cz.quinix.condroid.ui.activities.MainActivity;
 
 /**
@@ -37,7 +32,7 @@ public class UpdateChecker {
             return;
         }
 
-        int interval = Integer.parseInt(preferences.getString("auto_updates_interval","60"));
+        int interval = Integer.parseInt(preferences.getString("auto_updates_interval", "60"));
 
         Date lastCheck = new Date();
         lastCheck.setTime(preferences.getLong("last_update", 946684800000L)); //1.1.2000
@@ -46,7 +41,7 @@ public class UpdateChecker {
 
         Date now = new Date();
 
-        if(!now.after(lastCheck)) {
+        if (!now.after(lastCheck)) {
             return;
         }
 

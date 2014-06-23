@@ -158,11 +158,11 @@ public class CondroidDatabase {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
             if (oldVersion < DATABASE_VERSION) {
-                if(oldVersion > 11 && oldVersion < 13) {
+                if (oldVersion > 11 && oldVersion < 13) {
                     db.execSQL(DATABASE_CREATE_PLACE);
                 } else if (oldVersion < 14) {
-                    db.execSQL("ALTER TABLE "+CON_TABLE+" ADD gps TEXT(255) NULL");
-                    db.execSQL("ALTER TABLE "+REMINDER_TABLE+" ADD custom TEXT(255) NULL");
+                    db.execSQL("ALTER TABLE " + CON_TABLE + " ADD gps TEXT(255) NULL");
+                    db.execSQL("ALTER TABLE " + REMINDER_TABLE + " ADD custom TEXT(255) NULL");
                 } else {
                     db.execSQL("DROP TABLE " + CON_TABLE);
                     db.execSQL("DROP TABLE " + ANNOTATION_TABLE);

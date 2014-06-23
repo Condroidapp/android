@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +24,6 @@ public class PlaceHours implements Serializable {
     static SimpleDateFormat dayFormat = new SimpleDateFormat("dd. MM. ");
 
 
-
     public int type;
 
     public Map<Integer, String[]> hours;
@@ -33,9 +31,9 @@ public class PlaceHours implements Serializable {
     private Map<Integer, Date[]> parsedDates;
 
     public int isOpen() {
-        if(this.type == TYPE_DAYS) {
+        if (this.type == TYPE_DAYS) {
             return this.getCurrentDateHours() != null ? Place.STATE_OPEN : Place.STATE_CLOSED;
-        } else if(this.type == TYPE_WEEK) {
+        } else if (this.type == TYPE_WEEK) {
             return this.getCurrentDayHours() != null ? Place.STATE_OPEN : Place.STATE_CLOSED;
         }
 
@@ -52,7 +50,7 @@ public class PlaceHours implements Serializable {
 
         String[] currentDay = hours.get(dayOfWeek);
 
-        if(currentDay == null) {
+        if (currentDay == null) {
             return null;
         }
 
@@ -67,10 +65,10 @@ public class PlaceHours implements Serializable {
         closing.setHours(Integer.parseInt(closeHour[0]));
         closing.setMinutes(Integer.parseInt(closeHour[1]));
 
-        if(closing.before(opening)) {
+        if (closing.before(opening)) {
             closing.setDate(closing.getDate() + 1);
         }
-        if(now.after(opening) && now.before(closing)) {
+        if (now.after(opening) && now.before(closing)) {
             return new Date[]{opening, closing};
         }
         return null;
@@ -80,16 +78,16 @@ public class PlaceHours implements Serializable {
         Date now = new Date();
         parseData();
 
-        for(int key: parsedDates.keySet()) {
+        for (int key : parsedDates.keySet()) {
             Date[] hours = parsedDates.get(key);
 
             Date opening = hours[0];
             Date closing = hours[1];
-            if(now.before(opening)) {
+            if (now.before(opening)) {
                 return null;
             }
 
-            if(now.after(opening) && now.before(closing)) {
+            if (now.after(opening) && now.before(closing)) {
                 return hours;
             }
         }
@@ -97,10 +95,10 @@ public class PlaceHours implements Serializable {
     }
 
     private void parseData() {
-        if(parsedDates == null) {
+        if (parsedDates == null) {
             parsedDates = new HashMap<Integer, Date[]>();
 
-            for(int key: hours.keySet()) {
+            for (int key : hours.keySet()) {
                 String[] dates = hours.get(key);
 
                 try {
@@ -115,7 +113,7 @@ public class PlaceHours implements Serializable {
     }
 
     public String getReadableTitleFor(int key) {
-        if(this.type == TYPE_DAYS) {
+        if (this.type == TYPE_DAYS) {
             String[] values = hours.get(key);
 
             try {
@@ -125,14 +123,14 @@ public class PlaceHours implements Serializable {
                 return "";
             }
         } else {
-            String[] dayOfWeek = {"","po", "út", "st", "čt", "pá", "so", "ne"};
+            String[] dayOfWeek = {"", "po", "út", "st", "čt", "pá", "so", "ne"};
 
             return dayOfWeek[key];
         }
     }
 
     public String[] getHoursFor(int key) {
-        if(this.type == TYPE_DAYS) {
+        if (this.type == TYPE_DAYS) {
             String[] values = hours.get(key);
 
             try {
@@ -149,7 +147,7 @@ public class PlaceHours implements Serializable {
     }
 
     public boolean isToday(int key) {
-        if(type == TYPE_WEEK) {
+        if (type == TYPE_WEEK) {
             Date now = new Date();
 
             int dayOfWeek = now.getDay();
@@ -164,7 +162,7 @@ public class PlaceHours implements Serializable {
             today.setTime(new Date());
 
             Calendar compared = Calendar.getInstance();
-            compared.setTime( hours[0]);
+            compared.setTime(hours[0]);
 
             //its today
             return compared.get(Calendar.YEAR) == today.get(Calendar.YEAR)
@@ -174,7 +172,7 @@ public class PlaceHours implements Serializable {
     }
 
     public Integer[] getKeys() {
-        if(type == TYPE_WEEK) {
+        if (type == TYPE_WEEK) {
             return new Integer[]{1, 2, 3, 4, 5, 6, 7};
         } else {
             Set<Integer> i = hours.keySet();

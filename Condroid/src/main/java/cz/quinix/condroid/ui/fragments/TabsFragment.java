@@ -55,9 +55,9 @@ public class TabsFragment extends RoboSherlockFragment {
     }
 
     public void refreshFragments() {
-        for(int i = 0; i<2; i++) {
+        for (int i = 0; i < 2; i++) {
             NewCondroidFragment fragment = (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag(this.getFragmentTag(i));
-            if(fragment != null) {
+            if (fragment != null) {
                 fragment.refresh();
             }
 
@@ -75,11 +75,10 @@ public class TabsFragment extends RoboSherlockFragment {
     }
 
     private String getFragmentTag(int item) {
-        return "android:switcher:" + R.id.pager + ":"+item;
+        return "android:switcher:" + R.id.pager + ":" + item;
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
-
 
 
         // private SparseArray<NewCondroidFragment> pageReferenceMap;

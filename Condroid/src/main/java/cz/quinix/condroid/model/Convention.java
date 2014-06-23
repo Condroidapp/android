@@ -81,9 +81,6 @@ public class Convention implements Serializable, DBInsertable {
         }
     }
 
-    public String getDatasource() {
-        return "";
-    }
 
     public ContentValues getContentValues() {
         ContentValues ret = new ContentValues();
@@ -145,12 +142,12 @@ public class Convention implements Serializable, DBInsertable {
 
 
     public void setGps(String string) {
-        if(string == null) {
+        if (string == null) {
             return;
         }
 
         String[] x = string.split(";");
-        if(x.length > 0) {
+        if (x.length > 0) {
             this.gps = new Gps();
             gps.lat = Float.parseFloat(x[0]);
             gps.lon = Float.parseFloat(x[1]);

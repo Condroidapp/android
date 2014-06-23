@@ -303,9 +303,8 @@ public class DataProvider {
         this.places = null;
     }
 
-    public List<Place> getPlaces()
-    {
-        if(this.places != null) {
+    public List<Place> getPlaces() {
+        if (this.places != null) {
             return this.places;
         }
         List<Place> ret = new ArrayList<Place>();

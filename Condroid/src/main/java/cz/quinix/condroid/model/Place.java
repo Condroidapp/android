@@ -3,16 +3,10 @@ package cz.quinix.condroid.model;
 import android.content.ContentValues;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 import cz.quinix.condroid.abstracts.DBInsertable;
 
@@ -148,11 +142,11 @@ public class Place implements Serializable, DBInsertable {
 
     public void setGps(String string) {
 
-        if(string == null) {
+        if (string == null) {
             return;
         }
         String[] x = string.split(";");
-        if(x.length > 0) {
+        if (x.length > 0) {
             this.gps = new Gps();
             gps.lat = Float.parseFloat(x[0]);
             gps.lon = Float.parseFloat(x[1]);
@@ -160,7 +154,7 @@ public class Place implements Serializable, DBInsertable {
     }
 
     public int isOpen() {
-        if(hours == null) {
+        if (hours == null) {
             return STATE_UNKNOWN;
         }
 

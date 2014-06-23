@@ -16,7 +16,6 @@ import cz.quinix.condroid.loader.DataLoader;
 import cz.quinix.condroid.loader.EventTask;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.model.Convention;
-import cz.quinix.condroid.ui.activities.MainActivity;
 
 public class Downloader extends AsyncTaskDialog {
 
@@ -86,7 +85,7 @@ public class Downloader extends AsyncTaskDialog {
 
     @Override
     public void onTaskErrored(AListenedAsyncTask task) {
-        if(this.parent instanceof ITaskListener) {
+        if (this.parent instanceof ITaskListener) {
             ((ITaskListener) parent).onTaskErrored(task);
         }
     }

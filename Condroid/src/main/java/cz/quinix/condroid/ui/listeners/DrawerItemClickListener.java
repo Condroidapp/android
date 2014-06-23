@@ -3,8 +3,6 @@ package cz.quinix.condroid.ui.listeners;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.Locale;
 
@@ -41,7 +39,7 @@ public class DrawerItemClickListener implements View.OnClickListener {
                 break;
             case R.id.tdMap:
                 Convention event = provider.getCon();
-                if(event.getGps() != null) {
+                if (event.getGps() != null) {
                     String uri = String.format(Locale.ENGLISH, "geo:%f,%f?z=17", event.getGps().lat, event.getGps().lon);
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                     parentActivity.startActivity(intent);

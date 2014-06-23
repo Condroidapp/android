@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.model.Annotation;
-import cz.quinix.condroid.ui.activities.ShowAnnotation;
 
 /**
  * Created by Jan on 14. 6. 2014.
@@ -31,7 +30,7 @@ public class ImdbClickListener implements View.OnClickListener {
         isImdbInstalled();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("http://www.imdb.com/title/"+annotation.getImdb()+"/"));
+        intent.setData(Uri.parse("http://www.imdb.com/title/" + annotation.getImdb() + "/"));
         activity.startActivity(intent);
 
     }
@@ -44,9 +43,8 @@ public class ImdbClickListener implements View.OnClickListener {
                 pm.getPackageInfo("com.imdb.mobile", PackageManager.GET_ACTIVITIES);
                 return true;
             }
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            if(!warningShown) {
+        } catch (PackageManager.NameNotFoundException e) {
+            if (!warningShown) {
                 Toast.makeText(activity, R.string.imdbNotInstalled, Toast.LENGTH_LONG).show();
                 warningShown = true;
             }
