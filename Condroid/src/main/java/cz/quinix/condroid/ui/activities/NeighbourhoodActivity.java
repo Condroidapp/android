@@ -1,6 +1,8 @@
 package cz.quinix.condroid.ui.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockActivit
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Locale;
 
 import cz.quinix.condroid.R;
@@ -70,9 +73,14 @@ public class NeighbourhoodActivity extends RoboSherlockActivity {
                 @Override
                 public void onClick(View v) {
                     if (place.getGps() != null) {
+
                         String uri = String.format(Locale.ENGLISH, "geo:0,0?q=%f,%f(%s)&z=19", place.getGps().lat, place.getGps().lon, place.getName());
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                        startActivity(intent);
+                        PackageManager manager = getPackageManager();
+                        List<ResolveInfo> infos = manager.queryIntentActivities(intent, 0);
+                        if (infos.size() > 0) {
+                            startActivity(intent);
+                        }
                     }
                 }
             });

@@ -1,9 +1,12 @@
 package cz.quinix.condroid.ui.listeners;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.view.View;
 
+import java.util.List;
 import java.util.Locale;
 
 import cz.quinix.condroid.R;
@@ -40,9 +43,14 @@ public class DrawerItemClickListener implements View.OnClickListener {
             case R.id.tdMap:
                 Convention event = provider.getCon();
                 if (event.getGps() != null) {
+
                     String uri = String.format(Locale.ENGLISH, "geo:%f,%f?z=17", event.getGps().lat, event.getGps().lon);
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    parentActivity.startActivity(intent);
+                    PackageManager manager = parentActivity.getPackageManager();
+                    List<ResolveInfo> infos = manager.queryIntentActivities(intent, 0);
+                    if(infos.size() > 0) {
+                        parentActivity.startActivity(intent);
+                    }
                 }
                 break;
             case R.id.tdWeb:
@@ -65,7 +73,9 @@ public class DrawerItemClickListener implements View.OnClickListener {
                 parentActivity.startActivity(i);
                 break;
             case R.id.tdAbout:
-                parentActivity.setActivityResultListener(new AboutDialog(parentActivity));
+                AboutDialog aboutDialog = new AboutDialog(parentActivity);
+                parentActivity.setActivityResultListener(aboutDialog);
+                aboutDialog.show();
 
                 break;
         }

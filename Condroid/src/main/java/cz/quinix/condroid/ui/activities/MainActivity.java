@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -21,8 +22,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 
+import java.util.Date;
+
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
+import cz.quinix.condroid.abstracts.CondroidActivity;
 import cz.quinix.condroid.abstracts.ITaskListener;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.database.DatabaseLoader;
@@ -82,7 +86,37 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
 
 
         handleIntent(getIntent());
+    }
 
+    private void showDonate() {
+        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+        boolean shown = sp.getBoolean("donate_dialog_shown", false);
+
+        if(shown) {
+            return;
+        }
+        int days = sp.getInt("donate_days_used", 0);
+
+        long prevDate = sp.getLong("donate_prev_date", new Date().getTime());
+        Date previous = new Date();
+        previous.setTime(prevDate);
+
+        if(previous.getDate() != (new Date()).getDate()) {
+            days++;
+        }
+
+        SharedPreferences.Editor editor = sp.edit();
+        if(days > 3) {
+
+            editor.putBoolean("donate_dialog_shown", true);
+            AboutDialog a = new AboutDialog(this);
+            this.setActivityResultListener(a);
+            a.showDonate();
+        }
+        editor.putInt("donate_days_used", days);
+        editor.putLong("donate_prev_date", (new Date()).getTime());
+
+        editor.commit();
 
     }
 
@@ -142,6 +176,14 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        this.showDonate();
+
     }
 
     @Override

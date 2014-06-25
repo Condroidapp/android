@@ -160,7 +160,6 @@ public class CondroidDatabase {
             if (oldVersion < DATABASE_VERSION) {
                 if (oldVersion > 11 && oldVersion < 13) {
                     db.execSQL(DATABASE_CREATE_PLACE);
-                } else if (oldVersion < 14) {
                     db.execSQL("ALTER TABLE " + CON_TABLE + " ADD gps TEXT(255) NULL");
                     db.execSQL("ALTER TABLE " + REMINDER_TABLE + " ADD custom TEXT(255) NULL");
                 } else {

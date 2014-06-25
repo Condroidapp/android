@@ -34,6 +34,9 @@ public class AboutDialog {
 
     public AboutDialog(Activity context) {
         this.context = context;
+    }
+
+    public void show() {
         AlertDialog.Builder ab;
         if (Build.VERSION.SDK_INT > 10) {
             ab = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
@@ -45,6 +48,7 @@ public class AboutDialog {
         ab.setTitle(R.string.appNameAbout);
 
 
+        ab.setInverseBackgroundForced(true);
         ab.setPositiveButton("OK", new OkListener());
         ab.setNeutralButton("Přispět", new DonateListener());
         ab.setNegativeButton("Feedback", new FeedbackListener());
@@ -117,6 +121,10 @@ public class AboutDialog {
         return context;
     }
 
+    public void showDonate() {
+        new DonateListener().showDonate();
+    }
+
     private void onDispose() {
         if (this.mHelper != null) {
             mHelper.dispose();
@@ -162,6 +170,10 @@ public class AboutDialog {
     class DonateListener implements DialogInterface.OnClickListener {
 
         public void onClick(DialogInterface dialog, int which) {
+            this.showDonate();
+        }
+
+        public void showDonate() {
 
             AlertDialog.Builder ab = new AlertDialog.Builder(context);
             ab.setTitle("Přispějte na vývoj");
