@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Medium Text"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:textColor="@android:color/black"
             android:padding="3dp" android:textStyle="bold"/>
 

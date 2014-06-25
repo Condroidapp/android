@@ -14,7 +14,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:background="@drawable/filter_status" android:layout_margin="5dp" android:padding="5dp"
         android:visibility="visible" android:drawableRight="@drawable/delete_icon"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"

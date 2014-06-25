@@ -60,7 +60,7 @@ android:orientation="vertical"
                             android:text="Festival fantazie 2014"
                             android:id="@+id/tEventName"
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -86,7 +86,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/drawer_restaurant"
                     android:id="@+id/tdRestaurants"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:background="@drawable/border_bottom"
                     android:clickable="true" />
@@ -96,7 +96,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/drawer_map"
                     android:id="@+id/tdMap"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:background="@drawable/border_bottom" android:clickable="true"  />
 
@@ -105,7 +105,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/drawer_web"
                     android:id="@+id/tdWeb"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:background="@drawable/border_bottom" android:clickable="true"  />
 
@@ -114,7 +114,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/lsettings"
                     android:id="@+id/textView"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:background="@drawable/border_bottom"
@@ -127,7 +127,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/drawer_anotherAction"
                     android:id="@+id/tdAnother"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:background="@drawable/border_bottom" android:clickable="true"  />
 
@@ -136,7 +136,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/drawer_reminder"
                     android:id="@+id/tdReminders"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:background="@drawable/border_bottom" android:clickable="true"  />
 
@@ -145,7 +145,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/drawer_settings"
                     android:id="@+id/tdSettings"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:background="@drawable/border_bottom" android:clickable="true"  />
 
@@ -154,7 +154,7 @@ android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:text="@string/drawer_about"
                     android:id="@+id/tdAbout"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:padding="10dp"
                     android:background="@drawable/border_bottom" android:clickable="true"  />
 

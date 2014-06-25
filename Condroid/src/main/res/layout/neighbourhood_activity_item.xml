@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tDay"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textColor="@color/gray"
         android:layout_marginLeft="20dp" />
 
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/tTitle"
-            android:textSize="18dp"
+            android:textSize="18sp"
         android:layout_toRightOf="@+id/tDay"
         android:layout_marginLeft="35dp"
         android:gravity="center_horizontal"
