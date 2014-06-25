@@ -177,7 +177,7 @@ public class AboutDialog {
 
             AlertDialog.Builder ab = new AlertDialog.Builder(context);
             ab.setTitle("Přispějte na vývoj");
-            ab.setMessage("Condroid vyvíjím již 5 let. Aby vám zpříjmňoval pobyt na conech. A je k dispozici zdarma.\n\nPodpořte prosím další vývoj aplikace zaslání příspěvku. Nejjedodušší je to přímo tady - prostě koupit pivo! Přes PayPal můžete pak zaslat libovolnou částku.");
+            ab.setMessage("Condroid vyvíjím již 5 let. Aby vám zpříjemňoval pobyt na conech. A je k dispozici zdarma.\n\nPodpořte prosím další vývoj aplikace zasláním příspěvku. Nejjednodušší je to přímo tady - prostě koupit pivo! Přes PayPal pak můžete zaslat libovolnou částku.");
             ab.setCancelable(true);
 
 
