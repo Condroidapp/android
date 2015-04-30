@@ -11,16 +11,13 @@ import org.joda.time.format.ISODateTimeFormat;
 import java.lang.reflect.Type;
 import java.util.Date;
 
-/**
- * Created by Jan on 23.2.14.
- */
 public class DateTypeAdapter implements JsonDeserializer<Date> {
 
-    @Override
-    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        DateTimeFormatter format = ISODateTimeFormat
-                .dateTimeNoMillis();
+	@Override
+	public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+		DateTimeFormatter format = ISODateTimeFormat
+				.dateTimeNoMillis();
 
-        return format.parseDateTime(json.getAsJsonPrimitive().getAsString()).toDate();
-    }
+		return format.parseDateTime(json.getAsJsonPrimitive().getAsString()).toDate();
+	}
 }

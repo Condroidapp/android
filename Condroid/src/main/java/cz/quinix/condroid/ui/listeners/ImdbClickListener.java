@@ -14,41 +14,43 @@ import cz.quinix.condroid.model.Annotation;
  * Created by Jan on 14. 6. 2014.
  */
 public class ImdbClickListener implements View.OnClickListener {
-    private final Activity activity;
-    private final Annotation annotation;
 
-    private static boolean warningShown = false;
+	private final Activity activity;
 
-    public ImdbClickListener(Activity activity, Annotation annotation) {
+	private final Annotation annotation;
 
-        this.activity = activity;
-        this.annotation = annotation;
-    }
+	private static boolean warningShown = false;
 
-    @Override
-    public void onClick(View v) {
-        isImdbInstalled();
+	public ImdbClickListener(Activity activity, Annotation annotation) {
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("http://www.imdb.com/title/" + annotation.getImdb() + "/"));
-        activity.startActivity(intent);
+		this.activity = activity;
+		this.annotation = annotation;
+	}
 
-    }
+	@Override
+	public void onClick(View v) {
+		isImdbInstalled();
 
-    private boolean isImdbInstalled() {
-        PackageManager pm = activity.getPackageManager();
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse("http://www.imdb.com/title/" + annotation.getImdb() + "/"));
+		activity.startActivity(intent);
 
-        try {
-            if (pm != null) {
-                pm.getPackageInfo("com.imdb.mobile", PackageManager.GET_ACTIVITIES);
-                return true;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            if (!warningShown) {
-                Toast.makeText(activity, R.string.imdbNotInstalled, Toast.LENGTH_LONG).show();
-                warningShown = true;
-            }
-        }
-        return false;
-    }
+	}
+
+	private boolean isImdbInstalled() {
+		PackageManager pm = activity.getPackageManager();
+
+		try {
+			if (pm != null) {
+				pm.getPackageInfo("com.imdb.mobile", PackageManager.GET_ACTIVITIES);
+				return true;
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			if (!warningShown) {
+				Toast.makeText(activity, R.string.imdbNotInstalled, Toast.LENGTH_LONG).show();
+				warningShown = true;
+			}
+		}
+		return false;
+	}
 }

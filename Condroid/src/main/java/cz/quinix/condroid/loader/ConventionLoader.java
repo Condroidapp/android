@@ -9,15 +9,14 @@ import cz.quinix.condroid.model.Convention;
 
 public class ConventionLoader extends AListenedAsyncTask<Void, List<Convention>> {
 
-    public ConventionLoader(ITaskListener listener) {
-        super(listener);
-    }
+	public ConventionLoader(ITaskListener listener) {
+		super(listener);
+	}
 
-    @Override
-    public List<Convention> call() throws Exception {
-        CondroidApi service = getCondroidService();
-        return service.listEvents();
-    }
-
+	@Override
+	public List<Convention> call() throws Exception {
+		CondroidApi service = getCondroidService();
+		return service.listEvents();
+	}
 
 }

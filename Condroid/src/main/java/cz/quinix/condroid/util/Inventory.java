@@ -25,82 +25,84 @@ import java.util.Map;
  * An Inventory is returned by such methods as {@link IabHelper#queryInventory}.
  */
 public class Inventory {
-    Map<String, SkuDetails> mSkuMap = new HashMap<String, SkuDetails>();
-    Map<String, Purchase> mPurchaseMap = new HashMap<String, Purchase>();
 
-    Inventory() {
-    }
+	Map<String, SkuDetails> mSkuMap = new HashMap<String, SkuDetails>();
 
-    /**
-     * Returns the listing details for an in-app product.
-     */
-    public SkuDetails getSkuDetails(String sku) {
-        return mSkuMap.get(sku);
-    }
+	Map<String, Purchase> mPurchaseMap = new HashMap<String, Purchase>();
 
-    /**
-     * Returns purchase information for a given product, or null if there is no purchase.
-     */
-    public Purchase getPurchase(String sku) {
-        return mPurchaseMap.get(sku);
-    }
+	Inventory() {
+	}
 
-    /**
-     * Returns whether or not there exists a purchase of the given product.
-     */
-    public boolean hasPurchase(String sku) {
-        return mPurchaseMap.containsKey(sku);
-    }
+	/**
+	 * Returns the listing details for an in-app product.
+	 */
+	public SkuDetails getSkuDetails(String sku) {
+		return mSkuMap.get(sku);
+	}
 
-    /**
-     * Return whether or not details about the given product are available.
-     */
-    public boolean hasDetails(String sku) {
-        return mSkuMap.containsKey(sku);
-    }
+	/**
+	 * Returns purchase information for a given product, or null if there is no purchase.
+	 */
+	public Purchase getPurchase(String sku) {
+		return mPurchaseMap.get(sku);
+	}
 
-    /**
-     * Erase a purchase (locally) from the inventory, given its product ID. This just
-     * modifies the Inventory object locally and has no effect on the server! This is
-     * useful when you have an existing Inventory object which you know to be up to date,
-     * and you have just consumed an item successfully, which means that erasing its
-     * purchase data from the Inventory you already have is quicker than querying for
-     * a new Inventory.
-     */
-    public void erasePurchase(String sku) {
-        if (mPurchaseMap.containsKey(sku)) mPurchaseMap.remove(sku);
-    }
+	/**
+	 * Returns whether or not there exists a purchase of the given product.
+	 */
+	public boolean hasPurchase(String sku) {
+		return mPurchaseMap.containsKey(sku);
+	}
 
-    /**
-     * Returns a list of all owned product IDs.
-     */
-    List<String> getAllOwnedSkus() {
-        return new ArrayList<String>(mPurchaseMap.keySet());
-    }
+	/**
+	 * Return whether or not details about the given product are available.
+	 */
+	public boolean hasDetails(String sku) {
+		return mSkuMap.containsKey(sku);
+	}
 
-    /**
-     * Returns a list of all owned product IDs of a given type
-     */
-    List<String> getAllOwnedSkus(String itemType) {
-        List<String> result = new ArrayList<String>();
-        for (Purchase p : mPurchaseMap.values()) {
-            if (p.getItemType().equals(itemType)) result.add(p.getSku());
-        }
-        return result;
-    }
+	/**
+	 * Erase a purchase (locally) from the inventory, given its product ID. This just
+	 * modifies the Inventory object locally and has no effect on the server! This is
+	 * useful when you have an existing Inventory object which you know to be up to date,
+	 * and you have just consumed an item successfully, which means that erasing its
+	 * purchase data from the Inventory you already have is quicker than querying for
+	 * a new Inventory.
+	 */
+	public void erasePurchase(String sku) {
+		if (mPurchaseMap.containsKey(sku)) mPurchaseMap.remove(sku);
+	}
 
-    /**
-     * Returns a list of all purchases.
-     */
-    List<Purchase> getAllPurchases() {
-        return new ArrayList<Purchase>(mPurchaseMap.values());
-    }
+	/**
+	 * Returns a list of all owned product IDs.
+	 */
+	List<String> getAllOwnedSkus() {
+		return new ArrayList<String>(mPurchaseMap.keySet());
+	}
 
-    void addSkuDetails(SkuDetails d) {
-        mSkuMap.put(d.getSku(), d);
-    }
+	/**
+	 * Returns a list of all owned product IDs of a given type
+	 */
+	List<String> getAllOwnedSkus(String itemType) {
+		List<String> result = new ArrayList<String>();
+		for (Purchase p : mPurchaseMap.values()) {
+			if (p.getItemType().equals(itemType)) result.add(p.getSku());
+		}
+		return result;
+	}
 
-    void addPurchase(Purchase p) {
-        mPurchaseMap.put(p.getSku(), p);
-    }
+	/**
+	 * Returns a list of all purchases.
+	 */
+	List<Purchase> getAllPurchases() {
+		return new ArrayList<Purchase>(mPurchaseMap.values());
+	}
+
+	void addSkuDetails(SkuDetails d) {
+		mSkuMap.put(d.getSku(), d);
+	}
+
+	void addPurchase(Purchase p) {
+		mPurchaseMap.put(p.getSku(), p);
+	}
 }

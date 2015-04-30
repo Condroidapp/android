@@ -4,6 +4,6 @@ import android.content.ContentValues;
 
 public interface DBInsertable {
 
-    public ContentValues getContentValues();
+	public ContentValues getContentValues();
 
 }

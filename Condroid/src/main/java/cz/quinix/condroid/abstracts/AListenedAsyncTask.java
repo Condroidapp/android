@@ -21,62 +21,60 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 import roboguice.util.RoboAsyncTask;
 
-/**
- * Created by Jan on 13. 4. 2014.
- */
 public abstract class AListenedAsyncTask<Progress, Result> extends RoboAsyncTask<Result> {
 
-    @Inject
-    private Provider<Context> contextProvider;
-    private ITaskListener listener;
-    private Result results;
+	@Inject
+	private Provider<Context> contextProvider;
 
+	private ITaskListener listener;
 
-    public AListenedAsyncTask(ITaskListener listener) {
-        super(listener.getActivity());
-        this.listener = listener;
-    }
+	private Result results;
 
-    protected CondroidApi getCondroidService() {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Date.class, new DateTypeAdapter())
-                .registerTypeAdapter(AnnotationType.class, new AnnotationTypeAdapter())
-                .create();
-        RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint(CondroidApi.API_ENDPOINT)
-                .setConverter(new GsonConverter(gson))
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addHeader("X-Device-Info", CondroidActivity.getDeviceInfoString(listener.getActivity()));
-                    }
-                })
-                .build();
-        return adapter.create(CondroidApi.class);
-    }
+	public AListenedAsyncTask(ITaskListener listener) {
+		super(listener.getActivity());
+		this.listener = listener;
+	}
 
-    protected void onSuccess(Result results) throws Exception {
-        this.results = results;
-        this.listener.onTaskCompleted(this);
-    }
+	protected CondroidApi getCondroidService() {
+		Gson gson = new GsonBuilder()
+				.registerTypeAdapter(Date.class, new DateTypeAdapter())
+				.registerTypeAdapter(AnnotationType.class, new AnnotationTypeAdapter())
+				.create();
+		RestAdapter adapter = new RestAdapter.Builder()
+				.setEndpoint(CondroidApi.API_ENDPOINT)
+				.setConverter(new GsonConverter(gson))
+				.setRequestInterceptor(new RequestInterceptor() {
+					@Override
+					public void intercept(RequestFacade request) {
+						request.addHeader("X-Device-Info", CondroidActivity.getDeviceInfoString(listener.getActivity()));
+					}
+				})
+				.build();
+		return adapter.create(CondroidApi.class);
+	}
 
-    public Result getResults() {
-        return this.results;
-    }
+	protected void onSuccess(Result results) throws Exception {
+		this.results = results;
+		this.listener.onTaskCompleted(this);
+	}
 
-    @Override
-    protected void onException(Exception e) throws RuntimeException {
-        if (e instanceof RetrofitError) {
-            if (((RetrofitError) e).isNetworkError()) {
-                Toast.makeText(listener.getActivity(), R.string.networkError, Toast.LENGTH_LONG).show();
-                //return;
-            } else if (((RetrofitError) e).getResponse() != null && ((RetrofitError) e).getResponse().getStatus() >= 500) {
-                Toast.makeText(listener.getActivity(), R.string.serverError, Toast.LENGTH_LONG).show();
-                //return;
-            }
+	public Result getResults() {
+		return this.results;
+	}
 
-        }
-        super.onException(e);
-        listener.onTaskErrored(this);
-    }
+	@Override
+	protected void onException(Exception e) throws RuntimeException {
+		if (e instanceof RetrofitError) {
+			if (((RetrofitError) e).isNetworkError()) {
+				Toast.makeText(listener.getActivity(), R.string.networkError, Toast.LENGTH_LONG).show();
+				//return;
+			} else if (((RetrofitError) e).getResponse() != null && ((RetrofitError) e).getResponse().getStatus() >= 500) {
+				Toast.makeText(listener.getActivity(), R.string.serverError, Toast.LENGTH_LONG).show();
+				//return;
+			}
+
+		}
+		super.onException(e);
+		listener.onTaskErrored(this);
+	}
 }

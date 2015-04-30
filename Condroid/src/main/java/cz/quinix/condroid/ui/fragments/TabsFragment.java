@@ -13,117 +13,115 @@ import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragmen
 
 import cz.quinix.condroid.R;
 
-/**
- * Created by Jan on 1. 6. 2014.
- */
 public class TabsFragment extends RoboSherlockFragment {
 
-    public static final String TAG = TabsFragment.class
-            .getSimpleName();
-    private MyPagerAdapter adapter;
-    private ViewPager pager;
+	public static final String TAG = TabsFragment.class
+			.getSimpleName();
 
-    public static TabsFragment newInstance() {
-        return new TabsFragment();
-    }
+	private MyPagerAdapter adapter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
+	private ViewPager pager;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_parent_fragment, container, false);
-    }
+	public static TabsFragment newInstance() {
+		return new TabsFragment();
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
 
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view
-                .findViewById(R.id.tabs);
-        pager = (ViewPager) view.findViewById(R.id.pager);
-        adapter = new MyPagerAdapter(getChildFragmentManager());
-        pager.setAdapter(adapter);
-        tabs.setViewPager(pager);
-        pager.getCurrentItem();
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.main_parent_fragment, container, false);
+	}
 
-        //TODO on tab click
-    }
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 
-    public void refreshFragments() {
-        for (int i = 0; i < 2; i++) {
-            NewCondroidFragment fragment = (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag(this.getFragmentTag(i));
-            if (fragment != null) {
-                fragment.refresh();
-            }
+		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view
+				.findViewById(R.id.tabs);
+		pager = (ViewPager) view.findViewById(R.id.pager);
+		adapter = new MyPagerAdapter(getChildFragmentManager());
+		pager.setAdapter(adapter);
+		tabs.setViewPager(pager);
+		pager.getCurrentItem();
 
-        }
-    }
+		//TODO on tab click
+	}
 
-    public void handleSearch(String query) {
-        NewCondroidFragment activeFragment = this.getActiveFragment();
+	public void refreshFragments() {
+		for (int i = 0; i < 2; i++) {
+			NewCondroidFragment fragment = (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag(this.getFragmentTag(i));
+			if (fragment != null) {
+				fragment.refresh();
+			}
 
-        activeFragment.handleSearch(query);
-    }
+		}
+	}
 
-    public NewCondroidFragment getActiveFragment() {
-        return (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag(getFragmentTag(pager.getCurrentItem()));
-    }
+	public void handleSearch(String query) {
+		NewCondroidFragment activeFragment = this.getActiveFragment();
 
-    private String getFragmentTag(int item) {
-        return "android:switcher:" + R.id.pager + ":" + item;
-    }
+		activeFragment.handleSearch(query);
+	}
 
-    public class MyPagerAdapter extends FragmentPagerAdapter {
+	public NewCondroidFragment getActiveFragment() {
+		return (NewCondroidFragment) this.getChildFragmentManager().findFragmentByTag(getFragmentTag(pager.getCurrentItem()));
+	}
 
+	private String getFragmentTag(int item) {
+		return "android:switcher:" + R.id.pager + ":" + item;
+	}
 
-        // private SparseArray<NewCondroidFragment> pageReferenceMap;
+	public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
-            super(fm);
-            // pageReferenceMap = new SparseArray<NewCondroidFragment>();
-        }
+		// private SparseArray<NewCondroidFragment> pageReferenceMap;
 
-        private final int[] TITLES = {R.string.tRunning, R.string.tAll};
+		public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
+			super(fm);
+			// pageReferenceMap = new SparseArray<NewCondroidFragment>();
+		}
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return TabsFragment.this.getString(TITLES[position]);
-        }
+		private final int[] TITLES = {R.string.tRunning, R.string.tAll};
 
-        @Override
-        public int getCount() {
-            return TITLES.length;
-        }
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return TabsFragment.this.getString(TITLES[position]);
+		}
 
-        @Override
-        public SherlockFragment getItem(int position) {
-            NewCondroidFragment fragment = null;
-            switch (position) {
-                case 0:
-                    fragment = TimetableFragment.newInstance();
-                    break;
-                case 1:
-                    fragment = FullListFragment.newInstance();
-                    break;
-            }
-            /*if(fragment != null) {
+		@Override
+		public int getCount() {
+			return TITLES.length;
+		}
+
+		@Override
+		public SherlockFragment getItem(int position) {
+			NewCondroidFragment fragment = null;
+			switch (position) {
+				case 0:
+					fragment = TimetableFragment.newInstance();
+					break;
+				case 1:
+					fragment = FullListFragment.newInstance();
+					break;
+			}
+			/*if(fragment != null) {
                 this.pageReferenceMap.put(position, fragment);
             }*/
-            return fragment;
-        }
+			return fragment;
+		}
 
         /* public NewCondroidFragment getFragment(int position) {
             return this.pageReferenceMap.get(position);
         }*/
 
-        //  public SparseArray<NewCondroidFragment> getFragments() {
-        // return pageReferenceMap;
-        //  }
-    }
+		//  public SparseArray<NewCondroidFragment> getFragments() {
+		// return pageReferenceMap;
+		//  }
+	}
 
 }

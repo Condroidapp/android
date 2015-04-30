@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cz.quinix.condroid" >
+    package="cz.quinix.condroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -11,7 +11,8 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/appName"
-        android:theme="@style/Theme.Condroid" android:allowBackup="true" >
+        android:theme="@style/Theme.Condroid"
+        android:allowBackup="true">
         <activity
             android:name="cz.quinix.condroid.ui.activities.ShowAnnotation"
             android:uiOptions="splitActionBarWhenNarrow" />
@@ -19,22 +20,21 @@
         <activity
             android:name="cz.quinix.condroid.ui.activities.WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Condroid.NoBar" >
+            android:theme="@style/Theme.Condroid.NoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="cz.quinix.condroid.ui.ReminderList" />
-        <activity android:name=".ui.activities.NeighbourhoodActivity"/>
-        <activity android:name=".ui.activities.NeighbourhoodListActivity"/>
+        <activity android:name="cz.quinix.condroid.ui.ReminderList" />
+        <activity android:name=".ui.activities.NeighbourhoodActivity" />
+        <activity android:name=".ui.activities.NeighbourhoodListActivity" />
 
 
         <service android:name="cz.quinix.condroid.service.ReminderTask" />
 
-        <receiver android:name="cz.quinix.condroid.service.BootReceiver" >
+        <receiver android:name="cz.quinix.condroid.service.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 
@@ -44,7 +44,8 @@
 
         <activity
             android:name="cz.quinix.condroid.ui.activities.MainActivity"
-            android:label="@string/title_activity_main" android:launchMode="singleTop" >
+            android:label="@string/title_activity_main"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

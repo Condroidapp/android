@@ -9,35 +9,32 @@ import cz.quinix.condroid.ui.adapters.AnnotationAdapter;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.IAdapterDataProvider;
 
-/**
- * Created by Jan on 1. 6. 2014.
- */
 public class FullListFragment extends NewCondroidFragment {
 
-    public static NewCondroidFragment newInstance() {
-        return new FullListFragment();
-    }
+	public static NewCondroidFragment newInstance() {
+		return new FullListFragment();
+	}
 
-    @Override
-    protected EndlessAdapter createListViewAdapter() {
-        final SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
-        List<Annotation> annotations = this.loadData(sb, 0);
+	@Override
+	protected EndlessAdapter createListViewAdapter() {
+		final SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());
+		List<Annotation> annotations = this.loadData(sb, 0);
 
-        return new EndlessAdapter(this.getActivity(), new AnnotationAdapter(this.getActivity(), annotations), new IAdapterDataProvider() {
-            @Override
-            public List getData(int page) {
-                return loadData(sb, page);
-            }
-        });
-    }
+		return new EndlessAdapter(this.getActivity(), new AnnotationAdapter(this.getActivity(), annotations), new IAdapterDataProvider() {
+			@Override
+			public List getData(int page) {
+				return loadData(sb, page);
+			}
+		});
+	}
 
-    @Override
-    protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
-        return dataProvider.getAnnotations(sb, page);
-    }
+	@Override
+	protected List<Annotation> loadData(SearchQueryBuilder sb, int page) {
+		return dataProvider.getAnnotations(sb, page);
+	}
 
     /*public void applySearch() {
-        if (lwMain == null) {
+		if (lwMain == null) {
             return; //not initiated - fuck off
         }
         SearchQueryBuilder sb = SearchProvider.getSearchQueryBuilder(this.getClass().getName());

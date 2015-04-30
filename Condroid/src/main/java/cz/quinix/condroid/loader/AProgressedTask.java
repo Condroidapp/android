@@ -7,55 +7,54 @@ import android.content.DialogInterface;
 import cz.quinix.condroid.abstracts.AListenedAsyncTask;
 import cz.quinix.condroid.abstracts.ITaskListener;
 
-/**
- * Created by Jan on 27. 4. 2014.
- */
 public abstract class AProgressedTask<Progress, Result> extends AListenedAsyncTask<Progress, Result> {
 
-    protected ProgressDialog pd;
-    private Activity parent;
-    protected String pdString;
+	protected ProgressDialog pd;
 
-    public AProgressedTask(ITaskListener listener, Activity parent) {
-        super(listener);
+	private Activity parent;
 
-        this.parent = parent;
-    }
+	protected String pdString;
 
-    @Override
-    protected void onPreExecute() throws Exception {
-        super.onPreExecute();
-        this.showDialog();
-    }
+	public AProgressedTask(ITaskListener listener, Activity parent) {
+		super(listener);
 
-    @Override
-    protected void onFinally() throws RuntimeException {
-        super.onFinally();
-        if (this.pd != null && this.pd.isShowing()) {
-            this.pd.dismiss();
-        }
-    }
+		this.parent = parent;
+	}
 
-    protected void showDialog() {
-        if (this.pd != null && this.pd.isShowing()) {
-            return;
-        }
-        if (parent != null) {
-            this.pd = new ProgressDialog(parent);
-            this.pd.setMessage(pdString);
-           /* if (this.pdMax > 0) {
+	@Override
+	protected void onPreExecute() throws Exception {
+		super.onPreExecute();
+		this.showDialog();
+	}
+
+	@Override
+	protected void onFinally() throws RuntimeException {
+		super.onFinally();
+		if (this.pd != null && this.pd.isShowing()) {
+			this.pd.dismiss();
+		}
+	}
+
+	protected void showDialog() {
+		if (this.pd != null && this.pd.isShowing()) {
+			return;
+		}
+		if (parent != null) {
+			this.pd = new ProgressDialog(parent);
+			this.pd.setMessage(pdString);
+		   /* if (this.pdMax > 0) {
                 this.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 pd.setMax(pdMax);
             }*/
-            pd.setCancelable(true);
-            pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    dialogInterface.dismiss();
-                    AProgressedTask.this.cancel(true);
-                }
-            });
-            pd.show();
-        }
-    }
+			pd.setCancelable(true);
+			pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialogInterface) {
+					dialogInterface.dismiss();
+					AProgressedTask.this.cancel(true);
+				}
+			});
+			pd.show();
+		}
+	}
 }

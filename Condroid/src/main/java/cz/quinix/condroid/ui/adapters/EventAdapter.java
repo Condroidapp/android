@@ -16,55 +16,55 @@ import java.util.Locale;
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.model.Convention;
 
-/**
- * Created by Jan on 27. 4. 2014.
- */
 public class EventAdapter extends ArrayAdapter<Convention> {
 
-    private int layout;
-    private List<Convention> data;
+	private int layout;
 
-    private DateFormat generalFormat = new SimpleDateFormat("EE dd.MM.",
-            new Locale("cs", "CZ"));
+	private List<Convention> data;
 
-    public EventAdapter(Context context, List<Convention> data) {
-        super(context, R.layout.event_item_layout, data);
-        this.layout = R.layout.event_item_layout;
-        this.data = data;
-    }
+	private DateFormat generalFormat = new SimpleDateFormat("EE dd.MM.",
+			new Locale("cs", "CZ"));
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View row = convertView;
-        EventViewHolder holder = null;
+	public EventAdapter(Context context, List<Convention> data) {
+		super(context, R.layout.event_item_layout, data);
+		this.layout = R.layout.event_item_layout;
+		this.data = data;
+	}
 
-        if (row == null) {
-            LayoutInflater inflater = ((Activity) this.getContext()).getLayoutInflater();
-            row = inflater.inflate(layout, parent, false);
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View row = convertView;
+		EventViewHolder holder = null;
 
-            holder = new EventViewHolder();
-            holder.title = (TextView) row.findViewById(R.id.tEventTitle);
-            holder.subtitle = (TextView) row.findViewById(R.id.tEventSubtitle);
+		if (row == null) {
+			LayoutInflater inflater = ((Activity) this.getContext()).getLayoutInflater();
+			row = inflater.inflate(layout, parent, false);
 
-            row.setTag(holder);
-        } else {
-            holder = (EventViewHolder) row.getTag();
-        }
+			holder = new EventViewHolder();
+			holder.title = (TextView) row.findViewById(R.id.tEventTitle);
+			holder.subtitle = (TextView) row.findViewById(R.id.tEventSubtitle);
 
-        Convention event = data.get(position);
-        holder.title.setText(event.getName());
+			row.setTag(holder);
+		} else {
+			holder = (EventViewHolder) row.getTag();
+		}
 
-        String date = "";
-        if (event.getDate() != null) {
-            date = event.getDate();
-        }
-        holder.subtitle.setText(date);
+		Convention event = data.get(position);
+		holder.title.setText(event.getName());
 
-        return row;
-    }
+		String date = "";
+		if (event.getDate() != null) {
+			date = event.getDate();
+		}
+		holder.subtitle.setText(date);
 
-    static class EventViewHolder {
-        TextView title;
-        TextView subtitle;
-    }
+		return row;
+	}
+
+	static class EventViewHolder {
+
+		TextView title;
+
+		TextView subtitle;
+	}
 }

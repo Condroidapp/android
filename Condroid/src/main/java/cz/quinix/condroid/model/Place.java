@@ -10,154 +10,158 @@ import java.io.Serializable;
 
 import cz.quinix.condroid.abstracts.DBInsertable;
 
-/**
- * Created by Jan on 21. 6. 2014.
- */
 public class Place implements Serializable, DBInsertable {
 
-    public static final int STATE_OPEN = 1;
-    public static final int STATE_CLOSED = 0;
-    public static final int STATE_UNKNOWN = -1;
+	public static final int STATE_OPEN = 1;
 
-    private int id;
-    private String name;
-    private String description;
+	public static final int STATE_CLOSED = 0;
 
-    private PlaceHours hours;
+	public static final int STATE_UNKNOWN = -1;
 
+	private int id;
 
-    private int sort;
-    private String category;
-    private int categorySort;
+	private String name;
 
-    private Gps gps;
-    private String[] address;
-    private String url;
+	private String description;
 
-    public int getId() {
-        return id;
-    }
+	private PlaceHours hours;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	private int sort;
 
-    public String getName() {
-        return name;
-    }
+	private String category;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	private int categorySort;
 
-    public String getDescription() {
-        return description;
-    }
+	private Gps gps;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	private String[] address;
 
-    public PlaceHours getHours() {
-        return hours;
-    }
+	private String url;
 
-    public void setHours(PlaceHours hours) {
-        this.hours = hours;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public int getSort() {
-        return sort;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getCategory() {
-        return category;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public int getCategorySort() {
-        return categorySort;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setCategorySort(int categorySort) {
-        this.categorySort = categorySort;
-    }
+	public PlaceHours getHours() {
+		return hours;
+	}
 
-    public Gps getGps() {
-        return gps;
-    }
+	public void setHours(PlaceHours hours) {
+		this.hours = hours;
+	}
 
-    public void setGps(Gps gps) {
-        this.gps = gps;
-    }
+	public int getSort() {
+		return sort;
+	}
 
-    public String[] getAddress() {
-        return address;
-    }
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
 
-    public void setAddress(String[] address) {
-        this.address = address;
-    }
+	public String getCategory() {
+		return category;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public int getCategorySort() {
+		return categorySort;
+	}
 
-    @Override
-    public ContentValues getContentValues() {
-        ContentValues c = new ContentValues();
+	public void setCategorySort(int categorySort) {
+		this.categorySort = categorySort;
+	}
 
-        c.put("name", name);
-        c.put("description", description);
-        c.put("hours", new Gson().toJson(hours));
-        c.put("sort", sort);
-        c.put("category", category);
-        c.put("category_sort", categorySort);
-        c.put("gps", gps != null ? gps.lat + ";" + gps.lon : null);
-        c.put("address", StringUtils.join(address, ";"));
-        c.put("id", id);
-        c.put("url", url);
+	public Gps getGps() {
+		return gps;
+	}
 
-        return c;
-    }
+	public void setGps(Gps gps) {
+		this.gps = gps;
+	}
 
-    public void setAddress(String string) {
-        this.address = string.split(";");
-    }
+	public String[] getAddress() {
+		return address;
+	}
 
-    public void setHours(String hours) {
-        this.hours = new Gson().fromJson(hours, PlaceHours.class);
-    }
+	public void setAddress(String[] address) {
+		this.address = address;
+	}
 
-    public void setGps(String string) {
+	public String getUrl() {
+		return url;
+	}
 
-        if (string == null) {
-            return;
-        }
-        String[] x = string.split(";");
-        if (x.length > 0) {
-            this.gps = new Gps();
-            gps.lat = Float.parseFloat(x[0]);
-            gps.lon = Float.parseFloat(x[1]);
-        }
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public int isOpen() {
-        if (hours == null) {
-            return STATE_UNKNOWN;
-        }
+	@Override
+	public ContentValues getContentValues() {
+		ContentValues c = new ContentValues();
 
-        return hours.isOpen();
-    }
+		c.put("name", name);
+		c.put("description", description);
+		c.put("hours", new Gson().toJson(hours));
+		c.put("sort", sort);
+		c.put("category", category);
+		c.put("category_sort", categorySort);
+		c.put("gps", gps != null ? gps.lat + ";" + gps.lon : null);
+		c.put("address", StringUtils.join(address, ";"));
+		c.put("id", id);
+		c.put("url", url);
+
+		return c;
+	}
+
+	public void setAddress(String string) {
+		this.address = string.split(";");
+	}
+
+	public void setHours(String hours) {
+		this.hours = new Gson().fromJson(hours, PlaceHours.class);
+	}
+
+	public void setGps(String string) {
+
+		if (string == null) {
+			return;
+		}
+		String[] x = string.split(";");
+		if (x.length > 0) {
+			this.gps = new Gps();
+			gps.lat = Float.parseFloat(x[0]);
+			gps.lon = Float.parseFloat(x[1]);
+		}
+	}
+
+	public int isOpen() {
+		if (hours == null) {
+			return STATE_UNKNOWN;
+		}
+
+		return hours.isOpen();
+	}
 }

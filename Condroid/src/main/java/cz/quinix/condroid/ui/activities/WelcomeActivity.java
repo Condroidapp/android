@@ -33,115 +33,115 @@ import roboguice.inject.InjectView;
 
 public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITaskListener {
 
-    @Inject
-    private DataProvider database;
+	@Inject
+	private DataProvider database;
 
-    @InjectView(R.id.pbEvents)
-    private ProgressBar progressBar;
-    @InjectView(R.id.lEventSelector)
-    private ListView listView;
-    @InjectView(R.id.layProgressEvents)
-    private LinearLayout layProgressEvents;
-    @InjectView(R.id.layEventSelector)
-    private LinearLayout layEventSelector;
+	@InjectView(R.id.pbEvents)
+	private ProgressBar progressBar;
 
+	@InjectView(R.id.lEventSelector)
+	private ListView listView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        System.setProperty("org.joda.time.DateTimeZone.Provider",
-                "cz.quinix.condroid.FastJodaTimeZoneProvider");
+	@InjectView(R.id.layProgressEvents)
+	private LinearLayout layProgressEvents;
 
-        this.setContentView(R.layout.welcome);
+	@InjectView(R.id.layEventSelector)
+	private LinearLayout layEventSelector;
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		System.setProperty("org.joda.time.DateTimeZone.Provider",
+				"cz.quinix.condroid.FastJodaTimeZoneProvider");
 
-        this.load();
+		this.setContentView(R.layout.welcome);
 
-    }
+		this.load();
 
-    private void load() {
-        layEventSelector.setVisibility(View.GONE);
-        layProgressEvents.setVisibility(View.VISIBLE);
-        progressBar.setIndeterminate(true);
-        boolean force = this.getIntent().getBooleanExtra("force", false);
-        if (database.hasData() && !force) {
-            Log.d(this.getClass().getName(), "Screen goto: Annotation list");
-            this.startProgramActivity();
-            return;
-        }
+	}
 
-        ConventionLoader task = new ConventionLoader(this);
-        task.execute();
-    }
+	private void load() {
+		layEventSelector.setVisibility(View.GONE);
+		layProgressEvents.setVisibility(View.VISIBLE);
+		progressBar.setIndeterminate(true);
+		boolean force = this.getIntent().getBooleanExtra("force", false);
+		if (database.hasData() && !force) {
+			Log.d(this.getClass().getName(), "Screen goto: Annotation list");
+			this.startProgramActivity();
+			return;
+		}
 
+		ConventionLoader task = new ConventionLoader(this);
+		task.execute();
+	}
 
-    @Override
-    public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
-        if (task instanceof ConventionLoader) {
-            this.onEventsLoaded(((ConventionLoader) task).getResults());
-        } else if (task instanceof DatabaseLoader) {
-            this.showMessage();
-            this.startProgramActivity();
-        } else {
-            throw new IllegalArgumentException("Instance of " + task.getClass().getName() + " is not supported in this handler.");
-        }
-    }
+	@Override
+	public void onTaskCompleted(AListenedAsyncTask<?, ?> task) {
+		if (task instanceof ConventionLoader) {
+			this.onEventsLoaded(((ConventionLoader) task).getResults());
+		} else if (task instanceof DatabaseLoader) {
+			this.showMessage();
+			this.startProgramActivity();
+		} else {
+			throw new IllegalArgumentException("Instance of " + task.getClass().getName() + " is not supported in this handler.");
+		}
+	}
 
-    private void showMessage() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+	private void showMessage() {
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (!database.getCon().getMessage().equals("")) {
-            AlertDialog.Builder ab = new AlertDialog.Builder(this);
-            ab.setTitle(database.getCon().getName());
-            ab.setMessage(database.getCon().getMessage());
-            ab.setCancelable(true);
-            ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-            ab.create().show();
-        }
-    }
+		if (!database.getCon().getMessage().equals("")) {
+			AlertDialog.Builder ab = new AlertDialog.Builder(this);
+			ab.setTitle(database.getCon().getName());
+			ab.setMessage(database.getCon().getMessage());
+			ab.setCancelable(true);
+			ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					dialogInterface.dismiss();
+				}
+			});
+			ab.create().show();
+		}
+	}
 
-    private void onEventsLoaded(final List<Convention> results) {
-        EventAdapter adapter = new EventAdapter(this, results);
+	private void onEventsLoaded(final List<Convention> results) {
+		EventAdapter adapter = new EventAdapter(this, results);
 
-        listView.setAdapter(adapter);
-        listView.setClickable(true);
+		listView.setAdapter(adapter);
+		listView.setClickable(true);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Convention item = results.get(position);
-                Downloader loader = new Downloader(WelcomeActivity.this, item);
-                loader.invoke();
-            }
-        });
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Convention item = results.get(position);
+				Downloader loader = new Downloader(WelcomeActivity.this, item);
+				loader.invoke();
+			}
+		});
 
-        layEventSelector.setVisibility(View.VISIBLE);
-        layProgressEvents.setVisibility(View.GONE);
-    }
+		layEventSelector.setVisibility(View.VISIBLE);
+		layProgressEvents.setVisibility(View.GONE);
+	}
 
-    private void startProgramActivity() {
-        if (this.database.hasData()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            this.startActivity(intent);
-            this.finish();
-        } else {
-            Toast.makeText(this, "Nebyly nalezeny žádná data pro tuto událost.", Toast.LENGTH_LONG).show();
-        }
-    }
+	private void startProgramActivity() {
+		if (this.database.hasData()) {
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			this.startActivity(intent);
+			this.finish();
+		} else {
+			Toast.makeText(this, "Nebyly nalezeny žádná data pro tuto událost.", Toast.LENGTH_LONG).show();
+		}
+	}
 
-    @Override
-    public Activity getActivity() {
-        return this;
-    }
+	@Override
+	public Activity getActivity() {
+		return this;
+	}
 
-    @Override
-    public void onTaskErrored(AListenedAsyncTask task) {
+	@Override
+	public void onTaskErrored(AListenedAsyncTask task) {
 
-    }
+	}
 }

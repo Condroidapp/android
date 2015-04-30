@@ -23,130 +23,127 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Place;
 
-/**
- * Created by Jan on 22. 6. 2014.
- */
 public class NeighbourhoodListActivity extends RoboSherlockListActivity {
 
-    @Inject
-    private DataProvider provider;
+	@Inject
+	private DataProvider provider;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        this.setListAdapter(new NeighbourhoodOuterAdapter(this, this.prepareGroups(provider.getPlaces())));
-        ListView listView = getListView();
-        listView.setBackgroundColor(getResources().getColor(R.color.lightgray));
+		this.setListAdapter(new NeighbourhoodOuterAdapter(this, this.prepareGroups(provider.getPlaces())));
+		ListView listView = getListView();
+		listView.setBackgroundColor(getResources().getColor(R.color.lightgray));
 
+	}
 
-    }
+	private List<PlaceGroup> prepareGroups(List<Place> places) {
+		List<PlaceGroup> list = new ArrayList<PlaceGroup>();
+		PlaceGroup actual = null;
 
-    private List<PlaceGroup> prepareGroups(List<Place> places) {
-        List<PlaceGroup> list = new ArrayList<PlaceGroup>();
-        PlaceGroup actual = null;
+		for (Place place : places) {
 
-        for (Place place : places) {
+			if (actual == null || !actual.category.equals(place.getCategory())) {
+				actual = new PlaceGroup();
+				actual.category = place.getCategory();
+				list.add(actual);
+			}
+			actual.places.add(place);
+		}
+		return list;
+	}
 
-            if (actual == null || !actual.category.equals(place.getCategory())) {
-                actual = new PlaceGroup();
-                actual.category = place.getCategory();
-                list.add(actual);
-            }
-            actual.places.add(place);
-        }
-        return list;
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				Intent intent = new Intent(this, MainActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				return true;
+			default:
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	private class PlaceGroup {
 
-    private class PlaceGroup {
-        public String category;
-        public List<Place> places = new ArrayList<Place>();
-    }
+		public String category;
 
-    private class NeighbourhoodOuterAdapter extends ArrayAdapter<PlaceGroup> {
+		public List<Place> places = new ArrayList<Place>();
+	}
 
-        public NeighbourhoodOuterAdapter(Context context, List<PlaceGroup> objects) {
-            super(context, R.layout.neighbourhood_list_item, objects);
-        }
+	private class NeighbourhoodOuterAdapter extends ArrayAdapter<PlaceGroup> {
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            PlaceGroup r = this.getItem(position);
+		public NeighbourhoodOuterAdapter(Context context, List<PlaceGroup> objects) {
+			super(context, R.layout.neighbourhood_list_item, objects);
+		}
 
-            View v = convertView;
-            if (v == null) {
-                v = ((LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.neighbourhood_list_item, parent, false);
-            }
-            TextView title = (TextView) v.findViewById(R.id.tTitle);
-            LinearLayout listView = (LinearLayout) v.findViewById(R.id.item_holder);
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			PlaceGroup r = this.getItem(position);
 
-            if (r != null) {
-                title.setText(r.category);
+			View v = convertView;
+			if (v == null) {
+				v = ((LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.neighbourhood_list_item, parent, false);
+			}
+			TextView title = (TextView) v.findViewById(R.id.tTitle);
+			LinearLayout listView = (LinearLayout) v.findViewById(R.id.item_holder);
 
-                this.createInnerContent(listView, r.places);
-                return v;
-            }
+			if (r != null) {
+				title.setText(r.category);
 
-            return super.getView(position, convertView, parent);
-        }
+				this.createInnerContent(listView, r.places);
+				return v;
+			}
 
-        private void createInnerContent(LinearLayout listView, List<Place> places) {
-            for (final Place place : places) {
-                View child = getLayoutInflater().inflate(R.layout.neighbourhood_list_item_item, null);
+			return super.getView(position, convertView, parent);
+		}
 
-                TextView item = (TextView) child.findViewById(R.id.tTitle);
-                item.setText(place.getName());
-                item.setClickable(true);
-                item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(NeighbourhoodListActivity.this, NeighbourhoodActivity.class);
-                        i.putExtra("place", place);
-                        startActivity(i);
-                    }
-                });
+		private void createInnerContent(LinearLayout listView, List<Place> places) {
+			for (final Place place : places) {
+				View child = getLayoutInflater().inflate(R.layout.neighbourhood_list_item_item, null);
 
-                TextView open = (TextView) child.findViewById(R.id.tOpenIcon);
-                this.setIcon(open, place.isOpen());
+				TextView item = (TextView) child.findViewById(R.id.tTitle);
+				item.setText(place.getName());
+				item.setClickable(true);
+				item.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent i = new Intent(NeighbourhoodListActivity.this, NeighbourhoodActivity.class);
+						i.putExtra("place", place);
+						startActivity(i);
+					}
+				});
 
+				TextView open = (TextView) child.findViewById(R.id.tOpenIcon);
+				this.setIcon(open, place.isOpen());
 
-                listView.addView(child);
-            }
-        }
+				listView.addView(child);
+			}
+		}
 
-        private void setIcon(TextView open, int state) {
-            Typeface type = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-            open.setTypeface(type);
+		private void setIcon(TextView open, int state) {
+			Typeface type = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+			open.setTypeface(type);
 
-            open.setText(R.string.fa_circle);
+			open.setText(R.string.fa_circle);
 
-            switch (state) {
-                case Place.STATE_OPEN:
-                    open.setTextColor(getResources().getColor(R.color.condroidGreen));
-                    break;
-                case Place.STATE_CLOSED:
-                    open.setTextColor(getResources().getColor(R.color.red));
-                    break;
-                default:
-                    open.setTextColor(getResources().getColor(R.color.gray));
-            }
-        }
-    }
+			switch (state) {
+				case Place.STATE_OPEN:
+					open.setTextColor(getResources().getColor(R.color.condroidGreen));
+					break;
+				case Place.STATE_CLOSED:
+					open.setTextColor(getResources().getColor(R.color.red));
+					break;
+				default:
+					open.setTextColor(getResources().getColor(R.color.gray));
+			}
+		}
+	}
 
 }

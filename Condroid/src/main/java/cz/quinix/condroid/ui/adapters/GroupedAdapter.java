@@ -20,191 +20,192 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.model.Annotation;
 import roboguice.RoboGuice;
 
-/**
- * Created by Jan on 8. 5. 2014.
- */
 public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplaceable {
 
-    private final Context context;
-    List<Entry> entries;
-    @Inject
-    ViewHelper viewHelper;
+	private final Context context;
 
-    public GroupedAdapter(Context context, List<Annotation> items) {
-        this.context = context;
-        RoboGuice.getInjector(context).injectMembers(this);
-        this.entries = new ArrayList<Entry>();
+	List<Entry> entries;
 
-        this.addAnnotations(items);
-    }
+	@Inject
+	ViewHelper viewHelper;
 
-    private void addAnnotations(List<Annotation> items) {
-        if (items.size() == 0) {
-            return;
-        }
+	public GroupedAdapter(Context context, List<Annotation> items) {
+		this.context = context;
+		RoboGuice.getInjector(context).injectMembers(this);
+		this.entries = new ArrayList<Entry>();
 
-        Collections.sort(items, new Comparator<Annotation>() {
-            @Override
-            public int compare(Annotation lhs, Annotation rhs) {
-                return lhs.getStart().compareTo(rhs.getStart());
-            }
-        });
-        Date previous = null;
-        if (!this.entries.isEmpty()) {
-            for (int i = this.entries.size() - 1; i > 0; i--) {
-                Entry item = this.entries.get(i);
-                if (!item.isSeparator()) {
-                    previous = item.annotation.getStart();
-                    break;
-                }
-            }
-        }
-        if (previous == null) {
-            previous = items.get(0).getStart();
-            this.entries.add(new Entry(previous));
-        }
+		this.addAnnotations(items);
+	}
 
-        for (Annotation annotation : items) {
-            if (!annotation.getStart().equals(previous)) {
-                this.entries.add(new Entry(annotation.getStart()));
-                previous = annotation.getStart();
-            }
-            this.entries.add(new Entry(annotation));
-        }
+	private void addAnnotations(List<Annotation> items) {
+		if (items.size() == 0) {
+			return;
+		}
 
-    }
+		Collections.sort(items, new Comparator<Annotation>() {
+			@Override
+			public int compare(Annotation lhs, Annotation rhs) {
+				return lhs.getStart().compareTo(rhs.getStart());
+			}
+		});
+		Date previous = null;
+		if (!this.entries.isEmpty()) {
+			for (int i = this.entries.size() - 1; i > 0; i--) {
+				Entry item = this.entries.get(i);
+				if (!item.isSeparator()) {
+					previous = item.annotation.getStart();
+					break;
+				}
+			}
+		}
+		if (previous == null) {
+			previous = items.get(0).getStart();
+			this.entries.add(new Entry(previous));
+		}
 
+		for (Annotation annotation : items) {
+			if (!annotation.getStart().equals(previous)) {
+				this.entries.add(new Entry(annotation.getStart()));
+				previous = annotation.getStart();
+			}
+			this.entries.add(new Entry(annotation));
+		}
 
-    @Override
-    public int getCount() {
-        return this.entries.size();
-    }
+	}
 
-    @Override
-    public Entry getItem(int position) {
-        return this.entries.get(position);
-    }
+	@Override
+	public int getCount() {
+		return this.entries.size();
+	}
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+	@Override
+	public Entry getItem(int position) {
+		return this.entries.get(position);
+	}
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.annotation_list_item, parent, false);
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
-            if (convertView == null) {
-                return null;
-            }
-            viewHelper.setFavoritedIcon(this.context.getAssets(), convertView);
-            ViewHolder holder = new ViewHolder();
-            this.viewHelper.initializeItemLayout(convertView, holder);
-            holder.runningTitle = (TextView) convertView.findViewById(R.id.tRunningTitle);
-            convertView.setTag(R.id.listItem, holder);
-        }
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if (convertView == null) {
+			LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
+			convertView = inflater.inflate(R.layout.annotation_list_item, parent, false);
 
-        Entry entry;
-        try {
-            entry = this.getItem(position);
-        } catch (IndexOutOfBoundsException e) {
-            return null;
-        }
-        if (entry != null) {
-            this.setLayout(convertView, entry);
-            if (entry.isSeparator()) {
-                ViewHolder holder = (ViewHolder) this.viewHelper.getViewHolder(convertView);
-                return this.inflanteSeparator(convertView, entry.header, holder);
-            } else {
-                return this.viewHelper.inflateAnnotation(convertView, entry.annotation);
-            }
-        }
+			if (convertView == null) {
+				return null;
+			}
+			viewHelper.setFavoritedIcon(this.context.getAssets(), convertView);
+			ViewHolder holder = new ViewHolder();
+			this.viewHelper.initializeItemLayout(convertView, holder);
+			holder.runningTitle = (TextView) convertView.findViewById(R.id.tRunningTitle);
+			convertView.setTag(R.id.listItem, holder);
+		}
 
-        return null;
-    }
+		Entry entry;
+		try {
+			entry = this.getItem(position);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+		if (entry != null) {
+			this.setLayout(convertView, entry);
+			if (entry.isSeparator()) {
+				ViewHolder holder = (ViewHolder) this.viewHelper.getViewHolder(convertView);
+				return this.inflanteSeparator(convertView, entry.header, holder);
+			} else {
+				return this.viewHelper.inflateAnnotation(convertView, entry.annotation);
+			}
+		}
 
-    private void setLayout(View v, Entry item) {
-        LayoutHolder lh = (LayoutHolder) v.getTag(R.id.layoutList);
-        if (lh == null) {
-            lh = new LayoutHolder();
-            lh.separatorLayout = v.findViewById(R.id.ldateLayout);
-            lh.itemLayout = v.findViewById(R.id.lItemLayout);
-            v.setTag(R.id.layoutList, lh);
-        }
-        if (item.isSeparator()) {
-            lh.separatorLayout.setVisibility(View.VISIBLE);
-            lh.itemLayout.setVisibility(View.GONE);
-        } else {
-            lh.itemLayout.setVisibility(View.VISIBLE);
-            lh.separatorLayout.setVisibility(View.GONE);
-        }
-    }
+		return null;
+	}
 
-    private View inflanteSeparator(View view, Date header, ViewHolder holder) {
-        if (header.before(new Date())) {
-            holder.runningTitle.setText(R.string.runningNow);
-        } else {
-            if (this.viewHelper.isDateToday(header)) {
-                holder.runningTitle.setText(this.context.getString(R.string.today) + ", " + ViewHelper.todayFormat.format(header));
-            } else {
-                holder.runningTitle.setText(ViewHelper.dayFormat.format(header));
-            }
-        }
-        view.setFocusable(false);
-        view.setClickable(false);
-        return view;
-    }
+	private void setLayout(View v, Entry item) {
+		LayoutHolder lh = (LayoutHolder) v.getTag(R.id.layoutList);
+		if (lh == null) {
+			lh = new LayoutHolder();
+			lh.separatorLayout = v.findViewById(R.id.ldateLayout);
+			lh.itemLayout = v.findViewById(R.id.lItemLayout);
+			v.setTag(R.id.layoutList, lh);
+		}
+		if (item.isSeparator()) {
+			lh.separatorLayout.setVisibility(View.VISIBLE);
+			lh.itemLayout.setVisibility(View.GONE);
+		} else {
+			lh.itemLayout.setVisibility(View.VISIBLE);
+			lh.separatorLayout.setVisibility(View.GONE);
+		}
+	}
 
-    @Override
-    public void append(List<Annotation> items) {
-        this.addAnnotations(items);
-        this.notifyDataSetChanged();
-    }
+	private View inflanteSeparator(View view, Date header, ViewHolder holder) {
+		if (header.before(new Date())) {
+			holder.runningTitle.setText(R.string.runningNow);
+		} else {
+			if (this.viewHelper.isDateToday(header)) {
+				holder.runningTitle.setText(this.context.getString(R.string.today) + ", " + ViewHelper.todayFormat.format(header));
+			} else {
+				holder.runningTitle.setText(ViewHelper.dayFormat.format(header));
+			}
+		}
+		view.setFocusable(false);
+		view.setClickable(false);
+		return view;
+	}
 
-    @Override
-    public void replace(List<Annotation> items) {
-        this.entries = new ArrayList<Entry>();
-        this.addAnnotations(items);
-        this.notifyDataSetChanged();
-    }
+	@Override
+	public void append(List<Annotation> items) {
+		this.addAnnotations(items);
+		this.notifyDataSetChanged();
+	}
 
-    public Annotation getTopItem() {
-        for(Entry e: this.entries) {
-            if(!e.isSeparator()) {
-                return e.annotation;
-            }
-        }
-        return null;
-    }
+	@Override
+	public void replace(List<Annotation> items) {
+		this.entries = new ArrayList<Entry>();
+		this.addAnnotations(items);
+		this.notifyDataSetChanged();
+	}
 
+	public Annotation getTopItem() {
+		for (Entry e : this.entries) {
+			if (!e.isSeparator()) {
+				return e.annotation;
+			}
+		}
+		return null;
+	}
 
-    public static class Entry {
+	public static class Entry {
 
-        public Annotation annotation;
-        public Date header;
+		public Annotation annotation;
 
-        public Entry(Annotation a) {
-            this.annotation = a;
-        }
+		public Date header;
 
-        public Entry(Date a) {
-            this.header = a;
-        }
+		public Entry(Annotation a) {
+			this.annotation = a;
+		}
 
-        public boolean isSeparator() {
-            return annotation == null;
-        }
+		public Entry(Date a) {
+			this.header = a;
+		}
 
-    }
+		public boolean isSeparator() {
+			return annotation == null;
+		}
 
-    class ViewHolder extends ViewHelper.ViewHolder {
-        TextView runningTitle;
-    }
+	}
 
-    class LayoutHolder {
-        View separatorLayout;
-        View itemLayout;
-    }
+	class ViewHolder extends ViewHelper.ViewHolder {
+
+		TextView runningTitle;
+	}
+
+	class LayoutHolder {
+
+		View separatorLayout;
+
+		View itemLayout;
+	}
 }

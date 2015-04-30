@@ -5,17 +5,13 @@ import android.widget.ArrayAdapter;
 
 import cz.quinix.condroid.R;
 
-/**
- * Created by Jan on 1. 6. 2014.
- */
 public class DrawerAdapter extends ArrayAdapter<String> {
 
-
-    public DrawerAdapter(Context context, String[] objects) {
-        super(context, R.layout.drawer_item, R.id.drawerText, objects);
-    }
+	public DrawerAdapter(Context context, String[] objects) {
+		super(context, R.layout.drawer_item, R.id.drawerText, objects);
+	}
 /*
-    @Override
+	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
