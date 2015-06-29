@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 
 import java.util.List;
 
@@ -69,7 +70,12 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 		if (this.getCount() == 0) {
 			return false;
 		}
-		this.itemsToAdd = this.getPrecachedData(this.getWrappedAdapter().getCount());
+		ListAdapter wrappedAdapter = this.getWrappedAdapter();
+		int count = wrappedAdapter.getCount();
+		if (wrappedAdapter instanceof GroupedAdapter) {
+			count = ((GroupedAdapter) wrappedAdapter).getEntriesCount();
+		}
+		this.itemsToAdd = this.getPrecachedData(count);
 
 		return !(itemsToAdd.size() < DataProvider.ITEMS_PER_PAGE);
 	}

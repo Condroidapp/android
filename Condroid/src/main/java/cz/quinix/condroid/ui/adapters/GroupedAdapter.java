@@ -88,6 +88,17 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
 		return this.entries.size();
 	}
 
+	public int getEntriesCount() {
+		int count = 0;
+		for(Entry e: this.entries) {
+			if (e.isSeparator()) {
+				continue;
+			}
+			count++;
+		}
+		return count;
+	}
+
 	@Override
 	public Entry getItem(int position) {
 		return this.entries.get(position);
