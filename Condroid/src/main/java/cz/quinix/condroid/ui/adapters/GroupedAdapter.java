@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +20,8 @@ import java.util.List;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.model.Annotation;
+import cz.quinix.condroid.util.DateHelper;
+import cz.quinix.condroid.util.DateTimeFactory;
 import roboguice.RoboGuice;
 
 public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplaceable {
@@ -62,13 +66,19 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
 			previous = items.get(0).getStart();
 			this.entries.add(new Entry(previous));
 		}
+		boolean nowHeader = DateHelper.isBeforeNow(previous);
 
 		for (Annotation annotation : items) {
 			if (!annotation.getStart().equals(previous)) {
-				this.entries.add(new Entry(annotation.getStart()));
-				previous = annotation.getStart();
+				if (!DateHelper.isBeforeNow(annotation.getStart()) || !nowHeader) {
+					this.entries.add(new Entry(annotation.getStart()));
+					if (DateHelper.isBeforeNow(previous)) {
+						nowHeader = true;
+					}
+				}
 			}
 			this.entries.add(new Entry(annotation));
+			previous = annotation.getStart();
 		}
 
 	}
@@ -141,7 +151,7 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
 	}
 
 	private View inflanteSeparator(View view, Date header, ViewHolder holder) {
-		if (header.before(new Date())) {
+		if (header.before(DateTimeFactory.getNow().toDate())) {
 			holder.runningTitle.setText(R.string.runningNow);
 		} else {
 			if (this.viewHelper.isDateToday(header)) {
@@ -169,9 +179,13 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
 	}
 
 	public Annotation getTopItem() {
+		Annotation earliest = null;
 		for (Entry e : this.entries) {
-			if (!e.isSeparator()) {
-				return e.annotation;
+			if (e.isSeparator() && !DateHelper.isBeforeNow(e.header)) {
+				return earliest;
+			}
+			if (!e.isSeparator() && (earliest == null || earliest.getEnd().after(e.annotation.getEnd()))) {
+				earliest = e.annotation;
 			}
 		}
 		return null;

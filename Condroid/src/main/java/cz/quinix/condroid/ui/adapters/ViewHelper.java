@@ -20,6 +20,7 @@ import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;
 import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.listeners.MakeFavoritedListener;
+import cz.quinix.condroid.util.DateHelper;
 
 class ViewHelper {
 
@@ -129,16 +130,7 @@ class ViewHelper {
 	}
 
 	boolean isDateToday(Date date) {
-		Calendar today = Calendar.getInstance(TimeZone.getDefault(), new Locale("cs", "CZ"));
-		today.setTime(new Date());
-
-		Calendar compared = Calendar.getInstance();
-		compared.setTime(date);
-
-		//its today
-		return compared.get(Calendar.YEAR) == today.get(Calendar.YEAR)
-				&& compared.get(Calendar.MONTH) == today.get(Calendar.MONTH)
-				&& compared.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH);
+		return DateHelper.isToday(date);
 	}
 
 	private String formatDate(Date date) {

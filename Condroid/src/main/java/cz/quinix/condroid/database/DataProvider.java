@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -23,6 +24,7 @@ import cz.quinix.condroid.model.Convention;
 import cz.quinix.condroid.model.Place;
 import cz.quinix.condroid.model.ProgramLine;
 import cz.quinix.condroid.model.Reminder;
+import cz.quinix.condroid.util.DateTimeFactory;
 
 @Singleton
 public class DataProvider {
@@ -123,25 +125,37 @@ public class DataProvider {
 			condition = sb.buildCondition();
 		}
 
+		String now = DateTimeFactory.getNow().toDateTime(DateTimeZone.forID("UTC")).toString("yyyy-MM-dd HH:mm");
 		if (skip == 0) {
-			Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < DATETIME('now') AND endTime > DATETIME('now')" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime DESC", null, false);
+			Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < '"+ now +"' AND endTime > '"+ now +"'" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime DESC, lid ASC, pid ASC", null, false);
 			while (c.moveToNext()) {
 				Annotation annotation = readAnnotation(c);
 
 				l.add(annotation);
 
 			}
+			skip = c.getCount();
 			c.close();
 		}
 
-		Cursor c2 = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime > DATETIME('now')" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime ASC, lid ASC", (skip) + "," + ITEMS_PER_PAGE, false);
-		Log.d("Condroid", "LIMIT: " + ((skip) + "," + ITEMS_PER_PAGE) + ", returned items " + c2.getCount());
+		if (l.size() < ITEMS_PER_PAGE) {
+			Cursor c2 = this.mDatabase.query(
+					CondroidDatabase.ANNOTATION_TABLE,
+					null,
+					"(startTime < '" + now + "' AND endTime > '" + now + "') OR (startTime >'" + now + "')" + (condition != null && !condition.equals("") ? " AND " + condition : ""),
+					null,
+					"startTime ASC, lid ASC, pid ASC",
+					(skip) + "," + (ITEMS_PER_PAGE - l.size()),
+					false
+			);
+			Log.d("Condroid", "LIMIT: " + ((skip) + "," + (ITEMS_PER_PAGE - l.size())) + ", returned items " + c2.getCount());
 
-		while (c2.moveToNext()) {
-			Annotation annotation = readAnnotation(c2);
-			l.add(annotation);
+			while (c2.moveToNext()) {
+				Annotation annotation = readAnnotation(c2);
+				l.add(annotation);
+			}
+			c2.close();
 		}
-		c2.close();
 
 		return l;
 	}
