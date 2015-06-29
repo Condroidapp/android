@@ -16,7 +16,6 @@ public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annota
 
 	private final boolean showProgress;
 
-
 	private Convention convention;
 
 	private String lastUpdate;

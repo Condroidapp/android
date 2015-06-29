@@ -127,7 +127,7 @@ public class DataProvider {
 
 		String now = DateTimeFactory.getNow().toDateTime(DateTimeZone.forID("UTC")).toString("yyyy-MM-dd HH:mm");
 		if (skip == 0) {
-			Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < '"+ now +"' AND endTime > '"+ now +"'" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime DESC, lid ASC, pid ASC", null, false);
+			Cursor c = this.mDatabase.query(CondroidDatabase.ANNOTATION_TABLE, null, "startTime < '" + now + "' AND endTime > '" + now + "'" + (condition != null && !condition.equals("") ? " AND " + condition : ""), null, "startTime DESC, lid ASC, pid ASC", null, false);
 			while (c.moveToNext()) {
 				Annotation annotation = readAnnotation(c);
 
@@ -294,7 +294,6 @@ public class DataProvider {
 		}
 		return r;
 	}
-
 
 	public CondroidDatabase getDatabase() {
 		return mDatabase;

@@ -43,7 +43,7 @@ public abstract class AProgressedTask<Progress, Result> extends AListenedAsyncTa
 			this.pd = new ProgressDialog(parent);
 			this.pd.setMessage(pdString);
 		   /* if (this.pdMax > 0) {
-                this.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				this.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 pd.setMax(pdMax);
             }*/
 			pd.setCancelable(true);

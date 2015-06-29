@@ -3,7 +3,6 @@ package cz.quinix.condroid.ui.activities;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;

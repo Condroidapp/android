@@ -88,7 +88,7 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
 
 	public int getEntriesCount() {
 		int count = 0;
-		for(Entry e: this.entries) {
+		for (Entry e : this.entries) {
 			if (e.isSeparator()) {
 				continue;
 			}

@@ -110,7 +110,7 @@ public class TabsFragment extends RoboSherlockFragment {
 					break;
 			}
 			/*if(fragment != null) {
-                this.pageReferenceMap.put(position, fragment);
+				this.pageReferenceMap.put(position, fragment);
             }*/
 			return fragment;
 		}

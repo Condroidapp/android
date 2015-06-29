@@ -72,7 +72,7 @@ public class AboutDialog {
 					Log.d("condroid", "Problem setting up In-app Billing: " + result);
 				}
 				/*Purchase purchase = null;
-                try {
+				try {
                     purchase = new Purchase("inapp", "{\"packageName\":\"cz.quinix.condroid\",\"orderId\":\"transactionId.android.test.purchased\",\"productId\":\"android.test.purchased\",\"developerPayload\":\"\",\"purchaseTime\":0,\"purchaseState\":0,\"purchaseToken\":\"inapp:cz.quinix.condroid:android.test.purchased\"}", "");
 
                 mHelper.consumeAsync(purchase, new IabHelper.OnConsumeFinishedListener() {

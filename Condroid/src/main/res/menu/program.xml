@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/mData_reload" android:title="@string/mReload" android:icon="@drawable/ic_action_refresh" android:showAsAction="always"></item>
-    <item android:id="@+id/mFilter" android:title="@string/mFilter" android:icon="@drawable/filter" android:showAsAction="always"></item>
-    <item android:id="@+id/mSearch" android:title="@string/mSearch" android:icon="@drawable/ic_action_search" android:showAsAction="always"></item>
+    <item
+        android:id="@+id/mData_reload"
+        android:title="@string/mReload"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="always"></item>
+    <item
+        android:id="@+id/mFilter"
+        android:title="@string/mFilter"
+        android:icon="@drawable/filter"
+        android:showAsAction="always"></item>
+    <item
+        android:id="@+id/mSearch"
+        android:title="@string/mSearch"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="always"></item>
     <!--item android:id="@+id/mReminderList" android:title="@string/mReminder" android:icon="@drawable/bell" android:visible="true" android:showAsAction="never"></item>
 
 

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-  android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/lightgray">
 
     <LinearLayout
@@ -11,7 +14,7 @@
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
         android:id="@+id/lMisssed"
-        android:background="#ffffb20e" >
+        android:background="#ffffb20e">
 
         <TextView
             android:layout_width="wrap_content"
@@ -20,7 +23,7 @@
             android:id="@+id/textView3"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"/>
     </LinearLayout>
 
     <LinearLayout
@@ -40,7 +43,7 @@
             android:id="@+id/tStartsShortly"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"/>
     </LinearLayout>
 
     <LinearLayout
@@ -60,11 +63,15 @@
             android:id="@+id/textView2"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"/>
     </LinearLayout>
 
-    <TextView android:id="@+id/annot_title" android:textStyle="bold" android:layout_height="wrap_content"
-        android:layout_width="fill_parent" android:text="Title"
+    <TextView
+        android:id="@+id/annot_title"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:text="Title"
         android:textSize="19sp"
         android:textColor="@color/condroidGreen"
         android:layout_marginBottom="10dp"
@@ -112,7 +119,7 @@
                             android:background="#ff5c5c5c"
                             android:layout_gravity="center"
                             android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true" />
+                            android:layout_centerHorizontal="true"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -120,15 +127,18 @@
                             android:text="pá 20.12."
                             android:id="@+id/tDay"
                             android:layout_alignParentTop="true"
-                            android:visibility="visible" android:textAlignment="center"
+                            android:visibility="visible"
+                            android:textAlignment="center"
                             android:background="@color/lightgray"
                             android:layout_centerHorizontal="true"
                             android:textStyle="italic"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"/>
 
                         <TextView
-                            android:text="00:00" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/tStart"
+                            android:text="00:00"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tStart"
                             android:textSize="23sp"
                             android:textAlignment="center"
                             android:background="@color/lightgray"
@@ -147,7 +157,7 @@
                             android:textSize="23sp"
                             android:layout_centerHorizontal="true"
                             android:layout_alignParentEnd="false"
-                            android:layout_alignParentTop="false" />
+                            android:layout_alignParentTop="false"/>
 
                     </RelativeLayout>
 
@@ -164,7 +174,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"  android:id="@+id/lPrimary">
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/lPrimary">
 
                         <cz.quinix.condroid.ui.IconView
                             android:layout_width="wrap_content"
@@ -178,13 +189,17 @@
                             android:gravity="center"
                             android:textColor="@color/darkgray"
                             android:padding="6dp"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"/>
 
-                        <TextView android:text="Lorem ipsum dolor" android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        <TextView
+                            android:text="Lorem ipsum dolor"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
                             android:id="@+id/annot_author"
                             android:layout_gravity="center_vertical"
                             android:textSize="17sp"
-                            android:ellipsize="none" android:scrollHorizontally="false"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
                             android:singleLine="false"
                             android:layout_weight="1"></TextView>
                     </LinearLayout>
@@ -192,7 +207,8 @@
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:orientation="horizontal" android:id="@+id/lSecond"
+                        android:orientation="horizontal"
+                        android:id="@+id/lSecond"
                         android:layout_below="@+id/lPrimary">
 
                         <RelativeLayout
@@ -224,10 +240,15 @@
                                     android:gravity="center"
                                     android:textColor="@color/darkgray"
                                     android:textSize="16sp"
-                                    android:layout_gravity="center" />
+                                    android:layout_gravity="center"/>
 
-                                <TextView android:text="Program line" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tLine"
-                                    android:textSize="15sp" android:layout_gravity="center_vertical" />
+                                <TextView
+                                    android:text="Program line"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tLine"
+                                    android:textSize="15sp"
+                                    android:layout_gravity="center_vertical"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -252,12 +273,16 @@
                                     android:gravity="center"
                                     android:textColor="@color/darkgray"
                                     android:textSize="16sp"
-                                    android:layout_gravity="center" />
+                                    android:layout_gravity="center"/>
 
-                                <TextView android:text="Location " android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/annot_location"
+                                <TextView
+                                    android:text="Location "
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/annot_location"
                                     android:layout_gravity="center_vertical"
                                     android:textIsSelectable="false"
-                                    android:textSize="15sp" />
+                                    android:textSize="15sp"/>
                             </LinearLayout>
 
                         </RelativeLayout>
@@ -279,7 +304,7 @@
                     android:src="@drawable/imdb"
                     android:clickable="true"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"/>
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
@@ -295,30 +320,54 @@
                         android:id="@+id/lTypes"
                         android:clickable="false">
 
-                        <TextView android:text="id" android:id="@+id/annot_pid" android:textColor="@color/lightlighgray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip"
+                        <TextView
+                            android:text="id"
+                            android:id="@+id/annot_pid"
+                            android:textColor="@color/lightlighgray"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textSize="14dip"
                             android:background="@color/condroidGreen"
                             android:paddingLeft="8dp"
                             android:paddingTop="5dp"
                             android:paddingRight="8dp"
                             android:paddingBottom="5dp"
                             android:layout_marginRight="10dp"
-                            android:layout_marginBottom="0dp" />
+                            android:layout_marginBottom="0dp"/>
 
-                        <TextView android:text="type" android:id="@+id/annot_type" android:textColor="@color/lightlighgray" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textSize="14dip" android:maxLines="1"
+                        <TextView
+                            android:text="type"
+                            android:id="@+id/annot_type"
+                            android:textColor="@color/lightlighgray"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textSize="14dip"
+                            android:maxLines="1"
                             android:background="@color/condroidGreen"
                             android:layout_marginRight="10dp"
                             android:paddingLeft="8dp"
                             android:paddingTop="5dp"
                             android:paddingRight="8dp"
-                            android:paddingBottom="5dp" />
+                            android:paddingBottom="5dp"/>
 
                     </LinearLayout>
                 </HorizontalScrollView>
 
             </RelativeLayout>
 
-            <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout6" android:orientation="vertical" android:layout_height="0dp" android:layout_weight="8">
-                <LinearLayout android:layout_width="fill_parent" android:padding="8dp" android:id="@+id/linearLayout2" android:layout_height="match_parent" android:orientation="vertical"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:id="@+id/linearLayout6"
+                android:orientation="vertical"
+                android:layout_height="0dp"
+                android:layout_weight="8">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:padding="8dp"
+                    android:id="@+id/linearLayout2"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:background="@color/white"
                     android:layout_marginTop="20dp">
 
@@ -329,9 +378,16 @@
                         android:id="@+id/textView"
                         android:textSize="22sp"
                         android:textColor="@color/condroidGreen"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"/>
 
-                    <TextView android:id="@+id/annot_text" android:layout_height="fill_parent" android:textSize="15sp" android:layout_width="fill_parent" android:text="TextView" android:lineSpacingExtra="7dp" android:scrollbars="vertical"></TextView>
+                    <TextView
+                        android:id="@+id/annot_text"
+                        android:layout_height="fill_parent"
+                        android:textSize="15sp"
+                        android:layout_width="fill_parent"
+                        android:text="TextView"
+                        android:lineSpacingExtra="7dp"
+                        android:scrollbars="vertical"></TextView>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

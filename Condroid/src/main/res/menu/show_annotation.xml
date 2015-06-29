@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/mShare" android:title="@string/mShare"
-          android:icon="@drawable/ic_action_share"
-          android:showAsAction="always|withText"
-            android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider"></item>
-    <item android:id="@+id/mReminder" android:title="@string/mReminder" android:icon="@drawable/bell" android:showAsAction="ifRoom|withText"></item>
-    <item android:id="@+id/mFavorite" android:title="@string/mFavorite" android:icon="@drawable/star_white" android:showAsAction="ifRoom|withText"></item>
+    <item
+        android:id="@+id/mShare"
+        android:title="@string/mShare"
+        android:icon="@drawable/ic_action_share"
+        android:showAsAction="always|withText"
+        android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider"></item>
+    <item
+        android:id="@+id/mReminder"
+        android:title="@string/mReminder"
+        android:icon="@drawable/bell"
+        android:showAsAction="ifRoom|withText"></item>
+    <item
+        android:id="@+id/mFavorite"
+        android:title="@string/mFavorite"
+        android:icon="@drawable/star_white"
+        android:showAsAction="ifRoom|withText"></item>
 </menu>

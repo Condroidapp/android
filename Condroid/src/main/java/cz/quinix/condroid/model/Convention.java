@@ -115,7 +115,6 @@ public class Convention implements Serializable, DBInsertable {
 		return date;
 	}
 
-
 	public List<Place> getPlaces() {
 		return places;
 	}

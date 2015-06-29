@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cz.quinix.condroid">
+          package="cz.quinix.condroid">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
 
     <application
         android:icon="@drawable/icon"
@@ -15,30 +15,30 @@
         android:allowBackup="true">
         <activity
             android:name="cz.quinix.condroid.ui.activities.ShowAnnotation"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity android:name="cz.quinix.condroid.ui.Preferences" />
+            android:uiOptions="splitActionBarWhenNarrow"/>
+        <activity android:name="cz.quinix.condroid.ui.Preferences"/>
         <activity
             android:name="cz.quinix.condroid.ui.activities.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Condroid.NoBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="cz.quinix.condroid.ui.ReminderList" />
-        <activity android:name=".ui.activities.NeighbourhoodActivity" />
-        <activity android:name=".ui.activities.NeighbourhoodListActivity" />
+        <activity android:name="cz.quinix.condroid.ui.ReminderList"/>
+        <activity android:name=".ui.activities.NeighbourhoodActivity"/>
+        <activity android:name=".ui.activities.NeighbourhoodListActivity"/>
 
 
-        <service android:name="cz.quinix.condroid.service.ReminderTask" />
+        <service android:name="cz.quinix.condroid.service.ReminderTask"/>
 
         <receiver android:name="cz.quinix.condroid.service.BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
 
-                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </receiver>
 
@@ -47,12 +47,12 @@
             android:label="@string/title_activity_main"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"/>
         </activity>
     </application>
 
