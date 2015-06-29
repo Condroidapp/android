@@ -11,10 +11,8 @@ import com.google.inject.Inject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import cz.quinix.condroid.R;
 import cz.quinix.condroid.database.DataProvider;

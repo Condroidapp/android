@@ -28,8 +28,6 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 	@Inject
 	private DataProvider dataProvider;
 
-	private boolean fullInsert;
-
 	private Map<String, List<Annotation>> parameters;
 
 	private Convention event;
@@ -37,14 +35,6 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 	public DatabaseLoader(ITaskListener listener, boolean progressBar) {
 		super(listener, listener.getActivity());
 		this.progressBar = progressBar;
-	}
-
-	@Override
-	protected void onSuccess(Integer result) throws Exception {
-		if (this.fullInsert) {
-			SearchProvider.clear();
-		}
-		super.onSuccess(result);
 	}
 
 	@Override
@@ -109,12 +99,11 @@ public class DatabaseLoader extends AProgressedTask<Integer, Integer> {
 			}
 
 			HashMap<String, Integer> lines = new HashMap<String, Integer>();
-			if (!fullInsert) {
-				Map<Integer, ProgramLine> l = dataProvider.getProgramLines();
-				for (ProgramLine i : l.values()) {
-					lines.put(i.getName(), i.getLid());
-				}
+			Map<Integer, ProgramLine> l = dataProvider.getProgramLines();
+			for (ProgramLine i : l.values()) {
+				lines.put(i.getName(), i.getLid());
 			}
+
 			String[] keys = {"add", "change"};
 			try {
 				db.beginTransaction();

@@ -55,14 +55,6 @@ public class Annotation implements Serializable, DBInsertable {
 		return end;
 	}
 
-	public void setStart(String start) {
-		this.start = parseDate(start, dateISOFormatter);
-	}
-
-	public void setEnd(String end) {
-		this.end = parseDate(end, dateISOFormatter);
-	}
-
 	public void setSQLStartTime(String startTime) {
 		this.start = parseDate(startTime, dateSQLFormatter);
 	}
@@ -77,17 +69,10 @@ public class Annotation implements Serializable, DBInsertable {
 			return null;
 		date = date.trim();
 		Date x;
-		try {
-			if (date.length() < 25 && formatter.equals(dateISOFormatter)) {
-				date = date.substring(0, date.length() - 6) + ":00" + date.substring(date.length() - 6);
-			}
-			x = formatter.parseDateTime(date).toDate();
-		} catch (IllegalArgumentException e) {
-			//if (formatter.equals(dateISOFormatter))
-			//x = lameISOFormatter.parseDateTime(date).toDate();
-			//else
-			throw e;
+		if (date.length() < 25 && formatter.equals(dateISOFormatter)) {
+			date = date.substring(0, date.length() - 6) + ":00" + date.substring(date.length() - 6);
 		}
+		x = formatter.parseDateTime(date).toDate();
 		return x;
 
 	}
@@ -108,43 +93,8 @@ public class Annotation implements Serializable, DBInsertable {
 		return this.type;
 	}
 
-	public int getProgramIcon() {
-		String type = this.type.mainType;
-		if (type.equalsIgnoreCase("P")) {
-			return R.drawable.lecture;
-		}
-		if (type.equalsIgnoreCase("B")) {
-			return R.drawable.discussion;
-		}
-		if (type.equalsIgnoreCase("C")) {
-			return R.drawable.theatre;
-		}
-		if (type.equalsIgnoreCase("D")) {
-			return R.drawable.projection;
-		}
-		if (type.equalsIgnoreCase("F")) {
-			return R.drawable.projection;
-		}
-		if (type.equalsIgnoreCase("G")) {
-			return R.drawable.game;
-		}
-		if (type.equalsIgnoreCase("H")) {
-			return R.drawable.music;
-		}
-		if (type.equalsIgnoreCase("Q")) {
-			return R.drawable.game;
-		}
-		if (type.equalsIgnoreCase("W")) {
-			return R.drawable.workshop;
-		}
-		return R.drawable.program_unknown;
-
-	}
-
 	/**
 	 * Use only during processing new XML!
-	 *
-	 * @return
 	 */
 	public String getProgramLine() {
 		return programLine;
@@ -174,10 +124,6 @@ public class Annotation implements Serializable, DBInsertable {
 
 	public void setType(AnnotationType type) {
 		this.type = type;
-	}
-
-	public void setProgramLine(String programLine) {
-		this.programLine = programLine.trim();
 	}
 
 	public void setAnnotation(String annotation) {
@@ -233,10 +179,6 @@ public class Annotation implements Serializable, DBInsertable {
 
 	public String[] getAdditionalTypes() {
 		return (String[]) type.secondaryTypes.toArray();
-	}
-
-	public void setStartTime(Date startTime) {
-		this.start = startTime;
 	}
 
 	private static final HashMap<Character, Character> accents = new HashMap<Character, Character>() {

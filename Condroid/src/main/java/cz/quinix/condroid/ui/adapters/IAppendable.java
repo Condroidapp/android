@@ -6,6 +6,6 @@ import cz.quinix.condroid.model.Annotation;
 
 public interface IAppendable {
 
-	public void append(List<Annotation> items);
+	void append(List<Annotation> items);
 
 }

@@ -1,7 +1,5 @@
 package cz.quinix.condroid.ui.fragments;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 
 import cz.quinix.condroid.database.SearchProvider;
@@ -10,7 +8,6 @@ import cz.quinix.condroid.model.Annotation;
 import cz.quinix.condroid.ui.adapters.EndlessAdapter;
 import cz.quinix.condroid.ui.adapters.GroupedAdapter;
 import cz.quinix.condroid.ui.adapters.IAdapterDataProvider;
-import cz.quinix.condroid.util.DateHelper;
 import cz.quinix.condroid.util.DateTimeFactory;
 
 public class TimetableFragment extends NewCondroidFragment {

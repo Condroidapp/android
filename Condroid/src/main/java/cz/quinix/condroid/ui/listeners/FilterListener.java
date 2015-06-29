@@ -182,8 +182,6 @@ class DateFilter implements DialogInterface.OnClickListener {
 
 	private NewCondroidFragment parent;
 
-	private DataProvider provider;
-
 	private SearchQueryBuilder search;
 
 	private String[] items;

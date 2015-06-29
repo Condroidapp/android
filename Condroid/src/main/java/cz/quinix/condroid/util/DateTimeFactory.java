@@ -2,10 +2,6 @@ package cz.quinix.condroid.util;
 
 import org.joda.time.DateTime;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class DateTimeFactory {
 
 	private final static DateTime now = DateTime.now();

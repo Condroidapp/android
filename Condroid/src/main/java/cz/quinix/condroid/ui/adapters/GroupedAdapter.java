@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

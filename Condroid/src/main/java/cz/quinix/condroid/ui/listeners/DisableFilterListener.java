@@ -94,7 +94,7 @@ class DisableFilterTypeSelected implements Dialog.OnClickListener {
 			search.clear();
 		} else if (this.selected.containsKey(i)) {
 			Object value = selected.get(i);
-			if (value instanceof Integer && ((Integer) value).intValue() == -1) {
+			if (value instanceof Integer && (Integer) value == -1) {
 				search.clear();
 			} else {
 				search.removeParam(value);

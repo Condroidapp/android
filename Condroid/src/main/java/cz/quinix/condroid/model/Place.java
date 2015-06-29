@@ -66,28 +66,12 @@ public class Place implements Serializable, DBInsertable {
 		return hours;
 	}
 
-	public void setHours(PlaceHours hours) {
-		this.hours = hours;
-	}
-
-	public int getSort() {
-		return sort;
-	}
-
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
-
 	public String getCategory() {
 		return category;
 	}
 
 	public void setCategory(String category) {
 		this.category = category;
-	}
-
-	public int getCategorySort() {
-		return categorySort;
 	}
 
 	public void setCategorySort(int categorySort) {
@@ -98,16 +82,8 @@ public class Place implements Serializable, DBInsertable {
 		return gps;
 	}
 
-	public void setGps(Gps gps) {
-		this.gps = gps;
-	}
-
 	public String[] getAddress() {
 		return address;
-	}
-
-	public void setAddress(String[] address) {
-		this.address = address;
 	}
 
 	public String getUrl() {

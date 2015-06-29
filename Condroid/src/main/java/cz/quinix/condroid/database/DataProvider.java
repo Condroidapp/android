@@ -295,15 +295,6 @@ public class DataProvider {
 		return r;
 	}
 
-	public int getAnnotationsCount() {
-		Cursor c = this.mDatabase.query("SELECT count(*) FROM annotations", null);
-		int count = 0;
-		if (c.getCount() > 0) {
-			count = c.getInt(0);
-		}
-		c.close();
-		return count;
-	}
 
 	public CondroidDatabase getDatabase() {
 		return mDatabase;

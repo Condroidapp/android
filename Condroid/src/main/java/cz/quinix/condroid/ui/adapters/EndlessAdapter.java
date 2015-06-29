@@ -108,8 +108,5 @@ public class EndlessAdapter extends com.commonsware.cwac.endless.EndlessAdapter 
 		return (row);
 	}
 
-	public Activity getActivity() {
-		return this.activity;
-	}
 }
 

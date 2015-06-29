@@ -2,8 +2,8 @@ package cz.quinix.condroid.abstracts;
 
 public interface ICondition {
 
-	public String getCondition();
+	String getCondition();
 
-	public String getReadable();
+	String getReadable();
 
 }

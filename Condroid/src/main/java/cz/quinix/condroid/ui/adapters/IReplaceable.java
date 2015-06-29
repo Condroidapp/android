@@ -6,5 +6,5 @@ import cz.quinix.condroid.model.Annotation;
 
 public interface IReplaceable {
 
-	public void replace(List<Annotation> items);
+	void replace(List<Annotation> items);
 }

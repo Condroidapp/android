@@ -1,11 +1,10 @@
 <resources>
     <color name="ab_action_green">#ff46be2e</color>
     <color name="list_selected">#ffacf8a4</color>
-    <color name="yellow">#ff0000</color>
+
     <color name="gray">#808080</color>
     <color name="lightgray">#d0d0d0</color>
     <color name="white">#ffffff</color>
-    <color name="cblue">#1E75B8</color>
     <color name="black">#000000</color>
     <color name="lightlighgray">#f0f0f0</color>
     <color name="condroidGreen">#ff0d740d</color>
@@ -21,7 +20,6 @@
     <color name="workshop">#ff972592</color>
     <color name="darkgray">#FF404040</color>
     <color name="lightyellow">#ffebc10b</color>
-    <color name="almost_black">#ff151515</color>
     <color name="drawer">#FFE1E1E3</color>
     <color name="red">#ffd00000</color>
     <color name="mediumgray">#ffc0c0c0</color>

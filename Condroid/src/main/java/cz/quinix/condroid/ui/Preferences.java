@@ -63,14 +63,6 @@ public class Preferences extends SherlockPreferenceActivity implements SharedPre
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-		if (s.equals("update_check") || s.equals("update_check_period")) {
-			/*if (sp.getBoolean("update_check", false)) {
-                planUpdateService(this);
-            } else {
-                stopUpdateService(this);
-            }*/
-
-		}
 		if (s.equals("update_check_period")) {
 			ListPreference lp = (ListPreference) findPreference("update_check_period");
 			lp.setSummary(lp.getEntry());

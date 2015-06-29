@@ -219,7 +219,7 @@ public class IabHelper {
 		 *
 		 * @param result The result of the setup process.
 		 */
-		public void onIabSetupFinished(IabResult result);
+		void onIabSetupFinished(IabResult result);
 	}
 
 	/**
@@ -352,7 +352,7 @@ public class IabHelper {
 		 * @param result The result of the purchase.
 		 * @param info   The purchase information (null if purchase failed)
 		 */
-		public void onIabPurchaseFinished(IabResult result, Purchase info);
+		void onIabPurchaseFinished(IabResult result, Purchase info);
 	}
 
 	// The listener registered on launchPurchaseFlow, which we have to call back when
@@ -430,8 +430,8 @@ public class IabHelper {
 			mPurchasingItemType = itemType;
 			act.startIntentSenderForResult(pendingIntent.getIntentSender(),
 					requestCode, new Intent(),
-					Integer.valueOf(0), Integer.valueOf(0),
-					Integer.valueOf(0));
+					0, 0,
+					0);
 		} catch (SendIntentException e) {
 			logError("SendIntentException while launching purchase flow for sku " + sku);
 			e.printStackTrace();
@@ -499,7 +499,7 @@ public class IabHelper {
 				return true;
 			}
 
-			Purchase purchase = null;
+			Purchase purchase;
 			try {
 				purchase = new Purchase(mPurchasingItemType, purchaseData, dataSignature);
 				String sku = purchase.getSku();
@@ -614,7 +614,7 @@ public class IabHelper {
 		 * @param result The result of the operation.
 		 * @param inv    The inventory.
 		 */
-		public void onQueryInventoryFinished(IabResult result, Inventory inv);
+		void onQueryInventoryFinished(IabResult result, Inventory inv);
 	}
 
 	/**
@@ -718,7 +718,7 @@ public class IabHelper {
 		 * @param purchase The purchase that was (or was to be) consumed.
 		 * @param result   The result of the consumption operation.
 		 */
-		public void onConsumeFinished(Purchase purchase, IabResult result);
+		void onConsumeFinished(Purchase purchase, IabResult result);
 	}
 
 	/**
@@ -733,7 +733,7 @@ public class IabHelper {
 		 * @param results   The results of each consumption operation, corresponding to each
 		 *                  sku.
 		 */
-		public void onConsumeMultiFinished(List<Purchase> purchases, List<IabResult> results);
+		void onConsumeMultiFinished(List<Purchase> purchases, List<IabResult> results);
 	}
 
 	/**
@@ -811,7 +811,7 @@ public class IabHelper {
 		if (o == null) {
 			logDebug("Bundle with null response code, assuming OK (known issue)");
 			return BILLING_RESPONSE_RESULT_OK;
-		} else if (o instanceof Integer) return ((Integer) o).intValue();
+		} else if (o instanceof Integer) return (Integer) o;
 		else if (o instanceof Long) return (int) ((Long) o).longValue();
 		else {
 			logError("Unexpected type for bundle response code.");
@@ -826,7 +826,7 @@ public class IabHelper {
 		if (o == null) {
 			logError("Intent with no response code, assuming OK (known issue)");
 			return BILLING_RESPONSE_RESULT_OK;
-		} else if (o instanceof Integer) return ((Integer) o).intValue();
+		} else if (o instanceof Integer) return (Integer) o;
 		else if (o instanceof Long) return (int) ((Long) o).longValue();
 		else {
 			logError("Unexpected type for intent response code.");

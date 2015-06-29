@@ -3,25 +3,15 @@
 
     <string name="appName">Condroid</string>
     <string name="appNameAbout">Condroid - o programu</string>
-    <string name="mAbout">O programu</string>
-    <string name="mRefresh">Obnovit</string>
     <string name="sSearchHint">Zadejte autora, název pořadu nebo ID</string>
-    <string name="loading">Načítám...</string>
-    <string name="downloading">Stahuji...</string>
-    <string name="processing">Zpracovávám...</string>
+    <string name="loading">Načítám…</string>
+    <string name="processing">Zpracovávám…</string>
     <string name="tAboutName">Condroid 3.2</string>
     <string name="tAboutCopyright">© 2011–2014\nJan Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
-    <string name="noData">Datový soubor neobsahuje žádné záznamy.</string>
-    <string name="downloadDialog">Databáze neobsahuje žádné záznamy. \n\nChcete je nyní stáhnout?</string>
     <string name="dPickLine">Vyberte linii</string>
-    <string name="yes">Ano</string>
-    <string name="no">Ne</string>
-    <string name="dPickConvention">Dostupné cony</string>
-    <string name="noAnnotationsFound">Nebyly nalezeny žádné vyhovující záznamy.</string>
     <string name="dPickDate">Vyberte den</string>
-    <string name="tLoadedInfo">Načtená data pro</string>
     <string name="lecture">Přednáška</string>
     <string name="discussion">Diskuze</string>
     <string name="projection">Projekce</string>
@@ -54,12 +44,10 @@
         <item>Nastavit upozornění</item>
     </string-array>
 
-    <string name="about">- Verze: 3.2</string>
     <string name="versionNews">Novinky v této verzi</string>
     <string name="versionNewsText">- rozšířené informace o okolí akce\n- opravy chyb</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
     <string name="licenced">Licensed under New BSD license.</string>
-    <string name="mFavoriteOnly">Pouze oblíbené</string>
     <string name="remind">Nastavit připomenutí</string>
 
     <string-array name="remindBefore">
@@ -76,7 +64,6 @@
     <string name="runningNow">Právě běží</string>
     <string name="tRunning">Aktuální</string>
     <string name="tAll">Vše</string>
-    <string name="tTwitter">Twitter</string>
 
     <style name="ButtonText">
         <item name="android:layout_width">fill_parent</item>
@@ -95,7 +82,6 @@
     <string name="tNoData">Nejsou k dispozici žádná data</string>
     <string name="noDatesAvailable">Nejsou k dispozici žádné časy začátků pořadů, nelze filtrovat podle data.</string>
     <string name="mReload">Načíst data</string>
-    <string name="mSettings">Nastavení</string>
     <string name="pUpdateTitle">Zjišťování aktualizací dat</string>
     <string name="pAutoUpdate">Automatická kontrola</string>
     <string name="pAutoUpdatePeriod">Frekvence aktualizace</string>
@@ -106,7 +92,6 @@
     <string name="pReminderToneCheckbox">Zvukové upozornění</string>
     <string name="pReminderVibrate">Vibrovat</string>
     <string name="mReminder">Připomenutí</string>
-    <string name="planedReminders">Plánované připomenutí (kliknutím odstraňte)</string>
 
     <string-array name="pAutoUpdatePeriods">
         <item>15 minut</item>
@@ -130,12 +115,6 @@
         <item>Zrušit připomenutí</item>
     </string-array>
 
-    <string name="dUpdatesFoundTitle">Aktualizace programu</string>
-    <string name="dUpdatesFoundMsg">Na serveru je k dispozici novější verze programu akce. \n\nChcete nyní provést aktualizaci? \nAktualizaci lze později stáhnout prostřednictvím menu.</string>
-    <string name="dNotNow">Nyní ne</string>
-    <string name="updateOrFullDialog">Chcete pouze aktualizovat data pro aktuálně načtenou akci nebo provést kompletní aktualizaci/načíst data jiné akce?</string>
-    <string name="full">Kompletně</string>
-    <string name="update">Pouze aktualizace</string>
     <string name="mFilter">Filtrovat</string>
     <string name="mSearch">Hledat</string>
     <string name="mShare">Sdílet</string>
@@ -157,8 +136,6 @@
     <string name="drawer_web">Web akce</string>
 
     <string name="title_activity_main">MainActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="alreadyRun">Tento pořad již skončil.</string>
     <string name="lessThanMinute">méně než minutu</string>
     <string name="lsettings">Nastavení</string>

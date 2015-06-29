@@ -16,14 +16,10 @@ public class DataLoader extends AProgressedTask<Integer, Map<String, List<Annota
 
 	private final boolean showProgress;
 
-	//private ProgressDialog pd;
-
-	public int responseCode = 200;
 
 	private Convention convention;
 
 	private String lastUpdate;
-	//private int pdActual;
 
 	public DataLoader(ITaskListener listener, Activity parent, Convention convention, String lastUpdate, boolean showProgress) {
 		super(listener, parent);

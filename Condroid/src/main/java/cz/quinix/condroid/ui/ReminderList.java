@@ -122,7 +122,7 @@ public class ReminderList extends RoboSherlockListActivity {
 					} else {
 						date.setText(dayFormat.format(r.annotation.getStart()));
 					}
-				} catch (NullPointerException e) {
+				} catch (NullPointerException ignored) {
 
 				}
 

@@ -107,14 +107,6 @@ public class Convention implements Serializable, DBInsertable {
 		return ret;
 	}
 
-	public void setHasTimetable(boolean b) {
-		this.timetable = b;
-	}
-
-	public void setHasAnnotations(boolean b) {
-		this.annotations = b;
-	}
-
 	public Date getLastUpdate() {
 		return lastUpdate;
 	}
@@ -123,25 +115,6 @@ public class Convention implements Serializable, DBInsertable {
 		return date;
 	}
 
-	public Date getStart() {
-		return start;
-	}
-
-	public void setStart(Date start) {
-		this.start = start;
-	}
-
-	public Date getEnd() {
-		return end;
-	}
-
-	public void setEnd(Date end) {
-		this.end = end;
-	}
-
-	public void setPlaces(List<Place> o) {
-		this.places = o;
-	}
 
 	public List<Place> getPlaces() {
 		return places;

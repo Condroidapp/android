@@ -52,10 +52,6 @@ public class MainActivity extends RoboSherlockFragmentActivity implements ITaskL
 
 	private ActionBarDrawerToggle mDrawerToggle;
 
-	private UpdateChecker updateChecker;
-
-	private ServiceConnection mPlayService;
-
 	private AboutDialog aboutDialog; //for inapp handle - needs refactoring
 
 	@Override

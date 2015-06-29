@@ -88,8 +88,6 @@ public class WelcomeActivity extends RoboSherlockFragmentActivity implements ITa
 	}
 
 	private void showMessage() {
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
 		if (!database.getCon().getMessage().equals("")) {
 			AlertDialog.Builder ab = new AlertDialog.Builder(this);
 			ab.setTitle(database.getCon().getName());

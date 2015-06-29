@@ -104,7 +104,7 @@ public class PlaceHours implements Serializable {
 					Date opening = dateFormat.parse(dates[0]);
 					Date closing = dateFormat.parse(dates[1]);
 					parsedDates.put(key, new Date[]{opening, closing});
-				} catch (ParseException e) {
+				} catch (ParseException ignored) {
 
 				}
 			}

@@ -22,9 +22,6 @@ public class EventAdapter extends ArrayAdapter<Convention> {
 
 	private List<Convention> data;
 
-	private DateFormat generalFormat = new SimpleDateFormat("EE dd.MM.",
-			new Locale("cs", "CZ"));
-
 	public EventAdapter(Context context, List<Convention> data) {
 		super(context, R.layout.event_item_layout, data);
 		this.layout = R.layout.event_item_layout;
@@ -34,7 +31,7 @@ public class EventAdapter extends ArrayAdapter<Convention> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
-		EventViewHolder holder = null;
+		EventViewHolder holder;
 
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) this.getContext()).getLayoutInflater();
