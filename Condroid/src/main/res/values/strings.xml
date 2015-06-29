@@ -6,8 +6,8 @@
     <string name="sSearchHint">Zadejte autora, název pořadu nebo ID</string>
     <string name="loading">Načítám…</string>
     <string name="processing">Zpracovávám…</string>
-    <string name="tAboutName">Condroid 3.2</string>
-    <string name="tAboutCopyright">© 2011–2014\nJan Langer, Fan-Project</string>
+    <string name="tAboutName">Condroid 3.2.1</string>
+    <string name="tAboutCopyright">© 2011–2015\nJan Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>
     <string name="dPickLine">Vyberte linii</string>
@@ -45,7 +45,7 @@
     </string-array>
 
     <string name="versionNews">Novinky v této verzi</string>
-    <string name="versionNewsText">- rozšířené informace o okolí akce\n- opravy chyb</string>
+    <string name="versionNewsText">- opravy chyb</string>
     <string name="twitterFollow">Sledujte Condroid na Twitteru</string>
     <string name="licenced">Licensed under New BSD license.</string>
     <string name="remind">Nastavit připomenutí</string>
