@@ -11,9 +11,6 @@ public class DateTimeFactory {
 	}
 
 	public static DateTime getNow() {
-		DateTime now = DateTime.now();
-		now = now.plusDays(3);
-
 		return now;
 	}
 
