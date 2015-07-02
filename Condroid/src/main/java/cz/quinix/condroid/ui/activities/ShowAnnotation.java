@@ -292,7 +292,11 @@ public class ShowAnnotation extends RoboSherlockActivity {
 		MenuInflater mi = this.getSupportMenuInflater();
 		mi.inflate(R.menu.show_annotation, menu);
 		ShareActionProvider mShareActionProvider = (ShareActionProvider) menu.findItem(R.id.mShare).getActionProvider();
-		mShareActionProvider.setShareIntent(new ShareProgramListener(this).getShareActionIntent(this.annotation));
+		if (mShareActionProvider == null) {
+			menu.findItem(R.id.mShare).setVisible(false);
+		} else {
+			mShareActionProvider.setShareIntent(new ShareProgramListener(this).getShareActionIntent(this.annotation));
+		}
 
 		if (provider.getFavorited().contains(Integer.valueOf(annotation.getPid()))) {
 			menu.findItem(R.id.mFavorite).setIcon(R.drawable.star_yellow);
