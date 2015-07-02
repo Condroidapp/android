@@ -190,14 +190,14 @@ public class GroupedAdapter extends BaseAdapter implements IAppendable, IReplace
 	public Annotation getTopItem() {
 		Annotation earliest = null;
 		for (Entry e : this.entries) {
-			if (e.isSeparator() && !DateHelper.isBeforeNow(e.header)) {
-				return earliest;
+			if (e.isSeparator()) {
+				continue;
 			}
-			if (!e.isSeparator() && (earliest == null || earliest.getEnd().after(e.annotation.getEnd()))) {
+			if (earliest == null || earliest.getEnd().after(e.annotation.getEnd())) {
 				earliest = e.annotation;
 			}
 		}
-		return null;
+		return earliest;
 	}
 
 	public static class Entry {
