@@ -6,7 +6,7 @@
     <string name="sSearchHint">Zadejte autora, název pořadu nebo ID</string>
     <string name="loading">Načítám…</string>
     <string name="processing">Zpracovávám…</string>
-    <string name="tAboutName">Condroid 3.2.1</string>
+    <string name="tAboutName">Condroid 3.2.2</string>
     <string name="tAboutCopyright">© 2011–2015\nJan Langer, Fan-Project</string>
     <string name="tAboutHttp">http://condroid.fan-project.com</string>
     <string name="tAboutMail">quinix@quinix.cz</string>

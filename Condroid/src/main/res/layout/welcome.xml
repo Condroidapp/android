@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tCopyright"
             android:layout_gravity="center"
-            android:text="© 2011 - 2014 Jan Langer"
+            android:text="© 2011 - 2015 Jan Langer"
             android:layout_margin="10dp"
             android:textColor="@color/white"
             android:textSize="13sp"/>

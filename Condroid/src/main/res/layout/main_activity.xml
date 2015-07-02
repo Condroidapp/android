@@ -59,7 +59,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Festival fantazie 2014"
+                                android:text=""
                                 android:id="@+id/tEventName"
                                 android:textColor="@color/black"
                                 android:textSize="20sp"/>
@@ -67,7 +67,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="21.6.-25.6.2014"
+                                android:text=""
                                 android:id="@+id/tEventDate"
                                 android:textColor="@color/gray"
                                 android:layout_alignBottom="@+id/tEventName"/>
